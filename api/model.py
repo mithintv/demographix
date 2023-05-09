@@ -20,7 +20,8 @@ class Movie(db.Model):
     budget = db.Column(db.Integer)
     revenue = db.Column(db.Integer)
 
-    genre = db.relationship("Genre", back_populates="movie")
+    genres = db.relationship(
+        "Genre", secondary="media_genres", back_populates="movies")
     credits = db.relationship("Credit", back_populates="movie")
 
     def __repr__(self):
@@ -30,16 +31,30 @@ class Movie(db.Model):
 class Genre(db.Model):
     """A genre."""
 
-    __tablename__ = 'genre'
+    __tablename__ = 'genres'
 
     genre_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
-    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
 
-    movie = db.relationship("Movie", back_populates="genre")
+    movies = db.relationship(
+        "Movie", secondary="media_genres", back_populates="genres")
 
     def __repr__(self):
         return f'<Genre genre_id={self.genre_id} name={self.name}>'
+
+
+class MediaGenre(db.Model):
+    """An association table for different mediums and their genres."""
+
+    __tablename__ = 'media_genres'
+
+    media_genre_id = db.Column(
+        db.Integer, primary_key=True, autoincrement=True)
+    genre_id = db.Column(db.Integer, db.ForeignKey("genres.genre_id"))
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
+
+    def __repr__(self):
+        return f'<MediaGenre genre_id={self.genre_id} movie_id={self.movie_id}>'
 
 
 class Credit(db.Model):

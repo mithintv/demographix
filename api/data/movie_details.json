@@ -1,0 +1,494 @@
+[
+  {
+    "adult": false,
+    "backdrop_path": "/gAsHuCQMN7mv4uFIvM4ACQ09hPr.jpg",
+    "belongs_to_collection": null,
+    "budget": 0,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 36, "name": "History" },
+      { "id": 37, "name": "Western" }
+    ],
+    "homepage": "https://thepowerofthedogmovie.com",
+    "id": 600583,
+    "imdb_id": "tt10293406",
+    "original_language": "en",
+    "original_title": "The Power of the Dog",
+    "overview": "A domineering but charismatic rancher wages a war of intimidation on his brother's new wife and her teen son, until long-hidden secrets come to light.",
+    "popularity": 21.725,
+    "poster_path": "/kEy48iCzGnp0ao1cZbNeWR6yIhC.jpg",
+    "production_companies": [
+      {
+        "id": 288,
+        "logo_path": "/aW0IpM9d4Zjj978EqgDVSxXXhTj.png",
+        "name": "BBC Film",
+        "origin_country": "GB"
+      },
+      {
+        "id": 7217,
+        "logo_path": "/vFbexaF70wSMUHRA6Fy6UcuA1ju.png",
+        "name": "See-Saw Films",
+        "origin_country": "GB"
+      },
+      {
+        "id": 159766,
+        "logo_path": "/A6yBN3mIr9S0tOtahRCx8rJtwuY.png",
+        "name": "Cross City Films",
+        "origin_country": "US"
+      },
+      {
+        "id": 294,
+        "logo_path": "/3XuHM8TXG0gDdPM3xJI14gkZbQy.png",
+        "name": "New Zealand Film Commission",
+        "origin_country": "NZ"
+      },
+      {
+        "id": 159767,
+        "logo_path": null,
+        "name": "Bad Girl Creek",
+        "origin_country": "AU"
+      },
+      {
+        "id": 8117,
+        "logo_path": "/eVsVPEZRK63zsQMxxSHf5Cv017g.png",
+        "name": "Max Films",
+        "origin_country": "CA"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "AU", "name": "Australia" },
+      { "iso_3166_1": "CA", "name": "Canada" },
+      { "iso_3166_1": "NZ", "name": "New Zealand" },
+      { "iso_3166_1": "GB", "name": "United Kingdom" }
+    ],
+    "release_date": "2021-10-25",
+    "revenue": 0,
+    "runtime": 128,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "",
+    "title": "The Power of the Dog",
+    "video": false,
+    "vote_average": 6.801,
+    "vote_count": 2279
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/4KLlHifB1kgMtWl3YnY8JinOj65.jpg",
+    "belongs_to_collection": null,
+    "budget": 25000000,
+    "genres": [{ "id": 18, "name": "Drama" }],
+    "homepage": "https://www.focusfeatures.com/belfast",
+    "id": 777270,
+    "imdb_id": "tt12789558",
+    "original_language": "en",
+    "original_title": "Belfast",
+    "overview": "Buddy is a young boy on the cusp of adolescence, whose life is filled with familial love, childhood hijinks, and a blossoming romance. Yet, with his beloved hometown caught up in increasing turmoil, his family faces a momentous choice: hope the conflict will pass or leave everything they know behind for a new life.",
+    "popularity": 11.079,
+    "poster_path": "/3mInLZyPOVLsZRsBwNHi3UJXXnm.jpg",
+    "production_companies": [
+      {
+        "id": 11667,
+        "logo_path": "/dhBJdstAolGmqRfbQfElhsU1cTo.png",
+        "name": "Northern Ireland Screen",
+        "origin_country": "GB"
+      },
+      {
+        "id": 38227,
+        "logo_path": null,
+        "name": "TKBC",
+        "origin_country": "GB"
+      },
+      {
+        "id": 10146,
+        "logo_path": "/xnFIOeq5cKw09kCWqV7foWDe4AA.png",
+        "name": "Focus Features",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [{ "iso_3166_1": "GB", "name": "United Kingdom" }],
+    "release_date": "2021-11-12",
+    "revenue": 30000000,
+    "runtime": 98,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "No matter how far you go, you never forget where you came from.",
+    "title": "Belfast",
+    "video": false,
+    "vote_average": 7.152,
+    "vote_count": 1122
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/v85FlkbMYKa5du1glm0YfYNsL2n.jpg",
+    "belongs_to_collection": null,
+    "budget": 10000000,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 10402, "name": "Music" },
+      { "id": 10749, "name": "Romance" }
+    ],
+    "homepage": "https://tv.apple.com/movie/umc.cmc.3eh9r5iz32ggdm4ccvw5igiir",
+    "id": 776503,
+    "imdb_id": "tt10366460",
+    "original_language": "en",
+    "original_title": "CODA",
+    "overview": "As a CODA (Child of Deaf Adults), Ruby is the only hearing person in her deaf family. When the family's fishing business is threatened, Ruby finds herself torn between pursuing her love of music and her fear of abandoning her parents.",
+    "popularity": 28.063,
+    "poster_path": "/BzVjmm8l23rPsijLiNLUzuQtyd.jpg",
+    "production_companies": [
+      {
+        "id": 7460,
+        "logo_path": "/yAAbQ6vIYIL84geYYIAraxQGL10.png",
+        "name": "Vend\u00f4me Pictures",
+        "origin_country": "US"
+      },
+      {
+        "id": 7981,
+        "logo_path": "/6Yv1gIAuGkHS5Vis4UjnqHhCPWV.png",
+        "name": "Path\u00e9",
+        "origin_country": "FR"
+      },
+      {
+        "id": 159430,
+        "logo_path": "/uyWLvnD838IcdrQ5jwOenC9QXLZ.png",
+        "name": "Picture Perfect Entertainment",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "FR", "name": "France" },
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-08-11",
+    "revenue": 1600000,
+    "runtime": 112,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" },
+      { "english_name": "Spanish", "iso_639_1": "es", "name": "Espa\u00f1ol" }
+    ],
+    "status": "Released",
+    "tagline": "Every family has its own language.",
+    "title": "CODA",
+    "video": false,
+    "vote_average": 7.999,
+    "vote_count": 1804
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/lzWHmYdfeFiMIY4JaMmtR7GEli3.jpg",
+    "belongs_to_collection": {
+      "id": 726871,
+      "name": "Dune Collection",
+      "poster_path": "/c1AiZTXyyzmPOlTLSubp7CEeYj.jpg",
+      "backdrop_path": "/iCFFmXkK5FdIzqZyyQQEdpkTo8C.jpg"
+    },
+    "budget": 165000000,
+    "genres": [
+      { "id": 878, "name": "Science Fiction" },
+      { "id": 12, "name": "Adventure" }
+    ],
+    "homepage": "https://www.dunemovie.com/",
+    "id": 438631,
+    "imdb_id": "tt1160419",
+    "original_language": "en",
+    "original_title": "Dune",
+    "overview": "Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet in the universe to ensure the future of his family and his people. As malevolent forces explode into conflict over the planet's exclusive supply of the most precious resource in existence-a commodity capable of unlocking humanity's greatest potential-only those who can conquer their fear will survive.",
+    "popularity": 132.516,
+    "poster_path": "/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+    "production_companies": [
+      {
+        "id": 923,
+        "logo_path": "/5UQsZrfbfG2dYJbx8DxfoTr2Bvu.png",
+        "name": "Legendary Pictures",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-09-15",
+    "revenue": 402027830,
+    "runtime": 155,
+    "spoken_languages": [
+      {
+        "english_name": "Mandarin",
+        "iso_639_1": "zh",
+        "name": "\u666e\u901a\u8bdd"
+      },
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "It begins.",
+    "title": "Dune",
+    "video": false,
+    "vote_average": 7.801,
+    "vote_count": 8792
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/4kb7uR1UmXa33U6GB6F9xckFlhn.jpg",
+    "belongs_to_collection": null,
+    "budget": 50000000,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 36, "name": "History" }
+    ],
+    "homepage": "https://www.kingrichardfilm.net",
+    "id": 614917,
+    "imdb_id": "tt9620288",
+    "original_language": "en",
+    "original_title": "King Richard",
+    "overview": "The story of how Richard Williams served as a coach to his daughters Venus and Serena, who will soon become two of the most legendary tennis players in history.",
+    "popularity": 31.967,
+    "poster_path": "/qQl0QS5P15vVzUcaP8rAqxbQ6Wp.jpg",
+    "production_companies": [
+      {
+        "id": 27497,
+        "logo_path": "/1QuLulTFEynrZnFsogW0UefcKYC.png",
+        "name": "Star Thrower Entertainment",
+        "origin_country": "US"
+      },
+      {
+        "id": 122771,
+        "logo_path": "/bYRqVEAuaC1QWmt3hGo0PMdK7EX.png",
+        "name": "Westbrook Studios",
+        "origin_country": "US"
+      },
+      {
+        "id": 174,
+        "logo_path": "/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png",
+        "name": "Warner Bros. Pictures",
+        "origin_country": "US"
+      },
+      {
+        "id": 907,
+        "logo_path": "/ca5SWI5uvU985f8Kbb4xc8AmVWH.png",
+        "name": "Overbrook Entertainment",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-11-18",
+    "revenue": 30000000,
+    "runtime": 145,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "Venus, Serena and a plan for greatness.",
+    "title": "King Richard",
+    "video": false,
+    "vote_average": 7.7,
+    "vote_count": 1940
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/hB4ibOHXm1Xl0IbuYVioktDGUWJ.jpg",
+    "belongs_to_collection": null,
+    "budget": 40000000,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 35, "name": "Comedy" }
+    ],
+    "homepage": "http://licoricepizzamovie.com",
+    "id": 718032,
+    "imdb_id": "tt11271038",
+    "original_language": "en",
+    "original_title": "Licorice Pizza",
+    "overview": "The story of Gary Valentine and Alana Kane growing up, running around and going through the treacherous navigation of first love in the San Fernando Valley, 1973.",
+    "popularity": 18.314,
+    "poster_path": "/jD98aUKHQZNAmrk0wQQ9wmNQPnP.jpg",
+    "production_companies": [
+      {
+        "id": 178,
+        "logo_path": null,
+        "name": "Ghoulardi Film Company",
+        "origin_country": "US"
+      },
+      {
+        "id": 13240,
+        "logo_path": "/aTc07YaNHo8WNgkQSnvLmG6w4nW.png",
+        "name": "Bron Studios",
+        "origin_country": "CA"
+      },
+      {
+        "id": 10146,
+        "logo_path": "/xnFIOeq5cKw09kCWqV7foWDe4AA.png",
+        "name": "Focus Features",
+        "origin_country": "US"
+      },
+      {
+        "id": 21,
+        "logo_path": "/5Va1Ie5c4sjfEYqixQ3L8qg7fKu.png",
+        "name": "Metro-Goldwyn-Mayer",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "CA", "name": "Canada" },
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-11-26",
+    "revenue": 27423319,
+    "runtime": 133,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" },
+      {
+        "english_name": "Japanese",
+        "iso_639_1": "ja",
+        "name": "\u65e5\u672c\u8a9e"
+      },
+      { "english_name": "Spanish", "iso_639_1": "es", "name": "Espa\u00f1ol" }
+    ],
+    "status": "Released",
+    "tagline": "",
+    "title": "Licorice Pizza",
+    "video": false,
+    "vote_average": 7.022,
+    "vote_count": 1765
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/mqDnDhG5N6fn1H4MKQqr8E5wfeK.jpg",
+    "belongs_to_collection": null,
+    "budget": 60000000,
+    "genres": [{ "id": 53, "name": "Thriller" }],
+    "homepage": "https://www.searchlightpictures.com/nightmarealley/",
+    "id": 597208,
+    "imdb_id": "tt7740496",
+    "original_language": "en",
+    "original_title": "Nightmare Alley",
+    "overview": "An ambitious carnival man with a talent for manipulating people with a few well-chosen words hooks up with a female psychologist who is even more dangerous than he is.",
+    "popularity": 42.81,
+    "poster_path": "/680klE0dIreQQOyWKFgNnCAJtws.jpg",
+    "production_companies": [
+      {
+        "id": 127929,
+        "logo_path": "/fCB4AVYvxxDvqumgYqsN6ehyN3G.png",
+        "name": "Searchlight Pictures",
+        "origin_country": "US"
+      },
+      {
+        "id": 101082,
+        "logo_path": null,
+        "name": "Double Dare You Productions",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-12-02",
+    "revenue": 39629195,
+    "runtime": 150,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "Man or beast.",
+    "title": "Nightmare Alley",
+    "video": false,
+    "vote_average": 7.0,
+    "vote_count": 2372
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/lMjY6kMBOHhloz2Ul16fLJn8xuw.jpg",
+    "belongs_to_collection": null,
+    "budget": 0,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 10752, "name": "War" }
+    ],
+    "homepage": "https://tv.apple.com/movie/umc.cmc.4wpfk1xmi22h3zyv4a10lj1tw",
+    "id": 591538,
+    "imdb_id": "tt10095582",
+    "original_language": "en",
+    "original_title": "The Tragedy of Macbeth",
+    "overview": "Macbeth, the Thane of Glamis, receives a prophecy from a trio of witches that one day he will become King of Scotland. Consumed by ambition and spurred to action by his wife, Macbeth murders his king and takes the throne for himself.",
+    "popularity": 19.034,
+    "poster_path": "/wzQjzBq1ISZHoDKoAlxSWuiL3hO.jpg",
+    "production_companies": [
+      {
+        "id": 93105,
+        "logo_path": "/asuzX794BM1gCettTxUoLxGNovd.png",
+        "name": "IAC Films",
+        "origin_country": "US"
+      },
+      {
+        "id": 41077,
+        "logo_path": "/1ZXsGaFPgrgS6ZZGS37AqD5uU12.png",
+        "name": "A24",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-12-05",
+    "revenue": 176248,
+    "runtime": 105,
+    "spoken_languages": [
+      { "english_name": "English", "iso_639_1": "en", "name": "English" }
+    ],
+    "status": "Released",
+    "tagline": "",
+    "title": "The Tragedy of Macbeth",
+    "video": false,
+    "vote_average": 6.982,
+    "vote_count": 586
+  },
+  {
+    "adult": false,
+    "backdrop_path": "/tHnHTp50qDx7br1i9ulh74MUW0A.jpg",
+    "belongs_to_collection": null,
+    "budget": 100000000,
+    "genres": [
+      { "id": 18, "name": "Drama" },
+      { "id": 10749, "name": "Romance" },
+      { "id": 80, "name": "Crime" }
+    ],
+    "homepage": "https://www.20thcenturystudios.com/movies/west-side-story",
+    "id": 511809,
+    "imdb_id": "tt3581652",
+    "original_language": "en",
+    "original_title": "West Side Story",
+    "overview": "Two youngsters from rival New York City gangs fall in love, but tensions between their respective friends build toward tragedy.",
+    "popularity": 21.48,
+    "poster_path": "/myAX5qoD6YVLNGiWpk2wcU66Vfq.jpg",
+    "production_companies": [
+      {
+        "id": 56,
+        "logo_path": "/cEaxANEisCqeEoRvODv2dO1I0iI.png",
+        "name": "Amblin Entertainment",
+        "origin_country": "US"
+      },
+      {
+        "id": 127928,
+        "logo_path": "/h0rjX5vjW5r8yEnUBStFarjcLT4.png",
+        "name": "20th Century Studios",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      { "iso_3166_1": "US", "name": "United States of America" }
+    ],
+    "release_date": "2021-12-08",
+    "revenue": 74530532,
+    "runtime": 157,
+    "spoken_languages": [],
+    "status": "Released",
+    "tagline": "",
+    "title": "West Side Story",
+    "video": false,
+    "vote_average": 7.067,
+    "vote_count": 1242
+  }
+]

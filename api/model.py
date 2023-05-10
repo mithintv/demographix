@@ -63,13 +63,16 @@ class Credit(db.Model):
     __tablename__ = 'credits'
 
     credit_id = db.Column(db.String(), primary_key=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'))
+    movie_id = db.Column(db.Integer, db.ForeignKey(
+        'movies.movie_id'), nullable=False)
     character = db.Column(db.String(50))
     order = db.Column(db.Integer)
     cast_member_id = db.Column(
-        db.Integer, db.ForeignKey('cast_members.cast_member_id'))
+        db.Integer, db.ForeignKey('cast_members.cast_member_id'), nullable=False)
 
-    movie = db.relationship("Movie", back_populates="credits")
+    movie = db.relationship("Movie", uselist=False, back_populates="credits")
+    cast_member = db.relationship(
+        "CastMember", uselist=False, back_populates="credits")
 
     def __repr__(self):
         return f'<Credit credit_id={self.credit_id} character={self.character}>'
@@ -87,6 +90,7 @@ class CastMember(db.Model):
     deathday = db.Column(db.DateTime)
     biography = db.Column(db.String())
 
+    credits = db.relationship("Credit", back_populates="cast_member")
     genders = db.relationship(
         "Gender", secondary="cast_genders", back_populates="cast_member")
     # ethnicities = db.relationship("Ethnicity", back_populates="cast")

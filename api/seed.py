@@ -13,7 +13,7 @@ connect_to_db(server.app)
 db.create_all()
 
 
-"""Seed genre table in database."""
+"""Seed genres table in database."""
 
 print('Seeding genres...')
 with open('data/genres.json') as file:
@@ -30,7 +30,7 @@ db.session.commit()
 print(f"Added {len(genres_in_db)} genres to database!")
 
 
-"""Seed movie table in database."""
+"""Seed movies table in database."""
 
 with open('data/movie_details.json') as file:
     movie_data = json.loads(file.read())
@@ -60,7 +60,7 @@ db.session.add_all(movies_in_db)
 db.session.commit()
 
 
-"""Seed gender table in database."""
+"""Seed genders table in database."""
 
 gender_list = ['Unknown', 'Female', 'Male', 'Non-Binary']
 genders_in_db = []
@@ -74,7 +74,7 @@ db.session.commit()
 print(f'Added {len(genders_in_db)} genders to database!')
 
 
-"""Seed cast table in database."""
+"""Seed cast_members table in database."""
 
 with open('data/persons.json') as file:
     person_data = json.loads(file.read())
@@ -105,4 +105,30 @@ for person in person_data:
     print(f"Added '{gender_object.name}' gender to '{new_person.name}'")
 
 db.session.add_all(persons_in_db)
+db.session.commit()
+print(f"Added {len(persons_in_db)} cast members to db!")
+
+
+"""Seed credits table in database."""
+
+with open('data/credits.json') as file:
+    credits_data = json.loads(file.read())
+
+credits_in_db = []
+for movie in credits_data:
+    curr_movie = Movie.query.filter(Movie.movie_id == movie['id']).one()
+    for cast in movie['cast'][:10]:
+        cast_member = CastMember.query.filter(
+            CastMember.cast_member_id == cast["id"]).one()
+        new_credit = Credit(credit_id=cast["credit_id"],
+                            movie_id=curr_movie,
+                            character=cast["character"],
+                            order=cast["order"],
+                            cast_member_id=cast_member,
+                            movie=curr_movie,
+                            cast_member=cast_member)
+
+        print(f"Added '{new_credit.character}' to '{curr_movie.title}'")
+
+db.session.add_all(credits_in_db)
 db.session.commit()

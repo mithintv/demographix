@@ -117,7 +117,7 @@ with open('data/credits.json') as file:
 credits_in_db = []
 for movie in credits_data:
     curr_movie = Movie.query.filter(Movie.movie_id == movie['id']).one()
-    for cast in movie['cast'][:10]:
+    for cast in movie['cast'][:15]:
         cast_member = CastMember.query.filter(
             CastMember.cast_member_id == cast["id"]).one()
         new_credit = Credit(credit_id=cast["credit_id"],

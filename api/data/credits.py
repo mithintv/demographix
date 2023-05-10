@@ -33,14 +33,14 @@ def get_credits(movie_id_list):
 def parse_credits(file_path='credits.json'):
     """For each credit, parse through top 10 cast, and return list of person ids."""
 
-    person_ids = []
+    person_ids = set([])
     with open(file_path, 'r') as file:
         data = json.load(file)
         for credit in data:
-            for i in range(10):
+            for i in range(15):
                 person_id = credit['cast'][i]['id']
-                person_ids.append(person_id)
-    return person_ids
+                person_ids.add(person_id)
+    return list(person_ids)
 
 
 def get_person(person_id_list):
@@ -59,5 +59,5 @@ def get_person(person_id_list):
 
 # movie_ids = get_movie_ids() # get list of movie ids
 # get_credits(movie_ids) # create credits.json
-# person_ids = parse_credits() # get list of top 10 person ids per movie
-# get_person(person_ids) # create persons.json
+person_ids = parse_credits()  # get list of top 10 person ids per movie
+get_person(person_ids)  # create persons.json

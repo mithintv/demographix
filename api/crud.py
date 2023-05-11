@@ -19,20 +19,39 @@ def get_movie_credits():
 def get_movie_cast(movie_id):
     """Return specific movie with credits and cast member details."""
 
-    # return db.session.query(CastMember.name, CastMember.birthday, CastMember.genders, Credit.character, Credit.order).join(Credit).join(Movie).filter(Movie.movie_id == movie_id).all()
-
-    return db.session.query(
-        CastMember.name,
-        CastMember.birthday,
-        Gender.name.label('gender'),
-        Credit.character,
-        Credit.order
+    movie = Movie.query.filter(Movie.movie_id == movie_id).one()
+    cast_list = db.session.query(
+        CastMember,
+        Gender,
+        Credit
     ).join(CastGender, CastGender.cast_member_id == CastMember.cast_member_id
            ).join(Gender, Gender.gender_id == CastGender.gender_id
                   ).join(Credit, Credit.cast_member_id == CastMember.cast_member_id
                          ).join(Movie, Movie.movie_id == Credit.movie_id
                                 ).filter(Movie.movie_id == movie_id
                                          ).all()
+    print(cast_list)
+    cast_details = []
+    for cast in cast_list:
+        new_cast = {'name': cast.CastMember.name,
+                    'birthday': cast.CastMember.birthday,
+                    'gender': cast.Gender.name,
+                    'character': cast.Credit.character,
+                    'order': cast.Credit.order}
+        cast_details.append(new_cast)
+
+    data = {
+        'title': movie.title,
+        'overview': movie.overview,
+        'runtime': movie.runtime,
+        'poster_path': movie.poster_path,
+        'release_date': movie.release_date,
+        'budget': movie.budget,
+        'revenue': movie.revenue,
+        'cast': cast_details
+    }
+    print(data)
+    return data
 
 
 if __name__ == '__main__':

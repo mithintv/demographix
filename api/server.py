@@ -30,26 +30,15 @@ def top():
                       'poster_path': movie.poster_path,
                       }
         display_movies.append(movie_dict)
-    print(display_movies)
     return jsonify(display_movies)
 
 
 @app.route('/movies/<movie_id>')
 def movie(movie_id):
-    """Return movie cast details."""
+    """Return movie and cast details."""
 
-    cast_members = crud.get_movie_cast(movie_id)
-    print(cast_members)
-    cast_list = []
-    for cast in cast_members:
-        new_cast = {'name': cast['name'],
-                    'birthday': cast['birthday'],
-                    'gender': cast['gender'],
-                    'character': cast['character'],
-                    'order': cast['order']}
-        cast_list.append(new_cast)
-
-    return jsonify(cast_list)
+    movie_data = crud.get_movie_cast(movie_id)
+    return jsonify(movie_data)
 
 
 if __name__ == "__main__":

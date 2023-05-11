@@ -96,7 +96,9 @@ for person in person_data:
                             name=person['name'],
                             birthday=formatted_bday,
                             deathday=formatted_dday,
-                            biography=person['biography'])
+                            biography=person['biography'],
+                            place_of_birth=person['place_of_birth']
+                            )
     persons_in_db.append(new_person)
 
     id = person["gender"]

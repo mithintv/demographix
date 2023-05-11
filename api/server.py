@@ -24,12 +24,13 @@ def top():
 
     display_movies = []
     for movie in all_movies:
-        movie_dict = {'id': movie.movie_id,
+        movie_dict = {'movie_id': movie.movie_id,
                       'title': movie.title,
                       'release_date': movie.release_date,
                       'poster_path': movie.poster_path,
                       }
         display_movies.append(movie_dict)
+    print(display_movies)
     return jsonify(display_movies)
 
 
@@ -43,6 +44,7 @@ def movie(movie_id):
     for cast in cast_members:
         new_cast = {'name': cast['name'],
                     'birthday': cast['birthday'],
+                    'gender': cast['gender'],
                     'character': cast['character'],
                     'order': cast['order']}
         cast_list.append(new_cast)

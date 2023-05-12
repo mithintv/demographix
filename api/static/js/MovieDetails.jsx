@@ -1,7 +1,9 @@
+const drawGraph = () => {};
+
 const MovieDetails = (props) => {
   const chartRef = React.useRef(null);
   const [movieDetails, setMovieDetails] = React.useState();
-  const [ageData, setAgeData] = React.useState([]);
+  const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -9,45 +11,71 @@ const MovieDetails = (props) => {
       const movieData = await response.json();
       setMovieDetails(movieData);
 
-      const data = [];
-      movieData.cast.forEach((cast) => {
+      const listData = [];
+      const filteredBdays = movieData.cast.filter(
+        (cast) => cast.birthday !== null
+      );
+      filteredBdays.forEach((cast) => {
         const birthday = new Date(cast.birthday).getFullYear();
         const currYear = new Date().getFullYear();
         const age = currYear - birthday;
-        data.push(age);
+        listData.push(age);
       });
-      setAgeData(data);
+      setData(listData);
     };
     fetchData();
   }, []);
 
   console.log(movieDetails);
+  console.log(data);
 
   React.useEffect(() => {
+    const margin = { top: 20, right: 0, bottom: 30, left: 40 };
+
+    const width = 350;
+    const height = 250;
+
+    const x = d3
+      .scaleLinear()
+      .domain([0, d3.max(data)])
+      .range([height - margin.bottom, margin.top]);
+
+    const y = d3
+      .scaleBand()
+      .domain(d3.range(data.length))
+      .rangeRound([margin.left, width - margin.right])
+      .padding(0.1);
+
     const svg = d3
       .select(chartRef.current)
-      .attr("width", 500)
-      .attr("height", 500);
+      .attr("width", width)
+      .attr("height", y.range()[1])
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "10")
+      .attr("text-anchor", "end");
 
-    const bars = svg
-      .selectAll("rect")
-      .data(ageData)
-      .enter()
+    const bar = svg
+      .selectAll("g")
+      .data(data)
+      .join("g")
+      .attr("transform", (d, i) => `translate(0,${y(i)})`);
+
+    bar
       .append("rect")
-      .attr("x", function (d, i) {
-        return i * (500 / ageData.length);
-      })
-      .attr("y", function (d) {
-        return 500 - d * 10;
-      })
-      .attr("width", 500 / ageData.length - 1)
-      .attr("height", function (d) {
-        return d * 10;
-      })
-      .attr("fill", "steelblue");
+      .attr("fill", "steelblue")
+      .attr("width", x)
+      .attr("height", y.bandwidth() - 1);
+
+    bar
+      .append("text")
+      .attr("fill", "white")
+      .attr("x", (d) => x(d) - 3)
+      .attr("y", (y.bandwidth() - 1) / 2)
+      .attr("dy", "0.35em")
+      .text((d) => d);
 
     console.log("rendering");
-  }, [ageData]);
+  }, [data]);
 
   return (
     <React.Fragment>
@@ -56,9 +84,12 @@ const MovieDetails = (props) => {
       </div>
       {movieDetails &&
         movieDetails.cast.map((cast, index) => {
-          const birthday = new Date(cast.birthday).getFullYear();
-          const currYear = new Date().getFullYear();
-          const age = currYear - birthday;
+          let age = "Unknown";
+          if (cast.birthday) {
+            const birthday = new Date(cast.birthday).getFullYear();
+            const currYear = new Date().getFullYear();
+            age = currYear - birthday;
+          }
           return (
             <div key={index}>
               <p>

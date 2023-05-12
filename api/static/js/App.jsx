@@ -8,7 +8,7 @@ function App() {
   return (
     <React.Fragment>
       <h1>Welcome!</h1>
-      <button onClick={topMovieHandler}>Top 2022 movies</button>
+      {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
       {topMovies && <TopMovies />}
     </React.Fragment>
   );

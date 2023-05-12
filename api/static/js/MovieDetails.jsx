@@ -19,7 +19,10 @@ const MovieDetails = (props) => {
         const birthday = new Date(cast.birthday).getFullYear();
         const currYear = new Date().getFullYear();
         const age = currYear - birthday;
-        listData.push(age);
+        listData.push({
+          name: cast.name,
+          age,
+        });
       });
       setData(listData);
     };
@@ -37,13 +40,13 @@ const MovieDetails = (props) => {
 
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(data)])
-      .range([height - margin.bottom, margin.top]);
+      .domain([0, d3.max(data, (d) => d.age)])
+      .range([0, width]);
 
     const y = d3
       .scaleBand()
-      .domain(d3.range(data.length))
-      .rangeRound([margin.left, width - margin.right])
+      .domain(data.map((d) => d.name))
+      .rangeRound([0, 20 * data.length])
       .padding(0.1);
 
     const svg = d3
@@ -58,21 +61,21 @@ const MovieDetails = (props) => {
       .selectAll("g")
       .data(data)
       .join("g")
-      .attr("transform", (d, i) => `translate(0,${y(i)})`);
+      .attr("transform", (d, i) => `translate(0,${y(d.name)})`);
 
     bar
       .append("rect")
       .attr("fill", "steelblue")
-      .attr("width", x)
+      .attr("width", (d) => x(d.age))
       .attr("height", y.bandwidth() - 1);
 
     bar
       .append("text")
       .attr("fill", "white")
-      .attr("x", (d) => x(d) - 3)
+      .attr("x", (d) => x(d.age) - 3)
       .attr("y", (y.bandwidth() - 1) / 2)
       .attr("dy", "0.35em")
-      .text((d) => d);
+      .text((d) => d.age);
 
     console.log("rendering");
   }, [data]);

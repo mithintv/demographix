@@ -1,7 +1,7 @@
 """Script to seed database."""
 
 import server
-from model import db, connect_to_db, Movie, Genre, Gender, CastMember, Credit, Country
+from model import db, connect_to_db, Country, AltCountry, Movie, Genre, Gender, CastMember, Credit
 import os
 import json
 from datetime import datetime
@@ -22,14 +22,18 @@ with open('data/countries.json', 'r') as file:
             demonym = "Unknown"
         else:
             demonym = country["demonyms"]["eng"]["f"]
+
         new_country = Country(country_id=country['cca3'],
-                              #   altSpellings=country["altSpellings"],
                               name=country["name"]["common"],
                               demonym=demonym,
                               region=country["region"])
 
+        for alt_spelling in country["altSpellings"]:
+            new_alt_spelling = AltCountry(country_id=new_country,
+                                          alt_name=alt_spelling)
+            new_country.alt_names.append(new_alt_spelling)
+
         countries_list.append(new_country)
-        print(f"Adding {new_country.name} to db...")
 
 db.session.add_all(countries_list)
 db.session.commit()
@@ -38,7 +42,6 @@ print(f"Added {len(countries_list)} countries to db!")
 
 """Seed genres table in database."""
 
-print('Seeding genres...')
 with open('data/genres.json') as file:
     genre_list = json.loads(file.read())
 
@@ -47,10 +50,10 @@ for genre in genre_list["genres"]:
     new_genre = Genre(genre_id=genre["id"],
                       name=genre["name"])
     genres_in_db.append(new_genre)
-    print(f'Adding {new_genre}...')
+
 db.session.add_all(genres_in_db)
 db.session.commit()
-print(f"Added {len(genres_in_db)} genres to database!")
+print(f"Added {len(genres_in_db)} genres to db!")
 
 
 """Seed movies table in database."""
@@ -77,10 +80,10 @@ for movie in movie_data:
         id = genre["id"]
         genre_object = Genre.query.filter(Genre.genre_id == id).one()
         new_movie.genres.append(genre_object)
-        print(f"Added '{genre_object.name}' genre to '{new_movie.title}'")
 
 db.session.add_all(movies_in_db)
 db.session.commit()
+print(f"Added {len(movies_in_db)} movies to db!")
 
 
 """Seed genders table in database."""
@@ -90,11 +93,10 @@ genders_in_db = []
 for i in range(len(gender_list)):
     new_gender = Gender(gender_id=i, name=gender_list[i])
     genders_in_db.append(new_gender)
-    print(f'Adding {new_gender}...')
 
 db.session.add_all(genders_in_db)
 db.session.commit()
-print(f'Added {len(genders_in_db)} genders to database!')
+print(f'Added {len(genders_in_db)} genders to db!')
 
 
 """Seed cast_members table in database."""
@@ -119,24 +121,21 @@ for person in person_data:
                             name=person['name'],
                             birthday=formatted_bday,
                             deathday=formatted_dday,
-                            biography=person['biography'],
+                            biography=person['biography']
                             )
     persons_in_db.append(new_person)
 
-    id = person["gender"]
-
-    country = "Unknown"
+    # Add country_of_birth data
     if person.get("place_of_birth", None) is not None:
         country = person["place_of_birth"].split(',')
-        country_object = Country.query.filter(
-            (Country.country_id == country[-1]) | (Country.name == country[-1])).first()
-        print(country_object)
-        print(country[-1])
-    print(country)
+        country_object = Country.query.join(AltCountry).filter(
+            (Country.country_id == country[-1].strip()) | (Country.name == country[-1].strip()) | (AltCountry.alt_name == country[-1].strip())).first()
+        new_person.country_of_birth = country_object
 
+    # Add gender data
+    id = person["gender"]
     gender_object = Gender.query.filter(Gender.gender_id == id).one()
     new_person.genders.append(gender_object)
-    print(f"Added '{gender_object.name}' gender to '{new_person.name}'")
 
 db.session.add_all(persons_in_db)
 db.session.commit()
@@ -162,7 +161,8 @@ for movie in credits_data:
                             movie=curr_movie,
                             cast_member=cast_member)
 
-        print(f"Added '{new_credit.character}' to '{curr_movie.title}'")
+        credits_in_db.append(new_credit)
 
 db.session.add_all(credits_in_db)
 db.session.commit()
+print(f"Added {len(credits_in_db)} credits to db!")

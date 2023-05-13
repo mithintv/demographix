@@ -1,7 +1,7 @@
 """Script to seed database."""
 
 import server
-from model import db, connect_to_db, Movie, Genre, Gender, CastMember, Credit
+from model import db, connect_to_db, Movie, Genre, Gender, CastMember, Credit, Country
 import os
 import json
 from datetime import datetime
@@ -11,6 +11,29 @@ os.system("createdb demographix")
 
 connect_to_db(server.app)
 db.create_all()
+
+"""Seed countries table with country information."""
+
+countries_list = []
+with open('data/countries.json', 'r') as file:
+    data = json.load(file)
+    for country in data:
+        if country.get("demonyms", None) is None:
+            demonym = "Unknown"
+        else:
+            demonym = country["demonyms"]["eng"]["f"]
+        new_country = Country(country_id=country['cca3'],
+                              #   altSpellings=country["altSpellings"],
+                              name=country["name"]["common"],
+                              demonym=demonym,
+                              region=country["region"])
+
+        countries_list.append(new_country)
+        print(f"Adding {new_country.name} to db...")
+
+db.session.add_all(countries_list)
+db.session.commit()
+print(f"Added {len(countries_list)} countries to db!")
 
 
 """Seed genres table in database."""
@@ -97,11 +120,20 @@ for person in person_data:
                             birthday=formatted_bday,
                             deathday=formatted_dday,
                             biography=person['biography'],
-                            place_of_birth=person['place_of_birth']
                             )
     persons_in_db.append(new_person)
 
     id = person["gender"]
+
+    country = "Unknown"
+    if person.get("place_of_birth", None) is not None:
+        country = person["place_of_birth"].split(',')
+        country_object = Country.query.filter(
+            (Country.country_id == country[-1]) | (Country.name == country[-1])).first()
+        print(country_object)
+        print(country[-1])
+    print(country)
+
     gender_object = Gender.query.filter(Gender.gender_id == id).one()
     new_person.genders.append(gender_object)
     print(f"Added '{gender_object.name}' gender to '{new_person.name}'")

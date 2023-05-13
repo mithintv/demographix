@@ -5,6 +5,23 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+class Country(db.Model):
+    """A country."""
+
+    __tablename__ = 'countries'
+
+    country_id = db.Column(db.String(3), primary_key=True)
+    name = db.Column(db.String(75))
+    demonym = db.Column(db.String(75))
+    region = db.Column(db.String(15))
+
+    births = db.relationship(
+        "CastMember", secondary="cast_countries", back_populates="place_of_birth")
+
+    def __repr__(self):
+        return f'<Country country_id={self.country_id} name={self.name} demonym={self.demonym}>'
+
+
 class Movie(db.Model):
     """A movie."""
 
@@ -90,6 +107,8 @@ class CastMember(db.Model):
     deathday = db.Column(db.DateTime)
     biography = db.Column(db.String())
 
+    place_of_birth = db.relationship(
+        "Country", secondary="cast_countries", uselist=False, back_populates="births")
     credits = db.relationship("Credit", back_populates="cast_member")
     genders = db.relationship(
         "Gender", secondary="cast_genders", back_populates="cast_member")
@@ -128,6 +147,22 @@ class CastGender(db.Model):
 
     def __repr__(self):
         return f'<CastGender cast_gender_id={self.cast_gender_id} gender_id={self.gender_id} cast_member_id={self.cast_member_id}>'
+
+
+class CastCountry(db.Model):
+    """An association table for cast and countries they are associated with."""
+
+    __tablename__ = 'cast_countries'
+
+    cast_countries_id = db.Column(
+        db.Integer, primary_key=True, autoincrement=True)
+    relation_type = db.Column(db.String(25))
+    country_id = db.Column(db.String(3), db.ForeignKey('countries.country_id'))
+    cast_member_id = db.Column(
+        db.Integer, db.ForeignKey('cast_members.cast_member_id'))
+
+    def __repr__(self):
+        return f'<CastCountry cast_countries_id={self.cast_countries_id} relation_type={self.relation_type} country_id={self.country_id} cast_member_id={self.cast_member_id}>'
 
 
 # class Ethnicity(db.Model):

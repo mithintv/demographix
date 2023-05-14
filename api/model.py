@@ -164,8 +164,31 @@ class Ethnicity(db.Model):
     ethnicity_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(75))
 
+    alt_names = db.relationship(
+        "AltEthnicity", back_populates="ethnicity")
     cast = db.relationship(
         "CastMember", secondary="cast_ethnicities", back_populates="ethnicities")
+
+    def __repr__(self):
+        return f'<Ethnicity ethnicity_id={self.ethnicity_id} name={self.name}>'
+
+
+class AltEthnicity(db.Model):
+    """An alternate name for an ethnicity."""
+
+    __tablename__ = 'alt_ethnicities'
+
+    alt_ethnicity_id = db.Column(
+        db.Integer, primary_key=True, autoincrement=True)
+    ethnicity_id = db.Column(
+        db.Integer, db.ForeignKey("ethnicities.ethnicity_id"))
+    alt_name = db.Column(db.String(75))
+
+    ethnicity = db.relationship(
+        "Ethnicity", uselist=False, back_populates="alt_names")
+
+    def __repr__(self):
+        return f'<AltEthnicity ethnicity_id={self.ethnicity_id} name={self.alt_name}>'
 
 
 class CastEthnicity(db.Model):

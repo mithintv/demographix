@@ -1,7 +1,7 @@
 """Script to seed database."""
 
 import server
-from model import db, connect_to_db, Country, AltCountry, Movie, Genre, Gender, CastMember, Credit
+from model import db, connect_to_db, Country, AltCountry, Movie, Genre, Gender, Ethnicity, CastMember, Credit
 import os
 import json
 from datetime import datetime
@@ -38,6 +38,74 @@ with open('data/countries.json', 'r') as file:
 db.session.add_all(countries_list)
 db.session.commit()
 print(f"Added {len(countries_list)} countries to db!")
+
+
+"""Seed ethnicities table with ethnicity information."""
+
+countries_list = []
+with open('data/ethnicities.json', 'r') as file:
+    data = json.load(file)
+
+    ethnicities_list = []
+    for ethnicity in data:
+        if ethnicity not in ['Alabama',
+                             'Alaska',
+                             'Arizona',
+                             'Arkansas',
+                             'California',
+                             'Colorado',
+                             'Connecticut',
+                             'Delaware',
+                             'District of Columbia'
+                             'Florida',
+                             'Georgia',
+                             'Hawaii',
+                             'Idaho',
+                             'Illinois',
+                             'Indiana',
+                             'Iowa',
+                             'Kansas',
+                             'Kentucky',
+                             'Louisiana',
+                             'Maine',
+                             'Maryland',
+                             'Massachusetts',
+                             'Michigan',
+                             'Minnesota',
+                             'Mississippi',
+                             'Missouri',
+                             'Montana',
+                             'Nebraska',
+                             'Nevada',
+                             'New Hampshire',
+                             'New Jersey',
+                             'New Mexico',
+                             'New York',
+                             'North Carolina',
+                             'North Dakota',
+                             'Ohio',
+                             'Oklahoma',
+                             'Oregon',
+                             'Pennsylvania',
+                             'Rhode Island',
+                             'South Carolina',
+                             'South Dakota',
+                             'Tennessee',
+                             'Texas',
+                             'Utah',
+                             'Vermont',
+                             'Virginia',
+                             'Washington',
+                             'West Virginia',
+                             'Wisconsin',
+                             'Wyoming']:
+            new_ethnicity = Ethnicity(name=ethnicity)
+
+            ethnicities_list.append(new_ethnicity)
+
+db.session.add_all(ethnicities_list)
+db.session.commit()
+print(f"Added {len(ethnicities_list)} ethnicities to db!")
 
 
 """Seed genres table in database."""
@@ -125,6 +193,11 @@ for person in person_data:
                             )
     persons_in_db.append(new_person)
 
+    # Add gender data
+    id = person["gender"]
+    gender_object = Gender.query.filter(Gender.gender_id == id).one()
+    new_person.gender = gender_object
+
     # Add country_of_birth data
     if person.get("place_of_birth", None) is not None:
         country = person["place_of_birth"].split(',')
@@ -132,10 +205,6 @@ for person in person_data:
             (Country.country_id == country[-1].strip()) | (Country.name == country[-1].strip()) | (AltCountry.alt_name == country[-1].strip())).first()
         new_person.country_of_birth = country_object
 
-    # Add gender data
-    id = person["gender"]
-    gender_object = Gender.query.filter(Gender.gender_id == id).one()
-    new_person.genders.append(gender_object)
 
 db.session.add_all(persons_in_db)
 db.session.commit()

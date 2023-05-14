@@ -108,7 +108,10 @@ const MovieDetails = (props) => {
           return (
             <div key={index}>
               <p>
-                Name: {cast.name} <span>Age: {age}</span>
+                <span>Name: {cast.name} </span>
+                <span>Gender: {cast.gender} </span>
+                <span>Age: {age} </span>
+                <span>Country of Birth: {cast.country_of_birth} </span>
               </p>
             </div>
           );

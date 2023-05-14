@@ -2,7 +2,7 @@
 
 from flask import (Flask, render_template, request,
                    flash, jsonify, session, redirect)
-from model import connect_to_db, db
+from model import connect_to_db
 import crud
 
 app = Flask(__name__)

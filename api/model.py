@@ -56,7 +56,7 @@ class Movie(db.Model):
     revenue = db.Column(db.Integer)
 
     genres = db.relationship(
-        "Genre", secondary="media_genres", back_populates="movies")
+        "Genre", secondary="media_genres", uselist=True, back_populates="movies")
     credits = db.relationship("Credit", back_populates="movie")
 
     def __repr__(self):
@@ -79,7 +79,7 @@ class Genre(db.Model):
 
 
 class MediaGenre(db.Model):
-    """An association table for different mediums and their genres."""
+    """An association table for different media and their genres."""
 
     __tablename__ = 'media_genres'
 
@@ -120,18 +120,21 @@ class CastMember(db.Model):
 
     cast_member_id = db.Column(db.Integer, primary_key=True)
     imdb_id = db.Column(db.String(15))
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), nullable=False)
+    gender_id = db.Column(
+        db.Integer, db.ForeignKey("genders.gender_id"), nullable=False)
     birthday = db.Column(db.DateTime)
     deathday = db.Column(db.DateTime)
     biography = db.Column(db.String())
     country_of_birth_id = db.Column(
         db.String(3), db.ForeignKey("countries.country_id"))
 
+    gender = db.relationship(
+        "Gender", back_populates="cast_member")
     country_of_birth = db.relationship("Country", back_populates="births")
     credits = db.relationship("Credit", back_populates="cast_member")
-    genders = db.relationship(
-        "Gender", secondary="cast_genders", back_populates="cast_member")
-    # ethnicities = db.relationship("Ethnicity", back_populates="cast")
+    ethnicities = db.relationship(
+        "Ethnicity", secondary="cast_ethnicities", uselist=True, back_populates="cast")
     # nationalities = db.relationship("Nationality", back_populates="cast")
 
     def __repr__(self):
@@ -147,68 +150,38 @@ class Gender(db.Model):
     name = db.Column(db.String(20))
 
     cast_member = db.relationship(
-        "CastMember", secondary="cast_genders", back_populates="genders")
+        "CastMember", back_populates="gender")
 
     def __repr__(self):
         return f'<Gender gender_id={self.gender_id} name={self.name}>'
 
 
-class CastGender(db.Model):
-    """An association table for cast and their genders."""
+class Ethnicity(db.Model):
+    """An ethnicity."""
 
-    __tablename__ = 'cast_genders'
+    __tablename__ = 'ethnicities'
 
-    cast_gender_id = db.Column(
-        db.Integer, primary_key=True, autoincrement=True)
-    gender_id = db.Column(db.Integer, db.ForeignKey('genders.gender_id'))
+    ethnicity_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(75))
+
+    cast = db.relationship(
+        "CastMember", secondary="cast_ethnicities", back_populates="ethnicities")
+
+
+class CastEthnicity(db.Model):
+    """An association table to link cast members and their ethnicities."""
+
+    __tablename__ = 'cast_ethnicities'
+
+    cast_ethnicity_id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True)
+    ethnicity_id = db.Column(
+        db.Integer, db.ForeignKey("ethnicities.ethnicity_id"))
     cast_member_id = db.Column(
-        db.Integer, db.ForeignKey('cast_members.cast_member_id'))
+        db.Integer, db.ForeignKey("cast_members.cast_member_id"))
 
     def __repr__(self):
-        return f'<CastGender cast_gender_id={self.cast_gender_id} gender_id={self.gender_id} cast_member_id={self.cast_member_id}>'
-
-
-# class CastCountry(db.Model):
-#     """An association table for cast and countries they are associated with."""
-
-#     __tablename__ = 'cast_countries'
-
-#     cast_countries_id = db.Column(
-#         db.Integer, primary_key=True, autoincrement=True)
-#     relation_type = db.Column(db.String(25))
-#     country_id = db.Column(db.String(3), db.ForeignKey('countries.country_id'))
-#     cast_member_id = db.Column(
-#         db.Integer, db.ForeignKey('cast_members.cast_member_id'))
-
-#     def __repr__(self):
-#         return f'<CastCountry cast_countries_id={self.cast_countries_id} relation_type={self.relation_type} country_id={self.country_id} cast_member_id={self.cast_member_id}>'
-
-
-# class Ethnicity(db.Model):
-#     """An ethnicity."""
-
-#     __tablename__ = 'ethnicity'
-
-#     ethnicity_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     name = db.Column(db.String(25))
-#     cast_id = db.Column(db.Integer, db.ForeignKey('cast.cast_id'))
-
-#     cast = db.relationship("Cast", back_populates="ethnicity")
-
-
-# class Nationality(db.Model):
-#     """A nationality."""
-
-#     __tablename__ = 'nationality'
-
-#     nationality_id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(75))
-#     cast_id = db.Column(db.Integer, db.ForeignKey('cast.cast_id'))
-
-#     cast = db.relationship("Cast", back_populates="nationality")
-
-#     def __repr__(self):
-#         return f'<Credit credit_id={self.credit_id} movie_id={self.movie_id} character={self.character}>'
+        return f'<CastEthnicity cast_ethnicity_id={self.cast_ethnicity_id} ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):

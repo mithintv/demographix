@@ -277,10 +277,10 @@ class CastRace(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
-    cast_id = db.Column(db.Integer, db.ForeignKey("cast_members.id"))
+    cast_member_id = db.Column(db.Integer, db.ForeignKey("cast_members.id"))
 
     def __repr__(self):
-        return f'<CastRace race_id={self.race_id} cast_id={self.cast_id}>'
+        return f'<CastRace race_id={self.race_id} cast_id={self.cast_member_id}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):

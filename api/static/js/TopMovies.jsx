@@ -31,7 +31,7 @@ const TopMovies = () => {
                 src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
                 width={250}
               />
-              <a onClick={setMovieHandler.bind(this, movie.movie_id)}>
+              <a onClick={setMovieHandler.bind(this, movie.id)}>
                 <p>
                   {movie.title} <span>({releaseDate.getFullYear()})</span>
                 </p>

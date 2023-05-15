@@ -14935,6 +14935,7 @@
     "capital": ["Port-aux-Français"],
     "altSpellings": ["TF", "French Southern Territories"],
     "region": "Antarctic",
+    "subregion": "Antarctica",
     "languages": { "fra": "French" },
     "translations": {
       "ara": {
@@ -15697,6 +15698,7 @@
     "capital": ["King Edward Point"],
     "altSpellings": ["GS", "South Georgia and the South Sandwich Islands"],
     "region": "Antarctic",
+    "subregion": "Antarctica",
     "languages": { "eng": "English" },
     "translations": {
       "ara": {
@@ -16433,6 +16435,7 @@
     "idd": {},
     "altSpellings": ["AQ"],
     "region": "Antarctic",
+    "subregion": "Antarctica",
     "translations": {
       "ara": { "official": "أنتارتيكا", "common": "أنتارتيكا" },
       "bre": { "official": "Antarktika", "common": "Antarktika" },
@@ -20040,6 +20043,7 @@
     "idd": { "root": "+4", "suffixes": ["7"] },
     "altSpellings": ["BV", "Bouvetøya", "Bouvet-øya"],
     "region": "Antarctic",
+    "subregion": "Antarctica",
     "languages": { "nor": "Norwegian" },
     "translations": {
       "ara": { "official": "جزر بوفيه", "common": "جزر بوفيه" },
@@ -21603,7 +21607,7 @@
       "Jomhuri-ye Eslāmi-ye Irān"
     ],
     "region": "Asia",
-    "subregion": "Southern Asia",
+    "subregion": "Western Asia",
     "languages": { "fas": "Persian (Farsi)" },
     "translations": {
       "ara": { "official": "جمهورية إيران الإسلامية", "common": "إيران" },
@@ -22116,6 +22120,7 @@
     "idd": {},
     "altSpellings": ["HM", "Heard Island and McDonald Islands"],
     "region": "Antarctic",
+    "subregion": "Antarctica",
     "languages": { "eng": "English" },
     "translations": {
       "ara": {

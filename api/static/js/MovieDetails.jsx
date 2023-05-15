@@ -107,12 +107,17 @@ const MovieDetails = (props) => {
           }
           return (
             <div key={index}>
-              <p>
-                <span>Name: {cast.name} </span>
-                <span>Gender: {cast.gender} </span>
-                <span>Age: {age} </span>
-                <span>Country of Birth: {cast.country_of_birth} </span>
-              </p>
+              <span>Name: {cast.name} </span>
+              <span>Gender: {cast.gender} </span>
+              <span>Age: {age} </span>
+              <div>
+                Ethnicity:{" "}
+                {cast.ethnicity.map((ethnicity, j) => {
+                  return <span key={j}>{ethnicity}, </span>;
+                })}
+              </div>
+              <span>Country of Birth: {cast.country_of_birth} </span>
+              <hr />
             </div>
           );
         })}

@@ -1,0 +1,37 @@
+[
+  {
+    "name": "White",
+    "short": "WHT",
+    "description": "A person having origins in any of the original peoples of Europe."
+  },
+  {
+    "name": "Middle Eastern/North African",
+    "short": "MENA",
+    "description": "A person having origins in any of the original peoples of the Middle East and/or North Africa."
+  },
+  {
+    "name": "Black",
+    "short": "BLK",
+    "description": "A person having origins in any of the Black racial groups of Africa."
+  },
+  {
+    "name": "Hispanic/Latino",
+    "short": "HSPN",
+    "description": "A person of Mexican, Puerto Rican, Cuban, Central or South American, or other Spanish culture or origin, regardless of race."
+  },
+  {
+    "name": "Asian",
+    "short": "ASN",
+    "description": "A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam."
+  },
+  {
+    "name": "American Indian/Alaska Native",
+    "short": "AIAN",
+    "description": "A person having origins in any of the original peoples of North and South America (including Central America) and who maintains tribal affiliation or community attachment."
+  },
+  {
+    "name": "Native Hawaiian/Pacific Islander",
+    "short": "NHPI",
+    "description": "A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands."
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand"
+  },
+  {
+    "region": "Americas",
+    "subregion": "Caribbean"
+  },
+  {
+    "region": "Americas",
+    "subregion": "Central America"
+  },
+  {
+    "region": "Asia",
+    "subregion": "Central Asia"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Central Europe"
+  },
+  {
+    "region": "Africa",
+    "subregion": "Eastern Africa"
+  },
+  {
+    "region": "Asia",
+    "subregion": "Eastern Asia"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Eastern Europe"
+  },
+  {
+    "region": "Oceania",
+    "subregion": "Melanesia"
+  },
+  {
+    "region": "Oceania",
+    "subregion": "Micronesia"
+  },
+  {
+    "region": "Africa",
+    "subregion": "Middle Africa"
+  },
+  {
+    "region": "Americas",
+    "subregion": "North America"
+  },
+  {
+    "region": "Africa",
+    "subregion": "Northern Africa"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Northern Europe"
+  },
+  {
+    "region": "Oceania",
+    "subregion": "Polynesia"
+  },
+  {
+    "region": "Americas",
+    "subregion": "South America"
+  },
+  {
+    "region": "Asia",
+    "subregion": "South-Eastern Asia"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Southeast Europe"
+  },
+  {
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "region": "Asia",
+    "subregion": "Southern Asia"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Southern Europe"
+  },
+  {
+    "region": "Antarctic",
+    "subregion": "Antarctica"
+  },
+  {
+    "region": "Africa",
+    "subregion": "Western Africa"
+  },
+  {
+    "region": "Asia",
+    "subregion": "Western Asia"
+  },
+  {
+    "region": "Europe",
+    "subregion": "Western Europe"
+  }
+]

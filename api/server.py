@@ -41,6 +41,20 @@ def movie(movie_id):
     return jsonify(movie_data)
 
 
+@app.route('/regions')
+def region():
+    """Return region and subregion details."""
+
+    region_data = crud.get_regions()
+    regions = []
+    for region in region_data:
+        regions.append({
+            'subregion': region[0],
+            'region': region[1]
+        })
+    return jsonify(regions)
+
+
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)

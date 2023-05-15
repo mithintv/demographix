@@ -1,6 +1,14 @@
 """CRUD operations."""
 
-from model import db, Movie, Credit, CastMember, Gender, Country, connect_to_db
+from model import db, Movie, Credit, CastMember, Gender, Ethnicity, CastEthnicity, Country, connect_to_db
+
+
+def get_regions():
+    """Return all regions and subregions"""
+
+    print(db.session.query(Country.subregion, Country.region).group_by(
+        Country.subregion, Country.region).order_by(Country.subregion.asc()).all())
+    return db.session.query(Country.subregion, Country.region).group_by(Country.subregion, Country.region).order_by(Country.subregion.asc()).all()
 
 
 def get_movies():
@@ -34,9 +42,15 @@ def get_movie_cast(movie_id):
     print(cast_list)
     cast_details = []
     for cast in cast_list:
+
+        cast_member = CastMember.query.filter(
+            CastMember.cast_member_id == cast.CastMember.cast_member_id).one()
+        ethnicities = [ethnicity.name for ethnicity in cast_member.ethnicities]
+
         new_cast = {'name': cast.CastMember.name,
                     'birthday': cast.CastMember.birthday,
                     'gender': cast.Gender.name,
+                    'ethnicity': ethnicities,
                     'country_of_birth': cast.Country.name,
                     'character': cast.Credit.character,
                     'order': cast.Credit.order}

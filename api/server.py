@@ -24,7 +24,7 @@ def top():
 
     display_movies = []
     for movie in all_movies:
-        movie_dict = {'movie_id': movie.movie_id,
+        movie_dict = {'id': movie.id,
                       'title': movie.title,
                       'release_date': movie.release_date,
                       'poster_path': movie.poster_path,

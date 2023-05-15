@@ -27,30 +27,32 @@ def get_movie_credits():
 def get_movie_cast(movie_id):
     """Return specific movie with credits and cast member details."""
 
-    movie = Movie.query.filter(Movie.movie_id == movie_id).one()
+    movie = Movie.query.filter(Movie.id == movie_id).one()
     cast_list = db.session.query(
         CastMember,
         Gender,
         Country,
         Credit
-    ).join(Gender, Gender.gender_id == CastMember.gender_id
-           ).join(Country, Country.country_id == CastMember.country_of_birth_id
-                  ).join(Credit, Credit.cast_member_id == CastMember.cast_member_id
-                         ).join(Movie, Movie.movie_id == Credit.movie_id
-                                ).filter(Movie.movie_id == movie_id
+    ).join(Gender, Gender.id == CastMember.gender_id
+           ).join(Country, Country.id == CastMember.country_of_birth_id
+                  ).join(Credit, Credit.cast_member_id == CastMember.id
+                         ).join(Movie, Movie.id == Credit.movie_id
+                                ).filter(Movie.id == movie_id
                                          ).all()
-    print(cast_list)
+
     cast_details = []
     for cast in cast_list:
 
         cast_member = CastMember.query.filter(
-            CastMember.cast_member_id == cast.CastMember.cast_member_id).one()
+            CastMember.id == cast.CastMember.id).one()
         ethnicities = [ethnicity.name for ethnicity in cast_member.ethnicities]
+        races = [race.name for race in cast_member.races]
 
         new_cast = {'name': cast.CastMember.name,
                     'birthday': cast.CastMember.birthday,
                     'gender': cast.Gender.name,
                     'ethnicity': ethnicities,
+                    'race': races,
                     'country_of_birth': cast.Country.name,
                     'character': cast.Credit.character,
                     'order': cast.Credit.order}

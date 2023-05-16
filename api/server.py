@@ -1,5 +1,6 @@
 """Server for demographix app."""
 
+from datetime import datetime
 from flask import (Flask, render_template, request,
                    flash, jsonify, session, redirect)
 from model import connect_to_db
@@ -17,12 +18,47 @@ def homepage():
 
 
 @app.route('/', methods=['POST'])
-def search():
-    """Return search results."""
+def query():
+    """Return search results from database."""
+
     data = request.get_json()
     keywords = data['search'].split()
-    print(crud.query_movie(keywords))
-    return jsonify(keywords)
+    query_data = crud.query_movie(keywords)
+
+    search_results = []
+    for movie in query_data:
+        movie_dict = {'id': movie.id,
+                      'title': movie.title,
+                      'release_date': movie.release_date,
+                      'poster_path': movie.poster_path,
+                      }
+        search_results.append(movie_dict)
+
+    return jsonify(search_results)
+
+
+@app.route('/search', methods=['POST'])
+def query_api():
+    """Return search results from api."""
+
+    data = request.get_json()
+    keywords = data['search'].split()
+
+    api_results = crud.query_api_movie(keywords)
+
+    search_results = []
+    print("Search results...")
+    for movie in api_results:
+        movie_dict = {'id': movie.id,
+                      'title': movie.title,
+                      'release_date': movie.release_date,
+                      'poster_path': movie.poster_path,
+                      }
+        search_results.append(movie_dict)
+
+        print(f"{movie.title} ({movie.release_date.year})")
+
+    return jsonify(search_results)
 
 
 @app.route('/top')

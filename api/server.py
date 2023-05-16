@@ -6,7 +6,7 @@ from model import connect_to_db
 import crud
 
 app = Flask(__name__)
-app.secret_key = "demographix_dev"
+app.secret_key = 'demographix_dev'
 
 
 @app.route('/')
@@ -14,6 +14,15 @@ def homepage():
     """View homepage."""
 
     return render_template('page.html')
+
+
+@app.route('/', methods=['POST'])
+def search():
+    """Return search results."""
+    data = request.get_json()
+    keywords = data['search'].split()
+    print(crud.query_movie(keywords))
+    return jsonify(keywords)
 
 
 @app.route('/top')

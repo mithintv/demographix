@@ -1,5 +1,6 @@
 """CRUD operations."""
 
+from sqlalchemy import func, and_, or_
 from model import db, Movie, Credit, CastMember, Gender, Ethnicity, CastEthnicity, Country, connect_to_db
 
 
@@ -17,11 +18,12 @@ def get_movies():
     return Movie.query.all()
 
 
-def get_movie_credits():
-    """Return movies with credits."""
+def query_movie(keywords):
+    """Return search query results."""
 
-    return db.session.query(Movie,
-                            Credit).join(Credit).all()
+    filters = [func.lower(Movie.title).like(
+        f'%{keyword.lower()}%') for keyword in keywords]
+    return Movie.query.filter(or_(*filters)).all()
 
 
 def get_movie_cast(movie_id):

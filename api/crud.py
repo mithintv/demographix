@@ -1,7 +1,13 @@
 """CRUD operations."""
 
+import requests
+import os
+from datetime import datetime
 from sqlalchemy import func, and_, or_
-from model import db, Movie, Credit, CastMember, Gender, Ethnicity, CastEthnicity, Country, connect_to_db
+from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, CastEthnicity, Country, connect_to_db
+
+key = os.environ['API_KEY']
+access_token = os.environ['ACCESS_TOKEN']
 
 
 def get_regions():
@@ -18,12 +24,60 @@ def get_movies():
     return Movie.query.all()
 
 
+def add_movie_from_search(movie):
+    format = "%Y-%m-%d"
+    formatted_date = datetime.strptime(movie['release_date'], format)
+    new_movie = Movie(id=movie["id"],
+                      title=movie["title"],
+                      overview=movie["overview"],
+                      poster_path=movie["poster_path"],
+                      release_date=formatted_date)
+    print(f'Created new movie: {new_movie.title}')
+    for id in movie["genre_ids"]:
+        genre_object = Genre.query.filter(Genre.id == id).one()
+        new_movie.genres.append(genre_object)
+    return new_movie
+
+
 def query_movie(keywords):
     """Return search query results."""
 
     filters = [func.lower(Movie.title).like(
         f'%{keyword.lower()}%') for keyword in keywords]
     return Movie.query.filter(or_(*filters)).all()
+
+
+def query_api_movie(keywords):
+    """Return search query results from api."""
+
+    filters = [func.lower(Movie.title).like(
+        f'%{keyword.lower()}%') for keyword in keywords]
+    query = Movie.query.filter(or_(*filters)).all()
+
+    if len(query) < 10:
+        print("Not enough results in db... making API call...")
+        joined_keywords = " ".join(keywords)
+        response = requests.get(
+            f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={joined_keywords}')
+        result_list = response.json()
+        movies = result_list['results']
+        print(len(movies))
+
+        new_movies = []
+        for movie in movies:
+            curr_movie = Movie.query.filter(Movie.id == movie['id']).first()
+            if curr_movie is None:
+                curr_movie = add_movie_from_search(movie)
+                new_movies.append(curr_movie)
+                print(f"Adding new move to db: {curr_movie.title}...")
+
+            query.append(curr_movie)
+
+        db.session.add_all(new_movies)
+        db.session.commit()
+        print(f"Added {len(new_movies)} movies to db!")
+
+    return query
 
 
 def get_movie_cast(movie_id):

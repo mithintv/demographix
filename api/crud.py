@@ -182,7 +182,7 @@ def add_credits(credit_list, curr_movie):
                             movie=curr_movie,
                             cast_member=cast_member)
 
-    new_credits.append(new_credit)
+        new_credits.append(new_credit)
 
     db.session.add_all(new_credits)
     db.session.commit()
@@ -243,7 +243,7 @@ def query_api_movie_details(movie_id):
 
 
 def query_api_credits(movie_id):
-    """Return credit list of a given movie."""
+    """Return cast credit list of a given movie."""
 
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={key}&language=en-US"
     response = requests.get(url)
@@ -281,6 +281,8 @@ def get_movie_cast(movie_id):
 
     movie = Movie.query.filter(Movie.id == movie_id).one()
     if movie.imdb_id == None:
+        print(f"Movie details are missing...\nMaking api call...")
+
         # Update movie
         movie_details = query_api_movie_details(movie_id)
         update_movie_with_movie_details(movie, movie_details)
@@ -302,7 +304,7 @@ def get_movie_cast(movie_id):
                   ).join(Credit, Credit.cast_member_id == CastMember.id
                          ).join(Movie, Movie.id == Credit.movie_id
                                 ).filter(Movie.id == movie_id
-                                         ).all()
+                                         ).order_by(Credit.order).all()
 
     cast_details = []
     for cast in cast_list:

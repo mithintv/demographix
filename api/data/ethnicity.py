@@ -6,13 +6,14 @@ from bs4 import BeautifulSoup
 def ethnicelebs(person_name):
     """Given cast name, use ethnicelebs.com to return list of ethnicity data."""
 
-    url = f"http://ethnicelebs.com/{person_name}/"
+    url = f"https://ethnicelebs.com/{person_name}/"
     response = requests.get(url, headers={
         'Content-Type': "text/html",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     })
 
-    if response.status_code == 200:
+    if response.status_code == 200 and response.url == url:
+
         soup = BeautifulSoup(response.text, features="html.parser")
 
         ethnicity_description = soup.strong.get_text()
@@ -44,7 +45,9 @@ def ethnicelebs(person_name):
         print(ethnicity_list)
         return list(ethnicity_list)
 
-    elif response.status_code == 404:
+    elif response.status_code == 404 or response.url != url:
+        if response.url != url:
+            print("Url changed... aborting request...")
         print(f"Could not find {person_name} on ethnicelebs.com")
         return None
 

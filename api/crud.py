@@ -136,11 +136,11 @@ def add_cast_member(person):
                     mena = Race.query.filter(Race.short == 'MENA').one()
                     add_race_ids.add(mena.id)
 
-                if approx_country.region.name == 'Africa':
+                if approx_country.region.name == 'Africa' or approx_country.name in ['Haiti', 'Dominican Republic']:
                     black = Race.query.filter(Race.short == 'BLK').one()
                     add_race_ids.add(black.id)
 
-                if approx_country.subregion.name in ['Central America', 'South America'] or approx_country.name in ['Mexico', 'Puerto Rico', 'Cuba']:
+                if approx_country.subregion.name in ['Central America', 'South America'] or approx_country.name in ['Mexico', 'Puerto Rico', 'Cuba', 'Dominican Republic']:
                     hispanic = Race.query.filter(
                         Race.short == 'HSPN').one()
                     add_race_ids.add(hispanic.id)
@@ -162,6 +162,9 @@ def add_cast_member(person):
                 if ethnicity.name in ['African American', 'African']:
                     black = Race.query.filter(Race.short == 'BLK').one()
                     add_race_ids.add(black.id)
+                if ethnicity.name in ['Korean']:
+                    asian = Race.query.filter(Race.short == 'ASN').one()
+                    add_race_ids.add(asian.id)
                 if ethnicity.name == 'Hawaiian':
                     nhpi = Race.query.filter(Race.short == 'NHPI').one()
                     add_race_ids.add(nhpi.id)

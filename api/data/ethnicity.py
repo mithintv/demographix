@@ -22,7 +22,7 @@ def ethnicelebs(person_name):
         ethnicity_list = set([])
         _, ethnicities = ethnicity_description.split(":")
         all_words = ethnicities.replace(
-            "*", ",").replace("/", ",").replace("[", ",").replace("]", ",").split(",")
+            "*", ",").replace("/", ",").replace("[", ",").replace("]", ",").replace("and", ",").split(",")
         for category in all_words:
             formatted = category.replace(",", "")
             new_str = ""
@@ -31,12 +31,12 @@ def ethnicelebs(person_name):
                     new_str += f"{word} "
             new_str = new_str.rstrip()
 
-            if new_str != 'African-American' and "-" in new_str:
+            if new_str != "African-American" and "-" in new_str:
                 new_list = new_str.replace(
-                    "-", " ").split()
+                    "-", ",").split(",")
                 for item in new_list:
                     ethnicity_list.add(item)
-            elif new_str == 'African-American':
+            elif new_str == "African-American":
                 ethnicity_list.add(new_str.replace(
                     "-", " "))
             else:

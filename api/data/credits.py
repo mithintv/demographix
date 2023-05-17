@@ -2,6 +2,11 @@ import requests
 import os
 import json
 
+from app import app
+from model import db, CastMember
+import crud
+
+
 key = os.environ['TMDB_API_KEY']
 
 
@@ -37,9 +42,10 @@ def parse_credits(file_path='credits.json'):
     with open(file_path, 'r') as file:
         data = json.load(file)
         for credit in data:
-            for i in range(15):
+            for i in range(len(credit['cast'])):
                 person_id = credit['cast'][i]['id']
                 person_ids.add(person_id)
+    print(len(person_ids))
     return list(person_ids)
 
 
@@ -53,11 +59,32 @@ def get_person(person_id_list):
         person = response.json()
         persons.append(person)
 
-        with open('persons.json', 'w') as file:
+        with open('data/persons.json', 'a') as file:
             json.dump(persons, file)
+
+
+def add_missing_persons(file_path='persons.json'):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+        new_persons = []
+        for person in data:
+            cast_member = CastMember.query.filter(
+                CastMember.id == person['id']).first()
+            if cast_member == None:
+                new_person = crud.add_cast_member(person)
+                new_persons.append(new_person)
+                print(f"Adding {new_person.name} to db...")
+
+        db.session.add_all(new_persons)
+        db.session.commit()
+        print(f"Added {len(new_persons)} cast members to db!")
 
 
 # movie_ids = get_movie_ids() # get list of movie ids
 # get_credits(movie_ids) # create credits.json
-person_ids = parse_credits()  # get list of top 10 person ids per movie
-get_person(person_ids)  # create persons.json
+# get list of person ids per movie
+# person_ids = parse_credits('data/credits.json')
+# get_person(person_ids)  # create persons.json
+
+add_missing_persons('data/persons.json')

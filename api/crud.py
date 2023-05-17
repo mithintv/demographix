@@ -9,8 +9,8 @@ from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEt
 
 from data.ethnicity import *
 
-key = os.environ['API_KEY']
-access_token = os.environ['ACCESS_TOKEN']
+key = os.environ['TMDB_API_KEY']
+access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 
 def get_regions():
@@ -56,27 +56,32 @@ def update_movie_with_movie_details(movie, movie_details):
 def add_cast_member(person):
     """Add cast member information from api call."""
 
-    # Add basic cast member data
-    format = "%Y-%m-%d"
-    formatted_bday = None
-    if person['birthday'] is not None:
-        formatted_bday = datetime.strptime(person['birthday'], format)
+    new_person = CastMember.query.filter(CastMember.id == person['id']).first()
+    if new_person == None:
 
-    formatted_dday = None
-    if person['deathday'] is not None:
-        formatted_dday = datetime.strptime(person['deathday'], format)
+        # Add basic cast member data
+        format = "%Y-%m-%d"
+        formatted_bday = None
+        if person['birthday'] is not None:
+            formatted_bday = datetime.strptime(person['birthday'], format)
 
-    new_person = CastMember(id=person['id'],
-                            imdb_id=person['imdb_id'],
-                            name=person['name'],
-                            birthday=formatted_bday,
-                            deathday=formatted_dday,
-                            biography=person['biography'])
+        formatted_dday = None
+        if person['deathday'] is not None:
+            formatted_dday = datetime.strptime(person['deathday'], format)
+
+        new_person = CastMember(id=person['id'],
+                                imdb_id=person['imdb_id'],
+                                name=person['name'],
+                                birthday=formatted_bday,
+                                deathday=formatted_dday,
+                                biography=person['biography'],
+                                profile_path=person['profile_path'])
 
     # Add gender data
-    id = person["gender"]
-    gender_object = Gender.query.filter(Gender.id == id).one()
-    new_person.gender = gender_object
+    if person.get("gender", None) is not None:
+        id = person["gender"]
+        gender_object = Gender.query.filter(Gender.id == id).one()
+        new_person.gender = gender_object
 
     # Add country_of_birth data
     if person.get("place_of_birth", None) is not None:
@@ -89,7 +94,12 @@ def add_cast_member(person):
     print(f"Finding ethnicity information about {new_person.name}...")
     ethnicity_list = get_ethnicity(person)
     if ethnicity_list != None:
+
+        # Check for duplicates
         add_ethnicities = set([])
+        for curr in new_person.ethnicities:
+            add_ethnicities.add(curr.id)
+
         for ethnicity in ethnicity_list:
             ethnicity_object = Ethnicity.query.outerjoin(AltEthnicity).filter(
                 (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
@@ -149,7 +159,7 @@ def add_cast_member(person):
                 if ethnicity.name in ['English', 'Cornish', 'Scottish', 'Welsh', 'Jewish']:
                     white = Race.query.filter(Race.short == 'WHT').one()
                     add_race_ids.add(white.id)
-                if ethnicity.name == 'African American' or ethnicity.name == 'African':
+                if ethnicity.name in ['African American', 'African']:
                     black = Race.query.filter(Race.short == 'BLK').one()
                     add_race_ids.add(black.id)
                 if ethnicity.name == 'Hawaiian':
@@ -321,7 +331,8 @@ def get_movie_cast(movie_id):
                     'race': races,
                     'country_of_birth': cast.Country.name,
                     'character': cast.Credit.character,
-                    'order': cast.Credit.order}
+                    'order': cast.Credit.order,
+                    'profile_path': cast.CastMember.profile_path}
         cast_details.append(new_cast)
 
     data = {
@@ -339,5 +350,5 @@ def get_movie_cast(movie_id):
 
 
 if __name__ == '__main__':
-    from demographix.api.app import app
+    from app import app
     connect_to_db(app)

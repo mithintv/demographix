@@ -228,7 +228,7 @@ class AltEthnicity(db.Model):
     id = db.Column(
         db.Integer, primary_key=True, autoincrement=True)
     ethnicity_id = db.Column(
-        db.Integer, db.ForeignKey("ethnicities.id"))
+        db.Integer, db.ForeignKey("ethnicities.id"), nullable=False)
     alt_name = db.Column(db.String(75))
 
     ethnicity = db.relationship(

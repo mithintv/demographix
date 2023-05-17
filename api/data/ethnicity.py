@@ -1,6 +1,42 @@
 import requests
-
+import re
 from bs4 import BeautifulSoup
+
+
+def parse_ethnicelebs(txt):
+    """Parse <strong> block in ethnicelebs.com to return ethnicity list."""
+
+    ethnicity_list = set([])
+    _, ethnicities = txt.split(":")
+    all_words = re.split(r'[\,\*/\[\]]|\band\b|\bor\b|\n', ethnicities)
+    print(all_words)
+
+    for category in all_words:
+        formatted = category.replace(",", "")
+        new_str = ""
+        curr_el = formatted.split()
+
+        for i, word in enumerate(curr_el):
+            # print(f"'{word}'")
+            if word[0].isupper():
+                new_str += f"{word} "
+
+                if new_str.strip() != "African-American" and "-" in new_str:
+                    new_list = new_str.replace("-", ",").split(",")
+                    for item in new_list:
+                        ethnicity_list.add(item.strip())
+                    continue
+
+                elif new_str.strip() == "African-American":
+                    new_str = new_str.replace("-", " ")
+
+            if i + 1 == len(formatted.split()) and new_str != "":
+                ethnicity_list.add(new_str.strip())
+
+            # print(f"word: '{new_str}'")
+
+    print(ethnicity_list)
+    return list(ethnicity_list)
 
 
 def ethnicelebs(person_name):
@@ -11,46 +47,27 @@ def ethnicelebs(person_name):
         'Content-Type': "text/html",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     })
+    soup = BeautifulSoup(response.text, features="html.parser")
 
     if response.status_code == 200 and response.url == url:
 
-        soup = BeautifulSoup(response.text, features="html.parser")
+        if soup.strong != None:
+            ethnicity_description = soup.strong.get_text()
+            print(ethnicity_description)
 
-        ethnicity_description = soup.strong.get_text()
-        print(ethnicity_description)
+            return parse_ethnicelebs(ethnicity_description)
 
-        ethnicity_list = set([])
-        _, ethnicities = ethnicity_description.split(":")
-        all_words = ethnicities.replace(
-            "*", ",").replace("/", ",").replace("[", ",").replace("]", ",").replace("and", ",").split(",")
-        for category in all_words:
-            formatted = category.replace(",", "")
-            new_str = ""
-            for word in formatted.split():
-                if word[0].isupper():
-                    new_str += f"{word} "
-            new_str = new_str.rstrip()
+        else:
+            print(f"Page was loaded but no ethnicity information on ethnicelebs.com")
+            return None
 
-            if new_str != "African-American" and "-" in new_str:
-                new_list = new_str.replace(
-                    "-", ",").split(",")
-                for item in new_list:
-                    ethnicity_list.add(item)
-            elif new_str == "African-American":
-                ethnicity_list.add(new_str.replace(
-                    "-", " "))
-            else:
-                ethnicity_list.add(new_str.rstrip())
-
-        print(ethnicity_list)
-        return list(ethnicity_list)
-
-    elif response.status_code == 404 or response.url != url:
+    else:
         if response.url != url:
             print(f"Request URL: {url}")
             print(f"Response URL: {response.url}")
             print("URL changed... request aborted...")
-        print(f"Could not find {person_name} on ethnicelebs.com")
+        if response.status_code == 404:
+            print(f"Could not find {person_name} on ethnicelebs.com")
         return None
 
 

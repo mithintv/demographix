@@ -107,6 +107,11 @@ const MovieDetails = (props) => {
           }
           return (
             <div key={index}>
+              <img
+                style={{ borderRadius: "25px" }}
+                src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${cast.profile_path}`}
+                width={100}
+              />
               <span>Name: {cast.name} </span>
               <span>Gender: {cast.gender} </span>
               <span>Age: {age} </span>

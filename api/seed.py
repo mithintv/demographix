@@ -4,7 +4,7 @@ import os
 import json
 import time
 
-import server
+import demographix.api.app as app
 from model import db, connect_to_db, Region, SubRegion, Country, AltCountry, Movie, Genre, Gender, Ethnicity, AltEthnicity, Race, CastMember, Credit
 from data.ethnicity import *
 from datetime import datetime
@@ -399,7 +399,7 @@ if __name__ == '__main__':
     os.system("dropdb demographix")
     os.system("createdb demographix")
 
-    connect_to_db(server.app)
+    connect_to_db(app.app)
     db.create_all()
 
     seed_regions()

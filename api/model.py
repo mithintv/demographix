@@ -168,6 +168,7 @@ class CastMember(db.Model):
     biography = db.Column(db.String())
     country_of_birth_id = db.Column(
         db.String(3), db.ForeignKey("countries.id"))
+    profile_path = db.Column(db.String(35))
 
     gender = db.relationship(
         "Gender", back_populates="cast_member")
@@ -292,8 +293,9 @@ def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):
     db.init_app(flask_app)
 
     print("Connected to the db!")
+    return db
 
 
 if __name__ == "__main__":
-    from server import app
+    from demographix.api.app import app
     connect_to_db(app)

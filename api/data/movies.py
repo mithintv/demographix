@@ -4,8 +4,8 @@ import json
 
 import credits
 
-key = os.environ['API_KEY']
-access_token = os.environ['ACCESS_TOKEN']
+key = os.environ['TMDB_API_KEY']
+access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 
 def get_movie_by_query():

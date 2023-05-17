@@ -2,7 +2,7 @@ import requests
 import os
 import json
 
-key = os.environ['API_KEY']
+key = os.environ['TMDB_API_KEY']
 
 
 def get_movie_ids(file_path='movies.json'):

@@ -3,10 +3,13 @@
 from datetime import datetime
 from flask import (Flask, render_template, request,
                    flash, jsonify, session, redirect)
+from flask_migrate import Migrate
 from model import connect_to_db
 import crud
 
 app = Flask(__name__)
+db = connect_to_db(app)
+migrate = Migrate(app, db)
 app.secret_key = 'demographix_dev'
 
 

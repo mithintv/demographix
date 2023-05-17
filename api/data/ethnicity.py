@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 def ethnicelebs(person_name):
     """Given cast name, use ethnicelebs.com to return list of ethnicity data."""
 
-    url = f"https://ethnicelebs.com/{person_name}/"
+    url = f"https://ethnicelebs.com/{person_name}"
     response = requests.get(url, headers={
         'Content-Type': "text/html",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
@@ -47,7 +47,9 @@ def ethnicelebs(person_name):
 
     elif response.status_code == 404 or response.url != url:
         if response.url != url:
-            print("Url changed... aborting request...")
+            print(f"Request URL: {url}")
+            print(f"Response URL: {response.url}")
+            print("URL changed... request aborted...")
         print(f"Could not find {person_name} on ethnicelebs.com")
         return None
 
@@ -56,11 +58,11 @@ def get_ethnicity(person):
     """Return list of ethnicities for a given person."""
 
     # Try ethnicelebs.com
-    person_name = person['name'].lower().replace(" ", "-")
+    person_name = person['name'].lower().replace(" ", "-").replace(".", "")
     ethnicity_list = ethnicelebs(person_name)
     if ethnicity_list is None:
         for alt_name in person['also_known_as']:
-            formatted_alt_name = alt_name.lower().replace(" ", "-")
+            formatted_alt_name = alt_name.lower().replace(" ", "-").replace(".", "")
             print(f"Attempting {formatted_alt_name} on ethnicelebs.com")
             ethnicity_list = ethnicelebs(formatted_alt_name)
             if ethnicity_list is not None:

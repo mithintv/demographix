@@ -192,23 +192,23 @@ def add_credits(credit_list, curr_movie):
 def query_movie(keywords):
     """Return search query results."""
 
-    filters = [func.lower(Movie.title).like(
-        f'%{keyword.lower()}%') for keyword in keywords]
-    return Movie.query.filter(or_(*filters)).all()
+    query = Movie.query.filter(func.lower(Movie.title).like(
+        f'%{keywords.lower()}%')).all()
+    return query
 
 
 def query_api_movie(keywords):
     """Return search query results from api."""
 
-    filters = [func.lower(Movie.title).like(
-        f'%{keyword.lower()}%') for keyword in keywords]
-    query = Movie.query.filter(or_(*filters)).all()
+    # filters = [func.lower(Movie.title).like(
+    #     f'%{keyword.lower()}%') for keyword in keywords]
+    query = Movie.query.filter(func.lower(Movie.title).like(
+        f'%{keywords.lower()}%')).all()
 
     if len(query) < 10:
-        print("Not enough results in db... making API call...")
-        joined_keywords = " ".join(keywords)
+        print("Not enough results in db...\nMaking API call...")
         response = requests.get(
-            f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={joined_keywords}')
+            f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}')
         result_list = response.json()
         movies = result_list['results']
         print(len(movies))

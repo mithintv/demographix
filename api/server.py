@@ -22,7 +22,7 @@ def query():
     """Return search results from database."""
 
     data = request.get_json()
-    keywords = data['search'].split()
+    keywords = data['search']
     query_data = crud.query_movie(keywords)
 
     search_results = []
@@ -42,7 +42,7 @@ def query_api():
     """Return search results from api."""
 
     data = request.get_json()
-    keywords = data['search'].split()
+    keywords = data['search']
 
     api_results = crud.query_api_movie(keywords)
 

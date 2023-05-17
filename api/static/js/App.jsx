@@ -87,8 +87,8 @@ function App() {
         <button type="submit">Search</button>
       </form>
       {searchMovies && <SearchResults results={searchResults} />}
-      {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
-      {topMovies && <TopMovies />}
+      {/* {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
+      {topMovies && <TopMovies />} */}
     </React.Fragment>
   );
 }

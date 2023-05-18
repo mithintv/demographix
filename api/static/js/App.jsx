@@ -35,8 +35,6 @@ const App = () => {
           const response = await fetch("/", options);
           const json = await response.json();
           setSearchResults(json);
-
-          console.log(searchResults);
         } catch (err) {
           console.log(err);
         }

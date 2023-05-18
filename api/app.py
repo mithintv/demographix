@@ -8,9 +8,10 @@ from model import connect_to_db
 import crud
 
 app = Flask(__name__)
-db = connect_to_db(app)
-migrate = Migrate(app, db)
 app.secret_key = 'demographix_dev'
+
+
+migrate = Migrate(app, connect_to_db(app))
 
 
 @app.route('/')
@@ -104,5 +105,4 @@ def region():
 
 
 if __name__ == "__main__":
-    connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)

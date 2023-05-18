@@ -1,4 +1,8 @@
-function App() {
+const BrowserRouter = ReactRouter.BrowserRouter;
+const Routes = ReactRouter.Routes;
+const Route = ReactRouter.Route;
+
+const App = () => {
   const [topMovies, setTopMovies] = React.useState(false);
   const [searchMovies, setSearchMovies] = React.useState(false);
   const [searchResults, setSearchResults] = React.useState([]);
@@ -91,6 +95,6 @@ function App() {
       {topMovies && <TopMovies />} */}
     </React.Fragment>
   );
-}
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));

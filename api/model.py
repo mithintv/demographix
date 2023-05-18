@@ -235,7 +235,7 @@ class AltEthnicity(db.Model):
         "Ethnicity", uselist=False, back_populates="alt_names")
 
     def __repr__(self):
-        return f'<AltEthnicity ethnicity_id={self.ethnicity_id} name={self.alt_name}>'
+        return f'<AltEthnicity ethnicity_id={self.ethnicity_id} alt_name={self.alt_name}>'
 
 
 class CastEthnicity(db.Model):

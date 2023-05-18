@@ -24,10 +24,6 @@ const PieChart = () => {
     // Create dummy data
     const data = { a: 9, b: 20, c: 30, d: 8, e: 12, f: 11 };
 
-    var key = function (d) {
-      return d.data.label;
-    };
-
     // set the color scale
     const color = d3
       .scaleOrdinal()

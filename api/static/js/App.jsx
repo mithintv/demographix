@@ -73,7 +73,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Link to="/" exact>
+      <Link to="/">
         <h1>Demographix!</h1>
       </Link>
       <form onSubmit={searchHandler}>

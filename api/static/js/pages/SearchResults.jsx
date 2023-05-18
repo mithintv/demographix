@@ -1,8 +1,3 @@
-const BrowserRouter = ReactRouter.BrowserRouter;
-const Routes = ReactRouter.Routes;
-const Route = ReactRouter.Route;
-const Link = ReactRouter.Link;
-
 const SearchResults = (props) => {
   const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
@@ -27,13 +22,14 @@ const SearchResults = (props) => {
         return (
           <div key={index}>
             <img src={imgPath} width={100} />
-            {/* <Link to={`/movies/${movie.id}`}> */}
-            <a onClick={setMovieHandler.bind(this, movie.id)}>
+            <Link
+              onClick={setMovieHandler.bind(this, movie.id)}
+              to={`/movies/${movie.id}`}
+            >
               <p>
                 {movie.title} <span>({releaseDate.getFullYear()})</span>
               </p>
-            </a>
-            {/* </Link> */}
+            </Link>
           </div>
         );
       })}

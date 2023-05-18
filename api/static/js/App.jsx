@@ -1,6 +1,4 @@
-const BrowserRouter = ReactRouter.BrowserRouter;
-const Routes = ReactRouter.Routes;
-const Route = ReactRouter.Route;
+const { BrowserRouter, Route, Link } = ReactRouterDOM;
 
 const App = () => {
   const [topMovies, setTopMovies] = React.useState(false);
@@ -74,7 +72,7 @@ const App = () => {
   };
 
   return (
-    <React.Fragment>
+    <BrowserRouter>
       <h1>Welcome!</h1>
       <form onSubmit={searchHandler}>
         <label htmlFor="search">
@@ -89,9 +87,10 @@ const App = () => {
         <button type="submit">Search</button>
       </form>
       {searchMovies && <SearchResults results={searchResults} />}
+
       {/* {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
       {topMovies && <TopMovies />} */}
-    </React.Fragment>
+    </BrowserRouter>
   );
 };
 

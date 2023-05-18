@@ -2,65 +2,100 @@ const PieChart = () => {
   const pieChartRef = React.useRef(null);
 
   React.useEffect(() => {
-    var width = 300;
-    var height = 300;
-    var margin = 40;
+    const width = 300;
+    const height = 300;
+    const margin = 40;
 
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-    var radius = Math.min(width, height) / 2 - margin;
+    const radius = Math.min(width, height) / 2 - margin;
 
-    // append the svg object to the div called 'my_dataviz'
-    var svg = d3
+    // append the svg object to the pieChart ref
+    const svg = d3
       .select(pieChartRef.current)
       .append("svg")
-      .attr("width", width + margin + margin)
-      .attr("height", height + margin + margin)
+      .attr("width", width + margin)
+      .attr("height", height + margin)
       .append("g")
       .attr(
         "transform",
-        "translate(" +
-          (width + margin + margin) / 2 +
-          "," +
-          (height + margin + margin) / 2 +
-          ")"
+        "translate(" + (width + margin) / 2 + "," + (height + margin) / 2 + ")"
       );
 
     // Create dummy data
-    var data = { a: 9, b: 20, c: 30, d: 8, e: 12 };
+    const data = { a: 9, b: 20, c: 30, d: 8, e: 12, f: 11 };
+
+    var key = function (d) {
+      return d.data.label;
+    };
 
     // set the color scale
-    var color = d3
+    const color = d3
       .scaleOrdinal()
       .domain(Object.keys(data))
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+      .range(d3.schemeDark2);
 
     // Compute the position of each group on the pie:
-    var pie = d3.pie().value(function (d) {
-      return d.value;
-    });
-    var data_ready = pie(
+    const pie = d3.pie().value((d) => d.value);
+    const data_ready = pie(
       Object.entries(data).map(([key, value]) => ({ key, value }))
     );
 
+    // The arc generator
+    const arc = d3
+      .arc()
+      .innerRadius(radius * 0.5) // This is the size of the donut hole
+      .outerRadius(radius * 0.8);
+
+    // Another arc that won't be drawn. Just for labels positioning
+    const outerArc = d3
+      .arc()
+      .innerRadius(radius * 0.9)
+      .outerRadius(radius * 0.9);
+
     // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
     svg
-      .selectAll("whatever")
+      .selectAll("allSlices")
       .data(data_ready)
       .enter()
       .append("path")
-      .attr(
-        "d",
-        d3
-          .arc()
-          .innerRadius(width / 8) // This is the size of the donut hole
-          .outerRadius(radius)
-      )
-      .attr("fill", function (d) {
-        return color(d.data.key);
-      })
-      .attr("stroke", "black")
+      .attr("d", arc)
+      .attr("fill", (d) => color(d.data))
+      .attr("stroke", "white")
       .style("stroke-width", "2px")
       .style("opacity", 0.7);
+
+    svg
+      .selectAll("allPolylines")
+      .data(data_ready)
+      .join("polyline")
+      .attr("stroke", "black")
+      .style("fill", "none")
+      .attr("stroke-width", 1)
+      .attr("points", function (d) {
+        const posA = arc.centroid(d); // line insertion in the slice
+        const posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
+        const posC = outerArc.centroid(d); // Label position = almost the same as posB
+        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
+        posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+        return [posA, posB, posC];
+      });
+
+    // Add the polylines between chart and labels:
+    svg
+      .selectAll("allLabels")
+      .data(data_ready)
+      .join("text")
+      .text((d) => d.data.key)
+      .attr("transform", function (d) {
+        const pos = outerArc.centroid(d);
+        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+        pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+        return `translate(${pos})`;
+      })
+      .style("text-anchor", function (d) {
+        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+        return midangle < Math.PI ? "start" : "end";
+      });
   }, []);
 
   return <div ref={pieChartRef}></div>;

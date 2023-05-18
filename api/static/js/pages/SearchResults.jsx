@@ -9,7 +9,7 @@ const SearchResults = (props) => {
 
   return (
     <React.Fragment>
-      {showDetails && <MovieDetails movie_id={currMovie} />}
+      {/* {showDetails && <MovieDetails movie_id={currMovie} />} */}
       {props.results.map((movie, index) => {
         const releaseDate = new Date(movie.release_date);
 

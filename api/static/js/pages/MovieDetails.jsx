@@ -1,10 +1,11 @@
 const MovieDetails = (props) => {
   const [movieDetails, setMovieDetails] = React.useState();
   const [ageData, setAgeData] = React.useState();
+  console.log("movie details!!");
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`/movies/${props.movie_id}`);
+      const response = await fetch(`/api/movies/${props.match.params.id}`);
       const movieData = await response.json();
       setMovieDetails(movieData);
 

@@ -73,7 +73,9 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <h1>Welcome!</h1>
+      <Link to="/" exact>
+        <h1>Demographix!</h1>
+      </Link>
       <form onSubmit={searchHandler}>
         <label htmlFor="search">
           <input

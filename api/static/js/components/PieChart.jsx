@@ -1,28 +1,34 @@
-const PieChart = () => {
+const PieChart = (props) => {
   const pieChartRef = React.useRef(null);
+  const { data } = props;
+  console.log("Rendering Pie Chart: ", data);
 
   React.useEffect(() => {
-    const width = 300;
-    const height = 300;
-    const margin = 40;
+    const width = 750;
+    const height = 500;
+    const margin = { top: 0, left: 50, right: 50, bottom: 10 };
 
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-    const radius = Math.min(width, height) / 2 - margin;
+    const radius = Math.min(width, height) / 2 - margin.right;
 
     // append the svg object to the pieChart ref
     const svg = d3
       .select(pieChartRef.current)
       .append("svg")
-      .attr("width", width + margin)
-      .attr("height", height + margin)
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr(
         "transform",
-        "translate(" + (width + margin) / 2 + "," + (height + margin) / 2 + ")"
+        "translate(" +
+          (width + margin.left + margin.right) / 2 +
+          "," +
+          (height + margin.top + margin.bottom) / 2 +
+          ")"
       );
 
-    // Create dummy data
-    const data = { a: 9, b: 20, c: 30, d: 8, e: 12, f: 11 };
+    // // Create dummy data
+    // const data = { a: 9, b: 20, c: 30, d: 8, e: 12, f: 11 };
 
     // set the color scale
     const color = d3
@@ -35,6 +41,8 @@ const PieChart = () => {
     const data_ready = pie(
       Object.entries(data).map(([key, value]) => ({ key, value }))
     );
+
+    console.log(data_ready);
 
     // The arc generator
     const arc = d3
@@ -94,5 +102,13 @@ const PieChart = () => {
       });
   }, []);
 
-  return <div ref={pieChartRef}></div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+      ref={pieChartRef}
+    ></div>
+  );
 };

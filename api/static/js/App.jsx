@@ -86,6 +86,7 @@ const App = () => {
         </label>
         <button type="submit">Search</button>
       </form>
+      <Route path="/movies/:id" component={MovieDetails} exact></Route>
       {searchMovies && <SearchResults results={searchResults} />}
 
       {/* {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}

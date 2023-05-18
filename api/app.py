@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from flask import (Flask, render_template, request,
-                   flash, jsonify, session, redirect)
+                   flash, jsonify, session, redirect, send_from_directory)
 from flask_migrate import Migrate
 from model import connect_to_db
 import crud
@@ -14,11 +14,11 @@ app.secret_key = 'demographix_dev'
 migrate = Migrate(app, connect_to_db(app))
 
 
-@app.route('/')
-def homepage():
-    """View homepage."""
+# @app.route('/')
+# def homepage():
+#     """View homepage."""
 
-    return render_template('page.html')
+#     return render_template('page.html')
 
 
 @app.route('/', methods=['POST'])
@@ -82,7 +82,7 @@ def top():
     return jsonify(display_movies)
 
 
-@app.route('/movies/<movie_id>')
+@app.route('/api/movies/<movie_id>')
 def movie(movie_id):
     """Return movie and cast details."""
 
@@ -102,6 +102,12 @@ def region():
             'region': region[1]
         })
     return jsonify(regions)
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template('page.html')
 
 
 if __name__ == "__main__":

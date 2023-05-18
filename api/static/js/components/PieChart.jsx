@@ -1,12 +1,17 @@
-const PieChart = (props) => {
+const PieChart = React.memo((props) => {
   const pieChartRef = React.useRef(null);
   const { data } = props;
   console.log("Rendering Pie Chart: ", data);
 
   React.useEffect(() => {
-    const width = 750;
-    const height = 500;
-    const margin = { top: 0, left: 50, right: 50, bottom: 10 };
+    const width = 350;
+    const height = 300;
+    const margin = {
+      top: 0,
+      left: width * 0.1,
+      right: width * 0.1,
+      bottom: height * 0.1,
+    };
 
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     const radius = Math.min(width, height) / 2 - margin.right;
@@ -42,12 +47,10 @@ const PieChart = (props) => {
       Object.entries(data).map(([key, value]) => ({ key, value }))
     );
 
-    console.log(data_ready);
-
     // The arc generator
     const arc = d3
       .arc()
-      .innerRadius(radius * 0.5) // This is the size of the donut hole
+      .innerRadius(radius * 0.4) // This is the size of the donut hole
       .outerRadius(radius * 0.8);
 
     // Another arc that won't be drawn. Just for labels positioning
@@ -93,7 +96,7 @@ const PieChart = (props) => {
       .attr("transform", function (d) {
         const pos = outerArc.centroid(d);
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-        pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+        pos[0] = radius * 1 * (midangle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
       })
       .style("text-anchor", function (d) {
@@ -111,4 +114,4 @@ const PieChart = (props) => {
       ref={pieChartRef}
     ></div>
   );
-};
+});

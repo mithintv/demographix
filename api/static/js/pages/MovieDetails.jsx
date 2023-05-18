@@ -2,6 +2,7 @@ const MovieDetails = (props) => {
   const [movieDetails, setMovieDetails] = React.useState();
   const [ageData, setAgeData] = React.useState();
   const [raceData, setRaceData] = React.useState();
+  const [birthCountryData, setBCData] = React.useState();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -38,14 +39,35 @@ const MovieDetails = (props) => {
         });
       });
       setRaceData(listRaceData);
+
+      const listBCData = {};
+      movieData.cast.forEach((cast) => {
+        if (cast.country_of_birth === null) {
+          listBCData["Unknown"] = listBCData["Unknown"]
+            ? (listBCData["Unknown"] += 1)
+            : 1;
+        } else {
+          listBCData[cast.country_of_birth] = listBCData[cast.country_of_birth]
+            ? (listBCData[cast.country_of_birth] += 1)
+            : 1;
+        }
+      });
+      setBCData(listBCData);
     };
     fetchData();
   }, []);
 
   return (
     <React.Fragment>
-      {ageData && <BarChart data={ageData} />}
-      {raceData && <PieChart data={raceData} />}
+      <div
+        style={{
+          display: "flex",
+        }}
+      >
+        {ageData && <BarChart data={ageData} />}
+        {raceData && <PieChart data={raceData} />}
+        {birthCountryData && <PieChart data={birthCountryData} />}
+      </div>
       {movieDetails && <CastDetails cast={movieDetails.cast} />}
     </React.Fragment>
   );

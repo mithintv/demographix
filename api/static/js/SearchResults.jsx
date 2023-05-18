@@ -1,3 +1,8 @@
+const BrowserRouter = ReactRouter.BrowserRouter;
+const Routes = ReactRouter.Routes;
+const Route = ReactRouter.Route;
+const Link = ReactRouter.Link;
+
 const SearchResults = (props) => {
   const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
@@ -18,11 +23,13 @@ const SearchResults = (props) => {
               src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
               width={100}
             />
+            {/* <Link to={`/movies/${movie.id}`}> */}
             <a onClick={setMovieHandler.bind(this, movie.id)}>
               <p>
                 {movie.title} <span>({releaseDate.getFullYear()})</span>
               </p>
             </a>
+            {/* </Link> */}
           </div>
         );
       })}

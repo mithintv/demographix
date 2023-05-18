@@ -348,7 +348,7 @@ def get_movie_cast(movie_id):
         'revenue': movie.revenue,
         'cast': cast_details
     }
-    print(data)
+    print(f"Fetching details about {data['title']}...")
     return data
 
 

@@ -97,6 +97,9 @@ const MovieDetails = (props) => {
       <div style={{ width: "350px" }}>
         <svg ref={chartRef}></svg>
       </div>
+      <div>
+        <PieChart />
+      </div>
       {movieDetails &&
         movieDetails.cast.map((cast, index) => {
           let age = "Unknown";

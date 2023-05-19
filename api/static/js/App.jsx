@@ -1,4 +1,34 @@
-const { BrowserRouter, Route, Link } = ReactRouterDOM;
+const { BrowserRouter, Route, Link: RouterLink } = ReactRouterDOM;
+const {
+  Box,
+  colors,
+  CssBaseline,
+  Container,
+  Paper,
+  Link,
+  ThemeProvider,
+  createTheme,
+  TextField,
+  Typography,
+  InputBase,
+  IconButton,
+} = MaterialUI;
+
+// Create a theme instance.
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: "none",
+        },
+      },
+    },
+  },
+});
 
 const App = () => {
   const [topMovies, setTopMovies] = React.useState(false);
@@ -73,28 +103,61 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Link to="/">
-        <h1>Demographix!</h1>
-      </Link>
-      <form onSubmit={searchHandler}>
-        <label htmlFor="search">
-          <input
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Link component={RouterLink} to="/">
+          <Typography
+            variant="h1"
+            sx={{
+              textDecoration: "none",
+            }}
+          >
+            Demographix
+          </Typography>
+        </Link>
+        <Paper
+          onSubmit={searchHandler}
+          component="form"
+          sx={{
+            p: "0.25rem 1rem",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <InputBase
+            inputRef={searchRef}
             value={searchInput}
-            ref={searchRef}
-            onChange={searchInputHandler}
-            type="text"
+            id="outlined-basic"
             name="search"
+            label=""
+            placeholder="Search Movies"
+            variant="outlined"
+            onChange={searchInputHandler}
           />
-        </label>
-        <button type="submit">Search</button>
-      </form>
-      <Route path="/movies/:id" component={MovieDetails} exact></Route>
-      {searchMovies && <SearchResults results={searchResults} />}
+          <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+            <span className="material-symbols-outlined">search</span>
+          </IconButton>
+        </Paper>
+        <Route path="/movies/:id" component={MovieDetails} exact></Route>
+        {searchMovies && <SearchResults results={searchResults} />}
 
-      {/* {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
+        {/* {!topMovies && <button onClick={topMovieHandler}>Top 2022 movies</button>}
       {topMovies && <TopMovies />} */}
+      </Container>
     </BrowserRouter>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
+  document.getElementById("app")
+);

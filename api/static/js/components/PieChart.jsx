@@ -75,13 +75,15 @@ const PieChart = React.memo((props) => {
       .selectAll("allPolylines")
       .data(data_ready)
       .join("polyline")
-      .attr("stroke", "black")
+      .attr("stroke", "white")
       .style("fill", "none")
       .attr("stroke-width", 1)
       .attr("points", function (d) {
+        const centroid = outerArc.centroid(d);
+
         const posA = arc.centroid(d); // line insertion in the slice
-        const posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
-        const posC = outerArc.centroid(d); // Label position = almost the same as posB
+        const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
+        const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
         posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
         return [posA, posB, posC];
@@ -92,17 +94,39 @@ const PieChart = React.memo((props) => {
       .selectAll("allLabels")
       .data(data_ready)
       .join("text")
-      .text((d) => d.data.key)
       .attr("transform", function (d) {
         const pos = outerArc.centroid(d);
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         pos[0] = radius * 1 * (midangle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
       })
+      .style("fill", "white")
       .style("text-anchor", function (d) {
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         return midangle < Math.PI ? "start" : "end";
-      });
+      })
+      .append("tspan")
+      .text((d) => {
+        const label = d.data.key;
+        if (label.includes("/")) {
+          return label.split("/")[0] + "/";
+        }
+        if (label.includes(" ")) {
+          return label.split(" ")[0];
+        } else return label;
+      })
+      .append("tspan")
+      .text((d) => {
+        const label = d.data.key;
+        if (label.includes("/")) {
+          return label.split("/")[1];
+        }
+        if (label.includes(" ")) {
+          return label.split(" ")[1];
+        }
+      })
+      .attr("x", 0)
+      .attr("dy", "1em");
   }, []);
 
   return (

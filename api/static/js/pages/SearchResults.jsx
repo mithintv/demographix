@@ -23,6 +23,7 @@ const SearchResults = (props) => {
           <div key={index}>
             <img src={imgPath} width={100} />
             <Link
+              component={RouterLink}
               onClick={setMovieHandler.bind(this, movie.id)}
               to={`/movies/${movie.id}`}
             >

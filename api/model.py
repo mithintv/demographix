@@ -249,9 +249,12 @@ class CastEthnicity(db.Model):
         db.Integer, db.ForeignKey("ethnicities.id"))
     cast_member_id = db.Column(
         db.Integer, db.ForeignKey("cast_members.id"))
+    source_id = db.Column(db.Integer, db.ForeignKey("source_links.id"), nullable=True)
+
+    source = db.relationship("SourceLink", back_populates="cast_ethnicity")
 
     def __repr__(self):
-        return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>'
+        return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id} source_id={self.source_id}>'
 
 
 class Race(db.Model):
@@ -282,6 +285,38 @@ class CastRace(db.Model):
 
     def __repr__(self):
         return f'<CastRace race_id={self.race_id} cast_id={self.cast_member_id}>'
+
+
+class Source(db.Model):
+    """A table listing demographic data sources."""
+
+    __tablename__ = 'sources'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(25))
+    domain = db.Column(db.String())
+
+    links = db.relationship("SourceLink", uselist=True,back_populates="source")
+
+    def __repr__(self):
+        return f'<Source id={self.id} name={self.name} domain={self.domain}>'
+
+
+class SourceLink(db.Model):
+    """An association table for demographic data sources and the data they are providing."""
+
+    __tablename__ = 'source_links'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    source_id = db.Column(db.Integer, db.ForeignKey("sources.id"))
+    link = db.Column(db.String())
+    cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
+
+    source = db.relationship("Source", back_populates="links")
+    cast_ethnicity = db.relationship("CastEthnicity", back_populates="source")
+
+    def __repr__(self):
+        return f'<SourceLink id={self.id} source_id={self.source_id} link={self.link} ce_id={self.cast_ethnicity_id}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):

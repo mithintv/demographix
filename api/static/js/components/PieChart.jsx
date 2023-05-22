@@ -78,9 +78,9 @@ const PieChart = React.memo((props) => {
       .attr("stroke", "white")
       .style("fill", "none")
       .attr("stroke-width", 1)
-      .attr("points", function (d) {
+      .attr("points", function (d, i) {
         const centroid = outerArc.centroid(d);
-
+        console.log(centroid, arc.centroid(d));
         const posA = arc.centroid(d); // line insertion in the slice
         const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
         const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB
@@ -98,6 +98,7 @@ const PieChart = React.memo((props) => {
         const pos = outerArc.centroid(d);
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         pos[0] = radius * 1 * (midangle < Math.PI ? 1 : -1);
+        pos[1] += 2.5;
         return `translate(${pos})`;
       })
       .style("fill", "white")

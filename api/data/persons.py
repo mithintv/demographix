@@ -42,5 +42,5 @@ def fetch_missing_person_data_api(attribute='profile_path'):
                 f"Added profile_path: {person[attribute]} to {cast_member.name}")
     db.session.commit()
 
-
-fetch_missing_person_data_api()
+# fetch_missing_person_data_json()
+# fetch_missing_person_data_api()

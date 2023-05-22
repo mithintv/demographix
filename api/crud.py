@@ -5,12 +5,37 @@ import os
 import time
 from datetime import datetime
 from sqlalchemy import func, and_, or_
-from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEthnicity, Race, Country, AltCountry, connect_to_db
+from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEthnicity,CastEthnicity, Race, Source, SourceLink, Country, AltCountry, connect_to_db
 
 from data.ethnicity import *
+from data.palm import *
 
 key = os.environ['TMDB_API_KEY']
 access_token = os.environ['TMDB_ACCESS_TOKEN']
+
+
+def add_ethnicity_data(new_person, ethnicity_list, source):
+    # Check for duplicates
+    add_ethnicities = set([])
+    for curr in new_person.ethnicities:
+        add_ethnicities.add(curr.id)
+
+    for ethnicity in ethnicity_list:
+        ethnicity_object = Ethnicity.query.outerjoin(AltEthnicity).filter(
+            (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
+
+        if ethnicity_object is not None and ethnicity_object.id not in add_ethnicities:
+            formatted_source = "".join(source.split(".")[1:3])
+            print(formatted_source)
+            original_source = Source.query.filter(Source.domain.like(f'${formatted_source}$'))
+            new_source_link = SourceLink(link=source, source_id=original_source.id)
+            cast_ethnicity = CastEthnicity(ethnicity_id = ethnicity_object.id,cast_member_id = new_person.id, source_id = new_source_link.id)
+            new_source_link.cast_ethnicity_id = cast_ethnicity.id
+
+            add_ethnicities.add(ethnicity_object.id)
+            print(
+                f"Adding {ethnicity_object.name} to {new_person.name}")
+            new_person.ethnicities.append(ethnicity_object)
 
 
 def get_regions():
@@ -53,7 +78,7 @@ def update_movie_with_movie_details(movie, movie_details):
     print(f'Updated existing movie: {movie.title}')
 
 
-def add_cast_member(person):
+def add_cast_member(person, movie_title):
     """Add cast member information from api call."""
 
     new_person = CastMember.query.filter(CastMember.id == person['id']).first()
@@ -92,23 +117,18 @@ def add_cast_member(person):
 
     # Add ethnicity data
     print(f"Finding ethnicity information about {new_person.name}...")
-    ethnicity_list = get_ethnicity(person)
-    if ethnicity_list != None:
-
-        # Check for duplicates
-        add_ethnicities = set([])
-        for curr in new_person.ethnicities:
-            add_ethnicities.add(curr.id)
-
-        for ethnicity in ethnicity_list:
-            ethnicity_object = Ethnicity.query.outerjoin(AltEthnicity).filter(
-                (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
-
-            if ethnicity_object is not None and ethnicity_object.id not in add_ethnicities:
-                add_ethnicities.add(ethnicity_object.id)
-                print(
-                    f"Adding {ethnicity_object.name} to {new_person.name}")
-                new_person.ethnicities.append(ethnicity_object)
+    ethnicity_list, source = get_ethnicity(person)
+    if ethnicity_list == None:
+        print(f"Attempting to find ethnicity information from PaLM API...")
+        data = palm_completion(new_person.name, movie_title)
+        if data.get('ethnicity', None) != None:
+            ethnicity_list = data['ethnicity']
+            source = data['source']
+            add_ethnicity_data(new_person, ethnicity_list, source)
+        else:
+            print("PaLM API did not result in meaningful answer...")
+    else:
+        add_ethnicity_data(new_person, ethnicity_list, source)
 
     # Add race data
     print(f"Adding approximate race data...")
@@ -266,7 +286,7 @@ def query_api_credits(movie_id):
     return movie_credits['cast']
 
 
-def query_api_people(credit_list):
+def query_api_people(credit_list, movie_title):
     """Create cast members for given list of credits."""
 
     cast_member_list = []
@@ -281,7 +301,7 @@ def query_api_people(credit_list):
             response = requests.get(url)
             person = response.json()
 
-            cast_member = add_cast_member(person)
+            cast_member = add_cast_member(person, movie_title)
             cast_member_list.append(cast_member)
 
     db.session.add_all(cast_member_list)
@@ -302,7 +322,7 @@ def get_movie_cast(movie_id):
 
         # Get cast list and add cast members
         cast_credit_list = query_api_credits(movie_id)
-        query_api_people(cast_credit_list)
+        query_api_people(cast_credit_list, movie.title)
 
         # Add credits after adding cast members
         add_credits(cast_credit_list, movie)

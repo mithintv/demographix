@@ -27,27 +27,27 @@ def add_ethnicity_data(new_person, ethnicity_list, source):
         if ethnicity_object is not None and ethnicity_object.id not in add_ethnicities:
 
             # Query/Add source
-            formatted_source = ".".join(source.split(".")[1:3], ".")
+            formatted_source = (".".join(source.split(".")[1:3])).split("/")[0]
             print(formatted_source)
             original_source = Source.query.filter(
-                Source.domain.like(f'${formatted_source}$'))
+                Source.domain.like(f'%{formatted_source}%')).first()
+            print(original_source)
             if original_source == None:
-                original_source = Source(name=f"{formatted_source.split('.')[1].capitalize()}", domain=f"https://{formatted_source}")
+                original_source = Source(name=f"{formatted_source.split('.')[0].capitalize()}", domain=f"https://{formatted_source}")
                 db.session.add(original_source)
-                db.session.commit()
+                print(f"Added new source: {original_source.name} to db!")
 
-            new_source_link = SourceLink(
-                link=source, source_id=original_source)
+            new_source_link = SourceLink(id=1, link=source, source_id=original_source.id)
             db.session.add(new_source_link)
-            db.session.commit()
+            print(f"Added new source link: {new_source_link.link} to db!")
 
             cast_ethnicity = CastEthnicity(
-                ethnicity_id=ethnicity_object, cast_member_id=new_person)
+                ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
             cast_ethnicity.sources.append(new_source_link)
+            db.session.add(cast_ethnicity)
 
             print(
                 f"Adding {ethnicity_object.name} to {new_person.name}")
-            new_person.ethnicities.append(ethnicity_object)
 
 
 def get_regions():
@@ -88,6 +88,17 @@ def update_movie_with_movie_details(movie, movie_details):
     movie.revenue = movie_details["revenue"]
 
     print(f'Updated existing movie: {movie.title}')
+
+
+def update_cast_member(person):
+    curr_person = CastMember.query.filter(CastMember.id == person.id).first()
+    if curr_person != None:
+        # Add ethnicity data
+        print(f"Finding ethnicity information about {curr_person.name}...")
+        results = get_ethnicity(person)
+        if results['list'] != None:
+            add_ethnicity_data(curr_person, results['list'], results['source'])
+            db.session.commit()
 
 
 def add_cast_member(person, movie_title):
@@ -342,15 +353,20 @@ def get_movie_cast(movie_id):
         Movie.id == movie_id).order_by(
         Credit.order).all()
 
-    for cast in cast_list:
-        print(cast.CastMember.name)
-
     cast_details = []
 
     for cast in cast_list:
         cast_member = CastMember.query.filter(
             CastMember.id == cast.CastMember.id).one()
-        ethnicities = [ethnicity.name for ethnicity in cast_member.ethnicities]
+
+        ethnicities = []
+        for ethnicity in cast_member.ethnicities:
+            cast_eth = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == cast_member.id, CastEthnicity.ethnicity_id == ethnicity.id)).first()
+            ethnicities.append({
+                'name': ethnicity.name,
+                'sources': [source.link for source in cast_eth.sources]
+            })
+
         races = [race.name for race in cast_member.races]
 
         new_cast = {'name': cast.CastMember.name,

@@ -253,7 +253,7 @@ class CastEthnicity(db.Model):
     sources = db.relationship("SourceLink", back_populates="cast_ethnicity")
 
     def __repr__(self):
-        return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id} source_id={self.source_id}>'
+        return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>'
 
 
 class Race(db.Model):

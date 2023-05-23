@@ -5,22 +5,21 @@ import openai
 openai.api_key = os.environ['OPEN_AI_KEY']
 
 
-def txtcomp(source, content, person):
+def txtcomp(article, person):
 
-    rawtxt = f'''Based on the following excerpt from {source}: {content} What is a semi-accurate data model that one could use to depict {person}'s approximate race and ethnicity as a json object using just a race and ethnicity key?'''
+    prompt = f"""Based on the following information: "{article}", list all of the ethnicities of actor/actress {person} in JSON"""
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a chatbot"},
-            {"role": "user", "content": rawtxt},
+            {"role": "user", "content": prompt},
         ]
     )
 
     result = ''
     for choice in response.choices:
         result += choice.message.content
-    print(result)
 
     pattern = re.compile(r'{(.*?)}', re.DOTALL)
     match = pattern.search(result)
@@ -28,7 +27,6 @@ def txtcomp(source, content, person):
     if match:
         block = match.group()
         data = json.loads(block)
-        print(data)
         return data
 
 

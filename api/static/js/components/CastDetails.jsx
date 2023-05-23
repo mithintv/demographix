@@ -31,7 +31,11 @@ const CastDetails = React.memo((props) => {
             <div>
               Ethnicity:{" "}
               {cast.ethnicity.map((ethnicity, k) => {
-                return <span key={k}>{ethnicity}, </span>;
+                return (
+                  <span key={k}>
+                    {ethnicity.name} ({ethnicity.sources}),{" "}
+                  </span>
+                );
               })}
             </div>
             <span>Country of Birth: {cast.country_of_birth} </span>

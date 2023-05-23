@@ -11,8 +11,8 @@ model = models[0].name
 print(f"Using {model}...")
 
 
-def palm_completion(person, movie_name):
-  prompt = f"""List all of the ethnicities and the source of the information of actor/actress {person} who starred in {movie_name} in JSON"""
+def palm_completion(person, article):
+  prompt = f"""Based on the following information: "{article}", list all of the ethnicities of actor/actress {person} in JSON"""
   completion = palm.generate_text(
     model=model,
     prompt=prompt,
@@ -23,6 +23,4 @@ def palm_completion(person, movie_name):
   match = re.search(r'\{(.|\n)*\}', completion.result)
   if match:
     result = match.group()
-    print(result)
-  return result
-  # return completion.result
+  return json.loads(result)

@@ -1,6 +1,8 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+from data.gpt import *
+from data.palm import *
 
 
 def parse_ethnicelebs(txt):
@@ -58,13 +60,13 @@ def ethnicelebs(person_name):
             print(ethnicity_description)
 
             return {
-                list: parse_ethnicelebs(ethnicity_description),
-                url: response.url
+                "list": parse_ethnicelebs(ethnicity_description),
+                "source": response.url
             }
 
         else:
             print(f"Page was loaded but no ethnicity information on ethnicelebs.com")
-            return None
+            return {}
 
     else:
         if response.url != url:
@@ -73,24 +75,70 @@ def ethnicelebs(person_name):
             print("URL changed... request aborted...")
         if response.status_code == 404:
             print(f"Could not find {person_name} on ethnicelebs.com")
-        return None
+        return {}
+
+
+def wikipedia(person_name):
+    """Given cast name, use wikipedia.org to return early life prompt for PaLM."""
+
+    url = f"https://wikipedia.org/wiki/{person_name}"
+    response = requests.get(
+        url,
+        headers={
+            "Content-Type": "text/html",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        },
+    )
+    print(response, response.url)
+    soup = BeautifulSoup(response.text, features="html.parser")
+    if response.status_code == 200:
+        early_life = soup.find(id='Early_life')
+        if early_life == None:
+            early_life = soup.find(id='Early_life_and_education')
+        siblings = early_life.find_parent().find_next_siblings()
+
+        paras = []
+        for element in siblings:
+            if element.name == 'h2':
+                break
+            paras.append(element)
+
+        wiki_text = ""
+        for sentence in paras:
+            wiki_text += sentence.get_text()
+
+        print(wiki_text)
+
+        # result = gpt.txtcomp(wiki_text, person_name)
+        result = palm_completion(wiki_text, person_name)
+        return {
+            "list": result['ethnicity'],
+            "source": response.url
+        }
 
 
 def get_ethnicity(person):
     """Return list of ethnicities for a given person."""
 
+    if type(person) == dict:
+        person_name = person["name"].lower().replace(" ", "-").replace(".", "")
+    else:
+        person_name = person.name
+
     # Try ethnicelebs.com
-    person_name = person["name"].lower().replace(" ", "-").replace(".", "")
     results = ethnicelebs(person_name)
-    if results['list'] is None:
-        for alt_name in person["also_known_as"]:
-            formatted_alt_name = alt_name.lower().replace(" ", "-").replace(".", "")
-            print(f"Attempting {formatted_alt_name} on ethnicelebs.com")
-            results = ethnicelebs(formatted_alt_name)
-            if results['list'] is not None:
-                return results
+    if results.get('list', None) is None:
+        if type(person) == dict:
+            for alt_name in person["also_known_as"]:
+                formatted_alt_name = alt_name.lower().replace(" ", "-").replace(".", "")
+                print(f"Attempting {formatted_alt_name} on ethnicelebs.com")
+                results = ethnicelebs(formatted_alt_name)
+                if results.get('list', None) is not None:
+                    return results
 
     # Try wikipedia.org
-    
+    print(f"Attempting {person_name} on wikipedia.org")
+    results = wikipedia(person_name)
+    print(results)
 
     return results

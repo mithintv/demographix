@@ -251,7 +251,7 @@ class CastEthnicity(db.Model):
 
     cast_member = db.relationship("CastMember", back_populates='ethnicities')
     ethnicity = db.relationship("Ethnicity", back_populates='cast_ethnicity')
-    sources = db.relationship("SourceLink", back_populates="cast_ethnicity")
+    sources = db.relationship("SourceLink", secondary="cast_ethnicity_source_links", back_populates="cast_ethnicities")
 
     def __repr__(self):
         return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>'
@@ -310,13 +310,25 @@ class SourceLink(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     source_id = db.Column(db.Integer, db.ForeignKey("sources.id"))
     link = db.Column(db.String())
-    cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
 
     source = db.relationship("Source", back_populates="links")
-    cast_ethnicity = db.relationship("CastEthnicity", back_populates="sources")
+    cast_ethnicities = db.relationship("CastEthnicity", secondary="cast_ethnicity_source_links", back_populates="sources")
 
     def __repr__(self):
-        return f'<SourceLink id={self.id} source_id={self.source_id} link={self.link} ce_id={self.cast_ethnicity_id}>'
+        return f'<SourceLink id={self.id} source_id={self.source_id} link={self.link}>'
+
+
+class CastEthnicitySourceLink(db.Model):
+    """An association table for cast ethnicities and the source links they are retrieved from."""
+
+    __tablename__ = 'cast_ethnicity_source_links'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    source_link_id = db.Column(db.Integer, db.ForeignKey("source_links.id"))
+    cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
+
+    def __repr__(self):
+        return f'<CastEthnicitySourceLink id={self.id} source_link_id={self.source_link_id} link={self.link} cast_ethnicity_id={self.cast_ethnicity_id}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):

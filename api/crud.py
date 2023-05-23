@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime
 from sqlalchemy import func, and_, or_
-from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEthnicity,CastEthnicity, Race, Source, SourceLink, Country, AltCountry, connect_to_db
+from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEthnicity, CastEthnicity, Race, Source, SourceLink, Country, AltCountry, connect_to_db
 
 from data.ethnicity import *
 from data.palm import *
@@ -25,14 +25,26 @@ def add_ethnicity_data(new_person, ethnicity_list, source):
             (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
 
         if ethnicity_object is not None and ethnicity_object.id not in add_ethnicities:
-            formatted_source = "".join(source.split(".")[1:3])
-            print(formatted_source)
-            original_source = Source.query.filter(Source.domain.like(f'${formatted_source}$'))
-            new_source_link = SourceLink(link=source, source_id=original_source.id)
-            cast_ethnicity = CastEthnicity(ethnicity_id = ethnicity_object.id,cast_member_id = new_person.id, source_id = new_source_link.id)
-            new_source_link.cast_ethnicity_id = cast_ethnicity.id
 
-            add_ethnicities.add(ethnicity_object.id)
+            # Query/Add source
+            formatted_source = ".".join(source.split(".")[1:3], ".")
+            print(formatted_source)
+            original_source = Source.query.filter(
+                Source.domain.like(f'${formatted_source}$'))
+            if original_source == None:
+                original_source = Source(name=f"{formatted_source.split('.')[1].capitalize()}", domain=f"https://{formatted_source}")
+                db.session.add(original_source)
+                db.session.commit()
+
+            new_source_link = SourceLink(
+                link=source, source_id=original_source)
+            db.session.add(new_source_link)
+            db.session.commit()
+
+            cast_ethnicity = CastEthnicity(
+                ethnicity_id=ethnicity_object, cast_member_id=new_person)
+            cast_ethnicity.sources.append(new_source_link)
+
             print(
                 f"Adding {ethnicity_object.name} to {new_person.name}")
             new_person.ethnicities.append(ethnicity_object)
@@ -117,18 +129,9 @@ def add_cast_member(person, movie_title):
 
     # Add ethnicity data
     print(f"Finding ethnicity information about {new_person.name}...")
-    ethnicity_list, source = get_ethnicity(person)
-    if ethnicity_list == None:
-        print(f"Attempting to find ethnicity information from PaLM API...")
-        data = palm_completion(new_person.name, movie_title)
-        if data.get('ethnicity', None) != None:
-            ethnicity_list = data['ethnicity']
-            source = data['source']
-            add_ethnicity_data(new_person, ethnicity_list, source)
-        else:
-            print("PaLM API did not result in meaningful answer...")
-    else:
-        add_ethnicity_data(new_person, ethnicity_list, source)
+    results = get_ethnicity(person)
+    if results['list'] != None:
+        add_ethnicity_data(new_person, results.list, results.source)
 
     # Add race data
     print(f"Adding approximate race data...")
@@ -331,17 +334,20 @@ def get_movie_cast(movie_id):
         CastMember,
         Gender,
         Country,
-        Credit
-    ).join(Gender, Gender.id == CastMember.gender_id
-           ).join(Country, Country.id == CastMember.country_of_birth_id
-                  ).join(Credit, Credit.cast_member_id == CastMember.id
-                         ).join(Movie, Movie.id == Credit.movie_id
-                                ).filter(Movie.id == movie_id
-                                         ).order_by(Credit.order).all()
+        Credit).join(
+        Credit, Credit.cast_member_id == CastMember.id, isouter=True).join(
+        Gender, Gender.id == CastMember.gender_id, isouter=True).join(
+        Country, Country.id == CastMember.country_of_birth_id, isouter=True).join(
+        Movie, Movie.id == Credit.movie_id, isouter=True).filter(
+        Movie.id == movie_id).order_by(
+        Credit.order).all()
+
+    for cast in cast_list:
+        print(cast.CastMember.name)
 
     cast_details = []
-    for cast in cast_list:
 
+    for cast in cast_list:
         cast_member = CastMember.query.filter(
             CastMember.id == cast.CastMember.id).one()
         ethnicities = [ethnicity.name for ethnicity in cast_member.ethnicities]
@@ -352,7 +358,7 @@ def get_movie_cast(movie_id):
                     'gender': cast.Gender.name,
                     'ethnicity': ethnicities,
                     'race': races,
-                    'country_of_birth': cast.Country.name,
+                    'country_of_birth': cast.Country.name if cast.Country else None,
                     'character': cast.Credit.character,
                     'order': cast.Credit.order,
                     'profile_path': cast.CastMember.profile_path}

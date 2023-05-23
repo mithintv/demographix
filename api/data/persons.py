@@ -45,17 +45,29 @@ def fetch_missing_person_data_api(attribute='profile_path'):
     db.session.commit()
 
 
-def fetch_missing_ethnicity_sources_json():
+def fetch_missing_ethnicity_sources_json(name=None):
     with open('data/persons.json', 'r') as file:
         data = json.load(file)
 
-        for cast_dict in data[:1]:
-            cast_obj = CastMember.query.filter_by(
-                id=cast_dict['id']).one()
-            for cast_ethnicity in cast_obj.ethnicities:
-                if len(cast_ethnicity.sources) == 0:
-                    update_cast_member(cast_obj, cast_dict)
+        if name != None:
+            cast_obj = CastMember.query.filter_by(name=name).one()
+            cast_dict = None
+            for cast in data:
+                if cast['id'] == cast_obj.id:
+                    cast_dict = cast
+            update_cast_member(cast_obj, cast_dict)
+            print("Sleeping for 5 seconds...\n")
+
+        else:
+            for cast_dict in data:
+                cast_obj = CastMember.query.filter_by(
+                    id=cast_dict['id']).one()
+                for cast_ethnicity in cast_obj.ethnicities:
+                    if len(cast_ethnicity.sources) == 0:
+                        update_cast_member(cast_obj, cast_dict)
+                        print("Sleeping for 5 seconds...\n")
+                        time.sleep(5)
 
 # fetch_missing_person_data_json()
 # fetch_missing_person_data_api()
-fetch_missing_ethnicity_sources_json()
+# fetch_missing_ethnicity_sources_json()

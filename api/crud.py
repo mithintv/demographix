@@ -39,6 +39,7 @@ def add_source_data(new_person, ethnicity_object, source):
             ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
         db.session.add(cast_ethnicity)
     cast_ethnicity.sources.append(new_source_link)
+    print(f"Added new source link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}\n")
 
 
 def add_ethnicity_data(new_person, ethnicity_list, source):

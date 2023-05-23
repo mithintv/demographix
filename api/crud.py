@@ -25,20 +25,20 @@ def add_source_data(new_person, ethnicity_object, source):
     if original_source == None:
         original_source = Source(name=f"{formatted_source.split('.')[0].capitalize()}", domain=f"https://{formatted_source}")
         db.session.add(original_source)
-        print(f"Added new source: {original_source.name} to db!")
+        print(f"Adding new source: {original_source.name} to db!")
 
-    new_source_link = SourceLink(link=source, source_id=original_source.id)
-    db.session.add(new_source_link)
-    print(f"Added new source link: {new_source_link.link} to db!")
+    new_source_link = SourceLink.query.filter(SourceLink.link == source).first()
+    if new_source_link == None:
+        new_source_link = SourceLink(link=source, source_id=original_source.id)
+        db.session.add(new_source_link)
+        print(f"Adding new source link: {new_source_link.link} to db!")
 
     cast_ethnicity = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == new_person.id, CastEthnicity.ethnicity_id == ethnicity_object.id)).first()
-    print(cast_ethnicity)
-
     if cast_ethnicity == None:
         cast_ethnicity = CastEthnicity(
             ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
+        db.session.add(cast_ethnicity)
     cast_ethnicity.sources.append(new_source_link)
-    db.session.add(cast_ethnicity)
 
 
 def add_ethnicity_data(new_person, ethnicity_list, source):

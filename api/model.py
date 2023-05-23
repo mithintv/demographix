@@ -175,7 +175,7 @@ class CastMember(db.Model):
     country_of_birth = db.relationship("Country", back_populates="births")
     credits = db.relationship("Credit", back_populates="cast_member")
     ethnicities = db.relationship(
-        "Ethnicity", secondary="cast_ethnicities", uselist=True, back_populates="cast")
+        "CastEthnicity", uselist=True, back_populates="cast_member")
     races = db.relationship(
         "Race", secondary="cast_races", uselist=True, back_populates="cast")
     # nationalities = db.relationship("Nationality", back_populates="cast")
@@ -213,8 +213,7 @@ class Ethnicity(db.Model):
         "AltEthnicity", back_populates="ethnicity")
     region = db.relationship("Region", back_populates="ethnicities")
     subregion = db.relationship("SubRegion", back_populates="ethnicities")
-    cast = db.relationship(
-        "CastMember", secondary="cast_ethnicities", back_populates="ethnicities")
+    cast_ethnicity = db.relationship("CastEthnicity", back_populates="ethnicity")
 
     def __repr__(self):
         return f'<Ethnicity id={self.id} name={self.name}>'
@@ -250,6 +249,8 @@ class CastEthnicity(db.Model):
     cast_member_id = db.Column(
         db.Integer, db.ForeignKey("cast_members.id"))
 
+    cast_member = db.relationship("CastMember", back_populates='ethnicities')
+    ethnicity = db.relationship("Ethnicity", back_populates='cast_ethnicity')
     sources = db.relationship("SourceLink", back_populates="cast_ethnicity")
 
     def __repr__(self):

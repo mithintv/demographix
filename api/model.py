@@ -249,9 +249,8 @@ class CastEthnicity(db.Model):
         db.Integer, db.ForeignKey("ethnicities.id"))
     cast_member_id = db.Column(
         db.Integer, db.ForeignKey("cast_members.id"))
-    source_id = db.Column(db.Integer, db.ForeignKey("source_links.id"), nullable=True)
 
-    source = db.relationship("SourceLink", back_populates="cast_ethnicity")
+    sources = db.relationship("SourceLink", back_populates="cast_ethnicity")
 
     def __repr__(self):
         return f'<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id} source_id={self.source_id}>'
@@ -296,7 +295,7 @@ class Source(db.Model):
     name = db.Column(db.String(25))
     domain = db.Column(db.String())
 
-    links = db.relationship("SourceLink", uselist=True,back_populates="source")
+    links = db.relationship("SourceLink", uselist=True, back_populates="source")
 
     def __repr__(self):
         return f'<Source id={self.id} name={self.name} domain={self.domain}>'
@@ -313,7 +312,7 @@ class SourceLink(db.Model):
     cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
 
     source = db.relationship("Source", back_populates="links")
-    cast_ethnicity = db.relationship("CastEthnicity", back_populates="source")
+    cast_ethnicity = db.relationship("CastEthnicity", back_populates="sources")
 
     def __repr__(self):
         return f'<SourceLink id={self.id} source_id={self.source_id} link={self.link} ce_id={self.cast_ethnicity_id}>'

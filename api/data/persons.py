@@ -4,6 +4,8 @@ import requests
 import json
 from model import db, CastMember
 from app import app
+from crud import *
+from data.ethnicity import *
 
 key = os.environ['TMDB_API_KEY']
 
@@ -42,5 +44,18 @@ def fetch_missing_person_data_api(attribute='profile_path'):
                 f"Added profile_path: {person[attribute]} to {cast_member.name}")
     db.session.commit()
 
+
+def fetch_missing_ethnicity_sources_json():
+    with open('data/persons.json', 'r') as file:
+        data = json.load(file)
+
+        for cast_dict in data[:1]:
+            cast_obj = CastMember.query.filter_by(
+                id=cast_dict['id']).one()
+            for cast_ethnicity in cast_obj.ethnicities:
+                if len(cast_ethnicity.sources) == 0:
+                    update_cast_member(cast_obj, cast_dict)
+
 # fetch_missing_person_data_json()
 # fetch_missing_person_data_api()
+fetch_missing_ethnicity_sources_json()

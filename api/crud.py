@@ -14,37 +14,51 @@ key = os.environ['TMDB_API_KEY']
 access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 
+def add_source_data(new_person, ethnicity_object, source):
+    formatted_source = "/".join(source.split("/")[0:3])
+    print(formatted_source)
+
+    original_source = Source.query.filter(
+        Source.domain.like(f'%{formatted_source}%')).first()
+    print(original_source)
+
+    if original_source == None:
+        original_source = Source(name=f"{formatted_source.split('.')[0].capitalize()}", domain=f"https://{formatted_source}")
+        db.session.add(original_source)
+        print(f"Added new source: {original_source.name} to db!")
+
+    new_source_link = SourceLink(link=source, source_id=original_source.id)
+    db.session.add(new_source_link)
+    print(f"Added new source link: {new_source_link.link} to db!")
+
+    cast_ethnicity = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == new_person.id, CastEthnicity.ethnicity_id == ethnicity_object.id)).first()
+    print(cast_ethnicity)
+
+    if cast_ethnicity == None:
+        cast_ethnicity = CastEthnicity(
+            ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
+    cast_ethnicity.sources.append(new_source_link)
+    db.session.add(cast_ethnicity)
+
+
 def add_ethnicity_data(new_person, ethnicity_list, source):
     # Check for duplicates
-    add_ethnicities = set([])
-    for curr in new_person.ethnicities:
-        add_ethnicities.add(curr.id)
+    existing_ethnicities = set([])
+    for cast_ethnicity in new_person.ethnicities:
+        existing_ethnicities.add(cast_ethnicity.ethnicity.id)
+        # Update existing ethnicity sources
+        if len(cast_ethnicity.sources) == 0:
+            add_source_data(new_person, cast_ethnicity.ethnicity, source)
 
+    # Add new ethnicities
     for ethnicity in ethnicity_list:
         ethnicity_object = Ethnicity.query.outerjoin(AltEthnicity).filter(
             (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
 
-        if ethnicity_object is not None and ethnicity_object.id not in add_ethnicities:
+        if ethnicity_object is not None and ethnicity_object.id not in existing_ethnicities:
 
             # Query/Add source
-            formatted_source = (".".join(source.split(".")[1:3])).split("/")[0]
-            print(formatted_source)
-            original_source = Source.query.filter(
-                Source.domain.like(f'%{formatted_source}%')).first()
-            print(original_source)
-            if original_source == None:
-                original_source = Source(name=f"{formatted_source.split('.')[0].capitalize()}", domain=f"https://{formatted_source}")
-                db.session.add(original_source)
-                print(f"Added new source: {original_source.name} to db!")
-
-            new_source_link = SourceLink(id=1, link=source, source_id=original_source.id)
-            db.session.add(new_source_link)
-            print(f"Added new source link: {new_source_link.link} to db!")
-
-            cast_ethnicity = CastEthnicity(
-                ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
-            cast_ethnicity.sources.append(new_source_link)
-            db.session.add(cast_ethnicity)
+            add_source_data(new_person, ethnicity_object, source)
 
             print(
                 f"Adding {ethnicity_object.name} to {new_person.name}")
@@ -90,12 +104,12 @@ def update_movie_with_movie_details(movie, movie_details):
     print(f'Updated existing movie: {movie.title}')
 
 
-def update_cast_member(person):
-    curr_person = CastMember.query.filter(CastMember.id == person.id).first()
+def update_cast_member(person_obj=None, person_dict=None):
+    curr_person = CastMember.query.filter(CastMember.id == person_obj.id).first()
     if curr_person != None:
-        # Add ethnicity data
+        # Add/Update ethnicity data
         print(f"Finding ethnicity information about {curr_person.name}...")
-        results = get_ethnicity(person)
+        results = get_ethnicity(person_obj, person_dict)
         if results['list'] != None:
             add_ethnicity_data(curr_person, results['list'], results['source'])
             db.session.commit()
@@ -360,11 +374,10 @@ def get_movie_cast(movie_id):
             CastMember.id == cast.CastMember.id).one()
 
         ethnicities = []
-        for ethnicity in cast_member.ethnicities:
-            cast_eth = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == cast_member.id, CastEthnicity.ethnicity_id == ethnicity.id)).first()
+        for cast_ethnicity in cast_member.ethnicities:
             ethnicities.append({
-                'name': ethnicity.name,
-                'sources': [source.link for source in cast_eth.sources]
+                'name': cast_ethnicity.ethnicity.name,
+                'sources': [source.link for source in cast_ethnicity.sources]
             })
 
         races = [race.name for race in cast_member.races]

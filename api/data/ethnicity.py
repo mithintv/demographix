@@ -11,7 +11,6 @@ def parse_ethnicelebs(txt):
     ethnicity_list = set([])
     _, ethnicities = txt.split(":")
     all_words = re.split(r"[\,\*/\[\]]|\band\b|\bor\b|\n", ethnicities)
-    print(all_words)
 
     for category in all_words:
         formatted = category.replace(",", "")
@@ -37,7 +36,7 @@ def parse_ethnicelebs(txt):
 
             # print(f"word: '{new_str}'")
 
-    print(ethnicity_list)
+    print(f"Parsed Ethnicities: {ethnicity_list}")
     return list(ethnicity_list)
 
 
@@ -117,28 +116,28 @@ def wikipedia(person_name):
         }
 
 
-def get_ethnicity(person):
+def get_ethnicity(person_obj, person_dict=None):
     """Return list of ethnicities for a given person."""
 
-    if type(person) == dict:
-        person_name = person["name"].lower().replace(" ", "-").replace(".", "")
+    if person_dict:
+        person_name = person_dict["name"].lower().replace(" ", "-").replace(".", "")
     else:
-        person_name = person.name
+        person_name = person_obj.name
 
     # Try ethnicelebs.com
     results = ethnicelebs(person_name)
     if results.get('list', None) is None:
-        if type(person) == dict:
-            for alt_name in person["also_known_as"]:
+        if person_dict:
+            for alt_name in person_dict["also_known_as"]:
                 formatted_alt_name = alt_name.lower().replace(" ", "-").replace(".", "")
                 print(f"Attempting {formatted_alt_name} on ethnicelebs.com")
                 results = ethnicelebs(formatted_alt_name)
                 if results.get('list', None) is not None:
                     return results
-
-    # Try wikipedia.org
-    print(f"Attempting {person_name} on wikipedia.org")
-    results = wikipedia(person_name)
-    print(results)
-
+                else:
+                    # Try wikipedia.org
+                    print(f"Attempting {person_name} on wikipedia.org")
+                    results = wikipedia(person_name)
+                    print(results)
+                    return results
     return results

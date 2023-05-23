@@ -53,7 +53,7 @@ def ethnicelebs(person_name):
     )
     soup = BeautifulSoup(response.text, features="html.parser")
 
-    if response.status_code == 200 and response.url == url:
+    if response.status_code == 200 and len(response.url) == len(url):
         if soup.strong != None:
             ethnicity_description = soup.strong.get_text()
             print(ethnicity_description)
@@ -68,10 +68,10 @@ def ethnicelebs(person_name):
             return {}
 
     else:
-        if response.url != url:
+        if len(response.url) == len(url):
             print(f"Request URL: {url}")
             print(f"Response URL: {response.url}")
-            print("URL changed... request aborted...")
+            print("URL length changed... request aborted...")
         if response.status_code == 404:
             print(f"Could not find {person_name} on ethnicelebs.com")
         return {}
@@ -136,8 +136,8 @@ def get_ethnicity(person_obj, person_dict=None):
                     return results
                 else:
                     # Try wikipedia.org
-                    print(f"Attempting {person_name} on wikipedia.org")
-                    results = wikipedia(person_name)
+                    print(f"Attempting {person_obj.name} on wikipedia.org")
+                    results = wikipedia(person_obj.name)
                     print(results)
                     return results
     return results

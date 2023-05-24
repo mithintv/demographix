@@ -98,9 +98,38 @@ class Movie(db.Model):
     genres = db.relationship(
         "Genre", secondary="media_genres", uselist=True, back_populates="movies")
     credits = db.relationship("Credit", back_populates="movie")
+    nominations = db.relationship("Nomination", secondary="movie_nominations", back_populates="movies")
 
     def __repr__(self):
         return f'<Movie id={self.id} title={self.title}>'
+
+
+class Nomination(db.Model):
+    """A nomination."""
+
+    __tablename__ = 'nominations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(25))
+    year = db.Column(db.Integer)
+
+    movies = db.relationship("Movie", secondary="movie_nominations", back_populates="nominations")
+
+    def __repr__(self):
+        return f'<Nomination id={self.id} name={self.name} year={self.year}>'
+
+
+class MovieNomination(db.Model):
+    """An association table for movies and their respective nominations."""
+
+    __tablename__ = 'movie_nominations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.id"))
+    nomination_id = db.Column(db.Integer, db.ForeignKey("nominations.id"))
+
+    def __repr__(self):
+        return f'<MovieNomination id={self.id} movie_id={self.movie_id} nomination_id={self.nomination_id}>'
 
 
 class Genre(db.Model):

@@ -2,7 +2,7 @@
 import os
 import requests
 import json
-from model import db, CastMember, AKA
+from model import db, CastMember, AlsoKnownAs
 from app import app
 from crud import *
 from data.ethnicity import *
@@ -17,20 +17,23 @@ def fetch_missing_person_data_json(attribute='profile_path'):
         for cast in data:
             cast_member = CastMember.query.filter_by(
                 id=cast['id']).one()
-            property = getattr(cast_member, attribute)
-            if type(property) == list:
+            property = cast.get(attribute, None)
+            if  type(property) == list:
                 for instance in cast[attribute]:
-                    new_aka = AKA(name=instance)
-                    cast_member.also_known_as.append(new_aka)
+                    new_aka = AlsoKnownAs.query.filter(AlsoKnownAs.name == instance).first()
+                    if new_aka == None:
+                        new_aka = AlsoKnownAs(name=instance)
+                        cast_member.also_known_as.append(new_aka)
+                        print(f"Added alternative name {new_aka.name} for {cast_member.name}")
 
-            if type(property) != list and property == None:
-                missing_attribute = {
-                    str(attribute): cast[attribute]
-                }
-                CastMember.query.filter_by(
-                    id=cast['id']).update(missing_attribute)
-                print(
-                    f"Added profile_path: {cast[attribute]} to {cast['name']}")
+            # if type(property) != list and property == None:
+            #     missing_attribute = {
+            #         str(attribute): cast[attribute]
+            #     }
+            #     CastMember.query.filter_by(
+            #         id=cast['id']).update(missing_attribute)
+            #     print(
+            #         f"Added {attribute}: {cast[attribute]} to {cast['name']}")
 
     db.session.commit()
 

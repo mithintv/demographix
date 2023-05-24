@@ -32,6 +32,41 @@ CREATE TABLE public.alembic_version (
 ALTER TABLE public.alembic_version OWNER TO mithin;
 
 --
+-- Name: also_known_as; Type: TABLE; Schema: public; Owner: mithin
+--
+
+CREATE TABLE public.also_known_as (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    cast_member_id integer
+);
+
+
+ALTER TABLE public.also_known_as OWNER TO mithin;
+
+--
+-- Name: also_known_as_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+--
+
+CREATE SEQUENCE public.also_known_as_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.also_known_as_id_seq OWNER TO mithin;
+
+--
+-- Name: also_known_as_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+--
+
+ALTER SEQUENCE public.also_known_as_id_seq OWNED BY public.also_known_as.id;
+
+
+--
 -- Name: alt_countries; Type: TABLE; Schema: public; Owner: mithin
 --
 
@@ -108,8 +143,7 @@ ALTER SEQUENCE public.alt_ethnicities_id_seq OWNED BY public.alt_ethnicities.id;
 CREATE TABLE public.cast_ethnicities (
     id integer NOT NULL,
     ethnicity_id integer,
-    cast_member_id integer,
-    source_id integer
+    cast_member_id integer
 );
 
 
@@ -135,6 +169,41 @@ ALTER TABLE public.cast_ethnicities_id_seq OWNER TO mithin;
 --
 
 ALTER SEQUENCE public.cast_ethnicities_id_seq OWNED BY public.cast_ethnicities.id;
+
+
+--
+-- Name: cast_ethnicity_source_links; Type: TABLE; Schema: public; Owner: mithin
+--
+
+CREATE TABLE public.cast_ethnicity_source_links (
+    id integer NOT NULL,
+    source_link_id integer,
+    cast_ethnicity_id integer
+);
+
+
+ALTER TABLE public.cast_ethnicity_source_links OWNER TO mithin;
+
+--
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+--
+
+CREATE SEQUENCE public.cast_ethnicity_source_links_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cast_ethnicity_source_links_id_seq OWNER TO mithin;
+
+--
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+--
+
+ALTER SEQUENCE public.cast_ethnicity_source_links_id_seq OWNED BY public.cast_ethnicity_source_links.id;
 
 
 --
@@ -500,8 +569,7 @@ ALTER SEQUENCE public.regions_id_seq OWNED BY public.regions.id;
 CREATE TABLE public.source_links (
     id integer NOT NULL,
     source_id integer,
-    link character varying,
-    cast_ethnicity_id integer
+    link character varying
 );
 
 
@@ -600,6 +668,13 @@ ALTER SEQUENCE public.subregions_id_seq OWNED BY public.subregions.id;
 
 
 --
+-- Name: also_known_as id; Type: DEFAULT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.also_known_as ALTER COLUMN id SET DEFAULT nextval('public.also_known_as_id_seq'::regclass);
+
+
+--
 -- Name: alt_countries id; Type: DEFAULT; Schema: public; Owner: mithin
 --
 
@@ -618,6 +693,13 @@ ALTER TABLE ONLY public.alt_ethnicities ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.cast_ethnicities ALTER COLUMN id SET DEFAULT nextval('public.cast_ethnicities_id_seq'::regclass);
+
+
+--
+-- Name: cast_ethnicity_source_links id; Type: DEFAULT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.cast_ethnicity_source_links ALTER COLUMN id SET DEFAULT nextval('public.cast_ethnicity_source_links_id_seq'::regclass);
 
 
 --
@@ -709,7 +791,15 @@ ALTER TABLE ONLY public.subregions ALTER COLUMN id SET DEFAULT nextval('public.s
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
-ec16aefe0020
+dfd6c723d08b
+\.
+
+
+--
+-- Data for Name: also_known_as; Type: TABLE DATA; Schema: public; Owner: mithin
+--
+
+COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
 \.
 
 
@@ -1589,6 +1679,7 @@ COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
 72	1	French Breton
 74	265	Tamil Indian
 75	142	Hoa Chinese
+76	461	Azorean Portuguese
 \.
 
 
@@ -1596,476 +1687,832 @@ COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
 -- Data for Name: cast_ethnicities; Type: TABLE DATA; Schema: public; Owner: mithin
 --
 
-COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id, source_id) FROM stdin;
-1	550	71580	\N
-2	273	71580	\N
-3	1	71580	\N
-4	229	71580	\N
-5	160	71580	\N
-6	198	71580	\N
-7	502	71580	\N
-8	186	71580	\N
-9	627	71580	\N
-10	198	113505	\N
-11	502	113505	\N
-12	186	113505	\N
-13	229	205	\N
-14	455	205	\N
-15	549	205	\N
-16	550	88124	\N
-17	273	88124	\N
-18	229	88124	\N
-19	198	88124	\N
-20	502	88124	\N
-21	186	88124	\N
-22	627	88124	\N
-23	198	1356758	\N
-24	135	1356758	\N
-25	502	1356758	\N
-26	198	4432	\N
-27	273	4432	\N
-28	273	147056	\N
-29	273	1254583	\N
-30	198	5309	\N
-31	273	5309	\N
-32	273	8785	\N
-33	273	228866	\N
-34	627	228866	\N
-35	198	1331023	\N
-36	627	1331023	\N
-37	283	19797	\N
-38	603	1571661	\N
-39	273	1571661	\N
-40	484	1571661	\N
-41	229	1571661	\N
-42	198	1571661	\N
-43	502	1571661	\N
-44	520	1571661	\N
-45	1	239574	\N
-46	369	239574	\N
-47	273	1539216	\N
-48	1	1514387	\N
-49	114	1514387	\N
-50	273	1190668	\N
-51	1	1190668	\N
-52	198	1190668	\N
-53	502	1190668	\N
-54	283	1190668	\N
-55	273	933238	\N
-56	502	933238	\N
-57	549	933238	\N
-58	242	25072	\N
-59	174	25072	\N
-60	1	25072	\N
-61	283	25072	\N
-62	529	25072	\N
-63	550	16851	\N
-64	273	16851	\N
-65	229	16851	\N
-66	198	16851	\N
-67	502	16851	\N
-68	627	16851	\N
-69	208	543530	\N
-70	235	543530	\N
-71	198	543530	\N
-72	273	543530	\N
-73	8	505710	\N
-74	273	505710	\N
-75	229	505710	\N
-76	198	505710	\N
-77	502	505710	\N
-78	556	1622	\N
-79	198	44079	\N
-80	198	117642	\N
-81	229	117642	\N
-82	252	117642	\N
-83	273	3810	\N
-84	98	3810	\N
-85	71	3810	\N
-86	529	3810	\N
-87	198	3810	\N
-88	2	83854	\N
-89	273	83854	\N
-90	1	83854	\N
-91	277	83854	\N
-92	198	83854	\N
-93	271	83854	\N
-94	8	2888	\N
-95	8	53923	\N
-96	8	1607523	\N
-97	283	19498	\N
-98	273	3417	\N
-99	229	3417	\N
-100	198	3417	\N
-101	502	3417	\N
-102	283	3417	\N
-103	273	32597	\N
-104	1	32597	\N
-105	277	32597	\N
-106	198	32597	\N
-107	273	85824	\N
-108	1	85824	\N
-109	114	85824	\N
-110	422	85824	\N
-111	198	85824	\N
-112	209	85824	\N
-113	273	1330888	\N
-114	229	1330888	\N
-115	422	1330888	\N
-116	198	1330888	\N
-117	502	1330888	\N
-118	455	1330888	\N
-119	229	14721	\N
-120	198	14721	\N
-121	273	14721	\N
-122	502	14721	\N
-123	283	1741367	\N
-124	273	2764542	\N
-125	229	2764542	\N
-126	277	2764542	\N
-127	198	2764542	\N
-128	186	2764542	\N
-129	273	2228	\N
-130	283	2228	\N
-131	277	2228	\N
-132	550	2887	\N
-133	273	2887	\N
-134	229	2887	\N
-135	422	2887	\N
-136	198	2887	\N
-137	502	2887	\N
-138	627	2887	\N
-139	277	51329	\N
-140	273	51329	\N
-141	283	227564	\N
-142	283	61263	\N
-143	277	61263	\N
-144	273	8265	\N
-145	550	4003	\N
-146	273	4003	\N
-147	229	4003	\N
-148	198	4003	\N
-149	186	4003	\N
-150	273	33528	\N
-151	283	1741368	\N
-152	283	1741366	\N
-153	273	108916	\N
-154	1	108916	\N
-155	114	108916	\N
-156	229	108916	\N
-157	277	108916	\N
-158	273	112	\N
-159	1	112	\N
-160	160	112	\N
-161	198	112	\N
-162	502	112	\N
-163	186	112	\N
-164	627	112	\N
-165	198	3051	\N
-166	273	3051	\N
-167	502	3051	\N
-168	229	28633	\N
-169	198	28633	\N
-170	273	28633	\N
-171	627	28633	\N
-172	550	5293	\N
-173	273	5293	\N
-174	1	5293	\N
-175	229	5293	\N
-176	198	5293	\N
-177	502	5293	\N
-178	273	11064	\N
-179	252	11064	\N
-180	198	11064	\N
-181	502	11064	\N
-182	142	11064	\N
-183	283	2372	\N
-184	550	7497	\N
-185	273	7497	\N
-186	1	7497	\N
-187	229	7497	\N
-188	198	7497	\N
-189	502	7497	\N
-190	549	7497	\N
-191	186	2453	\N
-192	198	2453	\N
-193	502	2453	\N
-194	627	2453	\N
-195	283	1462	\N
-196	369	5365	\N
-197	229	5365	\N
-198	8	5292	\N
-199	8	1154054	\N
-200	198	178634	\N
-201	235	72309	\N
-202	198	216425	\N
-203	273	2039	\N
-204	198	10982	\N
-205	8	2042908	\N
-206	198	17401	\N
-207	502	17401	\N
-208	186	17401	\N
-209	549	17401	\N
-210	627	17401	\N
-211	273	1159982	\N
-212	229	1159982	\N
-213	422	1159982	\N
-214	198	1159982	\N
-215	149	2217977	\N
-216	455	2217977	\N
-217	8	1437491	\N
-218	1	1437491	\N
-219	277	1437491	\N
-220	198	1437491	\N
-221	502	1437491	\N
-222	466	1437491	\N
-223	529	2225865	\N
-224	7	2225865	\N
-225	174	2225865	\N
-226	198	175829	\N
-227	273	175829	\N
-228	627	175829	\N
-229	283	74541	\N
-230	466	13299	\N
-231	1	38673	\N
-232	627	38673	\N
-233	502	38673	\N
-234	273	38673	\N
-235	198	38673	\N
-236	229	38673	\N
-481	550	73457	\N
-238	627	824	\N
-239	502	824	\N
-240	198	824	\N
-241	229	824	\N
-242	502	109708	\N
-243	198	109708	\N
-244	229	109708	\N
-245	273	109708	\N
-246	450	69225	\N
-247	1	69225	\N
-248	472	69225	\N
-249	550	69225	\N
-250	229	69225	\N
-251	267	1300637	\N
-252	502	1300637	\N
-253	273	1300637	\N
-254	198	1300637	\N
-255	229	1300637	\N
-256	186	1300637	\N
-257	277	98804	\N
-258	511	98804	\N
-259	627	98804	\N
-260	198	98804	\N
-261	229	98804	\N
-482	229	73457	\N
-483	114	73457	\N
-484	422	73457	\N
-485	198	73457	\N
-486	1	73457	\N
-487	466	8691	\N
-488	322	8691	\N
-489	185	8691	\N
-490	247	8691	\N
-491	502	543261	\N
-492	1	139820	\N
-493	305	139820	\N
-494	483	139820	\N
-495	273	12835	\N
-277	627	587823	\N
-278	198	587823	\N
-279	502	587823	\N
-280	229	587823	\N
-281	273	587823	\N
-282	186	565447	\N
-283	114	565447	\N
-284	198	565447	\N
-285	229	565447	\N
-286	529	565447	\N
-287	273	565447	\N
-288	369	565447	\N
-289	1	565447	\N
-290	8	979216	\N
-291	7	979216	\N
-292	283	1253648	\N
-293	277	1253648	\N
-294	198	10581	\N
-295	273	10581	\N
-296	229	10581	\N
-297	283	8700	\N
-298	198	8700	\N
-299	229	8700	\N
-300	198	150062	\N
-301	502	150062	\N
-302	208	150062	\N
-303	8	150062	\N
-304	114	4764	\N
-305	502	4764	\N
-306	229	4764	\N
-307	273	4764	\N
-308	329	4764	\N
-309	1	4764	\N
-310	198	1774266	\N
-311	273	1774266	\N
-312	229	1774266	\N
-313	550	1774266	\N
-314	195	1473232	\N
-315	466	1473232	\N
-316	502	1483976	\N
-317	229	1483976	\N
-318	455	1483976	\N
-319	277	1483976	\N
-320	198	202032	\N
-321	273	202032	\N
-322	198	111945	\N
-323	273	111945	\N
-324	114	111945	\N
-325	1	111945	\N
-326	114	2475409	\N
-327	627	2475409	\N
-328	198	2475409	\N
-329	502	2475409	\N
-330	550	2475409	\N
-331	229	2475409	\N
-332	455	2475409	\N
-333	273	2475409	\N
-334	277	2475409	\N
-335	1	2475409	\N
-336	186	1562074	\N
-337	114	1562074	\N
-338	198	1562074	\N
-339	511	1562074	\N
-340	529	1562074	\N
-341	277	1562074	\N
-342	1	1562074	\N
-343	142	2614781	\N
-344	283	60960	\N
-345	627	60960	\N
-346	198	60960	\N
-347	502	60960	\N
-348	229	60960	\N
-349	4	60960	\N
-350	273	60960	\N
-351	1	60960	\N
-352	283	52792	\N
-353	8	52792	\N
-354	7	11868	\N
-355	246	11868	\N
-356	186	1277794	\N
-357	627	1277794	\N
-358	198	1277794	\N
-359	502	1277794	\N
-360	229	1277794	\N
-361	422	1277794	\N
-362	1	1277794	\N
-363	198	1929092	\N
-364	502	1929092	\N
-365	186	1929092	\N
-366	466	979216	\N
-367	654	33527	\N
-368	655	33527	\N
-371	229	1929092	\N
-372	273	1929092	\N
-496	229	12835	\N
-497	55	12835	\N
-498	8	12835	\N
-499	198	12835	\N
-500	502	12835	\N
-501	273	51663	\N
-502	229	51663	\N
-503	89	51663	\N
-504	198	51663	\N
-505	178	51663	\N
-506	413	105238	\N
-507	627	93491	\N
-508	198	93491	\N
-509	502	93491	\N
-510	273	93491	\N
-511	103	2408703	\N
-512	455	1133349	\N
-513	273	1133349	\N
-514	283	16483	\N
-515	229	16483	\N
-516	1	16483	\N
-517	277	16483	\N
-518	549	18273	\N
-519	283	18273	\N
-520	273	1817	\N
-521	277	1817	\N
-522	229	1817	\N
-523	198	1817	\N
-524	502	1817	\N
-525	229	1363394	\N
-526	271	1363394	\N
-527	277	1363394	\N
-528	627	20750	\N
-529	506	20750	\N
-530	273	20750	\N
-531	382	20750	\N
-532	229	20750	\N
-533	455	20750	\N
-534	186	20750	\N
-535	198	20750	\N
-536	502	20750	\N
-537	283	15762	\N
-538	283	19975	\N
-539	198	96349	\N
-540	273	96349	\N
-541	229	23680	\N
-542	198	23680	\N
-543	502	23680	\N
-544	273	23680	\N
-545	209	51797	\N
-546	549	51797	\N
-547	550	51797	\N
-548	229	51797	\N
-549	114	51797	\N
-550	422	51797	\N
-551	1	51797	\N
-552	461	1784612	\N
-553	273	12132	\N
-554	198	12132	\N
-555	502	12132	\N
-556	273	15218	\N
-557	229	15218	\N
-558	89	15218	\N
-559	198	15218	\N
-560	178	15218	\N
-561	198	53266	\N
-562	502	53266	\N
-563	273	53266	\N
-564	283	13922	\N
-565	273	1427948	\N
-566	277	1427948	\N
-567	229	1427948	\N
-568	511	1427948	\N
-569	283	1427948	\N
-570	198	1427948	\N
-571	502	1427948	\N
-606	142	1620	\N
-607	142	690	\N
-608	620	690	\N
-609	556	1381186	\N
-610	142	1381186	\N
-611	627	8944	\N
-612	273	8944	\N
-613	550	8944	\N
-614	180	8944	\N
-615	283	8944	\N
-616	198	8944	\N
-617	229	8944	\N
-618	1	8944	\N
-619	283	213001	\N
-620	142	232499	\N
-621	265	1375002	\N
-622	627	1317730	\N
-623	273	1317730	\N
-624	502	1317730	\N
-625	198	1317730	\N
-626	229	1317730	\N
-627	556	1383612	\N
-628	142	1383612	\N
-630	369	1071151	\N
+COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
+1	550	71580
+2	273	71580
+3	1	71580
+4	229	71580
+5	160	71580
+6	198	71580
+7	502	71580
+8	186	71580
+9	627	71580
+10	198	113505
+11	502	113505
+12	186	113505
+13	229	205
+14	455	205
+15	549	205
+16	550	88124
+17	273	88124
+18	229	88124
+19	198	88124
+20	502	88124
+21	186	88124
+22	627	88124
+23	198	1356758
+24	135	1356758
+25	502	1356758
+26	198	4432
+27	273	4432
+28	273	147056
+29	273	1254583
+30	198	5309
+31	273	5309
+32	273	8785
+33	273	228866
+34	627	228866
+35	198	1331023
+36	627	1331023
+37	283	19797
+38	603	1571661
+39	273	1571661
+40	484	1571661
+41	229	1571661
+42	198	1571661
+43	502	1571661
+44	520	1571661
+45	1	239574
+46	369	239574
+47	273	1539216
+48	1	1514387
+49	114	1514387
+50	273	1190668
+51	1	1190668
+52	198	1190668
+53	502	1190668
+54	283	1190668
+55	273	933238
+56	502	933238
+57	549	933238
+58	242	25072
+59	174	25072
+60	1	25072
+61	283	25072
+62	529	25072
+63	550	16851
+64	273	16851
+65	229	16851
+66	198	16851
+67	502	16851
+68	627	16851
+69	208	543530
+70	235	543530
+71	198	543530
+72	273	543530
+73	8	505710
+74	273	505710
+75	229	505710
+76	198	505710
+77	502	505710
+78	556	1622
+79	198	44079
+80	198	117642
+81	229	117642
+82	252	117642
+83	273	3810
+84	98	3810
+85	71	3810
+86	529	3810
+87	198	3810
+88	2	83854
+89	273	83854
+90	1	83854
+91	277	83854
+92	198	83854
+93	271	83854
+94	8	2888
+95	8	53923
+96	8	1607523
+97	283	19498
+98	273	3417
+99	229	3417
+100	198	3417
+101	502	3417
+102	283	3417
+103	273	32597
+104	1	32597
+105	277	32597
+106	198	32597
+107	273	85824
+108	1	85824
+109	114	85824
+110	422	85824
+111	198	85824
+112	209	85824
+113	273	1330888
+114	229	1330888
+115	422	1330888
+116	198	1330888
+117	502	1330888
+118	455	1330888
+119	229	14721
+120	198	14721
+121	273	14721
+122	502	14721
+123	283	1741367
+124	273	2764542
+125	229	2764542
+126	277	2764542
+127	198	2764542
+128	186	2764542
+129	273	2228
+130	283	2228
+131	277	2228
+132	550	2887
+133	273	2887
+134	229	2887
+135	422	2887
+136	198	2887
+137	502	2887
+138	627	2887
+139	277	51329
+140	273	51329
+141	283	227564
+142	283	61263
+143	277	61263
+144	273	8265
+145	550	4003
+146	273	4003
+147	229	4003
+148	198	4003
+149	186	4003
+150	273	33528
+151	283	1741368
+152	283	1741366
+153	273	108916
+154	1	108916
+155	114	108916
+156	229	108916
+157	277	108916
+158	273	112
+159	1	112
+160	160	112
+161	198	112
+162	502	112
+163	186	112
+164	627	112
+165	198	3051
+166	273	3051
+167	502	3051
+168	229	28633
+169	198	28633
+170	273	28633
+171	627	28633
+172	550	5293
+173	273	5293
+174	1	5293
+175	229	5293
+176	198	5293
+177	502	5293
+178	273	11064
+179	252	11064
+180	198	11064
+181	502	11064
+182	142	11064
+183	283	2372
+184	550	7497
+185	273	7497
+186	1	7497
+187	229	7497
+188	198	7497
+189	502	7497
+190	549	7497
+191	186	2453
+192	198	2453
+193	502	2453
+194	627	2453
+195	283	1462
+196	369	5365
+197	229	5365
+198	8	5292
+199	8	1154054
+200	198	178634
+201	235	72309
+202	198	216425
+203	273	2039
+204	198	10982
+205	8	2042908
+206	198	17401
+207	502	17401
+208	186	17401
+209	549	17401
+210	627	17401
+211	273	1159982
+212	229	1159982
+213	422	1159982
+214	198	1159982
+215	149	2217977
+216	455	2217977
+217	8	1437491
+218	1	1437491
+219	277	1437491
+220	198	1437491
+221	502	1437491
+222	466	1437491
+223	529	2225865
+224	7	2225865
+225	174	2225865
+226	198	175829
+227	273	175829
+228	627	175829
+229	283	74541
+230	466	13299
+231	1	38673
+232	627	38673
+233	502	38673
+234	273	38673
+235	198	38673
+236	229	38673
+481	550	73457
+238	627	824
+239	502	824
+240	198	824
+241	229	824
+242	502	109708
+243	198	109708
+244	229	109708
+245	273	109708
+246	450	69225
+247	1	69225
+248	472	69225
+249	550	69225
+250	229	69225
+251	267	1300637
+252	502	1300637
+253	273	1300637
+254	198	1300637
+255	229	1300637
+256	186	1300637
+257	277	98804
+258	511	98804
+259	627	98804
+260	198	98804
+261	229	98804
+482	229	73457
+483	114	73457
+484	422	73457
+485	198	73457
+486	1	73457
+487	466	8691
+488	322	8691
+489	185	8691
+490	247	8691
+491	502	543261
+492	1	139820
+493	305	139820
+494	483	139820
+495	273	12835
+277	627	587823
+278	198	587823
+279	502	587823
+280	229	587823
+281	273	587823
+282	186	565447
+283	114	565447
+284	198	565447
+285	229	565447
+286	529	565447
+287	273	565447
+288	369	565447
+289	1	565447
+290	8	979216
+291	7	979216
+292	283	1253648
+293	277	1253648
+294	198	10581
+295	273	10581
+296	229	10581
+297	283	8700
+298	198	8700
+299	229	8700
+300	198	150062
+301	502	150062
+302	208	150062
+303	8	150062
+304	114	4764
+305	502	4764
+306	229	4764
+307	273	4764
+308	329	4764
+309	1	4764
+310	198	1774266
+311	273	1774266
+312	229	1774266
+313	550	1774266
+314	195	1473232
+315	466	1473232
+316	502	1483976
+317	229	1483976
+318	455	1483976
+319	277	1483976
+320	198	202032
+321	273	202032
+322	198	111945
+323	273	111945
+324	114	111945
+325	1	111945
+326	114	2475409
+327	627	2475409
+328	198	2475409
+329	502	2475409
+330	550	2475409
+331	229	2475409
+332	455	2475409
+333	273	2475409
+334	277	2475409
+335	1	2475409
+336	186	1562074
+337	114	1562074
+338	198	1562074
+339	511	1562074
+340	529	1562074
+341	277	1562074
+342	1	1562074
+343	142	2614781
+344	283	60960
+345	627	60960
+346	198	60960
+347	502	60960
+348	229	60960
+349	4	60960
+350	273	60960
+351	1	60960
+352	283	52792
+353	8	52792
+354	7	11868
+355	246	11868
+356	186	1277794
+357	627	1277794
+358	198	1277794
+359	502	1277794
+360	229	1277794
+361	422	1277794
+362	1	1277794
+363	198	1929092
+364	502	1929092
+365	186	1929092
+366	466	979216
+367	654	33527
+368	655	33527
+371	229	1929092
+372	273	1929092
+496	229	12835
+497	55	12835
+498	8	12835
+499	198	12835
+500	502	12835
+501	273	51663
+502	229	51663
+503	89	51663
+504	198	51663
+505	178	51663
+506	413	105238
+507	627	93491
+508	198	93491
+509	502	93491
+510	273	93491
+511	103	2408703
+512	455	1133349
+513	273	1133349
+514	283	16483
+515	229	16483
+516	1	16483
+517	277	16483
+518	549	18273
+519	283	18273
+520	273	1817
+521	277	1817
+522	229	1817
+523	198	1817
+524	502	1817
+525	229	1363394
+526	271	1363394
+527	277	1363394
+528	627	20750
+529	506	20750
+530	273	20750
+531	382	20750
+532	229	20750
+533	455	20750
+534	186	20750
+535	198	20750
+536	502	20750
+537	283	15762
+538	283	19975
+539	198	96349
+540	273	96349
+541	229	23680
+542	198	23680
+543	502	23680
+544	273	23680
+545	209	51797
+546	549	51797
+547	550	51797
+548	229	51797
+549	114	51797
+550	422	51797
+551	1	51797
+552	461	1784612
+553	273	12132
+554	198	12132
+555	502	12132
+556	273	15218
+557	229	15218
+558	89	15218
+559	198	15218
+560	178	15218
+561	198	53266
+562	502	53266
+563	273	53266
+564	283	13922
+565	273	1427948
+566	277	1427948
+567	229	1427948
+568	511	1427948
+569	283	1427948
+570	198	1427948
+571	502	1427948
+606	142	1620
+607	142	690
+608	620	690
+609	556	1381186
+610	142	1381186
+611	627	8944
+612	273	8944
+613	550	8944
+614	180	8944
+615	283	8944
+616	198	8944
+617	229	8944
+618	1	8944
+619	283	213001
+620	142	232499
+621	265	1375002
+622	627	1317730
+623	273	1317730
+624	502	1317730
+625	198	1317730
+626	229	1317730
+627	556	1383612
+628	142	1383612
+630	369	1071151
+631	502	10982
+632	273	10982
+633	277	2217977
+634	229	2217977
+635	186	10581
+636	1	10581
+637	185	1473232
+638	502	1562074
+639	229	1562074
+640	321	60960
+641	277	60960
+642	461	11064
+\.
+
+
+--
+-- Data for Name: cast_ethnicity_source_links; Type: TABLE DATA; Schema: public; Owner: mithin
+--
+
+COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) FROM stdin;
+1	30	1
+2	30	2
+3	30	3
+4	30	4
+5	30	5
+6	30	6
+7	30	7
+8	30	8
+9	30	9
+10	31	10
+11	31	11
+12	31	12
+13	32	13
+14	32	14
+15	32	15
+16	33	16
+17	33	17
+18	33	18
+19	33	19
+20	33	20
+21	33	21
+22	33	22
+23	34	23
+24	34	24
+25	34	25
+26	35	26
+27	35	27
+28	36	28
+29	37	29
+30	38	30
+31	38	31
+32	39	32
+33	40	33
+34	40	34
+35	41	35
+36	41	36
+37	42	37
+38	43	38
+39	43	39
+40	43	40
+41	43	41
+42	43	42
+43	43	43
+44	43	44
+45	44	45
+46	44	46
+47	45	47
+48	46	48
+49	46	49
+50	47	50
+51	47	51
+52	47	52
+53	47	53
+54	47	54
+55	48	55
+56	48	56
+57	48	57
+58	49	58
+59	49	59
+60	49	60
+61	49	61
+62	49	62
+63	50	63
+64	50	64
+65	50	65
+66	50	66
+67	50	67
+68	50	68
+69	51	69
+70	51	70
+71	51	71
+72	51	72
+73	52	73
+74	52	74
+75	52	75
+76	52	76
+77	52	77
+78	53	78
+79	54	79
+80	55	80
+81	55	81
+82	55	82
+83	56	83
+84	56	84
+85	56	85
+86	56	86
+87	56	87
+88	57	88
+89	57	89
+90	57	90
+91	57	91
+92	57	92
+93	57	93
+94	58	94
+95	59	95
+96	60	96
+97	61	97
+98	62	98
+99	62	99
+100	62	100
+101	62	101
+102	62	102
+103	63	103
+104	63	104
+105	63	105
+106	63	106
+107	64	107
+108	64	108
+109	64	109
+110	64	110
+111	64	111
+112	64	112
+113	65	113
+114	65	114
+115	65	115
+116	65	116
+117	65	117
+118	65	118
+119	66	119
+120	66	120
+121	66	121
+122	66	122
+123	67	123
+124	68	124
+125	68	125
+126	68	126
+127	68	127
+128	68	128
+129	69	129
+130	69	130
+131	69	131
+132	70	132
+133	70	133
+134	70	134
+135	70	135
+136	70	136
+137	70	137
+138	70	138
+139	71	139
+140	71	140
+141	72	141
+142	73	142
+143	73	143
+144	74	144
+145	75	145
+146	75	146
+147	75	147
+148	75	148
+149	75	149
+150	76	150
+151	77	151
+152	78	152
+153	79	153
+154	79	154
+155	79	155
+156	79	156
+157	79	157
+158	80	158
+159	80	159
+160	80	160
+161	80	161
+162	80	162
+163	80	163
+164	80	164
+165	81	165
+166	81	166
+167	81	167
+168	82	168
+169	82	169
+170	82	170
+171	82	171
+172	83	172
+173	83	173
+174	83	174
+175	83	175
+176	83	176
+177	83	177
+178	84	178
+179	84	179
+180	84	180
+181	84	181
+182	84	182
+183	85	183
+184	86	184
+185	86	185
+186	86	186
+187	86	187
+188	86	188
+189	86	189
+190	86	190
+191	87	191
+192	87	192
+193	87	193
+194	87	194
+195	88	195
+196	89	196
+197	89	197
+198	90	198
+199	91	199
+200	92	200
+201	93	201
+202	94	202
+203	95	203
+204	96	204
+205	96	631
+206	96	632
+207	97	205
+208	98	206
+209	98	207
+210	98	208
+211	98	209
+212	98	210
+213	99	211
+214	99	212
+215	99	213
+216	99	214
+217	100	215
+218	100	216
+219	100	633
+220	100	634
+221	101	217
+222	101	218
+223	101	219
+224	101	220
+225	101	221
+226	101	222
+227	102	223
+228	102	224
+229	102	225
+230	103	226
+231	103	227
+232	103	228
+233	104	229
+234	105	230
+235	106	277
+236	106	278
+237	106	279
+238	106	280
+239	106	281
+240	107	282
+241	107	283
+242	107	284
+243	107	285
+244	107	286
+245	107	287
+246	107	288
+247	107	289
+248	108	290
+249	108	291
+250	108	366
+251	109	292
+252	109	293
+253	110	294
+254	110	295
+255	110	296
+256	110	635
+257	110	636
+258	111	297
+259	111	298
+260	111	299
+261	112	300
+262	112	301
+263	112	302
+264	112	303
+265	113	304
+266	113	305
+267	113	306
+268	113	307
+269	113	308
+270	113	309
+271	114	310
+272	114	311
+273	114	312
+274	114	313
+275	115	314
+276	115	315
+277	115	637
+278	116	367
+279	116	368
+280	117	316
+281	117	317
+282	117	318
+283	117	319
+284	118	320
+285	118	321
+286	119	322
+287	119	323
+288	119	324
+289	119	325
+290	120	326
+291	120	327
+292	120	328
+293	120	329
+294	120	330
+295	120	331
+296	120	332
+297	120	333
+298	120	334
+299	120	335
+300	121	336
+301	121	337
+302	121	338
+303	121	339
+304	121	340
+305	121	341
+306	121	342
+307	121	638
+308	121	639
+309	122	343
+310	123	344
+311	123	345
+312	123	346
+313	123	347
+314	123	348
+315	123	349
+316	123	350
+317	123	351
+318	123	640
+319	123	641
+320	124	352
+321	124	353
+322	125	354
+323	125	355
+324	126	356
+325	126	357
+326	126	358
+327	126	359
+328	126	360
+329	126	361
+330	126	362
+331	127	363
+332	127	364
+333	127	365
+334	127	371
+335	127	372
+336	84	642
 \.
 
 
@@ -4470,7 +4917,105 @@ COPY public.regions (id, name) FROM stdin;
 -- Data for Name: source_links; Type: TABLE DATA; Schema: public; Owner: mithin
 --
 
-COPY public.source_links (id, source_id, link, cast_ethnicity_id) FROM stdin;
+COPY public.source_links (id, source_id, link) FROM stdin;
+30	1	https://ethnicelebs.com/benedict-cumberbatch
+31	1	https://ethnicelebs.com/kodi-smit-mcphee
+32	1	https://ethnicelebs.com/kirsten-dunst
+33	1	https://ethnicelebs.com/jesse-plemons
+34	1	https://ethnicelebs.com/thomasin-mckenzie
+35	1	https://ethnicelebs.com/frances-conroy
+36	5	https://en.wikipedia.org/wiki/Caitr%C3%ADona_Balfe
+37	1	https://ethnicelebs.com/jamie-dornan
+38	1	https://ethnicelebs.com/judi-dench
+39	1	https://ethnicelebs.com/ciaran-hinds
+40	1	https://ethnicelebs.com/colin-morgan
+41	1	https://ethnicelebs.com/emilia-jones
+42	1	https://ethnicelebs.com/marlee-matlin
+43	1	https://ethnicelebs.com/troy-kotsur
+44	1	https://ethnicelebs.com/eugenio-derbez
+45	1	https://ethnicelebs.com/ferdia-walsh-peelo
+46	1	https://ethnicelebs.com/daniel-durant
+47	1	https://ethnicelebs.com/timothee-chalamet
+48	1	https://ethnicelebs.com/rebecca-ferguson
+49	1	https://ethnicelebs.com/oscar-isaac
+50	1	https://ethnicelebs.com/josh-brolin
+51	1	https://ethnicelebs.com/batista
+52	1	https://ethnicelebs.com/zendaya
+53	1	https://ethnicelebs.com/chang-chen
+54	1	https://ethnicelebs.com/charlotte-rampling
+55	1	https://ethnicelebs.com/jason-momoa
+56	1	https://ethnicelebs.com/javier-bardem
+57	1	https://ethnicelebs.com/david-dastmalchian
+58	1	https://ethnicelebs.com/will-smith
+59	1	https://ethnicelebs.com/aunjanue-ellis
+60	1	https://ethnicelebs.com/saniyya-sidney
+61	1	https://ethnicelebs.com/jon-bernthal
+62	1	https://ethnicelebs.com/tony-goldwyn
+63	1	https://ethnicelebs.com/dylan-mcdermott
+64	1	https://ethnicelebs.com/katrina-begin
+65	1	https://ethnicelebs.com/andy-bean
+66	1	https://ethnicelebs.com/kevin-dunn
+67	1	https://ethnicelebs.com/alana-haim
+68	1	https://ethnicelebs.com/cooper-hoffman
+69	1	https://ethnicelebs.com/sean-penn
+70	1	https://ethnicelebs.com/tom-waits
+71	1	https://ethnicelebs.com/bradley-cooper
+72	5	https://en.wikipedia.org/wiki/Benny_Safdie
+73	1	https://ethnicelebs.com/skyler-gisondo
+74	1	https://ethnicelebs.com/john-michael-higgins
+75	1	https://ethnicelebs.com/christine-ebersole
+76	1	https://ethnicelebs.com/joseph-cross
+77	1	https://ethnicelebs.com/danielle-haim
+78	1	https://ethnicelebs.com/este-haim
+79	1	https://ethnicelebs.com/rooney-mara
+80	1	https://ethnicelebs.com/cate-blanchett
+81	1	https://ethnicelebs.com/toni-collette
+82	1	https://ethnicelebs.com/richard-jenkins
+83	1	https://ethnicelebs.com/willem-dafoe
+84	1	https://ethnicelebs.com/david-strathairn
+85	1	https://ethnicelebs.com/ron-perlman
+86	1	https://ethnicelebs.com/holt-mccallany
+87	1	https://ethnicelebs.com/mary-steenburgen
+88	1	https://ethnicelebs.com/tim-blake-nelson
+89	1	https://ethnicelebs.com/clifton-collins-jr
+90	1	https://ethnicelebs.com/denzel-washington
+91	1	https://ethnicelebs.com/corey-hawkins
+92	1	https://ethnicelebs.com/alex-hassell
+93	1	https://ethnicelebs.com/kathryn-hunter
+94	1	https://ethnicelebs.com/bertie-carvel
+95	1	https://ethnicelebs.com/brendan-gleeson
+96	1	https://ethnicelebs.com/harry-melling
+97	1	https://ethnicelebs.com/moses-ingram
+98	1	https://ethnicelebs.com/stephen-root
+99	1	https://ethnicelebs.com/ansel-elgort
+100	1	https://ethnicelebs.com/rachel-zegler
+101	1	https://ethnicelebs.com/ariana-debose
+102	1	https://ethnicelebs.com/david-alvarez
+103	1	https://ethnicelebs.com/brian-d'arcy-james
+104	1	https://ethnicelebs.com/corey-stoll
+105	1	https://ethnicelebs.com/rita-moreno
+106	1	https://ethnicelebs.com/alice-englert
+107	1	https://ethnicelebs.com/romina-power
+108	1	https://ethnicelebs.com/victor-cruz
+109	1	https://ethnicelebs.com/jeff-ward
+110	1	https://ethnicelebs.com/rich-sommer
+111	1	https://ethnicelebs.com/sasha-spielberg
+112	1	https://ethnicelebs.com/erika-ringor
+113	1	https://ethnicelebs.com/john-c-reilly
+114	1	https://ethnicelebs.com/emily-althaus
+115	1	https://ethnicelebs.com/jamila-velazquez
+116	1	https://ethnicelebs.com/adam-beach
+117	1	https://ethnicelebs.com/maddie-ziegler
+118	1	https://ethnicelebs.com/ralph-ineson
+119	1	https://ethnicelebs.com/noah-bean
+120	1	https://ethnicelebs.com/talia-ryder
+121	1	https://ethnicelebs.com/kyle-allen
+122	1	https://ethnicelebs.com/david-lim
+123	1	https://ethnicelebs.com/ray-nicholson
+124	1	https://ethnicelebs.com/maya-rudolph
+125	1	https://ethnicelebs.com/sean-patrick-thomas
+126	1	https://ethnicelebs.com/hannah-barefoot
+127	1	https://ethnicelebs.com/stephen-collins
 \.
 
 
@@ -4481,6 +5026,7 @@ COPY public.source_links (id, source_id, link, cast_ethnicity_id) FROM stdin;
 COPY public.sources (id, name, domain) FROM stdin;
 1	Ethnicelebs	https://ethnicelebs.com
 2	Wikipedia	https://wikipedia.org
+5	Https://en	https://https://en.wikipedia.org
 \.
 
 
@@ -4518,6 +5064,13 @@ COPY public.subregions (id, name, region_id) FROM stdin;
 
 
 --
+-- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+--
+
+SELECT pg_catalog.setval('public.also_known_as_id_seq', 4234, true);
+
+
+--
 -- Name: alt_countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
@@ -4528,14 +5081,21 @@ SELECT pg_catalog.setval('public.alt_countries_id_seq', 789, true);
 -- Name: alt_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 75, true);
+SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 76, true);
 
 
 --
 -- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 630, true);
+SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 642, true);
+
+
+--
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+--
+
+SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 336, true);
 
 
 --
@@ -4605,14 +5165,14 @@ SELECT pg_catalog.setval('public.regions_id_seq', 6, true);
 -- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.source_links_id_seq', 29, true);
+SELECT pg_catalog.setval('public.source_links_id_seq', 127, true);
 
 
 --
 -- Name: sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.sources_id_seq', 4, true);
+SELECT pg_catalog.setval('public.sources_id_seq', 5, true);
 
 
 --
@@ -4628,6 +5188,14 @@ SELECT pg_catalog.setval('public.subregions_id_seq', 25, true);
 
 ALTER TABLE ONLY public.alembic_version
     ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: also_known_as also_known_as_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.also_known_as
+    ADD CONSTRAINT also_known_as_pkey PRIMARY KEY (id);
 
 
 --
@@ -4652,6 +5220,14 @@ ALTER TABLE ONLY public.alt_ethnicities
 
 ALTER TABLE ONLY public.cast_ethnicities
     ADD CONSTRAINT cast_ethnicities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.cast_ethnicity_source_links
+    ADD CONSTRAINT cast_ethnicity_source_links_pkey PRIMARY KEY (id);
 
 
 --
@@ -4775,6 +5351,14 @@ ALTER TABLE ONLY public.subregions
 
 
 --
+-- Name: also_known_as also_known_as_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.also_known_as
+    ADD CONSTRAINT also_known_as_cast_member_id_fkey FOREIGN KEY (cast_member_id) REFERENCES public.cast_members(id);
+
+
+--
 -- Name: alt_countries alt_countries_country_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
 --
 
@@ -4807,11 +5391,19 @@ ALTER TABLE ONLY public.cast_ethnicities
 
 
 --
--- Name: cast_ethnicities cast_ethnicities_source_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_cast_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
 --
 
-ALTER TABLE ONLY public.cast_ethnicities
-    ADD CONSTRAINT cast_ethnicities_source_id_fkey FOREIGN KEY (source_id) REFERENCES public.source_links(id);
+ALTER TABLE ONLY public.cast_ethnicity_source_links
+    ADD CONSTRAINT cast_ethnicity_source_links_cast_ethnicity_id_fkey FOREIGN KEY (cast_ethnicity_id) REFERENCES public.cast_ethnicities(id);
+
+
+--
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_source_link_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.cast_ethnicity_source_links
+    ADD CONSTRAINT cast_ethnicity_source_links_source_link_id_fkey FOREIGN KEY (source_link_id) REFERENCES public.source_links(id);
 
 
 --
@@ -4908,14 +5500,6 @@ ALTER TABLE ONLY public.media_genres
 
 ALTER TABLE ONLY public.media_genres
     ADD CONSTRAINT media_genres_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.movies(id);
-
-
---
--- Name: source_links source_links_cast_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
---
-
-ALTER TABLE ONLY public.source_links
-    ADD CONSTRAINT source_links_cast_ethnicity_id_fkey FOREIGN KEY (cast_ethnicity_id) REFERENCES public.cast_ethnicities(id);
 
 
 --

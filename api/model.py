@@ -161,7 +161,6 @@ class CastMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     imdb_id = db.Column(db.String(15))
     name = db.Column(db.String(50), nullable=False)
-    aka_id = db.Column(db.Integer, db.ForeignKey("aka.id"))
     gender_id = db.Column(
         db.Integer, db.ForeignKey("genders.id"), nullable=False)
     birthday = db.Column(db.DateTime)
@@ -172,7 +171,7 @@ class CastMember(db.Model):
     profile_path = db.Column(db.String(35))
 
     also_known_as = db.relationship(
-        "AKA", back_populates="cast_member")
+        "AlsoKnownAs", uselist=True, back_populates="cast_member")
     gender = db.relationship(
         "Gender", back_populates="cast_member")
     country_of_birth = db.relationship("Country", back_populates="births")
@@ -187,18 +186,19 @@ class CastMember(db.Model):
         return f'<Cast id={self.id} name={self.name}>'
 
 
-class AKA(db.Model):
+class AlsoKnownAs(db.Model):
     """Alternative names for cast members."""
 
-    __tablename__ = 'aka'
+    __tablename__ = 'also_known_as'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
+    cast_member_id = db.Column(db.Integer, db.ForeignKey("cast_members.id"))
 
     cast_member = db.relationship("CastMember", back_populates="also_known_as")
 
     def __repr__(self):
-        return f'<AKA id={self.id} name={self.name}>'
+        return f'<AlsoKnownAs id={self.id} name={self.name} cast_member_id={self.cast_member_id}>'
 
 
 class Gender(db.Model):

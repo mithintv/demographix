@@ -41,6 +41,8 @@ def add_source_data(new_person, ethnicity_object, source):
     cast_ethnicity.sources.append(new_source_link)
     print(f"Added new source link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}\n")
 
+    return cast_ethnicity
+
 
 def add_ethnicity_data(new_person, ethnicity_list, source):
     # Check for duplicates
@@ -59,10 +61,10 @@ def add_ethnicity_data(new_person, ethnicity_list, source):
         if ethnicity_object is not None and ethnicity_object.id not in existing_ethnicities:
 
             # Query/Add source
-            add_source_data(new_person, ethnicity_object, source)
-
+            cast_ethnicity = add_source_data(new_person, ethnicity_object, source)
+            new_person.ethnicities.append(cast_ethnicity)
             print(
-                f"Adding {ethnicity_object.name} to {new_person.name}")
+                f"Adding {cast_ethnicity.ethnicity.name} to {new_person.name}")
 
 
 def get_regions():
@@ -163,9 +165,9 @@ def add_cast_member(person, movie_title):
 
     # Add ethnicity data
     print(f"Finding ethnicity information about {new_person.name}...")
-    results = get_ethnicity(person)
-    if results['list'] != None:
-        add_ethnicity_data(new_person, results.list, results.source)
+    results = get_ethnicity(person_dict=person)
+    if results.get('list', None) != None:
+        add_ethnicity_data(new_person, results['list'], results['source'])
 
     # Add race data
     print(f"Adding approximate race data...")
@@ -244,15 +246,17 @@ def add_credits(credit_list, curr_movie):
     for cast in credit_list:
         cast_member = CastMember.query.filter(
             CastMember.id == cast["id"]).one()
-        new_credit = Credit(id=cast["credit_id"],
-                            movie_id=curr_movie,
-                            character=cast["character"],
-                            order=cast["order"],
-                            cast_member_id=cast_member,
-                            movie=curr_movie,
-                            cast_member=cast_member)
+        new_credit = Credit.query.filter_by(id=cast["credit_id"]).first()
+        if new_credit == None:
+            new_credit = Credit(id=cast["credit_id"],
+                                movie_id=curr_movie,
+                                character=cast["character"],
+                                order=cast["order"],
+                                cast_member_id=cast_member,
+                                movie=curr_movie,
+                                cast_member=cast_member)
 
-        new_credits.append(new_credit)
+            new_credits.append(new_credit)
 
     db.session.add_all(new_credits)
     db.session.commit()
@@ -315,7 +319,7 @@ def query_api_movie_details(movie_id):
     }
     response = requests.get(url, headers=headers)
     movie_details = response.json()
-    print(f"Movie Details...\n{movie_details}")
+    print(f"Retrieved movie details...")
     return movie_details
 
 
@@ -325,7 +329,7 @@ def query_api_credits(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={key}&language=en-US"
     response = requests.get(url)
     movie_credits = response.json()
-    print(f"Credits...\n{movie_credits['cast']}")
+    print(f"Retrieved credits...\n")
 
     return movie_credits['cast']
 
@@ -335,27 +339,31 @@ def query_api_people(credit_list, movie_title):
 
     update_count = 0
     add_count = 0
-    if type(credit_list) == dict:
-        for person in credit_list:
+    for person in credit_list:
+        if type(person) == dict:
             person_query = CastMember.query.filter(
                 CastMember.id == person['id']).first()
-
-            if person_query == None:
-                print(
-                    f"{person['name']} doesn't exist in database...\nMaking api call...")
-                url = f"https://api.themoviedb.org/3/person/{person['id']}?api_key={key}"
-                response = requests.get(url)
-                person = response.json()
-
-                cast_member = add_cast_member(person, movie_title)
-                db.session.add(cast_member)
-                add_count += 1
-    else:
-        for credit in credit_list:
+        else:
             person_query = CastMember.query.filter(
-                CastMember.id == credit.cast_member.id).first()
+                CastMember.id == person.cast_member.id).first()
+
+        if person_query == None:
+            print(
+                f"{person['name']} doesn't exist in database...\nMaking api call...")
+            url = f"https://api.themoviedb.org/3/person/{person['id']}?api_key={key}"
+            response = requests.get(url)
+            person = response.json()
+
+            cast_member = add_cast_member(person, movie_title)
+            db.session.add(cast_member)
+            add_count += 1
+
+        else:
             update_cast_member(person_query)
             update_count += 1
+
+        print("Sleeping for 5 seconds...\n")
+        time.sleep(5)
 
     db.session.commit()
 
@@ -369,19 +377,19 @@ def get_movie_cast(movie_id):
     """Return specific movie with credits and cast member details."""
 
     movie = Movie.query.filter(Movie.id == movie_id).one()
-    if movie.imdb_id == None:
-        print(f"Movie details are missing...\nMaking api call...")
+    # if movie.imdb_id == None:
+    print(f"Movie details are missing...\nMaking api call...\n")
 
-        # Update movie
-        movie_details = query_api_movie_details(movie_id)
-        update_movie_with_movie_details(movie, movie_details)
+    # Update movie
+    movie_details = query_api_movie_details(movie_id)
+    update_movie_with_movie_details(movie, movie_details)
 
-        # Get cast list and add cast members
-        cast_credit_list = query_api_credits(movie_id)
-        query_api_people(cast_credit_list, movie.title)
+    # Get cast list and add cast members
+    cast_credit_list = query_api_credits(movie_id)
+    query_api_people(cast_credit_list, movie.title)
 
-        # Add credits after adding cast members
-        add_credits(cast_credit_list, movie)
+    # Add credits after adding cast members
+    add_credits(cast_credit_list, movie)
 
     cast_list = db.session.query(
         CastMember,

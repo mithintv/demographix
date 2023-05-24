@@ -21,6 +21,8 @@ def txtcomp(article, person):
     for choice in response.choices:
         result += choice.message.content
 
+    print(result)
+
     pattern = re.compile(r'{(.*?)}', re.DOTALL)
     match = pattern.search(result)
 
@@ -28,6 +30,8 @@ def txtcomp(article, person):
         block = match.group()
         data = json.loads(block)
         return data
+    else:
+        return {}
 
 
 # if __name__ == '__main__':

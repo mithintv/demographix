@@ -120,12 +120,14 @@ def get_ethnicity(person_obj, person_dict=None):
     """Return list of ethnicities for a given person."""
 
     if person_dict:
-        person_name = person_dict["name"].lower().replace(" ", "-").replace(".", "")
+        person_name = person_dict["name"]
     else:
         person_name = person_obj.name
 
+    formatted_name = person_name.lower().replace(" ", "-").replace(".", "")
+
     # Try ethnicelebs.com
-    results = ethnicelebs(person_name)
+    results = ethnicelebs(formatted_name)
     if results.get('list', None) is None:
         if person_dict:
             for alt_name in person_dict["also_known_as"]:

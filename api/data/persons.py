@@ -2,7 +2,7 @@
 import os
 import requests
 import json
-from model import db, CastMember
+from model import db, CastMember, AKA
 from app import app
 from crud import *
 from data.ethnicity import *
@@ -17,7 +17,13 @@ def fetch_missing_person_data_json(attribute='profile_path'):
         for cast in data:
             cast_member = CastMember.query.filter_by(
                 id=cast['id']).one()
-            if cast_member.profile_path == None:
+            property = getattr(cast_member, attribute)
+            if type(property) == list:
+                for instance in cast[attribute]:
+                    new_aka = AKA(name=instance)
+                    cast_member.also_known_as.append(new_aka)
+
+            if type(property) != list and property == None:
                 missing_attribute = {
                     str(attribute): cast[attribute]
                 }
@@ -68,6 +74,20 @@ def fetch_missing_ethnicity_sources_json(name=None):
                         print("Sleeping for 5 seconds...\n")
                         time.sleep(5)
 
-# fetch_missing_person_data_json()
+
+def fetch_missing_ethnicity_sources_api(name=None):
+
+    query = CastMember.query.filter(len(CastMember.ethnicities) > 0).all()
+    # for cast_dict in query:
+    #     cast_obj = CastMember.query.filter_by(
+    #         id=cast_dict['id']).one()
+    #     for cast_ethnicity in cast_obj.ethnicities:
+    #         if len(cast_ethnicity.sources) == 0:
+    #             update_cast_member(cast_obj, cast_dict)
+    #             print("Sleeping for 5 seconds...\n")
+    #             time.sleep(5)
+
+fetch_missing_person_data_json('also_known_as')
 # fetch_missing_person_data_api()
 # fetch_missing_ethnicity_sources_json()
+# fetch_missing_ethnicity_sources_api()

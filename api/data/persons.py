@@ -10,7 +10,7 @@ from data.ethnicity import *
 key = os.environ['TMDB_API_KEY']
 
 
-def fetch_missing_person_data_json(attribute='profile_path'):
+def fetch_missing_attr_data_json(attribute='profile_path'):
     with open('data/persons.json', 'r') as file:
         data = json.load(file)
 
@@ -38,8 +38,7 @@ def fetch_missing_person_data_json(attribute='profile_path'):
     db.session.commit()
 
 
-def fetch_missing_person_data_api(attribute='profile_path'):
-    all_cast = CastMember.query.filter().all()
+def fetch_missing_attr_data_api(all_cast, attribute='profile_path'):
 
     for cast_member in all_cast:
         attr = getattr(cast_member, attribute)
@@ -50,7 +49,26 @@ def fetch_missing_person_data_api(attribute='profile_path'):
 
             setattr(cast_member, attribute, person[attribute])
             print(
-                f"Added profile_path: {person[attribute]} to {cast_member.name}")
+                f"Added {attribute}: {person[attribute]} to {cast_member.name}")
+    db.session.commit()
+
+
+def fetch_missing_list_data_api(credits, attribute='profile_path'):
+
+    for credit in credits:
+        attr = getattr(credit.cast_member, attribute)
+        if len(attr) == 0:
+            url = f"https://api.themoviedb.org/3/person/{credit.cast_member.id}?api_key={key}"
+            response = requests.get(url)
+            person = response.json()
+
+            for aka in person['also_known_as']:
+                new_aka = AlsoKnownAs.query.filter(AlsoKnownAs.name == aka).first()
+                if new_aka == None:
+                    new_aka = AlsoKnownAs(name=aka)
+                    credit.cast_member.also_known_as.append(new_aka)
+                    print(f"Added alternative name {new_aka.name} for {credit.cast_member.name}")
+
     db.session.commit()
 
 
@@ -90,7 +108,7 @@ def fetch_missing_ethnicity_sources_api(name=None):
     #             print("Sleeping for 5 seconds...\n")
     #             time.sleep(5)
 
-fetch_missing_person_data_json('also_known_as')
+# fetch_missing_person_data_json('also_known_as')
 # fetch_missing_person_data_api()
 # fetch_missing_ethnicity_sources_json()
 # fetch_missing_ethnicity_sources_api()

@@ -3,6 +3,7 @@ import re
 from bs4 import BeautifulSoup
 from data.gpt import *
 from data.palm import *
+from model import AlsoKnownAs
 
 
 def parse_ethnicelebs(txt):
@@ -40,8 +41,11 @@ def parse_ethnicelebs(txt):
     return list(ethnicity_list)
 
 
-def ethnicelebs(person_name):
+def ethnicelebs(given_name):
     """Given cast name, use ethnicelebs.com to return list of ethnicity data."""
+
+    person_name = given_name.lower().replace(" ", "-").replace(".", "")
+    print(f"Attempting {person_name} on ethnicelebs.com")
 
     url = f"https://ethnicelebs.com/{person_name}"
     response = requests.get(
@@ -68,7 +72,7 @@ def ethnicelebs(person_name):
             return {}
 
     else:
-        if len(response.url) == len(url):
+        if len(response.url) != len(url):
             print(f"Request URL: {url}")
             print(f"Response URL: {response.url}")
             print("URL length changed... request aborted...")
@@ -121,25 +125,25 @@ def get_ethnicity(person_obj, person_dict=None):
 
     if person_dict:
         person_name = person_dict["name"]
+        alt_names = person_dict["also_known_as"]
     else:
         person_name = person_obj.name
-
-    formatted_name = person_name.lower().replace(" ", "-").replace(".", "")
+        alt_names = person_obj.also_known_as
 
     # Try ethnicelebs.com
-    results = ethnicelebs(formatted_name)
+    results = ethnicelebs(person_name)
     if results.get('list', None) is None:
-        if person_dict:
-            for alt_name in person_dict["also_known_as"]:
-                formatted_alt_name = alt_name.lower().replace(" ", "-").replace(".", "")
-                print(f"Attempting {formatted_alt_name} on ethnicelebs.com")
-                results = ethnicelebs(formatted_alt_name)
-                if results.get('list', None) is not None:
-                    return results
-                else:
-                    # Try wikipedia.org
-                    print(f"Attempting {person_obj.name} on wikipedia.org")
-                    results = wikipedia(person_obj.name)
-                    print(results)
-                    return results
+        for alt_name in alt_names:
+            if type(alt_name) == AlsoKnownAs:
+                results = ethnicelebs(alt_name.name)
+            else:
+                results = ethnicelebs(alt_name)
+            if results.get('list', None) is not None:
+                return results
+
+        # Try wikipedia.org
+        print(f"Attempting {person_obj.name} on wikipedia.org")
+        results = wikipedia(person_obj.name)
+        print(results)
+
     return results

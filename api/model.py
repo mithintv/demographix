@@ -10,7 +10,7 @@ class Region(db.Model):
 
     __tablename__ = 'regions'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
 
     subregions = db.relationship(
@@ -27,7 +27,7 @@ class SubRegion(db.Model):
 
     __tablename__ = 'subregions'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25))
     region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
 
@@ -69,7 +69,7 @@ class AltCountry(db.Model):
     __tablename__ = 'alt_countries'
 
     id = db.Column(
-        db.Integer, autoincrement=True, primary_key=True)
+        db.Integer, primary_key=True)
     country_id = db.Column(db.String(3), db.ForeignKey("countries.id"))
     alt_name = db.Column(db.String(75))
 
@@ -124,7 +124,7 @@ class MediaGenre(db.Model):
     __tablename__ = 'media_genres'
 
     id = db.Column(
-        db.Integer, primary_key=True, autoincrement=True)
+        db.Integer, primary_key=True)
     genre_id = db.Column(db.Integer, db.ForeignKey("genres.id"))
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.id"))
 
@@ -221,7 +221,7 @@ class Ethnicity(db.Model):
 
     __tablename__ = 'ethnicities'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
     subregion_id = db.Column(db.Integer, db.ForeignKey("subregions.id"))
@@ -242,7 +242,7 @@ class AltEthnicity(db.Model):
     __tablename__ = 'alt_ethnicities'
 
     id = db.Column(
-        db.Integer, primary_key=True, autoincrement=True)
+        db.Integer, primary_key=True)
     ethnicity_id = db.Column(
         db.Integer, db.ForeignKey("ethnicities.id"), nullable=False)
     alt_name = db.Column(db.String(75))
@@ -260,7 +260,7 @@ class CastEthnicity(db.Model):
     __tablename__ = 'cast_ethnicities'
 
     id = db.Column(
-        db.Integer, autoincrement=True, primary_key=True)
+        db.Integer, primary_key=True)
     ethnicity_id = db.Column(
         db.Integer, db.ForeignKey("ethnicities.id"))
     cast_member_id = db.Column(
@@ -279,7 +279,7 @@ class Race(db.Model):
 
     __tablename__ = 'races'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75))
     short = db.Column(db.String(5), unique=True)
     description = db.Column(db.String())
@@ -296,7 +296,7 @@ class CastRace(db.Model):
 
     __tablename__ = 'cast_races'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"))
     cast_member_id = db.Column(db.Integer, db.ForeignKey("cast_members.id"))
 
@@ -309,7 +309,7 @@ class Source(db.Model):
 
     __tablename__ = 'sources'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25))
     domain = db.Column(db.String())
 
@@ -324,7 +324,7 @@ class SourceLink(db.Model):
 
     __tablename__ = 'source_links'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     source_id = db.Column(db.Integer, db.ForeignKey("sources.id"))
     link = db.Column(db.String())
 

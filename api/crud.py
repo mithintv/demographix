@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime
 from sqlalchemy import func, and_, or_
-from model import db, Movie, Genre, Credit, CastMember, Gender, Ethnicity, AltEthnicity, CastEthnicity, Race, Source, SourceLink, Country, AltCountry, connect_to_db
+from model import *
 
 from data.ethnicity import *
 from data.palm import *
@@ -23,7 +23,7 @@ def add_source_data(new_person, ethnicity_object, source):
     print(original_source)
 
     if original_source == None:
-        original_source = Source(name=f"{formatted_source.split('.')[0].capitalize()}", domain=f"https://{formatted_source}")
+        original_source = Source(name=f"{formatted_source.split('.')[-2].capitalize()}", domain=f"{formatted_source}")
         db.session.add(original_source)
         print(f"Adding new source: {original_source.name} to db!")
 
@@ -139,6 +139,14 @@ def add_cast_member(person, movie_title):
                                 deathday=formatted_dday,
                                 biography=person['biography'],
                                 profile_path=person['profile_path'])
+
+        if len(person['also_known_as']) > 0:
+            for aka in person['also_known_as']:
+                new_aka = AlsoKnownAs.query.filter(AlsoKnownAs.name == aka).first()
+                if new_aka == None:
+                    new_aka = AlsoKnownAs(name=aka)
+                    new_person.also_known_as.append(new_aka)
+                    print(f"Added alternative name {new_aka.name} for {new_person.name}")
 
     # Add gender data
     if person.get("gender", None) is not None:

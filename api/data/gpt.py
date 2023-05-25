@@ -5,9 +5,9 @@ import openai
 openai.api_key = os.environ['OPEN_AI_KEY']
 
 
-def txtcomp(article, person, verify=True):
+def txtcomp(article, verify=True):
 
-    prompt = f"""Based on the following information: "{article}", list all of the ethnicities of actor/actress {person} in JSON"""
+    prompt = f"""Based on the following information: "{article}", Return a list of all of the ethnicities of this person in a JSON object under a key called "ethnicity"."""
     if verify:
         prompt =f"""Return a boolean JSON object with key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the following text: {article}"""
 
@@ -32,12 +32,18 @@ def txtcomp(article, person, verify=True):
         if match:
             block = match.group()
             data = json.loads(block)
+
+            if verify == False:
+                for ethnicity in data['ethnicity']:
+                    if "-" in ethnicity:
+                        data['ethnicity'].extend(ethnicity.split("-"))
+
             return data
         else:
-            return {}
+            txtcomp(article)
     except openai.error.RateLimitError:
         print("Reached rate limit... trying again...")
-        txtcomp(article, person)
+        txtcomp(article)
 
 
 

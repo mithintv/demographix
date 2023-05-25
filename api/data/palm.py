@@ -12,7 +12,7 @@ print(f"Using {model}...")
 
 
 def palm_completion(article, verify=True):
-  prompt = f"""Based on the following information: "{article}", Return a list of all of the ethnicities of this person in a JSON object.."""
+  prompt = f"""Based on the following information: "{article}", Return a list of all of the ethnicities of this person in a JSON object under a key called "ethnicity"."""
 
   if verify:
     prompt =f"""Return a boolean JSON object with key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the following text: {article}"""

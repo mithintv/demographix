@@ -144,8 +144,11 @@ def wikipedia(person_name, person_bday):
 
         verify_result = txtcomp(wiki_text, person_name)
         # verify_result = palm_completion(wiki_text, person_name)
+
+        print(verify_result)
+
         if verify_result['mentioned'] == True:
-            result = palm_completion(wiki_text, verify=False)
+            result = txtcomp(wiki_text, verify=False)
         else:
             print("No race/ethnicity information on wiki...")
             return {}
@@ -174,21 +177,16 @@ def wikipedia(person_name, person_bday):
         return {}
 
 
-def get_ethnicity(person_obj=None, person_dict=None):
+def get_ethnicity(person_obj):
     """Return list of ethnicities for a given person."""
 
     date_format = '%Y-%m-%d'
     birthday = ""
 
-    if person_dict:
-        person_name = person_dict["name"]
-        alt_names = person_dict["also_known_as"]
-        birthday = person_dict["birthday"]
-    else:
-        person_name = person_obj.name
-        alt_names = person_obj.also_known_as
-        if person_obj.birthday != None:
-            birthday = person_obj.birthday.strftime(date_format)
+    person_name = person_obj.name
+    alt_names = person_obj.also_known_as
+    if person_obj.birthday != None:
+        birthday = person_obj.birthday.strftime(date_format)
 
     # Try ethnicelebs.com
     results = ethnicelebs(person_name)

@@ -11,16 +11,20 @@ model = models[0].name
 print(f"Using {model}...")
 
 
-def palm_completion(person, article, verify=True):
-  prompt = f"""Based on the following information: "{article}", list all of the ethnicities of actor/actress {person} in a JSON object."""
+def palm_completion(article, verify=True):
+  prompt = f"""Based on the following information: "{article}", Return a list of all of the ethnicities of this person in a JSON object.."""
+
   if verify:
     prompt =f"""Return a boolean JSON object with key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the following text: {article}"""
+
   completion = palm.generate_text(
     model=model,
     prompt=prompt,
     temperature=0,
     # The maximum length of the response
     max_output_tokens=800)
+
+  print(completion.result)
 
   match = re.search(r'\{(.|\n)*\}', completion.result)
   if match:

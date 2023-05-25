@@ -395,8 +395,9 @@ def query_api_people(credit_list, movie_title):
             update_cast_member(person_query)
             update_count += 1
 
-        print("Sleeping for 5 seconds...\n")
-        time.sleep(5)
+
+    print("Sleeping for 5 seconds...\n")
+    time.sleep(5)
 
     db.session.commit()
 

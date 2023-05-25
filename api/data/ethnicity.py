@@ -111,18 +111,29 @@ def wikipedia(person_name, person_bday):
             print("Birthdays match!")
 
         early_life = soup.find(id='Early_life')
+        personal_life = soup.find(id='Personal_life')
+
         if early_life == None:
             early_life = soup.find(id='Early_life_and_education')
-        if early_life == None:
+
+        if early_life == None and personal_life == None:
             print("No ethnicity information on wikipedia...")
             return {}
-        siblings = early_life.find_parent().find_next_siblings()
 
         paras = []
-        for element in siblings:
-            if element.name == 'h2':
-                break
-            paras.append(element)
+        if early_life != None:
+            siblings = early_life.find_parent().find_next_siblings()
+            for element in siblings:
+                if element.name == 'h2':
+                    break
+                paras.append(element)
+
+        if personal_life != None:
+            siblings = personal_life.find_parent().find_next_siblings()
+            for element in siblings:
+                if element.name == 'h2':
+                    break
+                paras.append(element)
 
 
         wiki_text = ""
@@ -133,9 +144,8 @@ def wikipedia(person_name, person_bday):
 
         verify_result = txtcomp(wiki_text, person_name)
         # verify_result = palm_completion(wiki_text, person_name)
-        print(verify_result)
         if verify_result['mentioned'] == True:
-            result = palm_completion(wiki_text, person_name, verify=False)
+            result = palm_completion(wiki_text, verify=False)
         else:
             print("No race/ethnicity information on wiki...")
             return {}

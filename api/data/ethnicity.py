@@ -38,7 +38,7 @@ def parse_ethnicelebs(txt):
 
             # print(f"word: '{new_str}'")
 
-    print(f"Parsed Ethnicities: {ethnicity_list}")
+    print(f"Parsed Ethnicities: {ethnicity_list}\n")
     return list(ethnicity_list)
 
 
@@ -61,7 +61,7 @@ def ethnicelebs(given_name):
     if response.status_code == 200 and len(response.url) == len(url):
         if soup.strong != None:
             ethnicity_description = soup.strong.get_text()
-            print(ethnicity_description)
+            print(f"Raw text from ethnicelebs:\n{ethnicity_description}")
 
             return {
                 "list": parse_ethnicelebs(ethnicity_description),
@@ -131,9 +131,10 @@ def wikipedia(person_name, person_bday):
 
         print(wiki_text)
 
-        # result = txtcomp(wiki_text, person_name)
-        verify_result = palm_completion(wiki_text, person_name)
-        if verify_result['race_or_ethnicity_mentioned'] == True:
+        verify_result = txtcomp(wiki_text, person_name)
+        # verify_result = palm_completion(wiki_text, person_name)
+        print(verify_result)
+        if verify_result['mentioned'] == True:
             result = palm_completion(wiki_text, person_name, verify=False)
         else:
             print("No race/ethnicity information on wiki...")
@@ -191,7 +192,7 @@ def get_ethnicity(person_obj=None, person_dict=None):
                 return results
 
         # Try wikipedia.org
-        # print(f"Attempting {person_obj.name} on wikipedia.org")
-        # results = wikipedia(person_obj.name, birthday)
+        print(f"Attempting {person_name} on wikipedia.org")
+        results = wikipedia(person_name, birthday)
 
     return results

@@ -4,7 +4,7 @@ import requests
 import os
 import time
 from datetime import datetime
-from sqlalchemy import func, and_, or_
+from sqlalchemy import func, and_, or_, desc
 from model import *
 
 from data.ethnicity import *
@@ -16,11 +16,9 @@ access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 def add_source_data(new_person, ethnicity_object, source):
     formatted_source = "/".join(source.split("/")[0:3])
-    print(formatted_source)
 
     original_source = Source.query.filter(
         Source.domain.like(f'%{formatted_source}%')).first()
-    print(original_source)
 
     if original_source == None:
         original_source = Source(name=f"{formatted_source.split('.')[-2].capitalize()}", domain=f"{formatted_source}")
@@ -36,15 +34,18 @@ def add_source_data(new_person, ethnicity_object, source):
     cast_ethnicity = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == new_person.id, CastEthnicity.ethnicity_id == ethnicity_object.id)).first()
     if cast_ethnicity == None:
         cast_ethnicity = CastEthnicity(
-            ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id)
+            ethnicity_id=ethnicity_object.id, cast_member_id=new_person.id, ethnicity=ethnicity_object, )
         db.session.add(cast_ethnicity)
-    cast_ethnicity.sources.append(new_source_link)
-    print(f"Added new source link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}\n")
+
+    if new_source_link not in cast_ethnicity.sources:
+        cast_ethnicity.sources.append(new_source_link)
+        print(f"Added new ref link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}")
 
     return cast_ethnicity
 
 
 def add_ethnicity_data(new_person, ethnicity_list, source):
+
     # Check for duplicates
     existing_ethnicities = set([])
     for cast_ethnicity in new_person.ethnicities:
@@ -58,13 +59,88 @@ def add_ethnicity_data(new_person, ethnicity_list, source):
         ethnicity_object = Ethnicity.query.outerjoin(AltEthnicity).filter(
             (Ethnicity.name == ethnicity) | (AltEthnicity.alt_name == ethnicity)).first()
 
-        if ethnicity_object is not None and ethnicity_object.id not in existing_ethnicities:
-
+        if ethnicity_object is not None:
             # Query/Add source
             cast_ethnicity = add_source_data(new_person, ethnicity_object, source)
-            new_person.ethnicities.append(cast_ethnicity)
+
+            if ethnicity_object.id in existing_ethnicities:
+                print(f"Skipping {ethnicity_object.name}... already stored...")
+                continue
+            else:
+                new_person.ethnicities.append(cast_ethnicity)
+                print(
+                    f"Adding {cast_ethnicity.ethnicity.name} to {new_person.name}")
+
+
+def add_race_data(new_person):
+    existing_races = set()
+    for races in new_person.races:
+        existing_races.add(races.id)
+
+    add_race_ids = set()
+    for cast_ethnicity in new_person.ethnicities:
+        # If region is specified in ethnicity, set approx_country to that ethnicity which has region and subregion attributes. Otherwise, query a country object which also has region and subregion attributes
+        if cast_ethnicity.ethnicity.region != None:
+            approx_country = cast_ethnicity.ethnicity
+        else:
+            approx_country = Country.query.filter(
+                Country.demonym == cast_ethnicity.ethnicity.name).first()
+
+        if approx_country != None:
             print(
-                f"Adding {cast_ethnicity.ethnicity.name} to {new_person.name}")
+                f"{cast_ethnicity.ethnicity.name} is approximately in {approx_country.name}, {approx_country.subregion.name}, {approx_country.region.name}")
+
+            if approx_country.name != 'Guyana':
+
+                if approx_country.region.name == 'Europe':
+                    white = Race.query.filter(Race.short == 'WHT').one()
+                    add_race_ids.add(white.id)
+
+                if approx_country.subregion.name in ['Central Asia', 'Western Asia']:
+                    mena = Race.query.filter(Race.short == 'MENA').one()
+                    add_race_ids.add(mena.id)
+
+                if approx_country.region.name == 'Africa' or approx_country.name in ['Haiti', 'Dominican Republic']:
+                    black = Race.query.filter(Race.short == 'BLK').one()
+                    add_race_ids.add(black.id)
+
+                if approx_country.subregion.name in ['Central America', 'South America'] or approx_country.name in ['Mexico', 'Puerto Rico', 'Cuba', 'Dominican Republic']:
+                    hispanic = Race.query.filter(
+                        Race.short == 'HSPN').one()
+                    add_race_ids.add(hispanic.id)
+
+                if approx_country.subregion.name in ['Eastern Asia', 'South-Eastern Asia', 'Southern Asia']:
+                    asian = Race.query.filter(Race.short == 'ASN').one()
+                    add_race_ids.add(asian.id)
+
+                if approx_country.subregion.name in ['Polynesia', 'Micronesia', 'Melanesia']:
+                    nhpi = Race.query.filter(Race.short == 'NHPI').one()
+                    add_race_ids.add(nhpi.id)
+
+            else:
+                print(
+                    f'Could not associate {cast_ethnicity.ethnicity.name} with a country')
+                if cast_ethnicity.ethnicity.name in ['English', 'Cornish', 'Scottish', 'Welsh', 'Jewish']:
+                    white = Race.query.filter(Race.short == 'WHT').one()
+                    add_race_ids.add(white.id)
+                if cast_ethnicity.ethnicity.name in ['African American', 'African', 'Guyanese']:
+                    black = Race.query.filter(Race.short == 'BLK').one()
+                    add_race_ids.add(black.id)
+                if cast_ethnicity.ethnicity.name in ['Korean']:
+                    asian = Race.query.filter(Race.short == 'ASN').one()
+                    add_race_ids.add(asian.id)
+                if cast_ethnicity.ethnicity.name == 'Hawaiian':
+                    nhpi = Race.query.filter(Race.short == 'NHPI').one()
+                    add_race_ids.add(nhpi.id)
+
+    for race in add_race_ids:
+        new_race = Race.query.filter(Race.id == race).one()
+        if race in existing_races:
+            print(f"Skipping {new_race.name}... already stored...")
+            continue
+        else:
+            print(f"Adding {new_race.name} as a race...")
+            new_person.races.append(new_race)
 
 
 def get_regions():
@@ -115,11 +191,20 @@ def update_cast_member(person_obj=None, person_dict=None):
         results = get_ethnicity(person_obj, person_dict)
         if results.get('list', None) != None:
             add_ethnicity_data(curr_person, results['list'], results['source'])
-            db.session.commit()
+            add_race_data(curr_person)
 
 
-def add_cast_member(person, movie_title):
+def add_cast_member(person):
     """Add cast member information from api call."""
+    if type(person) == str:
+        print(f"Making api call...")
+        url = f"https://api.themoviedb.org/3/search/person?query={person}&api_key={key}&language=en-US"
+        response = requests.get(url)
+        results = response.json()
+
+        url = f"https://api.themoviedb.org/3/person/{results['results'][0]['id']}?api_key={key}"
+        response = requests.get(url)
+        person = response.json()
 
     new_person = CastMember.query.filter(CastMember.id == person['id']).first()
     if new_person == None:
@@ -171,70 +256,10 @@ def add_cast_member(person, movie_title):
 
     # Add race data
     print(f"Adding approximate race data...")
-    add_race_ids = set()
     if len(new_person.ethnicities) == 0:
         print("Cannot approximate race data without ethnicity data...\n")
-
     else:
-        for ethnicity in new_person.ethnicities:
-            if ethnicity.region != None:
-                approx_country = ethnicity
-            else:
-                approx_country = Country.query.filter(
-                    Country.demonym == ethnicity.name).first()
-
-            if approx_country != None:
-                print(
-                    f"{approx_country.name} {approx_country.region.name} {approx_country.subregion.name}")
-
-                if approx_country.region.name == 'Europe':
-                    white = Race.query.filter(Race.short == 'WHT').one()
-                    add_race_ids.add(white.id)
-
-                if approx_country.subregion.name in ['Central Asia', 'Western Asia']:
-                    mena = Race.query.filter(Race.short == 'MENA').one()
-                    add_race_ids.add(mena.id)
-
-                if approx_country.region.name == 'Africa' or approx_country.name in ['Haiti', 'Dominican Republic']:
-                    black = Race.query.filter(Race.short == 'BLK').one()
-                    add_race_ids.add(black.id)
-
-                if approx_country.subregion.name in ['Central America', 'South America'] or approx_country.name in ['Mexico', 'Puerto Rico', 'Cuba', 'Dominican Republic']:
-                    hispanic = Race.query.filter(
-                        Race.short == 'HSPN').one()
-                    add_race_ids.add(hispanic.id)
-
-                if approx_country.subregion.name in ['Eastern Asia', 'South-Eastern Asia', 'Southern Asia']:
-                    asian = Race.query.filter(Race.short == 'ASN').one()
-                    add_race_ids.add(asian.id)
-
-                if approx_country.subregion.name in ['Polynesia', 'Micronesia', 'Melanesia']:
-                    nhpi = Race.query.filter(Race.short == 'NHPI').one()
-                    add_race_ids.add(nhpi.id)
-
-            else:
-                print(
-                    f'Could not associate {ethnicity.name} with a country')
-                if ethnicity.name in ['English', 'Cornish', 'Scottish', 'Welsh', 'Jewish']:
-                    white = Race.query.filter(Race.short == 'WHT').one()
-                    add_race_ids.add(white.id)
-                if ethnicity.name in ['African American', 'African']:
-                    black = Race.query.filter(Race.short == 'BLK').one()
-                    add_race_ids.add(black.id)
-                if ethnicity.name in ['Korean']:
-                    asian = Race.query.filter(Race.short == 'ASN').one()
-                    add_race_ids.add(asian.id)
-                if ethnicity.name == 'Hawaiian':
-                    nhpi = Race.query.filter(Race.short == 'NHPI').one()
-                    add_race_ids.add(nhpi.id)
-
-        for race in add_race_ids:
-            new_race = Race.query.filter(Race.id == race).one()
-            print(f"Adding {new_race.name} as a race...")
-            new_person.races.append(new_race)
-
-    print('Sleeping for 5 seconds...\n')
-    time.sleep(5)
+        add_race_data(new_person)
 
     return new_person
 
@@ -267,7 +292,7 @@ def query_movie(keywords):
     """Return search query results."""
 
     query = Movie.query.filter(func.lower(Movie.title).like(
-        f'%{keywords.lower()}%')).all()
+        f'%{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
     return query
 
 
@@ -275,6 +300,14 @@ def query_movie_credits(movie_obj):
     """Return search query results."""
 
     query = Credit.query.filter(Credit.movie == movie_obj).all()
+    return query
+
+
+def query_cast(keywords):
+    """Return search query results for a cast member."""
+
+    query = CastMember.query.filter(func.lower(CastMember.name).like(
+        f'%{keywords.lower()}%')).all()
     return query
 
 
@@ -354,7 +387,7 @@ def query_api_people(credit_list, movie_title):
             response = requests.get(url)
             person = response.json()
 
-            cast_member = add_cast_member(person, movie_title)
+            cast_member = add_cast_member(person)
             db.session.add(cast_member)
             add_count += 1
 

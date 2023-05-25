@@ -104,7 +104,6 @@ def wikipedia(person_name, person_bday):
             return {}
 
         birthday_text = birthday_span.get_text()
-        print(birthday_text)
         if birthday_text != person_bday:
             print("Birthdays don't match... aborting...")
             return {}
@@ -125,6 +124,7 @@ def wikipedia(person_name, person_bday):
                 break
             paras.append(element)
 
+
         wiki_text = ""
         for sentence in paras:
             wiki_text += sentence.get_text()
@@ -132,7 +132,13 @@ def wikipedia(person_name, person_bday):
         print(wiki_text)
 
         # result = txtcomp(wiki_text, person_name)
-        result = palm_completion(wiki_text, person_name)
+        verify_result = palm_completion(wiki_text, person_name)
+        if verify_result['race_or_ethnicity_mentioned'] == True:
+            result = palm_completion(wiki_text, person_name, verify=False)
+        else:
+            print("No race/ethnicity information on wiki...")
+            return {}
+
         if result.get("ethnicity", None) != None:
             wiki_source = {
                 "list": result['ethnicity'],
@@ -153,6 +159,7 @@ def wikipedia(person_name, person_bday):
             print("No luck parsing wiki...")
             return {}
     else:
+        print("Wiki page doesn't exist...")
         return {}
 
 

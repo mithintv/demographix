@@ -4,7 +4,7 @@ import requests
 import os
 import time
 from datetime import datetime
-from sqlalchemy import func, and_, or_, desc
+from sqlalchemy import func, and_, or_, desc, extract
 from model import *
 
 from data.ethnicity import *
@@ -393,7 +393,7 @@ def query_api_people(credit_list, movie_title):
             response = requests.get(url)
             person = response.json()
 
-            cast_member = add_cast_member(person, person['order'])
+            cast_member = add_cast_member(person)
             db.session.add(cast_member)
             add_count += 1
 
@@ -481,6 +481,20 @@ def get_movie_cast(movie_id):
     }
     print(f"Fetching details about {data['title']}...")
     return data
+
+
+def get_nom_movies(year):
+    """Return nominated movies and cast demographgics for a given year"""
+
+    nomination = Nomination.query.filter(Nomination.year == year).first()
+    movie_noms = MovieNomination.query.filter(MovieNomination.nomination_id == nomination.id).all()
+
+    all_movie_data = []
+    for movie_nom in movie_noms:
+        movie_data = get_movie_cast(movie_nom.movie_id)
+        all_movie_data.append(movie_data)
+
+    return all_movie_data
 
 
 if __name__ == '__main__':

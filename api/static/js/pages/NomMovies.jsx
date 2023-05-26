@@ -14,7 +14,7 @@ const NomMovies = () => {
 
       const castList = compileAges(movieList);
       setAgeData(parseAges(castList));
-      setRaceData(parseEthnicity(castList));
+      setRaceData(parseRace(castList));
       setCOBData(parseCountryOfBirth(castList));
     };
     fetchData();
@@ -27,18 +27,19 @@ const NomMovies = () => {
 
   return (
     <React.Fragment>
-      {ageData && <BarChart data={ageData} />}
-      {raceData && <PieChart data={raceData} />}
-      {cobData && <PieChart data={cobData} />}
+      {/* {ageData && <BarChart data={ageData} />} */}
+      {raceData && <BarChart data={raceData} />}
+      {/* {raceData && <PieChart data={raceData} />}
+      {cobData && <PieChart data={cobData} />} */}
       {!showDetails &&
         movies.map((movie, index) => {
           const releaseDate = new Date(movie.release_date);
           return (
             <div key={index}>
-              <img
+              {/* <img
                 src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
                 width={100}
-              />
+              /> */}
               <a onClick={setMovieHandler.bind(this, movie.id)}>
                 <p>
                   {movie.title} <span>({releaseDate.getFullYear()})</span>

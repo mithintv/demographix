@@ -32,9 +32,6 @@ const PieChart = React.memo((props) => {
           ")"
       );
 
-    // // Create dummy data
-    // const data = { a: 9, b: 20, c: 30, d: 8, e: 12, f: 11 };
-
     // set the color scale
     const color = d3
       .scaleOrdinal()
@@ -58,6 +55,15 @@ const PieChart = React.memo((props) => {
       .arc()
       .innerRadius(radius * 0.9)
       .outerRadius(radius * 0.9);
+
+    const rect = svg
+      .append("rect")
+      .attr("x", -width)
+      .attr("y", -height / 2)
+      .attr("width", width)
+      .attr("height", height)
+      .attr("stroke", "black")
+      .attr("fill", "#69a3b2");
 
     // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
     svg
@@ -84,7 +90,8 @@ const PieChart = React.memo((props) => {
         const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
         const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
-        posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+        // posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+
         return [posA, posB, posC];
       });
 

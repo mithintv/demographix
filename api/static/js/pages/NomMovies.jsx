@@ -1,13 +1,21 @@
-const TopMovies = () => {
+const NomMovies = () => {
   const [movies, setMovies] = React.useState([]);
   const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
+  const [ageData, setAgeData] = React.useState();
+  const [raceData, setRaceData] = React.useState();
+  const [cobData, setCOBData] = React.useState();
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/top");
+      const response = await fetch("/nom/2022");
       const movieList = await response.json();
       setMovies(movieList);
+
+      const castList = compileAges(movieList);
+      setAgeData(parseAges(castList));
+      setRaceData(parseEthnicity(castList));
+      setCOBData(parseCountryOfBirth(castList));
     };
     fetchData();
   }, []);
@@ -17,11 +25,11 @@ const TopMovies = () => {
     setCurrMovie(movie_id);
   };
 
-  console.log(currMovie);
-
   return (
     <React.Fragment>
-      {showDetails && <MovieDetails movie_id={currMovie} />}
+      {ageData && <BarChart data={ageData} />}
+      {raceData && <PieChart data={raceData} />}
+      {cobData && <PieChart data={cobData} />}
       {!showDetails &&
         movies.map((movie, index) => {
           const releaseDate = new Date(movie.release_date);
@@ -29,7 +37,7 @@ const TopMovies = () => {
             <div key={index}>
               <img
                 src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
-                width={250}
+                width={100}
               />
               <a onClick={setMovieHandler.bind(this, movie.id)}>
                 <p>

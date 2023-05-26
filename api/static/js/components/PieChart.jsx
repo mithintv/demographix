@@ -80,7 +80,6 @@ const PieChart = React.memo((props) => {
       .attr("stroke-width", 1)
       .attr("points", function (d, i) {
         const centroid = outerArc.centroid(d);
-        console.log(centroid, arc.centroid(d));
         const posA = arc.centroid(d); // line insertion in the slice
         const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
         const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB

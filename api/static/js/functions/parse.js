@@ -7,7 +7,7 @@ const parseAges = (movieCast) => {
     const age = currYear - birthday;
     listAgeData.push({
       name: cast.name,
-      age,
+      amount: age,
     });
   });
 
@@ -28,12 +28,41 @@ const parseRace = (movieCast) => {
         : 1;
     });
   });
-  const listRaceData = [];
+  const listRaceData = [
+    {
+      name: "White",
+      amount: 0
+    },
+    {
+      name: "Black",
+      amount: 0
+    },
+    {
+      name: "Hispanic/Latino",
+      amount: 0
+    },
+    {
+      name: "Asian",
+      amount: 0
+    },
+    {
+      name: "Middle Eastern/North African",
+      amount: 0
+    },
+    {
+      name: "Native Hawaiian/Pacific Islander",
+      amount: 0
+    },
+    {
+      name: "Unknown",
+      amount: 0
+    },
+  ];
   for (const race in raceData) {
-    listRaceData.push({
-      name: race,
-      amount: raceData[race]
-    });
+    console.log(race);
+    const update = listRaceData.find(obj => obj.name == race.toString());
+    console.log(update);
+    update.amount = raceData[race];
   }
   return listRaceData;
 };

@@ -13,7 +13,7 @@ const MovieDetails = (props) => {
       const listAgeData = parseAges(movieData.cast);
       setAgeData(listAgeData);
 
-      const listRaceData = parseEthnicity(movieData.cast);
+      const listRaceData = parseRace(movieData.cast);
       setRaceData(listRaceData);
 
       const listCOBData = parseCountryOfBirth(movieData.cast);
@@ -30,7 +30,7 @@ const MovieDetails = (props) => {
         }}
       >
         {ageData && <BarChart data={ageData} />}
-        {raceData && <PieChart data={raceData} />}
+        {raceData && <BarChart data={raceData} />}
         {cobData && <PieChart data={cobData} />}
       </div>
       {movieDetails && <CastDetails cast={movieDetails.cast} />}

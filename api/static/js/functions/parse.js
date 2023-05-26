@@ -14,20 +14,27 @@ const parseAges = (movieCast) => {
   return listAgeData;
 };
 
-const parseEthnicity = (movieCast) => {
-  const listRaceData = {};
+const parseRace = (movieCast) => {
+  const raceData = {};
   movieCast.forEach((cast) => {
     if (cast.race.length === 0) {
-      listRaceData["Unknown"] = listRaceData["Unknown"]
-        ? (listRaceData["Unknown"] += 1)
+      raceData["Unknown"] = raceData["Unknown"]
+        ? (raceData["Unknown"] += 1)
         : 1;
     }
     cast.race.forEach((race) => {
-      listRaceData[race] = listRaceData[race]
-        ? (listRaceData[race] += 1)
+      raceData[race] = raceData[race]
+        ? (raceData[race] += 1)
         : 1;
     });
   });
+  const listRaceData = [];
+  for (const race in raceData) {
+    listRaceData.push({
+      name: race,
+      amount: raceData[race]
+    });
+  }
   return listRaceData;
 };
 

@@ -1,5 +1,5 @@
 import json
-from sqlalchemy import and_
+from sqlalchemy import and_, extract
 from model import *
 import app
 
@@ -20,10 +20,12 @@ def add_nominations(year, award='Academy Awards'):
 
         # Get best picture nominations only
         for nomination in data[0]['nominations']:
-            movie = Movie.query.filter_by(title=nomination['primary'][0]).first()
+            movie = Movie.query.filter(and_(Movie.title == nomination['primary'][0], extract('year', Movie.release_date) == year - 1)).first()
             nomination = Nomination.query.filter(and_(Nomination.name == award, Nomination.year == year)).first()
             if movie != None:
                 movie.nominations.append(nomination)
-                print(f"Adding {nomination.name} {nomination.year} nomination for {movie.title}")
+
+                date_format = '%Y'
+                print(f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})")
 
         db.session.commit()

@@ -82,6 +82,13 @@ def top():
     return jsonify(display_movies)
 
 
+@app.route('/nom/<year>')
+def nom(year):
+    """Return demographics of oscar nominated movies for a given year"""
+
+    movies_data = crud.get_nom_movies(year)
+    return jsonify(movies_data)
+
 @app.route('/api/movies/<movie_id>')
 def movie(movie_id):
     """Return movie and cast details."""

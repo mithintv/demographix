@@ -14,15 +14,16 @@ def make_nominations():
     db.session.commit()
 
 
-def add_nominations(year, award='Academy Awards', file_path='data/2022.json'):
-    with open(file_path, 'r') as file:
+def add_nominations(year, award='Academy Awards'):
+    with open(f'data/{year}.json', 'r') as file:
         data = json.load(file)
 
         # Get best picture nominations only
         for nomination in data[0]['nominations']:
-            movie = Movie.query.filter_by(name = nomination['primary'][0]).first()
-            nomination = Nomination.query.filter_by(and_(name=award, year=year))
+            movie = Movie.query.filter_by(title=nomination['primary'][0]).first()
+            nomination = Nomination.query.filter(and_(Nomination.name == award, Nomination.year == year)).first()
             if movie != None:
                 movie.nominations.append(nomination)
+                print(f"Adding {nomination.name} {nomination.year} nomination for {movie.title}")
 
         db.session.commit()

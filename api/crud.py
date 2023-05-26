@@ -458,7 +458,8 @@ def get_movie_cast(movie_id):
 
         races = [race.name for race in cast_member.races]
 
-        new_cast = {'name': cast.CastMember.name,
+        new_cast = {'id': cast.CastMember.id,
+                    'name': cast.CastMember.name,
                     'birthday': cast.CastMember.birthday,
                     'gender': cast.Gender.name,
                     'ethnicity': ethnicities,

@@ -26,8 +26,9 @@ const BarChart = React.memo((props) => {
       g
         .append("text")
         .attr("font-family", "sans-serif")
-        .attr("font-size", 25)
+        .attr("font-size", 15)
         .attr("y", 10)
+        .attr("fill", "white")
         .text("Amount");
 
     const xAxis = (g) =>
@@ -35,7 +36,7 @@ const BarChart = React.memo((props) => {
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll("text")
-        .attr("transform", "rotate(-65)")
+        .attr("transform", "rotate(-45)")
         .attr("text-anchor", "end")
         .attr("x", -10)
         .attr("y", 0);
@@ -43,7 +44,15 @@ const BarChart = React.memo((props) => {
     const yAxis = (g) =>
       g
         .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y))
+        .call(
+          d3
+            .axisLeft(y)
+            .ticks(
+              d3.max(data, (d) => d.amount) < 10
+                ? d3.max(data, (d) => d.amount)
+                : d3.max(data, (d) => d.amount) / 10
+            )
+        )
         .call((g) => g.select(".domain").remove());
 
     const svg = d3

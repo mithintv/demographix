@@ -1,7 +1,7 @@
 import json, requests, time, re, os
 from datetime import datetime
 from bs4 import BeautifulSoup
-from sqlalchemy import and_, extract
+from sqlalchemy import and_, extract, func
 
 from model import *
 import crud
@@ -48,7 +48,7 @@ def check_nominations(year: int) -> str:
     for nominee in nominees[0]['nominations']:
         title = nominee['primary']
         print(f"Checking if {title} ({year - 1}) is in db...", end=" ")
-        query = Movie.query.filter(and_(Movie.title == title, extract('year', Movie.release_date) == year - 1)).first()
+        query = Movie.query.filter(and_(func.lower(Movie.title) == title.lower(), extract('year', Movie.release_date) == year - 1)).first()
 
         if query == None:
             url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year - 1}&page=1"

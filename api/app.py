@@ -14,16 +14,9 @@ app.secret_key = 'demographix_dev'
 migrate = Migrate(app, connect_to_db(app))
 
 
-# @app.route('/')
-# def homepage():
-#     """View homepage."""
-
-#     return render_template('page.html')
-
-
 @app.route('/', methods=['POST'])
 def query():
-    """Return search results from database."""
+    """Return search results from database in json."""
 
     data = request.get_json()
     keywords = data['search']
@@ -43,7 +36,7 @@ def query():
 
 @app.route('/search', methods=['POST'])
 def query_api():
-    """Return search results from api."""
+    """Return search results from api in json. Currently set to run if 'search' button is pressed"""
 
     data = request.get_json()
     keywords = data['search']
@@ -65,50 +58,20 @@ def query_api():
     return jsonify(search_results)
 
 
-@app.route('/top')
-def top():
-    """Return oscar nominees."""
-
-    all_movies = crud.get_movies()
-
-    display_movies = []
-    for movie in all_movies:
-        movie_dict = {'id': movie.id,
-                      'title': movie.title,
-                      'release_date': movie.release_date,
-                      'poster_path': movie.poster_path,
-                      }
-        display_movies.append(movie_dict)
-    return jsonify(display_movies)
-
-
-@app.route('/nom/<year>')
+@app.route('/api/nom/<year>')
 def nom(year):
-    """Return demographics of oscar nominated movies for a given year"""
+    """Return demographics of oscar nominated movies for a given year in json"""
 
     movies_data = crud.get_nom_movies(year)
     return jsonify(movies_data)
 
+
 @app.route('/api/movies/<movie_id>')
 def movie(movie_id):
-    """Return movie and cast details."""
+    """Return movie and cast details in json."""
 
     movie_data = crud.get_movie_cast(movie_id)
     return jsonify(movie_data)
-
-
-@app.route('/regions')
-def region():
-    """Return region and subregion details."""
-
-    region_data = crud.get_regions()
-    regions = []
-    for region in region_data:
-        regions.append({
-            'subregion': region[0],
-            'region': region[1]
-        })
-    return jsonify(regions)
 
 
 @app.route('/', defaults={'path': ''})

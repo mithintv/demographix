@@ -169,7 +169,7 @@ class Credit(db.Model):
     id = db.Column(db.String(), primary_key=True)
     movie_id = db.Column(db.Integer, db.ForeignKey(
         'movies.id'), nullable=False)
-    character = db.Column(db.String(50))
+    character = db.Column(db.String(75))
     order = db.Column(db.Integer)
     cast_member_id = db.Column(
         db.Integer, db.ForeignKey('cast_members.id'), nullable=False)
@@ -189,7 +189,7 @@ class CastMember(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     imdb_id = db.Column(db.String(15))
-    name = db.Column(db.String(75), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     gender_id = db.Column(
         db.Integer, db.ForeignKey("genders.id"), nullable=False)
     birthday = db.Column(db.DateTime)

@@ -464,19 +464,19 @@ def get_movie_cast(movie_id):
     """Return specific movie with credits and cast member details."""
 
     movie = Movie.query.filter(Movie.id == movie_id).one()
-    if movie.imdb_id == None:
-        print(f"Movie details are missing...\nMaking api call...\n")
+    # if movie.imdb_id == None:
+    print(f"Movie details are missing...\nMaking api call...\n")
 
-        # Update movie
-        movie_details = query_api_movie_details(movie_id)
-        update_movie_with_movie_details(movie, movie_details)
+    # Update movie
+    movie_details = query_api_movie_details(movie_id)
+    update_movie_with_movie_details(movie, movie_details)
 
-        # Get cast list and add cast members
-        cast_credit_list = query_api_credits(movie_id)
-        query_api_people(cast_credit_list, movie.title)
+    # Get cast list and add cast members
+    cast_credit_list = query_api_credits(movie_id)
+    query_api_people(cast_credit_list)
 
-        # Add credits after adding cast members
-        add_credits(cast_credit_list, movie)
+    # Add credits after adding cast members
+    add_credits(cast_credit_list, movie)
 
     cast_list = db.session.query(
         CastMember,

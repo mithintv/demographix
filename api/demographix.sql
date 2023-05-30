@@ -498,8 +498,8 @@ CREATE TABLE public.movies (
     runtime integer,
     poster_path character varying,
     release_date timestamp without time zone,
-    budget integer,
-    revenue integer
+    budget bigint,
+    revenue bigint
 );
 
 
@@ -875,7 +875,7 @@ ALTER TABLE ONLY public.subregions ALTER COLUMN id SET DEFAULT nextval('public.s
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
-e23f380e4607
+08b13cbdae34
 \.
 
 
@@ -1538,6 +1538,238 @@ COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
 780	Tomás Weber	3549254
 781	Martin Nemec	1074002
 782	Tomás Merkl	3329970
+815	Samuel Henry John "Sam" Worthington	65731
+816	Σαμ Γουόρθινγκτον	65731
+817	샘 워싱턴	65731
+818	სემ უორთინგტონი	65731
+819	萨姆·沃辛顿	65731
+820	시고니 위버	10205
+821	Сигурни Уивер	10205
+822	Susan Alexandra Weaver	10205
+823	Σιγκούρνι Γουίβερ	10205
+824	Сіґурні Вівер	10205
+825	西格妮·韦弗	10205
+826	シガニー・ウィーバー	10205
+827	سيغورني ويفر	10205
+828	சிகர்னி வேவர்	10205
+829	სიგურნი უივერი	10205
+830	सिगोर्नी वीवर	10205
+831	Steve Lang	32747
+832	Slang	32747
+833	Кейт Уинслет	204
+834	케이트 윈슬렛	204
+835	Kate Elizabeth Winslet	204
+836	Κέιτ Ελίζαμπεθ Γουίνσλετ	204
+837	Κέιτ Γουίνσλετ	204
+838	کیت وینسلت	204
+839	凯特·温丝莱特	204
+840	凯特·温斯莱特	204
+841	ケイト・ウィンスレット	204
+842	Clifford Vivian Devon "Cliff" Curtis	7248
+843	Clifford Vivian Devon Curtis	7248
+844	Κλιφ Κέρτις	7248
+845	Joel Moore 	59231
+846	 Joel D. Moore	59231
+847	C.C.H. Pounder	30485
+848	Carol Christine Hilaria Pounder	30485
+849	C. C. H. Pounder	30485
+850	Иди Фалько	36190
+851	제메인 클레멘트	55936
+852	Джованни Рибизи	1771
+853	조반니 리비시	1771
+854	Antonino Giovanni Ribisi	1771
+855	James Flatters	1729393
+856	Trinity Jo-Li Bliss	1895788
+857	Duane Evans Jr.	1615098
+858	Keeston John	1152021
+859	Alicia Vela Bailey	1186027
+860	Victor Lopez	1077984
+861	Victor Thi Lopez	1077984
+862	Benjamin J Hoetjes	1979469
+863	Isaac Te Rina	2416383
+864	Austin Robert Butler	86654
+865	오스틴 버틀러	86654
+866	奥斯汀·巴特勒	86654
+867	Остин Батлер	86654
+868	Thomas Jeffrey Hanks	31
+869	Том Хэнкс	31
+870	توم هانكس	31
+871	トム・ハンクス	31
+872	톰 행크스	31
+873	ทอม แฮงส์	31
+874	汤姆·汉克斯	31
+875	Том Генкс	31
+876	Том Хенкс	31
+877	Томас Джеффрі Генкс	31
+878	Τομ Χανκς	31
+879	टॉम हैंक्स	31
+880	ടോം ഹാങ്ക്സ്	31
+881	湯姆‧漢克斯	31
+882	湯姆·漢克	31
+883	Olivia De Jonge	1385063
+884	Оливия ДеДжонг	1385063
+885	 Helen Thompson 	94876
+886	Хелен Томсон	94876
+887	 Ричард Роксбург	12206
+888	Ρίτσαρντ Ρόξμπουρζ	12206
+889	Kelvin Harrison	1344361
+890	小凯文·哈里森	1344361
+891	Келвин Харрисон	1344361
+892	Келвин Харрисон-младший	1344361
+893	Келвин Харрисон-мл.	1344361
+894	Ντέιβιντ Γουένχαμ	1371
+895	Daisy	1371
+896	Дэвид Уэнэм	1371
+897	루크 브레이시	972356
+898	Dacre Kayd Montgomery-Harvey	1525047
+899	데이커 몽고메리	1525047
+900	Leon Willem Ford 	84451
+901	Yola Carter	2546312
+902	Yolanda Quartey 	2546312
+903	Yolanda Claire Quartey	2546312
+904	Завьер Сэмюэл	109438
+905	Завьер Сэмюел	109438
+906	Anthony Nixon	143270
+907	Andrea Moore	1769886
+908	Dr Andrea Moor	1769886
+909	Chris Sommers	1014586
+910	Chris Somers	1014586
+911	Melinda Vidler	1504147
+912	Kevin Roosevelt Moore	155474
+913	Libe Alexandra Barer	1524899
+914	Cathy Cavadini	64948
+915	Cartherine Cavadini	64948
+916	Cathrine Cavadini	64948
+917	Catherine Cavidini	64948
+918	Cathy Cavidini	64948
+919	Catherine Cavadini	64948
+920	Elvis Aaron Presley	21457
+921	King of Rock and Roll	21457
+922	The King	21457
+923	Колін Фаррелл	72466
+924	Колин Фаррелл	72466
+925	โคลิน ฟาร์เรล	72466
+926	科林·法雷尔	72466
+927	コリン・ファレル	72466
+928	كولين فاريل	72466
+929	콜린 파렐	72466
+930	Colin James Farrell	72466
+931	Κόλιν Φάρελ	72466
+932	კოლინ ფარელი	72466
+933	케리 콘돈	62105
+934	巴里·基奥恩	1290466
+935	배리 키오건	1290466
+936	バリー・コーガン	1290466
+937	Gabe LaBelle	1476330
+938	ガブリエル・ラベル	1476330
+939	가브리엘 라벨 	1476330
+940	미셸 윌리엄스	1812
+941	Μισέλ Ουίλιαμς	1812
+942	Мишель Уильямс	1812
+943	Мішель Вільямс	1812
+944	ミシェル・ウィリアムズ 	1812
+945	Пол Дано	17142
+946	Paul Franklin Dano	17142
+947	폴 다노	17142
+948	保罗·达诺	17142
+949	ポール・ダノ	17142
+950	Сет Роген	19274
+951	세스 로건	19274
+952	Σεθ Ρόγκεν	19274
+953	Дэвид Линч	5602
+954	大卫·林奇	5602
+955	デヴィッド・リンチ	5602
+956	데이비드 린치	5602
+957	ديفيد لينش	5602
+958	Девід Лінч	5602
+959	데이빗 린치	5602
+960	Jeannie Brette May	124377
+961	Oaks Fegley	1422517
+962	오크스 페글리	1422517
+963	オークス・フェグリー	1422517
+964	Gustavo Quiroz	1172381
+965	Gustavo Quiroz Jr.	1172381
+966	Nicholas Cantu	1696351
+967	Junky Janker	1696351
+968	Gabriel Michael Bateman	1352028
+969	Γκάμπριελ Μπέιτμαν	1352028
+970	Stephen Smith	2077401
+971	Γκρεγκ Γκράνμπεργκ	17305
+972	Crystal the Capuchin	2978386
+973	Crystal	2978386
+974	 Arturo Bonilla	61222
+975	Том Круз	500
+976	トム・クルーズ	500
+977	ทอม ครูซ	500
+978	湯姆·克魯斯	500
+979	톰 크루즈	500
+980	توم كروز	500
+981	Thomas Cruise Mapother IV	500
+982	Τομ Κρουζ	500
+983	טום קרוז	500
+984	Thomas 'Tom' Cruise	500
+985	汤姆·克鲁斯	500
+986	TC	500
+987	Toms Krūzs	500
+988	تام کروز	500
+989	마일즈 텔러	996701
+990	迈尔斯·特勒	996701
+991	Jennifer Lynn Connelly 	6161
+992	제니퍼 코넬리	6161
+993	Τζένιφερ Λιν Κόνελι	6161
+994	Τζένιφερ Κόνελι	6161
+995	珍妮佛‧康納莉	6161
+996	Дженнифер Коннелли	6161
+997	جنیفر کانلی	6161
+998	詹妮弗·康纳利	6161
+999	ჯენიფერ კონელი	6161
+1000	Jennifer L. Connelly	6161
+1001	ジェニファー・コネリー	6161
+1002	Джон Хэмм	65717
+1003	존 햄	65717
+1004	乔恩·哈姆	65717
+1005	Glen Powell Jr.	83271
+1006	格伦·鲍威尔	83271
+1007	Glen Thomas Powell Jr.	83271
+1008	格蘭鮑威爾	83271
+1009	艾德·哈里斯	228
+1010	Эд Харрис	228
+1011	エド・ハリス	228
+1012	เอ็ด แฮร์ริส	228
+1013	에드 해리스	228
+1014	إد هاريس	228
+1015	Edward Allen "Ed" Harris	228
+1016	Edward Allen Harris	228
+1017	Εντ Χάρις	228
+1018	Έντουαρντ Χάρις	228
+1019	Вэл Килмер	5576
+1020	발 킬머	5576
+1021	方·基默	5576
+1022	루이스 풀먼	1700685
+1023	Lew	1700685
+1024	Чарльз Парнелл	124112
+1025	丹尼·拉米雷斯	1773397
+1026	매니 자신토	1368795
+1027	왕중흔	236598
+1028	王仲欣	236598
+1029	Robert Stephenson	17449
+1030	Robert J. Stephenson	17449
+1031	Landon J. Gordon	2891225
+1032	Jim Handy	51551
+1033	 Janes Handy 	51551
+1034	Capt Brian Ferguson	3600257
+1035	Ferg	3600257
+1036	Brian 'Ferg' Ferguson	3600257
+1037	Capt Brian 'Ferg' Ferguson	3600257
+1038	Rachel Markarian	143742
+1039	안소니 에드워즈	11085
+1040	安东尼·爱德华兹	11085
+1041	梅格·瑞恩	5344
+1042	맥 라이언	5344
+1043	メグ・ライアン	5344
+1044	Μεγκ Ράιαν	5344
+1045	Margaret Mary Emily Anne Hyra	5344
+1046	켈리 맥길리스	11084
 \.
 
 
@@ -2420,6 +2652,7 @@ COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
 76	461	Azorean Portuguese
 77	265	Gujarati Indian
 78	305	South Korean
+79	356	Māori
 \.
 
 
@@ -2992,6 +3225,129 @@ COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
 784	529	3872
 785	95	3872
 786	1	3872
+808	198	65731
+809	502	10205
+810	186	10205
+811	198	10205
+812	229	10205
+813	283	32747
+814	229	32747
+815	273	32747
+816	549	204
+817	627	204
+818	198	204
+819	273	204
+820	356	7248
+821	1	7248
+822	198	7248
+823	273	7248
+824	549	7248
+825	186	59231
+826	198	59231
+827	273	59231
+828	229	59231
+829	502	59231
+830	246	30485
+831	7	30485
+832	549	36190
+833	160	36190
+834	277	36190
+835	198	36190
+836	356	55936
+837	1	55936
+838	198	55936
+839	273	55936
+840	229	55936
+841	502	55936
+842	135	55936
+843	209	86654
+844	198	86654
+845	273	86654
+846	229	86654
+847	502	86654
+848	627	86654
+849	549	86654
+850	550	86654
+851	198	31
+852	229	31
+853	160	31
+854	502	31
+855	627	31
+856	461	31
+857	186	1385063
+858	273	1385063
+859	8	1344361
+860	198	972356
+861	502	1525047
+862	198	1525047
+863	273	1525047
+864	273	72466
+865	273	62105
+866	273	1290466
+867	283	1476330
+868	484	17142
+869	549	17142
+870	521	17142
+871	283	19274
+872	283	6167
+873	209	5602
+874	198	5602
+875	229	5602
+876	273	5602
+877	502	5602
+878	186	1651362
+879	1	1651362
+880	198	1651362
+881	273	1651362
+882	229	1651362
+883	502	1651362
+884	180	1651362
+885	273	3132260
+886	502	3132260
+887	198	3132260
+888	229	3132260
+889	198	500
+890	229	500
+891	273	500
+892	160	500
+893	502	500
+894	627	500
+895	198	996701
+896	229	996701
+897	273	996701
+898	8	996701
+899	455	996701
+900	283	996701
+901	283	6161
+902	422	6161
+903	273	6161
+904	273	65717
+905	502	65717
+906	198	65717
+907	229	65717
+908	198	83271
+909	229	83271
+910	627	83271
+911	455	83271
+912	502	228
+913	627	228
+914	198	228
+915	229	228
+916	198	5576
+917	273	5576
+918	229	5576
+919	627	5576
+920	549	5576
+921	186	1700685
+922	198	1700685
+923	273	1700685
+924	98	1700685
+925	502	1700685
+926	283	1700685
+927	422	1700685
+928	8	1241330
+929	7	1241330
+930	445	1241330
 \.
 
 
@@ -3435,6 +3791,133 @@ COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) 
 502	198	784
 503	198	785
 504	198	786
+530	206	808
+531	207	487
+532	207	488
+533	207	490
+534	207	489
+535	208	809
+536	208	810
+537	208	811
+538	208	812
+539	209	813
+540	209	814
+541	209	815
+542	210	816
+543	210	817
+544	210	818
+545	210	819
+546	211	820
+547	211	821
+548	211	822
+549	211	823
+550	211	824
+551	212	825
+552	212	826
+553	212	827
+554	212	828
+555	212	829
+556	213	830
+557	213	831
+558	214	832
+559	214	833
+560	214	834
+561	214	835
+562	215	836
+563	215	837
+564	215	838
+565	215	839
+566	215	840
+567	215	841
+568	215	842
+569	216	843
+570	216	844
+571	216	845
+572	216	846
+573	216	847
+574	216	848
+575	216	849
+576	216	850
+577	217	851
+578	217	852
+579	217	853
+580	217	854
+581	217	855
+582	217	856
+583	218	857
+584	218	858
+585	219	859
+586	220	860
+587	221	861
+588	221	862
+589	221	863
+590	222	864
+591	223	865
+592	224	866
+593	225	867
+594	226	868
+595	226	869
+596	226	870
+597	227	871
+598	228	872
+599	229	873
+600	229	874
+601	229	875
+602	229	876
+603	229	877
+604	230	878
+605	230	879
+606	230	880
+607	230	881
+608	230	882
+609	230	883
+610	230	884
+611	231	885
+612	231	886
+613	231	887
+614	231	888
+615	232	889
+616	232	890
+617	232	891
+618	232	892
+619	232	893
+620	232	894
+621	233	895
+622	233	896
+623	233	897
+624	233	898
+625	233	899
+626	233	900
+627	234	901
+628	234	902
+629	234	903
+630	235	904
+631	235	905
+632	235	906
+633	235	907
+634	236	908
+635	236	909
+636	236	910
+637	236	911
+638	237	912
+639	237	913
+640	237	914
+641	237	915
+642	238	916
+643	238	917
+644	238	918
+645	238	919
+646	238	920
+647	239	921
+648	239	922
+649	239	923
+650	239	924
+651	239	925
+652	239	926
+653	239	927
+654	240	928
+655	240	929
+656	240	930
 \.
 
 
@@ -3948,26 +4431,301 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 60062	nm0836954	Scott Subiono	2	\N	\N	Scott Subiono is an actor and producer.	\N	/r0xy019yATZzwPqm8tcKuFNInnh.jpg
 2719	nm0859921	Brian Thompson	2	1959-08-28 00:00:00	\N	​From Wikipedia, the free encyclopedia.\n\nBrian Thompson (born August 28, 1959) is an American actor. His distinctive square-jaw profile, powerful voice, and imposing stature (193 cm, six-foot-four) has led him to star in many action films, and a large number of comedies: Joe Dirt, The Three Amigos, Weird Science, Key West, and Life Stinks.	USA	/qooSjBMA1P85JhBpHlwmmisGroO.jpg
 1723411	nm5212070	Lucas Barker	2	\N	\N	Lucas Barker started acting at age 5.	\N	/7YEY1g5FgVvnm6tS7PUxBk2VJok.jpg
+65731	nm0941777	Sam Worthington	2	1976-08-02 00:00:00	\N	Samuel Henry John Worthington (born 2 August 1976) is a British-Australian actor. He is best known for playing Jake Sully in Avatar, Marcus Wright in Terminator Salvation, and Perseus in Clash of the Titans and its sequel Wrath of the Titans. He later took more dramatic roles, appearing in The Debt (2010), Everest (2015), Hacksaw Ridge (2016), The Shack (2017), Manhunt: Unabomber (2017), and Fractured (2019).\n\nOn television, he appeared in his native Australia as Howard in Love My Way and as Phillip Schuler in the television drama mini-series Deadline Gallipoli, for which he was also an executive producer. He voiced the protagonist, Captain Alex Mason, in the video game Call of Duty: Black Ops (2010), as well as its sequels Call of Duty: Black Ops II (2012), and Call of Duty: Black Ops 4 (2018). In 2022, he starred in the true crime miniseries Under the Banner of Heaven.\n\nIn 2004, Worthington received Australia's highest film award for his lead role in Somersault.	GBR	/mflBcox36s9ZPbsZPVOuhf6axaJ.jpg
+10205	nm0000244	Sigourney Weaver	1	1949-10-08 00:00:00	\N	Susan Alexandra "Sigourney" Weaver (born October 8, 1949) is an American actress. Weaver is considered to be a pioneer of action heroines in science fiction films. She is known for her role as Ellen Ripley in the Alien franchise, which earned her an Academy Award nomination in 1986 and is often regarded as one of the most significant female protagonists in cinema history.\n\nA seven-time Golden Globe Award nominee, Weaver won both Best Actress in Drama and Best Supporting Actress in 1988 for her work in the films Gorillas in the Mist and Working Girl, becoming the first person to win two acting Golden Globes in the same year. She also received Academy Award nominations for both films. For her role in the film The Ice Storm (1997), she won the BAFTA Award for Best Actress in a Supporting Role. She also received a Tony Award nomination for her work in the 1984 Broadway play Hurlyburly.\n\nWeaver's other film roles include Ghostbusters (1984), Ghostbusters II (1989), Dave (1993), Galaxy Quest (1999), Holes (2003), WALL-E (2008), Avatar (2009), Prayers for Bobby (2009), Paul (2011), The Cabin in the Woods (2012), and A Monster Calls (2016); and the television miniseries Political Animals (2012) and The Defenders (2017).\n\nDescription above from the Wikipedia article Sigourney Weaver, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/sHWCLx54yLtaFtppp5ADjAsrWIc.jpg
 178629	nm0068430	Neil Bell	2	1970-02-04 00:00:00	\N	Neil Bell (born 4 February 1970) is an English actor, mainly on British television and occasionally in films.\n\nBell studied drama at Oldham College and has played character roles in such TV series as Buried, Shameless, Murphy's Law, Ideal, City Lights, The Bill and Casualty, and the films 24 Hour Party People (2002) and Dead Man's Shoes (2004). He also had a small role in the acclaimed TV series State of Play, playing the colleague of Polly Walker's character. He has recently had a main role in The Bill playing the role of a killer. In 2010, he had a role in the ITV comedy-drama Married Single Other. He has appeared in Coronation Street, and in 2012, he had a regular role in Downton Abbey as Durrant. In 2013, he appeared in the first series of BBC2's Peaky Blinders as Publican Harry Fenton. In February 2016, he appeared in the BBC drama series Moving On.	GBR	/9fiJx9gC1ZBOoDAEQmqguisZhKM.jpg
 180683	nm0504683	Dan Lett	2	\N	\N	Dan Lett is an actor.	\N	/johOG5hLcJTIn47TzYYW9FN6TNp.jpg
 1552843	nm2099563	Linden Porco	2	1996-08-29 00:00:00	\N		CAN	/qXZMxGUSpmmXU2XAdX48cAnQMAS.jpg
+32747	nm0002332	Stephen Lang	2	1952-07-11 00:00:00	\N	Stephen Lang (born July 11, 1952) is an American actor and playwright. He started in theatre on Broadway but is well known for his film portrayals of Stonewall Jackson in Gods and Generals (2003), George Pickett in Gettysburg (1993), and his 2009 roles as Colonel Miles Quaritch in Avatar and as Texan lawman Charles Winstead in Public Enemies. Lang was the co-artistic director (along with Carlin Glynn and Lee Grant) of the famed Actor's Studio at its headquarters in New York City from 2004 to 2006.\n\nDescription above from the Wikipedia article Stephen Lang (actor), licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/xEBuFWrCKDQD6r6CZK71GYIc4UW.jpg
+204	nm0000701	Kate Winslet	1	1975-10-05 00:00:00	\N	Kate Elizabeth Winslet (born 5 October 1975) is an English actress. Known for her work in independent films, particularly period dramas, as well as for her portrayals of headstrong and complicated women, she has received numerous accolades, including an Academy Award, a Grammy Award, two Primetime Emmy Awards, three British Academy Film Awards, and five Golden Globe Awards.\n\nWinslet studied drama at the Redroofs Theatre School. Her first screen appearance, at age 15, was in the British television series Dark Season (1991). She made her film debut playing a teenage murderess in Heavenly Creatures (1994), and went on to win a BAFTA Award for playing Marianne Dashwood in Sense and Sensibility (1995). Global stardom followed soon after with her leading role in the epic romance Titanic (1997), which earned her a nomination for the Academy Award for Best Actress in a Leading Role. Titanic was the highest-grossing film at the time, after which she eschewed parts in blockbusters in favour of critically acclaimed period pieces, including Quills (2000) and Iris (2001).\n\nThe science fiction romance Eternal Sunshine of the Spotless Mind (2004), in which Winslet was cast against type in a contemporary setting, proved to be a turning point in her career, and she gained further recognition for her performances in Finding Neverland (2004), Little Children (2006), Revolutionary Road (2008), and The Reader (2008). For playing a former Nazi camp guard in the latter, she won the BAFTA Award and the Academy Award for Best Actress. Winslet's portrayal of Joanna Hoffman in the biopic Steve Jobs (2015) won her another BAFTA Award, and she won two Primetime Emmy Awards for her performances in the HBO miniseries Mildred Pierce (2011) and Mare of Easttown (2021).\n\nFor her narration of a short story in the audiobook Listen to the Storyteller (1999), Winslet won a Grammy Award. She performed the song "What If" for the soundtrack of her film Christmas Carol: The Movie (2001). A co-founder of the charity Golden Hat Foundation, which aims to create autism awareness, she has written a book on the topic, The Golden Hat: Talking Back to Autism (2010). Time magazine named her one of the 100 most influential people in the world in 2009 and 2021. In 2012, she was appointed Commander of the Order of the British Empire (CBE). Divorced from film directors Jim Threapleton and Sam Mendes, Winslet has been married to businessman Edward Abel Smith since 2012. She has a child from each marriage.	GBR	/e3tdop3WhseRnn8KwMVLAV25Ybv.jpg
+7248	nm0193295	Cliff Curtis	2	1968-07-27 00:00:00	\N	Clifford Vivian Devon Curtis (born 27 July 1968) is a New Zealand actor. His film credits include Once Were Warriors (1994), Three Kings (1999), Training Day (2001), Whale Rider (2002), Collateral Damage (2002), Sunshine, Live Free or Die Hard (both 2007), The Dark Horse (2014), for which he won the Asia Pacific Screen Award for Best Performance by an Actor, Doctor Sleep (2019), and Avatar: The Way of Water (2022). Curtis had television series roles on NBC's Trauma and ABC's Body of Proof and Missing. From 2015 to 2017, he portrayed Travis Manawa on the AMC horror drama series Fear the Walking Dead.[1]\n\nHe is the co-owner of the independent New Zealand production company Whenua Films.	NZL	/ApqV6cvehnj1aPEdzJQfCjK6zVp.jpg
+59231	nm0601376	Joel David Moore	2	1977-09-25 00:00:00	\N	From Wikipedia, the free encyclopedia.\n\nJoel David Moore (born September 25, 1977) is an American actor who has appeared in television commercials, feature films, and television series. He is best known for his roles as Owen Dittman in Dodgeball: A True Underdog Story, Dr. Norm Spellman in Avatar, Colin Fisher in Bones and J.P. in Grandma's Boy.	USA	/pZQ4un6v0EANFMAiJYEaGRsCFWE.jpg
 1184209	nm0307898	Armen Garo	2	\N	\N	Armen Garo is an American actor born Troy, New York. He holds a BS in Speech Communication from Emerson College. In 1985, he joined the East Providence Police Department in East Providence. While there he earned his BS Degree in Criminal Justice from Roger Williams College and MS Degree in the Administration of Justice from Salve Regina.	\N	/yRtRh0SwHxy7LtU82l1oqctiOAl.jpg
 1466868	nm2824089	Tachia Newall	2	1990-01-10 00:00:00	\N		\N	/ywvojfXK3uzw0IgVEVg3j00GPuy.jpg
+30485	nm0001634	CCH Pounder	1	1952-12-25 00:00:00	\N	Carol Christine Hilaria Pounder (born December 25, 1952), known professionally as CCH Pounder, is a Guyanese-American film and television actress. She's known for her TV roles as medical examiner Dr. Loretta Wade on the series NCIS: New Orleans (2014-2021), District Attorney Tyne Patterson on Sons of Anarchy (2013–2014), Irene Frederic on Warehouse 13 (2009–2014), Captain Claudette Wyms on the FX series The Shield (2002–2008), and Dr. Angela Hicks on the medical drama series ER (1994–1997).\n\nShe's known for her film roles as Mo'at in Avatar and Avatar: The Way of Water, Dorothea in The Mortal Instruments: City of Bones, Sister Abigail in Orphan, Detective Margie Francis in End of Days, Hollis Miller in Face/Off, Victoria Hendrix in Sliver, Dr. Garvey in Benny & Joon, Miss Prism in The Importance of Being Earnest, and Peaches Altamont in Prizzi's Honor.\n\nShe is also the voice of Amanda Waller in the animated show Justice League Unlimited (2004–2006), a role that she has reprised in later DC Comics media.\n\nShe has received four Primetime Emmy Award nominations for her roles in The X-Files, ER, The Shield, and The No. 1 Ladies' Detective Agency.	\N	/8IBLs1BkLZpOTVREt5yDusW1nim.jpg
+36190	nm0004908	Edie Falco	1	1963-07-05 00:00:00	\N	Edith Falco (born July 5, 1963) is an American actress. She is best known for her roles as Carmela Soprano on the HBO series The Sopranos (1999–2007), and as Nurse Jackie Peyton on the Showtime series Nurse Jackie (2009–2015). She is also known for her role as Diane Whittlesey in HBO's prison drama Oz (1997–2000).\n\nIn 2016, she played Sylvia Wittel on the web series Horace and Pete. In 2017, she portrayed defense attorney Leslie Abramson in the first season of the true crime anthology series Law & Order True Crime. Falco's film work includes lead roles in Laws of Gravity (1992), for which she was nominated for the Independent Spirit Award for Best Female Lead and Judy Berlin (1999), and supporting roles in films including Sunshine State (2002), Freedomland (2006), and The Comedian (2016). For her role in the 2011 Broadway revival of The House of Blue Leaves, she earned a nomination for a Tony Award for Best Featured Actress in a Play.\n\nFalco's work has been widely acclaimed - among other recognitions, she has won two Golden Globe awards (from eleven nominations) and four Emmy awards (from fourteen nominations), all for individual performances.\n\nDescription above from the Wikipedia article Edie Falco, licensed under CC-BY-SA, full list of contributors on Wikipedia	USA	/jS2Hnr5OmntpX0J7EpH70zAG0mz.jpg
 1182202	nm1526335	Karl Willetts	2	\N	\N		\N	/dkWglXQZAug9g8VVDtvonZO9nrO.jpg
+55936	nm1318596	Jemaine Clement	2	1974-01-10 00:00:00	\N	From Wikipedia, the free encyclopedia.\n\nJemaine Clement (born 10 January 1974) is a New Zealand comedian, actor and musician, best known as one half of the musical comedy duo Flight of the Conchords along with Bret McKenzie.\n\nDescription above from the Wikipedia article Jemaine Clement, licensed under CC-BY-SA, full list of contributors on Wikipedia.​	NZL	/6eiNbeurpHb2fxIeT0RrJ0wRI25.jpg
 8700	nm0818587	Sasha Spielberg	1	1990-05-14 00:00:00	\N	Sasha Spielberg (born May 14, 1990) is an American film actress and musician. She's the daughter of director Steven Spielberg and actress Kate Capshaw.	USA	/bb7FxLkfEcQf9VLobDiMxcxYdJU.jpg
 1511947	nm5490797	Peter Janov	0	\N	\N		\N	/31TUPDwukz7uFWpQGGiD3UJTHdK.jpg
+1771	nm0000610	Giovanni Ribisi	2	1974-12-17 00:00:00	\N	Giovanni Ribisi (born December 17, 1974) is an American actor. His film credits include Gone in 60 Seconds, Boiler Room, Saving Private Ryan, The Mod Squad, The Gift, Sky Captain and the World of Tomorrow, Lost in Translation and more recently, Public Enemies and Avatar. He is also known for his role as Phoebe Buffay's brother Frank on the sitcom Friends. He also appeared in music videos for Crystal Ball by Keane and Talk About The Blues by The Jon Spencer Blues Explosion.\n\n​From Wikipedia, the free encyclopedia	USA	/3Tqh4AMtqCqPljNe2agZD9ZeoFf.jpg
+1663672	nm6839875	Britain Dalton	2	2001-12-12 00:00:00	\N	Britain Dalton began his acting career by happen-chance, when a film student spotted him doing card tricks for a crowd on the street, and asked him to audition for the lead role in Chapman University film: 'Jude's Tribute.' By the time filming was completed, Britain had signed with entertainment manager Nikki Mincks & The Osbrink Agency. Within a few months, Britain's natural acting style and unique 'look' had landed him roles on TV's 'Criminal Minds,' nation commercials and a music video for "Switchfoot's hit song 'When We Come Alive." Britain has completed 3 films: starring in the AFI's Film 'Grill Dog," and James Franco's: 'Actors Anonymous;' and most recently, co-staring with Eliza Taylor in the Cary Fukunaga produced: 'Thumper.' He also appears as a young Nathan Drake, in the video game: Uncharted 4 'A Thief's End' Britain is co-starring with Billy Bob Thornton & William Hurt in David E. Kelley's Legal drama 'Goliath' on Amazon.\n\n- IMDb Mini Biography By: Britain Dalton official website	\N	/zB42Yop5X3CPLzguun11XqdcLkW.jpg
+1729393	nm7370588	Jamie Flatters	2	2000-07-07 00:00:00	\N	Jamie Flatters is an actor, known for So Awkward (2015), Liar (2017) and Flat TV (2014).	GBR	/iOuYlzkBHpU5VcSyO0gQz0QbJTJ.jpg
+1895788	nm9304507	Trinity Bliss	1	\N	\N	Trinity Bliss is an actress, known for Avatar 2 (2022).	\N	/tIrKB4Lp2n6fiNO3v9rG8NLOFLa.jpg
 2949654	\N	Thomas John Rudolph	0	\N	\N		\N	/qVOQVmxQVwDpWQB4jfu852ozHFc.jpg
+1895760	nm5607823	Jack Champion	2	2004-11-16 00:00:00	\N	Jack Champion is a British-born  American actor known for his role as Spider, a human teenager living on Pandora, who first appeared in Avatar: The Way of Water (2022). He is also known for playing Ethan Landry in the sixth installment of the scream franchise Scream VI (2023)	GBR	/aYY3C75ZwbQxGSSan9Uft4mGE9w.jpg
+129527	nm0184698	Brendan Cowell	2	\N	\N		\N	/9Bjc4wYjqAJXMwmy6rKsYq2PeWV.jpg
+1140237	nm3791148	Bailey Bass	1	2003-06-18 00:00:00	\N	Bailey Bass is an American actress, best known for playing the role of Tsireya in the science fiction film Avatar: The Way of Water and Claudia in the series Interview with the Vampire.	USA	/ye6Ung9idV2iP6h7xhM1ExwzySs.jpg
+1632658	nm6914609	Filip Geljo	2	\N	\N	Filip Geljo is an actor, known for Odd Squad (2014), The Waiting Room (2015) and Shahzad (2015) and Avatar 2 (2022).	\N	/iO0DSb4G6oIv1ar5d5fegO6oyKu.jpg
+1615098	nm4737604	Duane Evans Jr.	2	\N	\N		\N	/9nOY6I4poOnT4rrLIvbfXXxssA6.jpg
+95697	nm2438307	Dileep Rao	2	1973-07-29 00:00:00	\N	Dileep Rao is an American actor who has appeared in feature films and television series. He starred in Sam Raimi's horror film Drag Me to Hell (2009), James Cameron's science fiction film Avatar (2009), and Christopher Nolan's thriller Inception (2010).\n\nDescription above from the Wikipedia article Dileep Rao, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/jRNn8SZqFXuI5wOOlHwYsWh0hXs.jpg
+98215	nm0313902	Matt Gerald	2	1970-05-02 00:00:00	\N	Matthew Gerald is an American actor and screenwriter. Gerald was born in Miami, Florida. A graduate of The University of Pennsylvania, he is best known for his roles as Melvin Potter on Netflix's Daredevil, Corporal Lyle Wainfleet in James Cameron's sci-fi Avatar, and elusive predator Ray Speltzer on Showtime's Dexter. Wikipedia	USA	/k5iEsYWb1Prho4IO2xGTFaIwKu1.jpg
+1452945	nm2995997	Robert Okumu	2	\N	\N		\N	/wJkDw2dTYankbtdWpsp5Qkyqn0o.jpg
+2328938	\N	Jennifer Stafford	0	\N	\N		\N	\N
+1152021	nm1929609	Keston John	2	1984-08-17 00:00:00	\N		USA	/zEqkvuCDDgiErHg3XNyoG5TulUg.jpg
+91443	nm1602132	Kevin Dorman	2	\N	\N		\N	/jByqQyo6VsnbtXwKGidaadSBOPb.jpg
+1186027	nm2151188	Alicia Vela-Bailey	1	1982-07-08 00:00:00	\N		\N	/2isB8x0wahPz4sZ8QSX7Up4iDq9.jpg
+154153	nm1616211	Sean Anthony Moran	2	1978-08-11 00:00:00	\N		\N	/9bsNN91o9iNVLK3W7js99kvg26L.jpg
+1436354	nm2741344	Andrew Arrabito	2	\N	\N		\N	/8j6A1n7RlSKesgvfyT9kbfQOlaw.jpg
+3159723	nm4148067	Johnny Alexander	0	\N	\N		\N	/w5m1RB2neDlWNunRAuaG3Qb9guO.jpg
+1818140	nm14315388	Kim Do	0	\N	\N		\N	\N
+1077984	nm2062255	Victor T. Lopez	2	\N	\N		\N	\N
+1390004	nm2704187	Maria Walker	1	\N	\N		\N	/nDCrRJSqDfkZkq6dyKWFDDXjLE8.jpg
 557599	nm1960171	Rebecca Gibel	1	\N	\N	Rebecca Gibel is an actress.	USA	/bfRKCKebQWp9eSpQv7k3UPgCGzy.jpg
+1062457	nm2313919	Phil Brown	2	\N	\N	Phil Brown is a New Zealand actor.	NZL	/uWKV2UGIhqbPh72acugNdJiyF9Q.jpg
+1336765	nm2326464	Jocelyn Christian	1	\N	\N		\N	/6AWDv03A8qTljLZUKvA4HJW8FmB.jpg
+41785	nm0864835	Joel Tobeck	2	1971-06-02 00:00:00	\N	Born in 1971 in Auckland, New Zealand, He is a well known actor in New Zealand with over 20 years acting experience Joel Tobeck played the main villain Creegan in the TV Series Cleopatra 2525.\n\nDescription above from the Wikipedia article Joel Tobeck, licensed under CC-BY-SA, full list of contributors on Wikipedia.	NZL	/8pzK6mGsSxZ4hGAx1KFhsVRepT4.jpg
+3819103	nm8986630	Moana Ete	1	\N	\N		\N	\N
+1399768	nm2866455	Phil Peleton	2	\N	\N		\N	/kOte5avJ0yVyD0Dk5Etcezl283R.jpg
+2144852	nm0484456	Jamie Landau	2	\N	\N	Jamie Landau is known for Avatar (2009), X-Men (2000) and Alita: Battle Angel (2019).	\N	/tmFawQ5z4ADaAqoAJOaVfDq0egd.jpg
+3819107	nm14315390	Jim Moore	2	\N	\N		\N	\N
+1979469	nm4637228	Benjamin Hoetjes	2	\N	\N		\N	/dNdu5dQHDwjn77DBDpWI5nTiHls.jpg
+3819108	nm7756249	Nikita Tu Bryant	1	\N	\N		\N	\N
+1530806	nm1953308	Anthony Ahern	2	\N	\N		\N	/5SEI9ztbkCKUh5phuRjdAlSAaWq.jpg
+25134	nm1432313	Shane Rangi	2	1969-02-03 00:00:00	\N		\N	/9iRumjckKw5PP9TiDedMLhrIpOm.jpg
+3819110	\N	Rick Lucas	0	\N	\N		\N	\N
+1848076	nm5416147	Tanya Drewery	1	\N	\N		\N	/7Q4eMvFKcmYSUfLSlNMHtlSkoKh.jpg
+2624045	nm9052884	Ava Diakhaby	1	\N	\N		\N	/wle9PirtKBKItbwtoSuWgWm3vMa.jpg
+2416383	\N	Isaac Te Reina	0	\N	\N		\N	\N
+3819111	\N	Eric Farmer	0	\N	\N		\N	\N
+3819112	\N	Philip Mtambo	0	\N	\N		\N	\N
+3819114	\N	Daniel Lough	0	\N	\N		\N	\N
+3819115	\N	Cruz Moir	0	\N	\N		\N	\N
+3819116	\N	Alex Lucas	0	\N	\N		\N	\N
+1761615	nm7251898	Scarlett Fernandez	1	\N	\N		\N	/7VzxmjSRnL2hwfBPPq9zM7aEU3A.jpg
+1696016	nm5668548	Chloe Coleman	1	2008-12-11 00:00:00	\N	Chloe Coleman (born December 11, 2008) is an American actress.	USA	/w4C3VBjmVFeMimbIeJm41fuPY9b.jpg
+2396544	nm3914390	Jeremy Irwin	2	\N	\N		\N	/2y4BfvqerIe3tgVcnZuWc59TjqK.jpg
+1519702	nm5684774	Jake McLean	0	\N	\N		\N	/io2MU3NZMzmKUDZYtVbvPK6J7t7.jpg
+1635143	nm1471085	CJ Jones	2	1950-09-29 00:00:00	\N	CJ Jones (born September 29, 1950) is a deaf American actor residing in Los Angeles. He is one of the subjects of See What I'm Saying: The Deaf Entertainers Documentary. Jones made his feature film debut with Edgar Wright's Baby Driver, in which he portrays Joseph, the deaf foster father of Ansel Elgort's protagonist	\N	/h9uWpWoKxLiHW5DckXrUdAOTCNV.jpg
+86654	nm2581521	Austin Butler	2	1991-08-17 00:00:00	\N	Austin Robert Butler (born August 17, 1991) is an American actor. He began his career on television, first in roles on the Disney Channel and Nickelodeon and later on teen dramas, including recurring parts on The CW's Life Unexpected (2010–2011) and Switched at Birth (2011–2012). He gained recognition for starring in The Carrie Diaries (2013–2014) and The Shannara Chronicles (2016–2017).\n\nButler made his Broadway debut in the 2018 revival of The Iceman Cometh and played Tex Watson in Quentin Tarantino's film Once Upon a Time in Hollywood (2019). In 2022, he achieved wider recognition for his portrayal of Elvis Presley in the musical biopic Elvis, for which he won a Golden Globe Award and received a nomination for the Academy Award for Best Actor.	USA	/aGZKvPmjopFfbehunaXXzeZ8eXy.jpg
 88613	nm0118368	Jesse Buck	2	\N	\N		\N	/ij0Ax19wLlhS51OZOvDCVYiKO0w.jpg
 1346089	nm3999973	Doug Simpson	2	\N	\N	Doug Simpson is an actor.	\N	/pG90BnHQCp8N8NGmQhivMIU1Rix.jpg
+31	nm0000158	Tom Hanks	2	1956-07-09 00:00:00	\N	Thomas Jeffrey Hanks (born July 9, 1956) is an American actor and filmmaker. Known for both his comedic and dramatic roles, Hanks is one of the most popular and recognizable film stars worldwide, and is widely regarded as an American cultural icon.\n\nHanks made his breakthrough with leading roles in the comedies Splash (1984) and Big (1988). He won two consecutive Academy Awards for Best Actor for starring as a gay lawyer suffering from AIDS in Philadelphia (1993) and a young man with below-average IQ in Forrest Gump (1994). Hanks collaborated with film director Steven Spielberg on five films: Saving Private Ryan (1998), Catch Me If You Can (2002), The Terminal (2004), Bridge of Spies (2015), and The Post (2017), as well as the 2001 miniseries Band of Brothers, which launched him as a director, producer, and screenwriter.\n\nHanks' other notable films include the romantic comedies Sleepless in Seattle (1993) and You've Got Mail (1998); the dramas Apollo 13 (1995), The Green Mile (1999), Cast Away (2000), Road to Perdition (2002), and Cloud Atlas (2012); and the biographical dramas Saving Mr. Banks (2013), Captain Phillips (2013), Sully (2016), and A Beautiful Day in the Neighborhood (2019). He has also appeared as the title character in the Robert Langdon film series, and has voiced Sheriff Woody in the Toy Story film series.\n\nDescription above from the Wikipedia article Tom Hanks, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/xndWFsBlClOJFRdhSt4NBwiPq2o.jpg
+1385063	nm4609822	Olivia DeJonge	1	1998-04-30 00:00:00	\N	Olivia DeJonge (born 30 April 1998) is an Australian actress, known for playing Tara Swift / Shaneen Quigg in ABC1's Hiding, Becca in the film The Visit (2015), Elle in Netflix's The Society (2019), and Priscilla Presley in the film Elvis (2022).	AUS	/wsuLRToXghO8qv1nYMnEeppkwdR.jpg
+94876	nm0861013	Helen Thomson	1	\N	\N	Helen Thomson is an Australian actress. Thomson's credits include the television shows Bad Mothers, Stupid Stupid Man and Blue Heelers and the films Gettin' Square, A Man's Gotta Do and La Spagnola. Thomson has multiple stage credits with the Sydney Theatre Company and Melbourne Theatre Company. She has been a frequent collaborator with her husband David Roberts.	AUS	/uTKMoAEGLbkCHWCuBKbKMM3mR80.jpg
+12206	nm0746896	Richard Roxburgh	2	1962-01-23 00:00:00	\N	Richard Roxburgh is an Australian AFI Award-winning actor who has starred in many Australian films and has appeared in supporting roles in a number of Hollywood productions, usually as villains.	AUS	/de1XpxnOuW4v4fFWFEjmBqmHaRf.jpg
+1344361	nm5123156	Kelvin Harrison Jr.	2	1994-07-23 00:00:00	\N	From Wikipedia, the free encyclopedia.\n\nKelvin Harrison Jr. (born July 23, 1994) is an American actor. He began his career with small roles in the 2013 films Ender's Game and 12 Years a Slave. His breakthrough performance came as Travis in the 2017 horror film It Comes at Night, and in 2019 he gained wider recognition for his work in Luce and Waves. Harrison Jr. received nominations for the Best Male Lead at the Independent Spirit Awards for the former and the Rising Star Award at the British Academy Film Awards for the latter.	USA	/bQC7SUnUiLw2wxnXGYr9tm7wDLW.jpg
+1371	nm0920992	David Wenham	2	1965-09-21 00:00:00	\N	David Wenham (born 21 September 1965) is an Australian actor who has appeared in movies, television series and theatre productions. He is known in Hollywood for his roles as Faramir in The Lord of the Rings film trilogy, Carl in Van Helsing and Dilios in 300. He is also known in his native Australia for his role as Diver Dan in SeaChange.\n\nDescription above from the Wikipedia David Wenham, licensed under CC-BY-SA, full list of contributors on Wikipedia.	AUS	/3M7oraDne8PzeOQHpD0wwxhobW3.jpg
 3275311	nm7360974	Richard Carter	2	\N	\N		\N	/vwMG8213y9UiCDXBPIUwzhVxUcX.jpg
 129595	nm0106227	Jonathan Bray	2	1969-01-04 00:00:00	\N	Jonathan Bray was brought into the world on January 4, 1969 in Natick, Massachusetts, USA as Jonathan Richard Bray. He is an entertainer and maker, known for Castle (2009), Mad Men (2007) and The Young and the Restless (1973). He has been hitched to Kristin Bray since September 10, 2005.	USA	/xKcbHsF3w3i9ASDqkNQrHkHjAJo.jpg
+972356	nm3478396	Luke Bracey	2	1989-04-26 00:00:00	\N	Luke Bracey (born 26 April 1989) is an Australian actor. He is known for his work in films such as Monte Carlo, G.I. Joe: Retaliation, The November Man, Point Break, and Hacksaw Ridge; and for television series such as Home and Away, which was his first appearance on screen.	AUS	/ot2h7IrXpC8XSnIZDSVsj2FQ5cx.jpg
+1525047	nm4223882	Dacre Montgomery	2	1994-11-22 00:00:00	\N	Dacre Montgomery (born 22 November 1994) is an Australian actor. He is best known his role as Jason Lee Scott in Power Rangers and Billy Hargrove in Stranger Things. Montgomery was born in Perth, Western Australia.  Description above from the Wikipedia article Dacre Montgomery, licensed under CC-BY-SA, full list of contributors on Wikipedia.	AUS	/38jnyqD2HCQVs4zNHktxA2Ko8KN.jpg
+84451	nm1026031	Leon Ford	2	\N	\N	From Wikipedia, the free encyclopedia.\n\nLeon Ford is an Australian actor who has appeared in many television and theatre productions. He is best known for his roles in the television series The Cooks, Changi and the telemovie Stepfather of the Bride.\n\nHe has also appeared in many other television series including All Saints, East West 101 and McLeod's Daughters, the 2005 movie The Great Raid and voiced a character in the 2008 stop motion animated movie $9.99.\n\nDescription above from the Wikipedia article Leon Ford, licensed under CC-BY-SA, full list of contributors on Wikipedia.​	\N	/djxNCzu1MYxz6D2XV5I1yCsw1e.jpg
+971937	\N	Gary Clark Jr.	2	1984-02-15 00:00:00	\N	Gary Lee Clark Jr. is an American musician from Austin, Texas. He is known for his fusion of blues, rock and soul music with elements of hip hop. In 2011, Clark signed with Warner Bros Records and released The Bright Lights EP. It was followed by the albums Blak and Blu and The Story of Sonny Boy Slim.	USA	/w0ePaQi3UUOaejzNGmHpc2V87lK.jpg
+2546312	nm10569264	Yola	1	1983-07-31 00:00:00	\N	Yolanda Claire Quartey, known professionally as Yola or Yola Carter, is an English musician, singer and songwriter. Yola received four nominations at the 62nd Grammy Awards in 2020, including the all-genre Best New Artist category.	GBR	/hg8PhImJHIFDP1s9adcqZsYANq7.jpg
+1186660	nm3736942	Natasha Bassett	1	1992-10-16 00:00:00	\N	Natasha Bassett (born ca. 1992) is an Australian actress.	AUS	/xL8fWKOtpJzd1T7YtDHPniN5FQ.jpg
+109438	nm1882152	Xavier Samuel	2	1983-12-10 00:00:00	\N	Samuel was born in Hamilton, Victoria, the son of Maree and Clifford Samuel. He grew up in Adelaide, South Australia and graduated from Rostrevor College in 2001. He has a younger brother, Benedict, a writer, producer and actor, as well as an older sister, Bridget, a stage manager.  Despite completing his senior secondary years at Rostrevor College, Samuel undertook final year drama at Christian Brothers College under the tutelage of Amanda Portus, where he played the part of Tom Snout (the wall) in Rostrevor College's production ofShakespeare's A Midsummer Night's Dream as well as playing "Belvile" in CBC's production of Aphra Behn's The Rover (The Banished Cavaliers).  Xavier Samuel later attended Flinders University Drama Centre in 2005, where he studied under renowned acting teacher Professor Julie Holledge. He played Hamlet in the graduate production.	AUS	/gHvKqCXfpzaGp46gqsy9MVDfmSf.jpg
+3430988	\N	Adam Dunn	0	\N	\N		\N	\N
+2953700	\N	Alton Mason	2	1997-11-21 00:00:00	\N	Alton Devon Mason is an American male model, the first black male model to have walked for Chanel. GQ Australia named him male model of the year in 2019 and Forbes listed him in its 30 Under 30 2021 for Art & Style.	\N	/tEu8XIaHcB1c4pOvpgDvrjuEpMJ.jpg
 113231	nm2322406	Gunner Wright	2	1973-08-26 00:00:00	\N	Gunner Wright is an American film actor known for his role in the film Love and for "portraying" the face and voice of Isaac Clarke in the videogame Dead Space 2. Wright raced motorcycles competitively until the age of 21 when he moved to Southern California. There he began working on Fox Television's Fastlane series and soon began a career in acting. He appeared in director Clint Eastwood's J. Edgar film.	\N	/b61iQAcvqxzEu866MZkn7C2buya.jpg
+3430991	\N	Shonka Dukureh	1	1977-09-03 00:00:00	2022-07-21 00:00:00	Hailed from Nashville, Tennessee by way of Charlotte, North Carolina, Shonka Dukureh was a quadruple threat. Her initial career aspiration was to become a teacher, however, she would soon learn that her vocal talents, coupled with an innate sense for the dramatic were most suited for a career as a performing artist, Author, and Playwright.	USA	/oGKj0PYIQOkinIzganat2l0uR6X.jpg
+2534418	\N	David Gannon	0	\N	\N		\N	\N
+3866155	\N	Shannon Sanders	0	\N	\N		\N	\N
+1520527	nm5578454	Charles Grounds	2	\N	\N		\N	/A4Yc3lKnbMa9rUraLvFbCbf6stG.jpg
+1281967	nm3344674	Josh McConville	2	\N	\N		\N	/16GjkZzXSl6SmqojpAq5sKU4QyB.jpg
+123884	nm2078666	Kate Mulvany	1	1978-02-24 00:00:00	\N		\N	/y80VZs4JwiXFlTvr5n8Y5Ezr3HS.jpg
+2580441	nm3346000	Gareth Davies	2	\N	\N		\N	\N
+3644672	nm12231347	Chaydon Jay	2	2007-06-20 00:00:00	\N		AUS	/7uhRfKZJHaQBCtoFUqxSKv9jCuL.jpg
+3866156	\N	Christian Kisando	0	\N	\N		\N	\N
+3866157	\N	John Mukristayo	0	\N	\N		\N	\N
+3866158	\N	Miles Burton	0	\N	\N		\N	\N
+3866159	\N	Gad Banza	0	\N	\N		\N	\N
+3866161	\N	Aristene Kisando	0	\N	\N		\N	\N
+3866164	\N	Senayt Mebrahtu	0	\N	\N		\N	\N
+3866167	\N	Mariama Princess Andrews	0	\N	\N		\N	\N
+3866173	\N	Sharon Brooks	0	\N	\N		\N	\N
+15340	nm0068431	Nicholas Bell	2	1958-08-17 00:00:00	\N		GBR	/u6wGCSowG03IkZiXEFO8ecYXiZv.jpg
+75742	nm0679715	Anthony Phelan	2	1954-06-19 00:00:00	\N	Anthony Phelan is an actor.	\N	/fsI4aYSSmvhHpR3PXZ28qtrUs9L.jpg
+3044768	\N	Sandro Colarelli	0	\N	\N		\N	\N
+3644673	\N	Cle Morgan	0	\N	\N		\N	\N
+3830510	\N	Charles Allen	2	\N	\N		\N	\N
+220984	nm1304133	Natalie Bassingthwaighte	0	\N	\N		\N	/rbOVKe9sykntMGfPYcyLxp4fvVT.jpg
+3866182	\N	Liz Blackett	0	\N	\N		\N	\N
+2129508	nm5615091	Mike Bingaman	2	\N	\N	Mike Bingaman is an actor, known for Untitled Elvis Presley Project (2022), Kommando 1944 (2018) and Dirt (2018).	\N	/9JGiRScT9whsUOZmtIi4cLI9xMu.jpg
+2620574	nm2366130	Christian McCarty	2	\N	\N		\N	/w3nnig6LzDYhVamqZcM9A8kKRaC.jpg
+143270	nm1992643	Tony Nixon	2	\N	\N		\N	/izHvwC3hb5hogp2dGx84cKgQoOt.jpg
+1769886	nm4257278	Andrea Moor	1	\N	\N	Andrea graduated from NIDA as an actor in 1985 and worked extensively in theatre, film, television and radio in Australia and overseas. On returning to Brisbane she developed her directing skills at QTC, where she was both Resident Director and Artistic Associate. Andrea has won many awards including London Monthly Best Actress, Edinburgh Fringe, 1991, Gold Matilda for direction of Venus in Fur and Matilda Best female actor for Switzerland. Andrea holds a doctorate in Creative Industries (QUT).	AUS	/iTe5DYwb3oz3iqyFjVszOSxFhkb.jpg
+107477	nm2413529	Mark Leonard Winter	2	\N	\N		AUS	/lTUrzZcAOOJzolIlTzgqT5FLNdh.jpg
+1542087	nm0662300	Hugh Parker	0	\N	\N		\N	/2ZlZ3AzvNEVz0jHtGyyDouPZBVu.jpg
+2765459	\N	Thomas Larkin	0	\N	\N		\N	/t5NifuXVMEPnwIvZe6JkWuCGCWw.jpg
+3866196	\N	Hilton Hyppolite Denis	0	\N	\N		\N	\N
+1014586	nm1555145	Christopher Sommers	2	\N	\N	Christopher Sommers is an actor.	\N	/e86eKSvV5gr1qihDfG8Lpya04OC.jpg
+3866197	\N	Brad Leaver	0	\N	\N		\N	\N
+1233261	nm1638167	Simon Mallory	2	\N	\N		\N	/qUgXHJKgc1SbR7ihVwL48EmjLdO.jpg
+3866203	\N	Terepai Richmond	0	\N	\N		\N	\N
+3866204	\N	Alex Knight	0	\N	\N		\N	\N
+3866206	\N	Jordan A. Holland	0	\N	\N		\N	\N
+3866207	\N	Lenesha Randolph	0	\N	\N		\N	\N
+2140619	\N	Elizabeth Cullen	1	\N	\N		\N	/1Piix4T41OIpmQzkHONTBx8QWlO.jpg
+1184801	\N	Angie Milliken	0	\N	\N		\N	/pfQZoIwFxaPiaxxuxJBHNQNrmQi.jpg
+3866210	\N	Luke Corrin Care	0	\N	\N		\N	\N
+2014143	\N	Jack McGirr	0	\N	\N		\N	\N
+2100558	\N	Miranda Frangou	0	\N	\N		\N	\N
+3866212	\N	Lakota Johnson	0	\N	\N		\N	\N
+3866213	\N	Ruby Gonzales-Judd	0	\N	\N		\N	\N
+3644675	\N	Greg Powell	0	\N	\N		\N	\N
+2969831	nm9601389	Patrick Shearer	2	\N	\N		\N	/1Rg8VrCGwrh9d9PTm9EwReivp4k.jpg
+3866215	\N	Sarah Ogden	0	\N	\N		\N	\N
+1322698	nm0306759	Iain Gardiner	2	\N	\N		\N	/ldKPBbDxUe6Cn9Av1oJ0Zpv7zFh.jpg
 111195	nm0364807	Jamie Harris	2	1963-05-15 00:00:00	\N	Tudor St. John "Jamie" Harris (born 15 May 1963) is an English actor. He is the son of actor Richard Harris and socialite Elizabeth Rees-Williams. His two brothers are actor Jared Harris and director Damian Harris.	GBR	/w4RhAUrejInGkOYc0T4B6Wxpncd.jpg
+1504147	nm6313235	Melina Vidler	1	1993-02-19 00:00:00	\N		AUS	/mKm9ZlMfJ7xsh0pMnZQVokyYHnP.jpg
+3866218	\N	Traneshia Chiles	0	\N	\N		\N	\N
+3866219	\N	Lauren McClinton	0	\N	\N		\N	\N
+3866220	\N	Gary Hale	0	\N	\N		\N	\N
+3866221	\N	Kellee Halford	0	\N	\N		\N	\N
+3866222	\N	Angela Hill	0	\N	\N		\N	\N
+3866224	\N	Jamiah Hudson	0	\N	\N		\N	\N
+3866226	\N	Norris Jones	0	\N	\N		\N	\N
+3866227	\N	Stephen R. Ladson	0	\N	\N		\N	\N
+3866228	\N	Alfreda McCrary	0	\N	\N		\N	\N
+3866229	\N	Angela McCrary	0	\N	\N		\N	\N
+3866230	\N	Beverly Ann McCrary	0	\N	\N		\N	\N
+155474	nm1003850	Keb' Mo'	2	1951-10-03 00:00:00	\N	Kevin Roosevelt Moore, known as Keb' Mo', is an American blues musician and four-time Grammy Award winner. He is a singer, guitarist, and songwriter, living in Nashville, Tennessee.	USA	\N
+3866231	\N	Tamica Nicole	0	\N	\N		\N	\N
+3866232	\N	Marqo Patton	0	\N	\N		\N	\N
+1318593	nm1498025	Robert Randolph	0	\N	\N		\N	\N
+3866234	\N	Calvin Settles II	0	\N	\N		\N	\N
+3866235	\N	Calvin V. Settles Sr.	0	\N	\N		\N	\N
+3866236	\N	Ira Wayne Settles Sr.	0	\N	\N		\N	\N
+3866237	\N	Odessa L. Settles	0	\N	\N		\N	\N
+3866238	\N	Sara Settles	0	\N	\N		\N	\N
+3866239	\N	Shirley M. Settles	0	\N	\N		\N	\N
+3866240	\N	Jacqueline Smith-Jefferson	0	\N	\N		\N	\N
+3866241	\N	Torshia Suggs	0	\N	\N		\N	\N
+3866242	\N	Cameron Keith Walls	0	\N	\N		\N	\N
+3866243	\N	Andrea Baker	0	\N	\N		\N	\N
+1524899	nm2842971	Libe Barer	1	1991-12-19 00:00:00	\N	Libe Alexandra Barer (born December 19, 1991) is an American actress best known for playing the role Carly Bowman in the Amazon Prime original series Sneaky Pete.\n\nHer younger sibling is Ariela Barer. Their parents are both Mexican-born and Jewish.\n\nBarer attended the Los Angeles County High School for the Arts (nicknamed "Fame High") where she received an LACHSA Moondance Film Festival Award for her screenplay "On Top Of The World."\n\nIn addition to her role on Sneaky Pete, Barer starred in the short film Disfluency, had a role on the shows Those Who Can't and Parenthood, and was featured in a commercial for Subway.	USA	/peA4FQ9y8vImDrjEPrq6XlqYY5P.jpg
+168874	nm0120794	Doug Burch	2	\N	\N		\N	/ylIeoYrK278PkJXUhbZkzW0soQI.jpg
+64948	nm0146681	Cathy Cavadini	1	1961-04-21 00:00:00	\N	Catherine Janet Cavadini (born April 21, 1961) is an American voice actress. She is most well known as the original voice of Blossom on Cartoon Network's animated television series The Powerpuff Girls and Tanya Mousekewitz in An American Tail: Fievel Goes West and in the subsequent TV series, Fievel's American Tails. In 2003, Catherine was honored with a White House Project Epic Award (which gives recognition to projects that promote women leadership) for her work in The Powerpuff Girls Movie as Blossom.[1]\n\nIn 1998, Cavadini was nominated for an Annie Award for "Outstanding Individual Achievement for Voice Acting by a Female Performer in an Animated Feature Production" for performing the voice and singing for the role of Mary in the animated movie Babes in Toyland. She also sang Dreams to Dream as the character Tanya Mousekewitz in the animated movie An American Tail: Fievel Goes West, which was nominated for Best Song at the 49th Golden Globe Awards. In addition, she has received 2 Emmy Award Certificates for contributing to Outstanding Sound on the TV series, The X-Files.	USA	/9sThx5Ajdy1aBJSppQDbTkmANlA.jpg
+21457	nm0000062	Elvis Presley	2	1935-01-08 00:00:00	1977-08-16 00:00:00	Elvis Aaron Presley (January 8, 1935 – August 16, 1977), or simply Elvis, was an American singer and actor. Dubbed the "King of Rock and Roll", he is regarded as one of the most significant cultural figures of the 20th century. His energized interpretations of songs and sexually provocative performance style, combined with a singularly potent mix of influences across color lines during a transformative era in race relations, led him to both great success and initial controversy.\n\nPresley was born in Tupelo, Mississippi, and relocated to Memphis, Tennessee, with his family when he was 13 years old. His music career began there in 1954, recording at Sun Records with producer Sam Phillips, who wanted to bring the sound of African-American music to a wider audience. Presley, on rhythm acoustic guitar, and accompanied by lead guitarist Scotty Moore and bassist Bill Black, was a pioneer of rockabilly, an uptempo, backbeat-driven fusion of country music and rhythm and blues. In 1955, drummer D. J. Fontana joined to complete the lineup of Presley's classic quartet and RCA Victor acquired his contract in a deal arranged by Colonel Tom Parker, who would manage him for more than two decades. Presley's first RCA Victor single, "Heartbreak Hotel", was released in January 1956 and became a number-one hit in the United States. Within a year, RCA would sell ten million Presley singles. With a series of successful network television appearances and chart-topping records, Presley became the leading figure of the newly popular sound of rock and roll, though his performative style and promotion of the then-marginalized sound of African-Americans led to him being widely considered a threat to the moral well-being of the White American youth.\n\nIn November 1956, Presley made his film debut in Love Me Tender. Drafted into military service in 1958, Presley relaunched his recording career two years later with some of his most commercially successful work. He held few concerts, however, and guided by Parker, proceeded to devote much of the 1960s to making Hollywood films and soundtrack albums, most of them critically derided. Some of his most famous films included Jailhouse Rock (1957), Blue Hawaii (1961), and Viva Las Vegas (1964). In 1968, following a seven-year break from live performances, he returned to the stage in the acclaimed television comeback special Elvis, which led to an extended Las Vegas concert residency and a string of highly profitable tours. In 1973, Presley gave the first concert by a solo artist to be broadcast around the world, Aloha from Hawaii. Years of prescription drug abuse and unhealthy eating habits severely compromised his health, and he died suddenly in 1977 at his Graceland estate at the age of 42.	USA	/psf1wJUw48ALsfV3tN31FX0mDW5.jpg
+72466	nm0268199	Colin Farrell	2	1976-05-31 00:00:00	\N	Colin James Farrell (born 31 May 1976) is an Irish actor. A leading man in blockbusters and independent films since the 2000s, he has received numerous accolades, including two Golden Globe Awards and a nomination for an Academy Award. The Irish Times' named him Ireland's fifth-greatest film actor in 2020.\n\nFarrell began acting in the BBC drama series Ballykissangel (1998) and had his film debut in the drama The War Zone (1999). His first lead film role was in the war drama Tigerland (2000), and he had his breakthrough with Steven Spielberg's science fiction film Minority Report (2002). He took on high-profile roles as Bullseye in Daredevil (2003) and Alexander the Great in Alexander (2004), and further starring roles in Michael Mann's Miami Vice (2006) and Woody Allen's Cassandra's Dream (2007).\n\nFarrell earned acclaim for playing a rookie hitman in Martin McDonagh's comedy In Bruges (2008), winning a Golden Globe Award for Best Actor. He went on to play a variety of leading and character roles in the comedy Horrible Bosses (2011), the science fiction film Total Recall (2012), the black comedy Seven Psychopaths (2012), the drama Saving Mr. Banks (2013), the dark comedies The Lobster (2015) and The Killing of a Sacred Deer (2017), the gothic thriller The Beguiled (2017), and the fantasy film Dumbo (2019). He also starred in the second season of HBO's thriller series True Detective (2015).\n\nFarrell has also played Percival Graves in the fantasy film Fantastic Beasts and Where to Find Them (2016) and Penguin in the superhero film The Batman (2022). Also in 2022, Farrell gained acclaim for his roles in the science fiction drama After Yang, the survival film Thirteen Lives, and McDonagh's drama The Banshees of Inisherin. For playing a naive Irishman in the lattermost, he won the Volpi Cup for Best Actor and another Golden Globe, in addition to a nomination for the Academy Award for Best Actor.	IRL	/yGohLbGy8huibHfT52sbnGoGu7x.jpg
+62105	nm0174403	Kerry Condon	1	1983-01-04 00:00:00	\N	Kerry Condon (born 9 January 1983) is an Irish actress. She was the youngest actress to play Ophelia in a Royal Shakespeare Company production of Hamlet (2001–2002). She has since played Octavia of the Julii in Rome (2005–2007), Stacey Ehrmantraut in Better Call Saul (2015–2022), and has voiced the artificial intelligence entity F.R.I.D.A.Y. in various films in the Marvel Cinematic Universe.\n\nCondon has collaborated with Martin McDonagh in the plays The Lieutenant of Inishmore (2001) and The Cripple of Inishmaan (2009), and the films Three Billboards Outside Ebbing, Missouri (2017) and The Banshees of Inisherin (2022). For her performance in the lattermost, she received nominations for the BAFTA and Academy Award for Best Supporting Actress.	IRL	/8l5zehb9sc9cgRCLD713rf5Xmz3.jpg
+1290466	nm4422686	Barry Keoghan	2	1992-10-18 00:00:00	\N	Barry Keoghan (born 18 October 1992) is an Irish actor. He has appeared in the films Dunkirk; The Killing of a Sacred Deer, for which he won an Irish Film and Television Award for Best Supporting Actor and was nominated for the Independent Spirit Award for Best Supporting Male; and Calm with Horses, for which he was nominated for the BAFTA Award for Best Actor in a Supporting Role, and the RTÉ drama Love/Hate. He also played Druig in Eternals and the Joker in The Batman.	IRL	/ngoitknM6hw8fffLywyvjzy6Iti.jpg
+93209	nm0527994	Gary Lydon	2	1964-09-11 00:00:00	\N		GBR	/wMAghd6tlelmypZG4KP6yKCTYTl.jpg
+83278	nm0795169	Pat Shortt	2	1966-12-12 00:00:00	\N	Pat Shortt is an Irish actor and comedian, best known for his work with the McDonagh brothers, as well as the Irish sitcom Killinaskully, which he created and wrote. He is also known as half of D'Unbelievables, a comedy duo he co-founded in the late 1980s with friend Jon Kenny.	IRL	/AjN7LR3EdLgY6xotcR4nbRXt7Oz.jpg
+37169	nm0448587	Jon Kenny	2	1957-08-26 00:00:00	\N	Jonathan Kenny (born 12 December 1957) is an Irish comedian and actor who lives in Lough Gur and is one half of the famous Irish comic duo d'Unbelievables with Pat Shortt. They were a very successful duo until 2000, releasing One Hell of a Video, D'Unbelievables, D'Video, D'Telly, D'Mother and D'collection but the group stopped touring after Kenny was diagnosed with Hodgkin's lymphoma.\n\nKenny is an accomplished singer and supporter of Munster Rugby. Kenny completed filming a lead role in an independent Europe feature film called Insatiable, directed by Jessie Kirby. On his new DVD, Back to Front, Jon says he plays the nastiest man in Ireland in the film which is his first serious role. Jon Kenny has many relatives from The Irish Midlands and the West of Ireland. His mother's maiden name is Dirraine and her grandparents came from Inis Mór in the Aran Islands.\n\nKenny returned to solo comedy and has performed throughout Ireland with his one-man show. In the spring of 2007, Kenny realised his first solo stand-up DVD 'Back to Front'.\n\nKenny created a brand new theatre show 'Mag Mell' with visual Artist Des Dillon and Musician/Composers Benny McCarthy & Conal Ó'Gráda in 2012-13.	IRL	/4wlz0fYI7oWvSjGcZE67vcuDONa.jpg
+1597386	nm0282458	Sheila Flitton	1	\N	\N	Sheila Flitton is known for The Banshees of Inisherin (2022), The Northman (2022) and The Commitments (1991). IMDbProStarmeter.	\N	/4kmscr7OwIUQGGqCsneCEZ2sVfc.jpg
+1122014	nm0669164	David Pearse	2	\N	\N		\N	/sFwZ5S0dbwfhYIMPOw9MAOYt817.jpg
+1907071	nm0639119	Bríd Ní Neachtain	1	\N	\N		\N	/yefByJHoJalFSp3WoH7RHgReuFE.jpg
+210061	nm1394398	Aaron Monaghan	2	1980-06-01 00:00:00	\N	Aaron Monaghan was born in 1980 in Co. Cavan, Ireland. He is an actor and director, known for The Banshees of Inisherin (2022), Assassin's Creed (2016) and '71 (2014).	IRL	/sLzZAFBiNzlx2BMqGq0383RYbax.jpg
+3795945	\N	Lasairfhíona Ní Chonaola	1	\N	\N	Lasairfhíona Ní Chonaola (Irish pronunciation: [ˈl̪ˠasˠəˌɾˠiːnˠə]) is an Irish singer-songwriter. She is deeply rooted in the sean-nós singing style of her home on Inis Oírr, one of the Aran Islands. She is a graduate of Celtic Studies from Trinity College Dublin.	\N	/j5bo3PyuYBAStLwLRqqrdJTXilP.jpg
+4054257	nm14328298	James Carty	0	\N	\N		\N	\N
+2419826	\N	Conor Connolly	0	\N	\N		\N	/emIrttka56bncBHZKt1B9E0uhFw.jpg
+2335235	\N	Ryan Owens	0	\N	\N		\N	\N
+3879013	nm10104271	John Carty	2	\N	\N		\N	\N
+3879015	\N	Oliver Farrelly	0	\N	\N		\N	\N
+1476330	nm5450413	Gabriel LaBelle	2	2002-09-20 00:00:00	\N	Gabriel LaBelle (born c. September 20, 2002) is a Canadian-American actor. He is best known for his leading role as young aspiring filmmaker Sammy Fabelman in Steven Spielberg's semi-autobiographical film The Fabelmans (2022), for which he received acclaim. He has also appeared in the 2018 reboot of The Predator, in an episode of the Netflix series Brand New Cherry Flavor (2021), and in the Showtime series adaptation of American Gigolo (2022). He is the son of producer and character actor Rob LaBelle.	CAN	/bDHTVHDzDuGgY2IcqOIlJQptTBa.jpg
+1812	nm0931329	Michelle Williams	1	1980-09-09 00:00:00	\N	Michelle Ingrid Williams (born September 9, 1980) is an American actress. Known primarily for starring in small-scale independent films with dark or tragic themes, she has received various accolades, including two Golden Globe Awards and a Primetime Emmy Award, in addition to nominations for five Academy Awards and a Tony Award.\n\nWilliams, a daughter of politician and trader Larry R. Williams, began her career with television guest appearances and made her film debut in the family film Lassie in 1994. She gained emancipation from her parents at age fifteen, and soon achieved recognition for her leading role in the teen drama television series Dawson's Creek (1998–2003). This was followed by low-profile films, before having her breakthrough with the drama film Brokeback Mountain (2005).\n\nWilliams went on to receive critical acclaim for playing emotionally troubled women coping with loss or loneliness in the independent dramas Wendy and Lucy (2008), Blue Valentine (2010), and Manchester by the Sea (2016). She won two Golden Globes for portraying Marilyn Monroe in the drama My Week with Marilyn (2011) and Gwen Verdon in the miniseries Fosse/Verdon (2019), in addition to a Primetime Emmy Award for the latter. Her highest-grossing releases came with the thriller Shutter Island (2010), the fantasy film Oz the Great and Powerful (2013), the musical The Greatest Showman (2017), and the superhero films Venom (2018) and Venom: Let There Be Carnage (2021). Williams has also led major studio films, such as Ridley Scott's crime thriller All the Money in the World (2017) and Steven Spielberg's drama The Fabelmans (2022).\n\nOn Broadway, Williams starred in revivals of the musical Cabaret in 2014 and the drama Blackbird in 2016, for which she received a nomination for the Tony Award for Best Actress in a Play. She is an advocate for equal pay in the workplace. Consistently private about her personal life, Williams has a daughter from her relationship with actor Heath Ledger and was briefly married to musician Phil Elverum. She has two children with her second husband, theater director Thomas Kail.	USA	/jn3BVMVbIptz2gc6Fhxo1qwJVvW.jpg
 1849970	nm5382258	Jose Guns Alves	2	\N	\N		DEU	/cLm8cFWaZESOsz4pIjuTV0MGSmq.jpg
+17142	nm0200452	Paul Dano	2	1984-06-19 00:00:00	\N	Paul Franklin Dano (born June 19, 1984) is an American actor. He began his career on Broadway before making his film debut in The Newcomers (2000). He won the Independent Spirit Award for Best Debut Performance for his role in L.I.E. (2001) and received accolades for his role as Dwayne Hoover in Little Miss Sunshine (2006). For his dual roles as Paul and Eli Sunday in Paul Thomas Anderson's There Will Be Blood (2007), he was nominated for the BAFTA Award for Best Supporting Actor.\n\nDano has also received accolades for roles such as John Tibeats in Steve McQueen's 12 Years a Slave (2013) and Alex Jones in Denis Villeneuve's Prisoners (2013). His acting portrayal of musician Brian Wilson in Love & Mercy (2014) earned him a Golden Globe nomination in the category of Best Supporting Actor. He will play Edward Nashton / The Riddler in The Batman (2022).\n\nDano made his directorial debut with the drama film Wildlife (2018), based on the novel by Richard Ford. He co-wrote the screenplay with his partner Zoe Kazan. In 2018, he starred in the Showtime miniseries Escape at Dannemora, for which he received a Primetime Emmy Award nomination for Outstanding Supporting Actor in a Limited Series or Movie.	USA	/hGWZBC5dNrQJkcJ0JuhGp07eG6n.jpg
 2935410	nm10994414	Mathew Trent Hunnicutt	2	\N	\N		\N	/mcPIgNiKHWrokBKF8PX6PJuwof1.jpg
+19274	nm0736622	Seth Rogen	2	1982-04-15 00:00:00	\N	Seth Aaron Rogen (born April 15, 1982) is a Canadian-American actor, comedian, and filmmaker. Originally a stand-up comedian in Vancouver, he moved to Los Angeles for a part in Judd Apatow's series Freaks and Geeks, and then got a part on the sitcom Undeclared, which also hired him as a writer. After landing his job as a staff writer on the final season of Da Ali G Show, Apatow guided Rogen toward a film career. As a staff writer, he was nominated for a Primetime Emmy Award for Outstanding Writing for a Variety Series.\n\nHis first movie appearance was a minor role in Donnie Darko (2001). Rogen was cast in a supporting role and credited as a co-producer in Apatow's directorial debut, The 40-Year-Old Virgin. Universal Pictures subsequently cast him as the lead in Apatow's films Knocked Up and Funny People. Rogen co-starred as Steve Wozniak in Universal's Steve Jobs biopic in 2015. In 2016, he developed the AMC television series Preacher with his writing partner Evan Goldberg and Sam Catlin. He also serves as a writer, executive producer, and director, with Goldberg.\n\nRogen and Goldberg co-wrote the films Superbad, Pineapple Express, The Green Hornet, This Is the End, and directed both This Is the End and The Interview, all of which Rogen starred in. He has also done voice work for the films Shrek the Third, Horton Hears a Who!, the Kung Fu Panda trilogy, The Spiderwick Chronicles, Monsters vs. Aliens, Paul, Sausage Party, the 2019 version of The Lion King, and the upcoming The Super Mario Bros. Movie.	CAN	/2dPFskUtoiG0xafsSEGl9Oz4teA.jpg
+6167	nm0002139	Judd Hirsch	2	1935-03-15 00:00:00	\N	Judd Seymore Hirsch (born March 15, 1935) is an American actor. He is known for playing Alex Rieger on the television comedy series Taxi (1978–1983), John Lacey on the NBC series Dear John (1988–1992), and Alan Eppes on the CBS series Numb3rs (2005–2010). He is also well known for his career in theatre and for his roles in films such as Ordinary People (1980), Running on Empty (1988), Independence Day (1996), A Beautiful Mind (2001), Independence Day: Resurgence (2016), Uncut Gems (2019) and The Fabelmans (2022).\n\nHe has twice won the Primetime Emmy Award for Outstanding Lead Actor in a Comedy Series, twice won the Tony Award for Best Actor in a Play, won the Golden Globe Award for Best Actor – Television Series Musical or Comedy, and was nominated twice for the Academy Award for Best Supporting Actor for his performances in Ordinary People (1980) and The Fabelmans (2022), the longest gap between Academy Award nominations in history.	USA	/7rJ0TZfMoPLTcO203tHhE6tcPKP.jpg
+5602	nm0000186	David Lynch	2	1946-01-20 00:00:00	\N	David Keith Lynch (born January 20, 1946) is an American filmmaker, painter, visual artist, musician, and writer. Known for his surrealist films, he has developed his own unique cinematic style, which has been dubbed "Lynchian", and which is characterized by its dream imagery and meticulous sound design. Indeed, the surreal and in many cases violent elements to his films have earned them the reputation that they "disturb, offend or mystify" their audiences.\n\nMoving around various parts of the United States as a child within his middle class family, Lynch went on to study painting in Philadelphia, where he first made the transition to producing short films. Deciding to devote himself more fully to this medium, he moved to Los Angeles, where he produced his first motion picture, the surrealist horror Eraserhead (1977). After Eraserhead became a cult classic on the midnight movie circuit, Lynch was employed to direct The Elephant Man (1980), from which he gained mainstream success. Then being employed by the De Laurentiis Entertainment Group, he proceeded to make two films. First, the science-fiction epic Dune (1984), which proved to be a critical and commercial failure, and then a neo-noir crime film, Blue Velvet (1986), which was highly critically acclaimed.\n\nProceeding to create his own television series with Mark Frost, the highly popular murder mystery Twin Peaks (1990–1992), he also created a cinematic prequel, Fire Walk With Me (1992), a road movie, Wild at Heart (1990), and a family film, The Straight Story (1999) in the same period. Turning further towards surrealist filmmaking, three of his following films worked on "dream logic" non-linear narrative structures, Lost Highway (1997), Mulholland Drive (2001) and Inland Empire (2006).\n\nLynch has received three Academy Award nominations for Best Director, for his films The Elephant Man, Blue Velvet and Mulholland Drive, and also received a screenplay Academy Award nomination for The Elephant Man. Lynch has twice won France's César Award for Best Foreign Film, as well as the Palme d'Or at the Cannes Film Festival and a Golden Lion award for lifetime achievement at the Venice Film Festival. The French government awarded him the Legion of Honor, the country's top civilian honor, as a Chevalier in 2002 and then an Officier in 2007, while that same year, The Guardian described Lynch as "the most important director of this era". Allmovie called him "the Renaissance man of modern American filmmaking", whilst the success of his films have led to him being labelled "the first popular Surrealist".	USA	/b6TnSpuqeOlbq7aHH9G4inmQ1v9.jpg
+124377	nm0075588	Jeannie Berlin	1	1949-11-01 00:00:00	\N	Jeannie Berlin (born Jeannie Brette May; November 1, 1949) is an American actress and screenwriter.\n\nShe is best known for her role in the 1972 film The Heartbreak Kid, directed by her mother Elaine May, for which she received Academy Award and Golden Globe nominations. She later played the leading role in Sheila Levine Is Dead and Living in New York (1975), and in 2000s returned to screen appearing in films such as Margaret (2011), Inherent Vice (2014) and Cafe Society (2016), as well as the miniseries The Night Of (2016).	USA	/tZ0n99LpnTmZFF0UrypLmJJ6W45.jpg
+1651362	nm6253548	Julia Butters	1	2009-04-15 00:00:00	\N	Julia Butters (born April 15, 2009) is an American teenage actress. She received critical acclaim for her role as Trudi Fraser in Quentin Tarantino's Once Upon a Time in Hollywood and as Reggie Fabelman in Steven Spielberg's The Fabelmans (2022).	USA	/jkbgtNPhojgv3aCUvoLbxpHMI0c.jpg
+3690404	\N	Keeley Karsten	1	\N	\N		\N	/7okmj0488DsZbN9mTHRpwZqVRDM.jpg
+3132260	nm11809977	Sam Rechner	0	\N	\N		\N	/cjFwkjJY7G2MxNnTzPuM1rPXG3G.jpg
+3731015	nm12873476	Mateo Zoryan Francis-DeFord	2	\N	\N		\N	/l2eJDtQqazmAmrkmLwiH0Uo2QYO.jpg
+1512280	nm5557379	Chloe East	1	2001-02-16 00:00:00	\N	Chloe East is an American actress and dancer. She gained popularity from her Youtube success in 2016. She starred in the first season of the Audience Network television series Ice, and in the 2017–2018 ABC television series Kevin Saves the World.	USA	/7yFO6DB8O7FmkJpi2mBRJZApbiQ.jpg
+11902	nm0000862	Robin Bartlett	1	1951-04-22 00:00:00	\N	From Wikipedia, the free encyclopedia. Robin Bartlett (born April 22, 1951) is an American actress. She was born in England, but was raised in Switzerland.\n\nShe was formerly married to the actor Alan Rosenberg.\n\nShe appeared in the short-lived series The Powers That Be and had a recurring role as Debbie Buchman (the sister of Paul Reiser's character) in the series Mad About You.\n\nShe has played a teacher at least twice – as Mrs. Elliott in 1989's Lean on Me, then again as French teacher Mrs. Grober in the 1991 film If Looks Could Kill – Teen Agent.\n\nStarting this fall, she will be appearing as Hannah Pitt in Signature Theatre Company's 20th anniversary production of Tony Kushner's Angels in America.  \n\nPlayed Bridget Kearns in Shutter Island in 2010. Description above from the Wikipedia article Robin Bartlett, licensed under CC-BY-SA,full list of contributors on Wikipedia.	\N	/94OpCjYBbxIoCtJpFWAlFQornKO.jpg
+1422517	nm4625502	Oakes Fegley	2	2004-11-11 00:00:00	\N	Oakes Fegley is an actor best known for portraying the titular character of Pete in Disney's Pete's Dragon, he has also earned movie credits in Fort Bliss, This is Where I Leave You, Prism, and Wonderstruck.  He performed in local stage productions growing up, including twice portraying Tiny Tim in A Christmas Carol. He is from Allentown, Pennsylvania. His parents Michael Fegley and Mercedes Tonne Fegley are both actors as well. He has a sister named August.	USA	/jDiuzOh12xmrkwtnZWBPEEjpNva.jpg
+3233032	\N	Sophia Kopera	0	\N	\N		\N	/jutYqJj4cKd0HrojegwtGT0y9Vt.jpg
+3690410	\N	Birdie Borria	0	\N	\N		\N	\N
+3690411	\N	Alina Brace	0	\N	\N		\N	\N
+2721347	nm8418381	Chandler Lovelle	1	\N	\N		USA	\N
+1172381	nm4851894	Gustavo Escobar	2	\N	\N		\N	/am7uHxPH2VX0uH13oY9vbp6fVR3.jpg
+1696351	nm7751235	Nicolas Cantu	2	2003-09-08 00:00:00	\N	Nicolas Cantu is an actor, best known for his voice work on The Amazing World of Gumball.	USA	/ySFxLOQ9ejiZddviRVf9bhZvDsf.jpg
+1674312	nm5420347	Cooper Dodson	2	2006-09-28 00:00:00	\N		USA	/f08KSQzv7d4R6Mk7cbqgCsHYn7q.jpg
+1352028	nm5145655	Gabriel Bateman	2	2004-09-10 00:00:00	\N	Gabriel Michael Bateman (born September 10, 2004) is an American actor. He is best known for starring in numerous horror films, including as Robert in Annabelle (2014), Martin Wells in Lights Out (2016), Andy Barclay in Child's Play (2019), and Kyle Hunter in Unhinged (2020).  Bateman made his acting debut in 2012, appearing in the film George Biddle, CPA. In 2014, he had a supporting role as Robert in the supernatural horror film Annabelle, a spin-off of the acclaimed horror film The Conjuring. From 2014 to 2015, he starred as Ethan Taylor in the CBS drama thriller series Stalker.\n\nIn November 2014, he was cast in Robert Kirkman's Cinemax horror drama series Outcast. He appeared in the series as Joshua Austin from 2016 to 2017. In 2015, he had guest roles in various television series, including Your Family or Mine, Wicked City, and Code Black. In 2016, Bateman played a leading role, alongside Teresa Palmer, in the supernatural horror film Lights Out, which was produced by James Wan. Also that year, he starred as Jack Hawthorne in the CBS mystery drama series American Gothic, which ran for one season. In 2018, he starred as Carter Hughes in the Netflix family comedy film Benji. He also starred as Wyatt McKenna in the Prime Video comedy drama series The Dangerous Book for Boys.\n\nBateman starred in commercials for Staples, Frigidaire, Energizer EcoAdvanced Recycled Batteries, Iams, and the Cadillac CTS Sedan. He also appeared in two music videos ("It's a Job" and "A New Beginning") for the album I Remembered But Then I Forgot by Wolfie's Just Fine, a folk music side project of Jon Lajoie.\n\nIn 2019, Bateman received further recognition for starring as Andy Barclay in the horror film Child's Play, alongside Aubrey Plaza. The film was a critical and commercial success. Also that year, he starred as Charlie Brenner in the musical adventure film Playmobil: The Movie and as Scott in the historical war film Robert the Bruce. In 2020, he starred as Oliver Reed in the family film Think Like a Dog and as Kyle Hunter in the thriller film Unhinged, alongside Russell Crowe.	USA	/29pwCzi4ja2gZHaGU50nqEzDe36.jpg
+2077401	nm8227651	Stephen Matthew Smith	2	\N	\N		\N	/28YZF6uAzoJbRBEeANQAI9rMuAd.jpg
+2938329	nm12184215	Lane Factor	2	2005-06-28 00:00:00	\N	Native American actor best known for his role as Cheese in the 2021 Hulu series, Reservation Dogs.	USA	/6cabYx0vPuMs7rzkFdV65GfrUIP.jpg
+58528	nm0881672	James Urbaniak	2	1963-09-17 00:00:00	\N	From Wikipedia, the free encyclopedia.\n\nJames Christian Urbaniak (born September 17, 1963) is an American actor. Urbaniak was born in Bayonne, New Jersey. He lives in Santa Monica, California with his wife Julie and their twins, son Severn Jerzy and daughter Esme Maeve.\n\nOne of his first noteworthy roles was in the avant-garde playwright/director Richard Foreman's The Universe, for which Urbaniak won an Obie. He has also been acclaimed for his acting in the films Henry Fool and American Splendor, in the latter of which he played legendary illustrator R. Crumb. He was nominated for a Drama Desk Award for his role in Thom Pain (based on nothing). He provides the voice for main character Dr. Thaddeus Venture on The Venture Bros. as well as the Doctor's brother Jonas Venture Junior and the super-villain Phantom Limb.\n\nIn one of his lesser-known roles, Urbaniak played a pizza guy in the famous "Whassup?" television commercials for Budweiser. He also portrayed the moderator in "Human Centipede Anonymous", a Funny or Die short depicting three men who grapple with their past as a human centipede.	\N	/6WnlD8c9kHFh6BkQJmQ4CMSTjKT.jpg
+1366811	nm1752212	Alex Quijano	2	\N	\N		\N	/cx2x5jmkwRbHPxrHY7jb7AkWM2Y.jpg
+1590304	nm4795228	Kalama Epstein	2	2000-05-05 00:00:00	\N	Kalama Epstein is an American actor. He is best known for the recurring role of Noah on the Freeform family drama series The Fosters.	USA	/kuZuEBSCW5pBBiAjKADuRGMb59X.jpg
+105829	nm0872997	Connor Trinneer	2	1969-03-19 00:00:00	\N	Connor Trinneer (born March 19, 1969, height 5' 11" (1,80 m)) is an American film, stage and television actor. His highest profile roles have been those of Charles "Trip" Tucker III on Star Trek: Enterprise and Michael on Stargate Atlantis.\n\nBiography\n\nTrinneer was born on March 19, 1969 in Walla Walla, Washington, but spent many years in Kelso, where he attended elementary, middle and then Kelso High School. He attended Pacific Lutheran University in Tacoma. While at PLU, he played college football. He graduated with a Bachelor of Fine Arts degree in acting, then went on to obtain a Master of Fine Arts degree from University of Missouri–Kansas City.\n\nTrinneer married Ariana Navarre on May 29, 2004; they have a son, Jasper (born October 11, 2005).	USA	/tccLxyVboqzeK3Wf2daq1BavVmB.jpg
+17305	nm0342399	Greg Grunberg	2	1966-07-11 00:00:00	\N	Gregory Phillip "Greg" Grunberg (born July 11, 1966) is an American television actor. He is best known from starring as Matt Parkman on the NBC television series Heroes. Other notable roles included the characters Sean Blumberg on Felicity (1998–2002) and Eric Weiss on Alias (2001–2006), both created and produced by childhood friend J. J. Abrams.\n\n​From Wikipedia, the free encyclopedia	USA	/ir2QunLf6aTaowpEygbIcjiZLDB.jpg
+143204	nm0387431	Jan Hoag	1	1948-09-19 00:00:00	\N		USA	/n2DONMS4gfnwe2W6h1hkmoA7Zcx.jpg
+1282012	nm1124657	Carlos Javier Castillo	0	\N	\N		\N	\N
+59285	nm0125653	Ezra Buzzington	2	1957-04-07 00:00:00	\N	Ezra Buzzington is "that guy" from "Oh, that guy!". He's been in dozens of popular films but isn't one you'd recognize on the street. He's worked twice with David Fincher, Terry Zwigoff, Rob Zombie and Alexandre Aja. Other directors include George Clooney, the Farrelly Brothers, Paul Thomas Anderson and Chris Nolan. You know him. You just don't know you know him.	USA	/j3kJRKgQdHAMXvJUtPHXJsGGW5X.jpg
+3570734	\N	Paul Chepikian	0	\N	\N		\N	\N
+3690413	\N	Brinly Marum	0	\N	\N		\N	\N
+2978386	nm2640714	Crystal the Monkey	1	1994-05-06 00:00:00	\N	Crystal is an animal actor and female capuchin monkey known for her main onscreen role as Dexter in the Night at the Museum films, she also portrayed Able the Space Monkey in the sequel Night at the Museum: Battle of the Smithsonian.	USA	/aRNtzlLpct7ivWeqMDhIeXPoORF.jpg
+61222	nm0094603	Art Bonilla	2	\N	\N		\N	/5jsIpHLyPGC6i1tQXr9zKitJpiT.jpg
+3690406	\N	Meredith VanCuyk	1	\N	\N		\N	\N
+3690407	nm11028104	Nicole Alicia Xavier	1	1997-05-28 00:00:00	\N	Nicole Alicia Xavier is an actor, educator, and advocate. Her career soared to new heights after she was featured in some of the top films and series of 2022 — Steven Spielberg's critically acclaimed The Fabelmans and Ryan Murphy's record-breaking hit Monster: The Jeffrey Dahmer Story.\n\nIt was Legendary Director Steven Spielberg who said that he loved Nicole's "eyes and smile" and to continue to do what she was doing because it's working.  While still early in her career, she's gained experience by working with directors such as Dexter Fletcher, Andrés Baiz, Clement Virgo, Rene Elizondo, Jessy Terrero, and Jonah Hill.\n\nSome of her most recent work includes Paramount’s The Offer, Netflix’s On My Block, and Amazon’s Daisy Jones and The Six.\n\nOccasionally, she will grace us with her presence in music videos. Some of her notable cameos include Maluma's "Sobrio", Travis Scott's "Wake Up," and Backstreet Boys' "Chances."\n\nAdditionally, you might have seen Nicole in several nationwide commercials for Toyota Latino, Pepsi, Old Navy, and Universal Studios.  Off-set, Nicole is a passionate educator teaching grades K-12. The courses she teaches include English Language Arts (ELA), Creative Writing, Public Speaking, and Creative Arts.  While her artistic talent is emphasized in the performing arts, she is also a natural healer with leadership qualities and the ability to genuinely empathize. Nicole exhibits this through her work as a child advocate with Together We Rise, a non-profit dedicated to changing the way children experience foster care. In the past year, she led her first fundraising campaign for Giving Tuesday and successfully surpassed the goal.  Throughout the years, Nicole's philanthropic efforts continued by supporting veterans, education, arts, and LGBTQIA+ culture. In addition, she graduated from UCLA in Entertainment Business, paving the way for a career path that is both creative and analytical. She embraces collaborating and aligning herself with like-minded individuals throughout the entertainment industry.  Entrepreneurial and progressive, Nicole Alicia Xavier is ever-striving, ambitious, and determined to do all things well. She carries an unyielding dedication to her plan until her goals are achieved, leading the way to encourage others to do the same.	\N	/r4Rfumzv2R4gPEQyY9DIcR5z3aF.jpg
+3690409	\N	Vera Myers	0	\N	\N		\N	\N
+1455902	\N	Larkin Campbell	2	1967-05-05 00:00:00	\N		USA	/c2Ocom5BsSy2qls1YK6mj5K7ALr.jpg
+2000467	\N	Cody Mitchell	0	\N	\N		\N	\N
+3531003	nm8540237	Caroline Anna-Kaye Green	1	\N	\N		USA	\N
+3218693	\N	Rob Shiells	0	\N	\N		\N	\N
+2317698	\N	Julyah Rose	0	\N	\N		\N	/fTGFFH7VyeH1hhaiISiyqngcmvv.jpg
+3690412	\N	April Elize	0	\N	\N		\N	\N
+2537948	\N	Jonathan Moorwood	0	\N	\N		\N	\N
+582821	nm1517482	Ari Davis	2	\N	\N		\N	/xFmkwuPZO5pBfBwPNZ7eDRVHfHv.jpg
+3717606	nm11895418	Jared Becker	2	\N	\N		\N	/rvxO7azfi4p2C5yYs3GTLvw0tMg.jpg
+3717617	\N	Kendal Evans	0	\N	\N		\N	\N
+2567641	\N	Trang Vo	0	\N	\N		\N	/kiqHB4ZLR2H9Wra7Rk7IpyhGTdl.jpg
+3774727	\N	Mason Bumba	0	\N	\N		\N	\N
+3774729	nm8791679	Mary M. Flynn	0	\N	\N		\N	\N
+3303910	\N	Adriel Porter	0	\N	\N		\N	\N
+3774731	\N	Tia Nalls	0	\N	\N		\N	\N
+3774733	\N	Harper Dustin	0	\N	\N		\N	\N
+2903967	nm8960062	Alejandro Fuenzalida	0	\N	\N		\N	/uRh5GbTZUmb6fsEWXoExgLgHBGW.jpg
+3778119	\N	Orion Hunter	0	\N	\N		\N	\N
+3778120	\N	Samantha Rose Gomez	0	\N	\N		\N	\N
+2996837	\N	Taylor Hall	0	\N	\N		\N	/pbQAufV3i3WC48SypQieHdAW0cu.jpg
+3778125	\N	Sarah Hamilton	0	\N	\N		\N	\N
+3778130	\N	Marissa McBride	0	\N	\N		\N	\N
+500	nm0000129	Tom Cruise	2	1962-07-03 00:00:00	\N	Thomas Cruise Mapother IV (born July 3, 1962), known professionally as Tom Cruise, is an American actor and producer. One of the world's highest-paid actors, he has received various accolades, including an Honorary Palme d'Or and three Golden Globe Awards, in addition to nominations for three Academy Awards. His films have grossed over $4 billion in North America and over $11.1 billion worldwide, making him one of the highest-grossing box office stars of all time.\n\nCruise began acting in the early 1980s and made his breakthrough with leading roles in the comedy film Risky Business (1983) and action film Top Gun (1986). Critical acclaim came with his roles in the dramas The Color of Money (1986), Rain Man (1988), and Born on the Fourth of July (1989). For his portrayal of Ron Kovic in the latter, he won a Golden Globe Award and received a nomination for the Academy Award for Best Actor. As a leading Hollywood star in the 1990s, he starred in several commercially successful films, including the drama A Few Good Men (1992), the thriller The Firm (1993), the horror film Interview with the Vampire (1994), and the romance Jerry Maguire (1996). For the latter, he won a Golden Globe Award for Best Actor and received his second Academy Award nomination. Cruise's performance as a motivational speaker in the drama Magnolia (1999) earned him another Golden Globe Award and a nomination for the Academy Award for Best Supporting Actor.\n\nSince then, Cruise has largely starred in science fiction and action films, establishing himself as an action star, often performing his own risky stunts. He has played Ethan Hunt in all six of the Mission: Impossible films from 1996 to 2018. His other notable roles in the genre include Vanilla Sky (2001), Minority Report (2002), The Last Samurai (2003), Collateral (2004), War of the Worlds (2005), Knight and Day (2010), Jack Reacher (2012), Oblivion (2013), Edge of Tomorrow (2014), and Top Gun: Maverick (2022), with Maverick being his highest-grossing film.\n\nDescription above from the Wikipedia article Tom Cruise, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/yUsSJ0vO8AM9HnDQWuGKMSzCKOP.jpg
+996701	nm1886602	Miles Teller	2	1987-02-20 00:00:00	\N	Miles Alexander Teller (born February 20, 1987) is an American actor and musician. An alumnus of NYU's Tisch School of Arts, he appeared in several short films and television movies before making his feature film debut in Rabbit Hole (2010). He had supporting roles in Footloose (2011) and Project X (2012), before garnering critical acclaim for his leading performance as Sutter Keely in The Spectacular Now (2013), for which he was awarded the Sundance Film Festival Special Jury Prize for Dramatic Acting and his role as Andrew Neiman in Whiplash, for which he was nominated for the Gotham Independent Film Award for Best Actor, the Satellite Award for Best Actor - Motion Picture, and the BAFTA Rising Star Award. His other notable films include: Divergent (2014), Bleed for This (2016), War Dogs (2016), and Top Gun: Maverick (2022).	USA	/nh6WOJVFIbVd0eg52B6tqweB6QZ.jpg
+6161	nm0000124	Jennifer Connelly	1	1970-12-12 00:00:00	\N	Jennifer Lynn Connelly (born December 12, 1970) is an American actress. She began her career as a child model before making her acting debut in the 1984 crime film Once Upon a Time in America. After having worked as a model for several years, she began to concentrate on acting, starring in a variety of films including the horror film Phenomena (1985), the musical fantasy film Labyrinth (1986), the romantic comedy Career Opportunities (1991), and the period superhero film The Rocketeer (1991). She received praise for her performance in the science fiction film Dark City (1998) and playing a drug addict in Darren Aronofsky's drama film Requiem for a Dream (2000).\n\nIn 2002, Connelly won the Academy Award for Best Supporting Actress for her portrayal of Alicia Nash in Ron Howard's biopic A Beautiful Mind (2001). Her subsequent films include the superhero film Hulk (2003), the horror film Dark Water (2005), the psychological drama Little Children (2006), the drama film Blood Diamond (2006), the science fiction film The Day the Earth Stood Still (2008), the romantic comedy He's Just Not That Into You (2009), and the biopic Creation (2009). In the subsequent decades, she took on supporting roles in Aronofsky's biblical epic film Noah (2014) and in the action films Alita: Battle Angel (2019) and Top Gun: Maverick (2022). Since 2020, she has starred in the TNT dystopian television series Snowpiercer.\n\nConnelly was named Amnesty International Ambassador for Human Rights Education in 2005. She has been the face of Balenciaga and Louis Vuitton fashion advertisements, as well as for Revlon cosmetics. In 2012, she was named the first global face of the Shiseido Company. Magazines, including Time, Vanity Fair, and Esquire, as well as the Los Angeles Times newspaper, have included her on their lists of the world's most beautiful women.\n\nDescription above from the Wikipedia article Jennifer Connelly, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/p17ymzw1sb9eo2SOp88jnwyryan.jpg
+65717	nm0358316	Jon Hamm	2	1971-03-10 00:00:00	\N	Jonathan Daniel "Jon" Hamm (born March 10, 1971) is an American actor who works primarily in television. For much of the mid-1990s, Hamm lived in Los Angeles as a struggling actor appearing in small parts in multiple television series, including Providence, The Division, What About Brian and Related. In 2000 he made his feature film debut in Clint Eastwood's space adventure, Space Cowboys. The following year, Hamm appeared in the independent comedy, Kissing Jessica Stein (2001) in a minor role.\n\nHamm gained global recognition for playing advertising executive Don Draper in the AMC drama series Mad Men, which premiered in July 2007. Hamm's performance earned him a Golden Globe Award for Best Actor in a Drama Series in 2008. Aside from his work on Mad Men, Hamm appeared in the 2008 science fiction remake, The Day the Earth Stood Still and claimed his first leading film role in the independent thriller Stolen (2010). Hamm had a supporting role in the 2010 crime film The Town.\n\nDescription above from the Wikipedia article Jon Hamm, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/mrXE5fZbEDPc7BEE5G21J6qrwzi.jpg
+83271	nm1412974	Glen Powell	2	1988-10-21 00:00:00	\N	Glen Thomas Powell Jr. (born October 21, 1988) is an American actor. He began his career with guest roles on television and small roles in films such as The Dark Knight Rises (2012) and The Expendables 3 (2014) before making his breakthrough performance as Chad Radwell in the Fox comedy-horror series Scream Queens (2015–2016). He has since starred as Finnegan in the coming-of-age comedy Everybody Wants Some!! (2016), astronaut John Glenn in the drama Hidden Figures (2016), and Charlie Young in Set It Up (2018), before achieving international recognition and acclaim as Lieutenant Jake "Hangman" Seresin in Top Gun: Maverick (2022). He went on to star as aviator Thomas Hudner in Devotion (2022).	USA	/lRbbndkwOXyvep9Y7kHiwbh9Ji5.jpg
+228	nm0000438	Ed Harris	2	1950-11-28 00:00:00	\N	Ed Harris is an American stage, film and television actor, writer, producer and director, best known for playing supporting characters in feature films such as "Apollo 13", "A Beautiful Mind", and "The Truman Show", as well as many recurring and starring roles in television shows, among them the portrayal of The Man in Black in HBO's "Westworld". He holds a BFA in Drama from the California Institute of the Arts, Valencia, USA.	USA	/ryF0KkljweLhPkQ70x6w3u9Qjjj.jpg
+5576	nm0000174	Val Kilmer	2	1959-12-31 00:00:00	\N	Val Edward Kilmer (born December 31, 1959) is an American actor. Originally a stage actor, Kilmer became popular in the mid-1980s after a string of appearances in comedy films, starting with Top Secret! (1984), then the cult classic Real Genius (1985), as well as blockbuster action films, including a role in Top Gun and a lead role in Willow.\n\nDuring the 1990s, Kilmer gained critical respect after a series of films that were also commercially successful, including his roles as Jim Morrison in The Doors, Doc Holliday in 1993's Tombstone, Batman in 1995's Batman Forever, Chris Shiherlis in 1995's Heat and Simon Templar in 1997's The Saint. During the early 2000s, Kilmer appeared in several well-received roles, including The Salton Sea, Spartan, and supporting performances in Kiss Kiss Bang Bang, Alexander, and as the voice of KITT in Knight Rider.\n\n​From Wikipedia, the free encyclopedia	USA	/dZEGiq4XmCiXq9hmz0vVLId010z.jpg
+1700685	nm5730649	Lewis Pullman	2	1993-01-29 00:00:00	\N	Lewis James Pullman (born January 29, 1993) is an American actor. His film credits include The Strangers: Prey at Night, Bad Times at the El Royale (both 2018), and Top Gun: Maverick (2022). On television, he starred as Major Major Major Major in Catch-22 and Rhett Abbott in Outer Range. His upcoming projects include the lead role in the film adaptation of Stephen King's 'Salem's Lot.	USA	/bar5VvioWtciX9MOfK88H4WDh2g.jpg
+124112	nm0663174	Charles Parnell	2	1975-03-18 00:00:00	\N	Charles Parnell (born October 26, 1964) is an American actor. He is best known for being the second actor to portray Police Chief Derek Frye on All My Children, the role of Master Chief Russ Jeter on the TNT show The Last Ship, and the role of Solomon "Warlock" Bates in Top Gun: Maverick.\n\nParnell took over the role of Frye on All My Children, previously played by actor William Christian. He joined the cast of the show on September 8, 2005, and made his final appearance on September 24, 2007. Parnell also provides the voice of Jefferson Twilight on Cartoon Network's The Venture Bros.	USA	/5cxJNdHIzDiqHRfC6uKgk4ssEqC.jpg
+1241330	nm1506981	Bashir Salahuddin	2	1976-06-30 00:00:00	\N		USA	/ZL5MRzjd6kWkvQXqh5mgPY1CKP.jpg
+1525043	nm4834815	Monica Barbaro	1	1990-06-17 00:00:00	\N	Barbaro began her career as a ballet dancer, ultimately giving it up to pursue acting. She portrayed the character of Yael on the second season of the Lifetime television series UnREAL. Yael was also known as "Hot Rachel," a nemesis to the character portrayed by Shiri Appleby. Following her work on UnREAL, Barbaro joined the cast as a lead of the new NBC legal drama Chicago Justice, an entry in Dick Wolf's Chicago franchise, where she portrayed Anna Valdez, a well-educated, whip-smart, quick-tongued and sharp-witted Assistant State’s Attorney. Barbaro plays the recurring role of Lisa Apple, Martin's new girlfriend, in the ABC sitcom Splitting Up Together. She had her first lead role in the viral short film It's not about the Nail.	USA	/hiOYXzSkkuKyCEcjLxBoAc4bLZS.jpg
+151680	nm1337350	Jay Ellis	2	1981-12-27 00:00:00	\N	Wendell Ramone "Jay" Ellis Jr. (born December 27, 1981) is an American actor. Born in Sumter, South Carolina, he started with modeling, before moving to Los Angeles and starting his acting career. In 2013, he received his first major role on BET's series The Game. In 2015, he joined the cast of HBO's series Insecure, which premiered in 2016.\n\nDescription above from the Wikipedia article Jay Ellis, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/i8r2iXn3MVlTGf3UgKrBs0If4xt.jpg
+1773397	nm6639989	Danny Ramirez	2	1992-09-17 00:00:00	\N	Danny Ramirez is a Colombian-born American actor. He is best known for his role as Wes in The Gifted, Mario Martinez in the TV series On My Block and Joaquin Torres in The Falcon and the Winter Soldier.	COL	/1CMMfxwMYOme8AOrl4kZS12nJpM.jpg
+3563646	nm7453477	Jack Schumacher	2	\N	\N	Jack Schumacher is known for Top Gun: Maverick (2022), S.W.A.T. (2017) and KillHer (2022).	\N	/pMRUZPW4vnzSqC86A0jElpXHkD9.jpg
+1368795	nm3254274	Manny Jacinto	2	1987-08-19 00:00:00	\N	Manuel Luis Jacinto (born August 19, 1987) is a Filipino-born Canadian actor. After several small roles on television, his breakout role came in 2016, playing Jason Mendoza on the NBC sitcom The Good Place.\n\nHe earned a Bachelor's degree in Applied Science in civil engineering at the University of British Columbia	PHL	/cjkZzaVR5StB4fqnl58NAOSsH0o.jpg
+236598	nm2745297	Kara Wang	1	1989-12-06 00:00:00	\N	Kara Wang is a Chinese-American actress born in Los Angeles and raised in the suburbs of Southern California. She can be seen recurring on Freeform's Good Trouble and Amazon's Goliath. She plays Lt. Callie 'Halo' Bassett in the highly praised sequel Top Gun: Maverick (2022).	USA	/5TX8IeXCpItnNEEUSqQYLSjigHe.jpg
+2080646	nm8241861	Greg Tarzan Davis	2	1993-09-25 00:00:00	\N	Gregory Davis, Jr. (born September 25, 1993), better known as Greg Tarzan Davis is an American actor. Born in New Orleans he began in theater, moved to Los Angeles, and starting his acting career. In 2022, he played the role of Javy "Coyote" Machado in the Top Gun: Maverick film. In 2021, he received a recurring role on ABC's series Grey’s Anatomy. He also had a supporting role in the horror film Tales from the Hood 2 (2018).	USA	/eN1KOOV3HQSYA58WjQKY05ruoGw.jpg
+1456280	nm4917623	Jake Picking	2	1991-03-02 00:00:00	\N	Jake Picking (born March 2, 1991) is an American actor. He is best known for portraying Rock Hudson in the Netflix series Hollywood (2020), created by Ryan Murphy. He is also known for playing the role of Sean Collier in Patriots Day (2016), and will appear in Top Gun: Maverick (2022).	DEU	/w37BIVKf7d64AtmFkBbviMNNDsX.jpg
 3185383	nm7064768	Benjamin Clémentine	2	1988-12-07 00:00:00	\N		GBR	/johpHbzqrue6XDG63vapfugGbnn.jpg
+1321411	nm3100463	Raymond Lee	2	\N	\N		\N	/1wRkhVFgVtEWoO9F61IHYB2FFvg.jpg
+26495	nm0446465	Jean Louisa Kelly	1	1972-03-09 00:00:00	\N	Jean Louisa Kelly (born March 9, 1972) is an American actress and singer. She is perhaps best known for her long-running role as Kim Warner on the television sitcom Yes, Dear.\n\nDescription above from the Wikipedia article Jean Louisa Kelly, licensed under CC-BY-SA, full list of contributors on Wikipedia .	USA	/hUaXI2x27HNIKc4WXcnvNkl4wF9.jpg
+1672438	nm7153803	Lyliana Wray	1	2004-12-30 00:00:00	\N		USA	/1knTpIIoZiR8dfx4nEpCI375uym.jpg
+207116	nm1571692	Chelsea Harris	1	1990-03-30 00:00:00	\N	Chelsea Harris (born March 30, 1990) is an American actress best known for roles on Designated Survivor, Snowpiercer, and The Neighborhood.	USA	/jkJDHeSkc1H29six5W7FU3KSywP.jpg
+1866197	nm4522845	Darnell Kirkwood	2	\N	\N		\N	/te1d0wX96qr5NxFPTYUyGe7zXpt.jpg
+1367239	nm3192013	Austin Bowerman	2	\N	\N		\N	/sbq4VlHOeBF3nHlb4QNJfgYyFhz.jpg
+2234525	nm7528190	Stephanie Andrea Barron	1	\N	\N		\N	/8Db31SthSflooxyiSmoAvVfOsLk.jpg
+3600045	nm10664115	Alec Williams	2	\N	\N		\N	\N
+155983	nm0934910	Rachel Winfree	1	1952-01-01 00:00:00	\N		USA	/Px79FIOnsIk6Y75cDnfv8IbiBz.jpg
+1437564	nm6374804	Peter Mark Kendall	2	1986-01-01 00:00:00	\N	Peter Mark Kendall is an American stage and screen actor with a MFA degree in Acting from Brown University. He is best known for his recurring role in "The Americans".	USA	/9Cj5ySZ6znkNcASB5CZeibuDGsd.jpg
+1429891	nm4476983	Ian Gary	0	\N	\N		\N	/rnMCVokfzD0i2md4Z5mKrMwxpFp.jpg
+17449	nm0827307	Bob Stephenson	2	1967-05-18 00:00:00	\N	Robert J. Stephenson (born May 18, 1967) is an American film and television actor, film producer and screenwriter who is probably best known as Sheriff Jimmy Taylor on the CBS TV series Jericho.	USA	/AczLnt4baxBT4gqSroSjCqD7S9D.jpg
+2891225	nm8420743	Landon Gordon	2	2009-11-30 00:00:00	\N		USA	/k5b706EBoP2Ftew6tb6VJ0fAU3H.jpg
+3600047	\N	Margaret Strabala	0	\N	\N		\N	\N
+3600056	nm13692540	Ryan Heilmann	0	\N	\N		\N	\N
+3600048	nm13692541	Shantel Limbo	0	\N	\N		\N	\N
+51551	nm0359695	James Handy	2	\N	\N	James Handy is an actor.	USA	/j2vG5tc8OcpcKG8eufBEMn2oiqZ.jpg
+3600049	nm4744477	Whylip Lee	0	\N	\N		\N	\N
+3375910	nm7871113	Tristan Henry	2	\N	\N		\N	\N
+3600050	nm13692542	Jason Robert Boles	2	\N	\N		\N	\N
+3600257	nm13648071	Brian Ferguson	2	\N	\N		\N	\N
+2524496	nm4140414	Chido Nwokocha	2	\N	\N		\N	/vcvqJrNjYQ4H7WBWJVeGxONa2zP.jpg
+1963069	nm4275733	Chaz Ingram	2	\N	\N		\N	\N
+143742	nm2262020	Rachael Markarian	1	1982-01-01 00:00:00	\N		USA	/oD15juOJteMzKC0Mpn3rym1PE0n.jpg
+145145	nm2000144	Shannon Kane	1	1986-09-14 00:00:00	\N	Shannon Kane is an American actress who is currently portraying Natalia Hubbard on ABC's daytime drama All My Children.\n\nDescription above from the Wikipedia article Shannon Kane, licensed under CC-BY-SA, full list of contributors on Wikipedia.	\N	/gmmy7uKCpDz7kXA08s9EBJNs7vN.jpg
+3563647	nm13692543	Norman Ralph Eliasen	0	\N	\N		\N	\N
+11085	nm0000381	Anthony Edwards	2	1962-07-19 00:00:00	\N	Anthony Edwards (born July 19, 1962) is an American actor and director. He has appeared in various movies and television shows, including Fast Times at Ridgemont High, Top Gun, Zodiac, Revenge of the Nerds, Northern Exposure and ER.	USA	/a190BIbGGpM68pq1VarhaDNHZci.jpg
 3314411	nm8834802	Joelle	1	\N	\N	Joelle Mia Renee Joelle, better known by her stage name Joelle, is an actress and singer who made her on-screen debut in Dune (2021), performs in Paul Feig's Netflix original film The School for Good and Evil playing the character of the same name, Joelle and is due to appear in Sky and MGM+'s second season of Domina playing the role of Vipsania.\n\nDescription above from the Wikipedia article Joelle (actor), licensed under CC-BY-SA, full list of contributors on Wikipedia.	GBR	/rqmxqILAmCqIXCedRBtgh6NLaw2.jpg
+5344	nm0000212	Meg Ryan	1	1961-11-19 00:00:00	\N	Meg Ryan (born Margaret Mary Emily Anne Hyra) is an American actress, producer and director. When she joined the Screen Actors Guild, she used the surname Ryan, her grandmother's maiden name.\n\nShe began her acting career in 1981 when she made her acting debut in the drama film Rich and Famous. She later joined the cast of the CBS soap opera As the World Turns in 1982.\n\nShe began to appear in supporting roles in films during the mid-1980s like box office hit Top Gun, achieving recognition in independent films such as Promised Land (1987) before her performance in the Rob Reiner-directed romantic comedy When Harry Met Sally... (1989) brought her widespread attention and her first Golden Globe nomination.\n\nShe subsequently established herself, both nationally and internationally, as one of the most successful actresses in the 1990s and early 2000s, particularly in romantic comedy films such as When Harry Met Sally (1989), Joe Versus the Volcano (1990), Prelude to a Kiss (1992), Sleepless in Seattle (1993), French Kiss (1995), You've Got Mail (1998), and Kate & Leopold (2001). Her other films include Top Gun (1986), Innerspace (1987),  The Doors (1991), Anastasia (1997), When a Man Loves a Woman (1994), Courage Under Fire (1996), Addicted to Love (1997), City of Angels (1998), Proof of Life (2000), Against the Ropes (2004), and The Women (2008). In 2015, she made her directorial debut with Ithaca, in which she also starred.\n\nIn 1995, critic Richard Corliss called her "the current soul of romantic comedy." Multiple film critics and media outlets have cited Ryan as one of the best actors never to have received an Academy Award nomination.\n\nShe was married to actor Dennis Quaid (1991-2001), and they have a son, Jack. In 2000, Ryan became romantically involved with actor Russell Crowe while working on their film Proof of Life. In January 2006, Ryan adopted a 14-month-old girl from China whom she named Daisy True. She was in a relationship with American singer-songwriter John Mellencamp (2010-2014). They reunited in 2017, and announced their engagement on November 8, 2018. In October 2019, it was reported that Ryan had ended their engagement.	USA	/veFWqcGqFiKdYMJ6uqYdabK9Jma.jpg
+11084	nm0000534	Kelly McGillis	1	1957-07-09 00:00:00	\N	Kelly Ann McGillis (born July 9, 1957) is an American actress whose movies include Witness, for which she received a Golden Globe nomination, Top Gun, and The Accused.\n\nDescription above from the Wikipedia article Kelly McGillis, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/uaTBUCUpGYbc4nzO43PPIvmCREq.jpg
 195309	nm0352797	Mark Hadfield	2	\N	\N		\N	/um8w6IJxgmUdVUdnQj8BEWAR2lt.jpg
 3314417	nm12946879	Milena Sidorova	1	\N	\N		\N	/9kLGHnnFqCDFBZ1M048zLp4KIGh.jpg
 33527	nm0063440	Adam Beach	2	1972-11-11 00:00:00	\N	Adam Ruebin Beach (born November 11, 1972) is a Canadian Saulteaux actor. He is best known for his roles as Tommy on Walker, Texas Ranger, Kickin' Wing in Joe Dirt, Marine Private First Class Ira Hayes in Flags of Our Fathers, Private Ben Yahzee in Windtalkers, Dr. Charles Eastman (Ohiyesa) in Bury My Heart at Wounded Knee, Chester Lake in Law & Order: Special Victims Unit, and Officer Jim Chee in the film adaptions of Skinwalkers, Coyote Waits, and A Thief of Time.	CAN	/k2KLABeVAvL0szCOEgfarNKsESg.jpg
@@ -4495,6 +5253,44 @@ COPY public.cast_races (id, race_id, cast_member_id) FROM stdin;
 288	1	3631223
 289	1	3872
 290	4	3872
+296	1	65731
+297	1	10205
+298	1	32747
+299	1	204
+300	1	7248
+301	7	7248
+302	1	59231
+303	3	30485
+304	1	36190
+305	1	55936
+306	7	55936
+307	1	86654
+308	1	31
+309	1	1385063
+310	3	1344361
+311	1	972356
+312	1	1525047
+313	1	72466
+314	1	62105
+315	1	1290466
+316	1	1476330
+317	1	17142
+318	1	19274
+319	1	6167
+320	1	5602
+321	1	1651362
+322	1	3132260
+323	1	500
+324	1	996701
+325	3	996701
+326	1	6161
+327	1	65717
+328	1	83271
+329	1	228
+330	1	5576
+331	1	1700685
+332	3	1241330
+333	4	1241330
 \.
 
 
@@ -5602,6 +6398,239 @@ COPY public.credits (id, movie_id, "character", "order", cast_member_id) FROM st
 63ad3a971f748b008236f767	49046	Celebrating Soldier	52	2741191
 642061b623be460082b281de	49046	Veteran	53	1074002
 63ad39525ad76b00ae8f5d13	49046	Young Soldier	54	3329970
+63bedfca5258ae007dbcf660	76600	Jake Sully	0	65731
+52fe4943c3a368484e122b4d	76600	Neytiri	1	8691
+52fe4943c3a368484e122b51	76600	Kiri / Dr. Grace Augustine	2	10205
+54d9ff969251410a36001935	76600	Colonel Miles Quaritch	3	32747
+59d467fdc3a368459400f2de	76600	Ronal	4	204
+5935943ec3a3684789000402	76600	Tonowari	5	7248
+5989fe26c3a368755f01abd4	76600	Norm Spellman	6	59231
+5989fe1bc3a36874f201aa2f	76600	Mo'at	7	30485
+60f10d75006eee002d51c229	76600	General Frances Ardmore	8	36190
+5d16c2e685c0a2001afb5dcb	76600	Dr. Ian Garvin	9	55936
+638ffd548566d2007f29756a	76600	Parker Selfridge	10	1771
+59cbe0159251412b8b0159c1	76600	Lo'ak	11	1663672
+59cbe0c1c3a368773d016705	76600	Neteyam	12	1729393
+59cbed3cc3a36877610161c9	76600	Tuktirey "Tuk"	13	1895788
+59cbdee9c3a368774e011f32	76600	Miles 'Spider' Socorro	14	1895760
+60f10e1a0f2fbd004584fa60	76600	Mick Scoresby	15	129527
+59cd370192514157e1000ee9	76600	Tsireya	16	1140237
+59cbe0a09251412bd901466e	76600	Aonung	17	1632658
+59cbe15ac3a36877a9014373	76600	Rotxo	18	1615098
+638ffd77bc8abc007c21d262	76600	Dr. Max Patel	19	95697
+5989fe3f9251414bb4019aa4	76600	Recom Wainfleet	20	98215
+638ffdaf10561100cbc12171	76600	Ta'unui Olecthan	21	1452945
+638ffdbb105611007f345690	76600	Ta'unui Tsahik	22	2328938
+60f10e07839018002d5e0188	76600	Tarsem	23	1152021
+638ffde5bc8abc00a459f62d	76600	Recom Mansk	24	91443
+638ffdedf10a1a00e2f47052	76600	Recom Zdinarsik	25	1186027
+638ffdf5f10a1a00e2f47063	76600	Recom Fike	26	154153
+638ffdfd105611007f3456b5	76600	Recom Prager	27	1436354
+60f10ebe397df0002d3923fd	76600	Recom Ja	28	3159723
+638ffe2e10561100a62a98ae	76600	Recom Zhang	29	1818140
+638ffe68f10a1a00e2f470bc	76600	Recom Lopez	30	1077984
+638ffe76fd140b008a409860	76600	Recom Walker	31	1390004
+638ffe8dce6c4c00e21be176	76600	Stringer	32	1062457
+638ffe97fd140b00b318ed5d	76600	Bio Lab Tech	33	1336765
+638ffea0bbe1dd00c192c10f	76600	Neuroscientist	34	41785
+638ffeacbc8abc007c21d34e	76600	Female Med-Tech	35	3819103
+638ffeb5ce6c4c008cf5bd29	76600	Male Med-Tech	36	1399768
+638ffec0f10a1a009b76e369	76600	Metkayina Warrior	37	2144852
+638fff1cbbe1dd0085d7a5b4	76600	Mako Sub #1 Pilot	38	3819107
+638fff29ce6c4c00e21be213	76600	Mako Sub #1 Gunner	39	1979469
+638fff4210561100cbc122a4	76600	Mako Sub #2 Pilot	40	3819108
+638fff4bf36a3200f0437810	76600	Mako Sub #2 Gunner	41	1530806
+638fff568566d2007f297729	76600	Matador Co-Pilot	42	25134
+638fff6c8566d200bb51f212	76600	Kestrel Pilot	43	3819110
+638fff75fd140b0082ded3cf	76600	Neurotech #1	44	1848076
+638fff7ebbe1dd007a1f1119	76600	Neurotech #2	45	2624045
+638fff8df36a32008923e24d	76600	Sea Dragon First Mate	46	2416383
+638fffc0f10a1a008cd6c9e8	76600	Crabsuit Pilot	47	3819111
+638fffe0bc8abc008a0b786f	76600	Skel Trooper	48	3819112
+638ffff4fd140b0082ded437	76600	Spider Double	49	3819114
+639000058566d200d2f15813	76600	Young Spider	50	3819115
+639000178566d20089946684	76600	Toddler Spider	51	3819116
+60f10e48397df000756cf57a	76600	Young Kiri	52	1761615
+5b76399ac3a368754201ae93	76600	Young Lo'ak	53	1696016
+60f10eb2c86b3a002fb5f61a	76600	Young Neteyam	54	2396544
+60f10e820f2fbd005e5f236a	76600	Na'vi (uncredited)	55	1519702
+622a05ddd236e60045f16ecb	76600	Metkayina Interpreter (uncredited)	56	1635143
+5d2ca4ac0745e12050778c3f	614934	Elvis Presley	0	86654
+5d2897a8a294f0000f2913d3	614934	Colonel Tom Parker	1	31
+5db310ce4083b30015526165	614934	Priscilla	2	1385063
+5f62bfa51684f70039466172	614934	Gladys Presley	3	94876
+5f62bf3887f3f200387c4570	614934	Vernon Presley	4	12206
+5fecfd40a44d09003c7a5421	614934	B.B. King	5	1344361
+5f62bfb81684f700394661e2	614934	Hank Snow	6	1371
+620e8ad0d75bd6006ccedc33	614934	Jimmie Rodgers Snow	7	113505
+5f640ca56a2227003782d492	614934	Jerry Schilling	8	972356
+5f62bfc1db154f0036035002	614934	Steve Binder	9	1525047
+620ea1b9396e97001bb46a3d	614934	Tom Diskin	10	84451
+620ea2c47ad08c0042cf5c23	614934	Arthur "Big Boy" Crudup	11	971937
+5e508d06a93d25001546f327	614934	Sister Rosetta Tharpe	12	2546312
+620ea18ba84ff70020cddb54	614934	Dixie Locke	13	1186660
+6067ca93470ead006e645035	614934	Scotty Moore	14	109438
+620ea2a3a24232006bf7e340	614934	Bill Black	15	3430988
+63bd777da6e2d2007ebb1921	614934	Little Richard	16	2953700
+63bd778a5be00e00846341f1	614934	Big Mama Thornton / Pentecostal Singer	17	3430991
+63bd7792fc31d300c59daea8	614934	Charlie Hodge	18	2534418
+63bd77affa40460087572146	614934	Pentecostal Pastor / Pentecostal Singer	19	3866155
+63bd77bdfa404600e63c39d3	614934	Cousin Billy	20	1520527
+63bd77c6a6e2d20083e2bfd7	614934	Sam Phillips	21	1281967
+63bd77cffa4046007d4e168e	614934	Marion Keisker	22	123884
+63bd77de5be00e008c12f67c	614934	Bones Howe	23	2580441
+63bd77f4a6e2d2007ebb196e	614934	Young Elvis	24	3644672
+63bd7805f85958007d36fdeb	614934	Shake Rag Friend - Smoky	25	3866156
+63bd780efc31d30081ae284b	614934	Shake Rag Friend - Jimmy	26	3866157
+63bd7825ae6f093c82ee0e2c	614934	Shake Rag Friend - Bobby	27	3866158
+63bd782b5be00e007c5a34f9	614934	Shake Rag Friend - Doc	28	3866159
+63bd7831fc31d300a8df689b	614934	Sweet Inspiratons - Myrna	29	3866161
+63bd7837fc31d30081ae2869	614934	Sweet Inspiratons - Estelle	30	3866164
+63bd7851fa404600e63c3a33	614934	Sweet Inspiratons - Cissy	31	3866167
+63bd7880ae6f093c82ee0e76	614934	Sweet Inspiratons - Sylvia	32	3866173
+63bd78fef859580094b444ad	614934	Senator Eastland	33	15340
+63bd79175be00e0084634299	614934	Meyer Kohn	34	75742
+63bd7921a6e2d2007ebb1a1d	614934	Tony Goochera	35	3044768
+63bd79355be00e00846342a9	614934	Mahalia Jackson	36	3644673
+63bd7961a6e2d2007ebb1a3a	614934	Reverend Brewster	37	3830510
+63bd7973fa404600aefee70a	614934	Dee Stanley	38	220984
+63bd79835be00e00846342d6	614934	Grandma Dodger	39	3866182
+63bd798cf859580094b444f9	614934	Sonny West	40	2129508
+63bd7995fa4046007d4e1765	614934	Red West	41	2620574
+63bd799efa4046007d4e176c	614934	Dr. Nick	42	143270
+63bd79af5be00e00937de060	614934	Nurse Tish	43	1769886
+63bd79b85be00e00846342f3	614934	Tom Hulett	44	107477
+63bd79c2f859580094b44517	614934	Singer Senior Exec	45	1542087
+63bd79cbfc31d3007e32dfcb	614934	Singer Junior Exec	46	2765459
+63bd7a0dfa404600aefee753	614934	Claude Thompson	47	3866196
+63bd7a17f85958008748d8e3	614934	Horace Logan	48	1014586
+63bd7a1fa6e2d200921191df	614934	Chief of Police	49	3866197
+63bd7a27f8595800c84c3cf6	614934	NBC Floor Manager	50	1233261
+63bd7aae5be00e00b0901298	614934	DJ Fontana	51	3866203
+63bd7ac25be00e007c5a3610	614934	Ron Tutt	52	3866204
+63bd7b5b5be00e00937de140	614934	Pentecostal Singer	53	3866206
+63bd7b63fa4046008757231f	614934	Pentecostal Singer	54	3866207
+63bd7b6afc31d30092c63513	614934	Natalie - Motel Girl	55	2140619
+63bd7b70ae6f093c3a4c5fda	614934	Madam Z	56	1184801
+63bd7b78f85958007d36ff9f	614934	Aladdin Croupier	57	3866210
+63bd7b7efc31d3007e32e0a9	614934	Tommy (Hayride)	58	2014143
+63bd7b87ae6f093c5a952f4a	614934	Nell (Tommy's Girlfriend)	59	2100558
+63bd7ba3a6e2d2008b3f518b	614934	Young Hip Man	60	3866212
+63bd7baaa6e2d2008b3f5196	614934	Girl (Russwood)	61	3866213
+63bd7bc8f8595800f71fda2e	614934	Milton Berle	62	3644675
+63bd7bd0f8595800ae33cd45	614934	DJ Dewey Philips	63	2969831
+63bd7bd9fc31d30092c6355a	614934	Mrs. Eastland	64	3866215
+63bd7beaae6f093c82ee1022	614934	Carny Fixer	65	1322698
+63bd7bf3fc31d300c59db0d3	614934	Barbara - Vegas Penthouse	66	1504147
+63bd7c78fa404600e63c3ccc	614934	Pentecostal Singer	67	3866218
+63bd7c7e5be00e00e7a23bfa	614934	Pentecostal Singer	68	3866219
+63bd7c84f8595800c84c3e54	614934	Pentecostal Singer	69	3866220
+63bd7c8bfc31d3007e32e13f	614934	Pentecostal Singer	70	3866221
+63bd7c9cf859580094b446ae	614934	Pentecostal Singer	71	3866222
+63bd7ce3f8595800ae33cde8	614934	Pentecostal Singer	72	3866224
+63bd7cea5be00e00e7a23c3f	614934	Pentecostal Singer	73	3866226
+63bd7cf0fc31d300a8df6ae5	614934	Pentecostal Singer	74	3866227
+63bd7cf75be00e00b09013f8	614934	Pentecostal Singer	75	3866228
+63bd7cfe5be00e008c12f93a	614934	Pentecostal Singer	76	3866229
+63bd7d03fa404600e63c3d2e	614934	Pentecostal Singer	77	3866230
+63bd7d09fa404600875723f6	614934	Pentecostal Singer	78	155474
+63bd7d1a5be00e00937de226	614934	Pentecostal Singer	79	3866231
+63bd7d21fa404600aefee8f0	614934	Pentecostal Singer	80	3866232
+63bd7d8bae6f093c429d68a2	614934	Pentecostal Singer	81	1318593
+63bd7dcbfa404600e63c3dac	614934	Pentecostal Singer	82	3866234
+63bd7dd2fa4046007d4e1994	614934	Pentecostal Singer	83	3866235
+63bd7dd8fc31d30092c63666	614934	Pentecostal Singer	84	3866236
+63bd7ddef8595800c84c3f02	614934	Pentecostal Singer	85	3866237
+63bd7de5fa404600aefee943	614934	Pentecostal Singer	86	3866238
+63bd7dedfc31d300a8df6b4f	614934	Pentecostal Singer	87	3866239
+63bd7df6fa40460087572456	614934	Pentecostal Singer	88	3866240
+63bd7dfef8595800f71fdb69	614934	Pentecostal Singer	89	3866241
+63bd7e05a6e2d20083e2c2e8	614934	Pentecostal Singer	90	3866242
+63bd7e175be00e008463450b	614934	Pentecostal Singer	91	3866243
+63bd7e24f8595800ae33ce57	614934	Pentecostal Singer	92	1524899
+63bd7e2afa404600e63c3dd4	614934	Pentecostal Singer	93	168874
+63bd7e31fa404600c129704c	614934	Pentecostal Singer	94	64948
+63d076dfb7a1540514d6cfbb	614934	Self (archive footage) (uncredited)	95	21457
+5e4c0fd31e9225001ac70fce	674324	Pádraic Súilleabháin	0	72466
+5e4c0fc99a3c49001933570f	674324	Colm Doherty	1	2039
+611287d201e4d1002ecc5090	674324	Siobhán Súilleabháin	2	62105
+611287ca2975ca005d4d5881	674324	Dominic Kearney	3	1290466
+62e1d07fa44d09188325e42d	674324	Peadar Kearney	4	93209
+62e1d07648138212c9ec55a1	674324	Jonjo Devine	5	83278
+631cf61adb8a00007ed17838	674324	Gerry	6	37169
+62e1d08615dea0004cd0ca89	674324	Mrs. McCormick	7	1597386
+6327a609713ed40086800e20	674324	Priest	8	1122014
+6327a62b89b561007bae1c26	674324	Mrs. O'Riordan	9	1907071
+637ac6a4336e01007fd2f550	674324	Declan	10	210061
+637ac6c15b2f47007fd712ef	674324	Female Singer	11	3795945
+645b321c3fe160015572647e	674324	Student Musician #1	12	4054257
+63c7a788abdec00094327e00	674324	Student Musician #2	13	2419826
+63c7a7a12f3b1700a0df0c9a	674324	Student Musician #3	14	2335235
+63c7a7c92f3b1700937f7e54	674324	Older Musician #1	15	3879013
+63c7a7ddc5c1ef00a0494582	674324	Older Musician #2	16	3879015
+60ae82e1d29bdd002c01dd5c	804095	Sammy Fabelman	0	1476330
+6047b88b9e458600792c2e04	804095	Mitzi Fabelman	1	1812
+606f37d96350130079033d35	804095	Burt Fabelman	2	17142
+6059437d4557a000280d1083	804095	Benny Loewy	3	19274
+610028e23acd20004617e6c0	804095	Uncle Boris Podgorny	4	6167
+61fd786c05f9cf00e0ac366e	804095	John Ford	5	5602
+610028de7304b5005c924325	804095	Hadassah Fabelman	6	124377
+60c9476f2476f200798d506a	804095	Reggie Fabelman	7	1651362
+631706ce5507e9007ac1ec21	804095	Natalie Fabelman	8	3690404
+60d1209ca14e10005e280403	804095	Logan Hall	9	3132260
+634089d69c97bd00796c7ef4	804095	Younger Sammy Fabelman	10	3731015
+60f098f9f3e0df00467c069b	804095	Monica Sherwood	11	1512280
+60f099243396b9007393800d	804095	Claudia Denning	12	3159120
+610028eb4e52ed002ea071a6	804095	Tina Schildkraut	13	11902
+60f09904cb75d1007ea3f80f	804095	Chad Thomas	14	1422517
+6317090d20e6a5007a5da201	804095	Lisa Fabelman	15	3233032
+631708ae028420007b3ad487	804095	Younger Reggie Fabelman	16	3690410
+631708d6d40d4c007ddd5531	804095	Young Natalie Fabelman	17	3690411
+63537771c9dbf9007f0247ce	804095	Renee	18	2721347
+631707d45507e9007dc1cd57	804095	Sal	19	1172381
+6282a4e6abf8e2009deacf92	804095	Hark	20	1696351
+631707e5a84a47007a7b8a30	804095	Turkey	21	1674312
+6282a4ce87a27a0051051bee	804095	Roger	22	1352028
+631708c171083a007b45a192	804095	Angelo	23	2077401
+6317073da84a47007a7b89f2	804095	Dean	24	2938329
+63170730d40d4c007ab14819	804095	Grand View High School Principal	25	58528
+631707aca84a47007dc1a933	804095	Grand View High School PE Coach	26	1366811
+6317079a7fcab3007a21ecb8	804095	Barry	27	1590304
+636934499a64c1007f316a5f	804095	Phil Newhart	28	105829
+6317071602842000830e1935	804095	Bernie Fein	29	17305
+6317081b1511aa0080d93e04	804095	Nona	30	143204
+63170945ba131b0081d1ebc8	804095	Camera Store Clerk	31	1282012
+631707bda84a47007dc1a939	804095	2nd Camera Store Clerk	32	59285
+631709575507e9007ac1ed2b	804095	Pinnacle Peak Owner	33	3570734
+6317098420e6a5007a5da242	804095	Janet Benedict	34	3690413
+6368c0d7d8d329007fb3204b	804095	Bennie the Monkey	35	2978386
+62abfc5e5be00e0094cf82bf	804095	Taxi Driver	36	61222
+6317075dba131b007c560563	804095	Student	37	3690406
+63170786d40d4c007ddd5498	804095	Sammy's Classmate	38	3690407
+63170805d40d4c007ab14873	804095	Senior Classmate	39	3690409
+6317084c5507e9007ac1ecb9	804095	Scout Father	40	1455902
+63170863d40d4c007ddd54ea	804095	Boy Scout	41	2000467
+631708809408ec0080c68083	804095	Senior Classmate	42	3531003
+6317089b20e6a5007a5da1d3	804095	Chad's Posse	43	3218693
+631708faba131b0081d1eb9f	804095	Theater Goer	44	2317698
+631709665507e9007dc1cdf5	804095	Classmate	45	3690412
+631709a3d40d4c007ab14907	804095	Chad's Posse	46	2537948
+631709ba9408ec0083e286ca	804095	Theatre Patron	47	582821
+6332ef43d7f465007af3772f	804095	Lead Guitarist	48	3717606
+6332f099cede69007eaf88a9	804095	Balloon Girl	49	3717617
+6368c0c51e9225007a6dd6df	804095	High School Friend	50	2567641
+636934efebb99d0079604c7d	804095	Stunt Soldier Boy	51	3774727
+636935074ca6760089a83673	804095	Singer #1	52	3774729
+63693526693e20007f7e98f4	804095	Singer #2	53	3303910
+6369353f66565a008ac21fd4	804095	Singer #3	54	3774731
+63693570ebb99d0079604ca2	804095	Natalie Photo Double	55	3774733
+636935cb9a64c10082eaf144	804095	Boy Scout	56	2903967
+636c28391684f70080715661	804095	Boy Scout	57	3778119
+636c287121621b007dd88f3f	804095	Boy Scout Sibling	58	3778120
+636c28b996386400917d7d60	804095	Senior Classmate	59	2996837
+636c28cef14dad008ddd85c6	804095	Senior Classmate	60	3778125
+636c290e963864007de0da03	804095	Cheerleader	61	2581752
+636c2926d7fbda00ca8af32f	804095	Senior Classmate	62	3778130
 \.
 
 
@@ -5965,7 +6994,6 @@ COPY public.ethnicities (id, name, region_id, subregion_id) FROM stdin;
 353	Manchurian	\N	\N
 354	Mandarin	\N	\N
 355	Manx	\N	\N
-356	Maori	\N	\N
 357	Marches	\N	\N
 358	Marshall Islander	\N	\N
 359	Marshallese	\N	\N
@@ -6265,6 +7293,7 @@ COPY public.ethnicities (id, name, region_id, subregion_id) FROM stdin;
 653	Zuni	\N	\N
 654	Ojibwe (Saulteaux)	2	12
 655	Icelandic	5	14
+356	Maori	6	15
 \.
 
 
@@ -6441,6 +7470,17 @@ COPY public.media_genres (id, genre_id, movie_id) FROM stdin;
 169	18	758866
 172	18	49046
 173	10752	49046
+177	878	76600
+178	12	76600
+179	28	76600
+180	18	614934
+181	10402	614934
+182	36	614934
+183	18	674324
+184	35	674324
+185	18	804095
+186	28	361743
+187	18	361743
 \.
 
 
@@ -6459,6 +7499,12 @@ COPY public.movie_nominations (id, movie_id, nomination_id) FROM stdin;
 18	600583	94
 19	511809	94
 20	646380	94
+25	545611	97
+26	49046	97
+27	76600	97
+28	614934	97
+29	674324	97
+30	804095	97
 \.
 
 
@@ -6531,6 +7577,11 @@ COPY public.movies (id, imdb_id, title, overview, runtime, poster_path, release_
 646380	tt11286314	Don't Look Up	Two American astronomers attempt to warn humankind about an approaching comet that will wipe out life on planet Earth.	138	/th4E1yqsE8DGpAseLiUrI60Hf8V.jpg	2021-12-07 00:00:00	75000000	791863
 1019504	\N	Down the Road: The Making of Drive My Car	Spanning locations in Tokyo, Hiroshima, and Hokkaido and featuring interviews with cast members and rare behind-the-scenes footage, it captures the creative collective journey of the filmmaking team.	\N	\N	2022-02-18 00:00:00	\N	\N
 758866	tt14039582	Drive My Car	Yusuke Kafuku, a stage actor and director, still unable, after two years, to cope with the loss of his beloved wife, accepts to direct Uncle Vanya at a theater festival in Hiroshima. There he meets Misaki, an introverted young woman, appointed to drive his car. In between rides, secrets from the past and heartfelt confessions will be unveiled.	179	/3cOsf5HBjPK2QCz9ebQlGHNnE7y.jpg	2021-08-18 00:00:00	0	15308325
+76600	tt1630029	Avatar: The Way of Water	Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.	192	/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg	2022-12-14 00:00:00	460000000	2319794231
+614934	tt3704428	Elvis	The life story of Elvis Presley as seen through the complicated relationship with his enigmatic manager, Colonel Tom Parker.	159	/qBOKWqAFbveZ4ryjJJwbie6tXkQ.jpg	2022-06-22 00:00:00	85000000	286000000
+674324	tt11813216	The Banshees of Inisherin	Two lifelong friends find themselves at an impasse when one abruptly ends their relationship, with alarming consequences for both of them.	114	/4yFG6cSPaCaPhyJ1vtGOtMD1lgh.jpg	2022-10-20 00:00:00	0	41000000
+804095	tt14208870	The Fabelmans	Growing up in post-World War II era Arizona, young Sammy Fabelman aspires to become a filmmaker as he reaches adolescence, but soon discovers a shattering family secret and explores how the power of films can help him see the truth.	151	/d2IywyOPS78vEnJvwVqkVRTiNC1.jpg	2022-11-11 00:00:00	40000000	44937023
+361743	tt1745960	Top Gun: Maverick	After more than thirty years of service as one of the Navy’s top aviators, and dodging the advancement in rank that would ground him, Pete “Maverick” Mitchell finds himself training a detachment of TOP GUN graduates for a specialized mission the likes of which no living pilot has ever seen.	131	/62HCnUTziyWcpDaBO2i1DX17ljH.jpg	2022-05-24 00:00:00	170000000	1488732821
 \.
 
 
@@ -6633,6 +7684,7 @@ COPY public.nominations (id, name, year) FROM stdin;
 92	Academy Awards	2020
 93	Academy Awards	2021
 94	Academy Awards	2022
+97	Academy Awards	2023
 \.
 
 
@@ -6802,6 +7854,41 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 196	2	https://en.wikipedia.org/wiki/Lara_Jean_Chorostecki
 197	1	https://ethnicelebs.com/felix-kammerer
 198	2	https://en.wikipedia.org/wiki/Daniel_Br%C3%BChl
+206	1	https://ethnicelebs.com/sam-worthington
+207	1	https://ethnicelebs.com/zoe-saldana
+208	1	https://ethnicelebs.com/sigourney-weaver
+209	1	https://ethnicelebs.com/stephen-lang
+210	1	https://ethnicelebs.com/kate-winslet
+211	1	https://ethnicelebs.com/cliff-curtis
+212	1	https://ethnicelebs.com/joel-david-moore
+213	1	https://ethnicelebs.com/c-c-h-pounder
+214	1	https://ethnicelebs.com/edie-falco
+215	1	https://ethnicelebs.com/jemaine-clement
+216	1	https://ethnicelebs.com/austin-butler
+217	1	https://ethnicelebs.com/tom-hanks
+218	1	https://ethnicelebs.com/olivia-dejonge
+219	1	https://ethnicelebs.com/kelvin-harrison-jr
+220	1	https://ethnicelebs.com/luke-bracey
+221	1	https://ethnicelebs.com/dacre-montgomery
+222	1	https://ethnicelebs.com/colin-farrell
+223	1	https://ethnicelebs.com/kerry-condon
+224	1	https://ethnicelebs.com/barry-keoghan
+225	1	https://ethnicelebs.com/gabriel-labelle
+226	1	https://ethnicelebs.com/paul-dano
+227	1	https://ethnicelebs.com/seth-rogen
+228	1	https://ethnicelebs.com/judd-hirsch
+229	1	https://ethnicelebs.com/david-lynch
+230	1	https://ethnicelebs.com/julia-butters
+231	1	https://ethnicelebs.com/sam-rechner
+232	1	https://ethnicelebs.com/tom-cruise
+233	1	https://ethnicelebs.com/miles-teller
+234	1	https://ethnicelebs.com/jennifer-connelly
+235	1	https://ethnicelebs.com/jon-hamm
+236	1	https://ethnicelebs.com/glen-powell
+237	1	https://ethnicelebs.com/ed-harris
+238	1	https://ethnicelebs.com/val-kilmer
+239	1	https://ethnicelebs.com/lewis-pullman
+240	1	https://ethnicelebs.com/bashir-salahuddin
 \.
 
 
@@ -6852,7 +7939,7 @@ COPY public.subregions (id, name, region_id) FROM stdin;
 -- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.also_known_as_id_seq', 782, true);
+SELECT pg_catalog.setval('public.also_known_as_id_seq', 1046, true);
 
 
 --
@@ -6866,21 +7953,21 @@ SELECT pg_catalog.setval('public.alt_countries_id_seq', 789, true);
 -- Name: alt_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 78, true);
+SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 79, true);
 
 
 --
 -- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 786, true);
+SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 930, true);
 
 
 --
 -- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 504, true);
+SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 656, true);
 
 
 --
@@ -6894,7 +7981,7 @@ SELECT pg_catalog.setval('public.cast_members_id_seq', 1, false);
 -- Name: cast_races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_races_id_seq', 290, true);
+SELECT pg_catalog.setval('public.cast_races_id_seq', 333, true);
 
 
 --
@@ -6922,14 +8009,14 @@ SELECT pg_catalog.setval('public.genres_id_seq', 1, false);
 -- Name: media_genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.media_genres_id_seq', 173, true);
+SELECT pg_catalog.setval('public.media_genres_id_seq', 187, true);
 
 
 --
 -- Name: movie_nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.movie_nominations_id_seq', 22, true);
+SELECT pg_catalog.setval('public.movie_nominations_id_seq', 30, true);
 
 
 --
@@ -6943,7 +8030,7 @@ SELECT pg_catalog.setval('public.movies_id_seq', 1, false);
 -- Name: nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.nominations_id_seq', 95, true);
+SELECT pg_catalog.setval('public.nominations_id_seq', 97, true);
 
 
 --
@@ -6964,7 +8051,7 @@ SELECT pg_catalog.setval('public.regions_id_seq', 6, true);
 -- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.source_links_id_seq', 198, true);
+SELECT pg_catalog.setval('public.source_links_id_seq', 240, true);
 
 
 --

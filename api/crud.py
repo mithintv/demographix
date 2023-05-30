@@ -103,7 +103,7 @@ def add_ethnicity_data(new_person):
         for cast_ethnicity in new_person.ethnicities:
             existing_ethnicities.add(cast_ethnicity.ethnicity.id)
             # Update existing ethnicity sources
-            if len(cast_ethnicity.sources) == 0:
+            if len(cast_ethnicity.sources) == 0 and cast_ethnicity.ethnicity.name in ethnicity_list:
                 add_source_data(new_person, cast_ethnicity.ethnicity, source)
 
         # Add new ethnicities

@@ -31,7 +31,6 @@ const darkTheme = createTheme({
 });
 
 const App = () => {
-  const [nomMovies, setNomMovies] = React.useState(false);
   const [searchMovies, setSearchMovies] = React.useState(false);
   const [searchResults, setSearchResults] = React.useState([]);
   const searchRef = React.useRef(null);
@@ -146,9 +145,7 @@ const App = () => {
         </Paper>
         <Route path="/movies/:id" component={MovieDetails} exact></Route>
         {searchMovies && <SearchResults results={searchResults} />}
-
-        {!nomMovies && <button onClick={nomMovieHandler}>2022</button>}
-        {nomMovies && <NomMovies />}
+        <NomMovies year={new Date().getFullYear()} />
       </Container>
     </BrowserRouter>
   );

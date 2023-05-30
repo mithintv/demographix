@@ -1,4 +1,4 @@
-const NomMovies = () => {
+const NomMovies = (props) => {
   const [movies, setMovies] = React.useState([]);
   const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
@@ -8,7 +8,7 @@ const NomMovies = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/nom/2022");
+      const response = await fetch(`/api/nom/${props.year}`);
       const movieList = await response.json();
       setMovies(movieList);
 
@@ -27,7 +27,7 @@ const NomMovies = () => {
 
   return (
     <React.Fragment>
-      {/* {ageData && <BarChart data={ageData} />} */}
+      {ageData && <Histogram data={ageData} />}
       {raceData && <BarChart data={raceData} />}
       {/* {raceData && <PieChart data={raceData} />*/}
       {cobData && <PieChart data={cobData} />}

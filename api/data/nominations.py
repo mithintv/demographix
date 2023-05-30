@@ -21,8 +21,8 @@ def find_nominations(year):
                 if jsons:
                     data = json.loads(jsons[1])
 
-    parsed = data['nomineesWidgetModel']['eventEditionSummary']['awards'][0]['categories']
-    return [
+    categories = data['nomineesWidgetModel']['eventEditionSummary']['awards'][0]['categories']
+    nominees = [
                 {
                     'category': award['categoryName'],
                     'nominations': [
@@ -35,8 +35,9 @@ def find_nominations(year):
                         for nomination in award['nominations']
                     ]
                 }
-                for award in parsed
+                for award in categories if 'Best Motion Picture of the Year'
             ]
+    return nominees
 
 
 def make_nominations():

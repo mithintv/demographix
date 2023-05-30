@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.10 (Ubuntu 13.10-1.pgdg20.04+1)
--- Dumped by pg_dump version 13.10 (Ubuntu 13.10-1.pgdg20.04+1)
+-- Dumped from database version 13.11 (Ubuntu 13.11-1.pgdg20.04+1)
+-- Dumped by pg_dump version 13.11 (Ubuntu 13.11-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -452,6 +452,41 @@ ALTER SEQUENCE public.media_genres_id_seq OWNED BY public.media_genres.id;
 
 
 --
+-- Name: movie_nominations; Type: TABLE; Schema: public; Owner: mithin
+--
+
+CREATE TABLE public.movie_nominations (
+    id integer NOT NULL,
+    movie_id integer,
+    nomination_id integer
+);
+
+
+ALTER TABLE public.movie_nominations OWNER TO mithin;
+
+--
+-- Name: movie_nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+--
+
+CREATE SEQUENCE public.movie_nominations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movie_nominations_id_seq OWNER TO mithin;
+
+--
+-- Name: movie_nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+--
+
+ALTER SEQUENCE public.movie_nominations_id_seq OWNED BY public.movie_nominations.id;
+
+
+--
 -- Name: movies; Type: TABLE; Schema: public; Owner: mithin
 --
 
@@ -490,6 +525,41 @@ ALTER TABLE public.movies_id_seq OWNER TO mithin;
 --
 
 ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
+
+
+--
+-- Name: nominations; Type: TABLE; Schema: public; Owner: mithin
+--
+
+CREATE TABLE public.nominations (
+    id integer NOT NULL,
+    name character varying(25),
+    year integer
+);
+
+
+ALTER TABLE public.nominations OWNER TO mithin;
+
+--
+-- Name: nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+--
+
+CREATE SEQUENCE public.nominations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.nominations_id_seq OWNER TO mithin;
+
+--
+-- Name: nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+--
+
+ALTER SEQUENCE public.nominations_id_seq OWNED BY public.nominations.id;
 
 
 --
@@ -745,10 +815,24 @@ ALTER TABLE ONLY public.media_genres ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: movie_nominations id; Type: DEFAULT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.movie_nominations ALTER COLUMN id SET DEFAULT nextval('public.movie_nominations_id_seq'::regclass);
+
+
+--
 -- Name: movies id; Type: DEFAULT; Schema: public; Owner: mithin
 --
 
 ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
+
+
+--
+-- Name: nominations id; Type: DEFAULT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.nominations ALTER COLUMN id SET DEFAULT nextval('public.nominations_id_seq'::regclass);
 
 
 --
@@ -791,7 +875,7 @@ ALTER TABLE ONLY public.subregions ALTER COLUMN id SET DEFAULT nextval('public.s
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
-dfd6c723d08b
+e23f380e4607
 \.
 
 
@@ -800,6 +884,635 @@ dfd6c723d08b
 --
 
 COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
+1	Benedict Timothy Carlton Cumberbatch	71580
+2	Бенедикт Камбербетч	71580
+3	ベネディクト・カンバーバッチ	71580
+4	เบเนดิกต์ คัมเบอร์แบตช์	71580
+5	بيندكت كامبرباتش	71580
+6	베네딕트 컴버배치	71580
+7	Μπένεντικτ Κάμπερμπατς	71580
+8	本尼迪克特·康伯巴奇	71580
+9	班奈狄克·康柏拜區 	71580
+10	코디 스밋 맥피	113505
+11	克尔斯滕·邓斯特	205
+12	Кирстен Данст	205
+13	Кірстен Данст	205
+14	克斯汀·鄧斯特	205
+15	เคียร์สเต็น ดันสต์	205
+16	キルスティン・ダンスト	205
+17	커스틴 던스트	205
+18	كيرستين دانست	205
+19	Κίρστεν Κάρολαϊν Ντανστ	205
+20	Κίρστεν Ντανστ	205
+21	Kirsten Caroline Dunst	205
+22	克斯汀·邓斯特	205
+23	키어스틴 던스트	205
+24	제시 플레먼스	88124
+25	杰西·普莱蒙	88124
+26	Thomasin McKenzie-Harcourt	1356758
+27	Tom McKenzie 	1356758
+28	Thomasin Harcourt McKenzie	1356758
+29	Τόμασιν Μακένζι	1356758
+30	토마신 맥켄지	1356758
+31	Томасин Маккензи	1356758
+32	Τομαζίν Χάρκουρτ Μακέντζι	1356758
+33	Τομαζίν Μακέντζι Χάρκουρτ 	1356758
+34	トーマシン・マッケンジー	1356758
+35	トーマサイン・マッケンジー	1356758
+36	Genevieve Lemon	10760
+37	Катрина Балф	147056
+38	Κατρίνα Μπαλφ	147056
+39	Caitríona Mary Balfe	147056
+40	Caitriona Balfe	147056
+41	Джеймі Дорнан	1254583
+42	 ジェイミー・ドーナン	1254583
+43	Джуди Денч	5309
+44	주디 덴치	5309
+45	Dame Judi Dench	5309
+46	Judy Dench	5309
+47	Judith Olivia Dench	5309
+48	Ciaran Hinds	8785
+49	Ciarin Hinds	8785
+50	Киран Хайндс	8785
+51	Ciaràn Hinds	8785
+52	Gerard James Pertwee Horan	56101
+53	Gerry Horan	56101
+54	Emilia Annis I. Fosset-Jones	1331023
+55	Emilia Annis I. Jones	1331023
+56	エミリア・ジョーンズ	1331023
+57	Eugenio Derbez-Gonzalez	239574
+58	Eugenio González Derbez	239574
+59	Eugenio Gonzalez Derbez	239574
+60	Эухенио Дербес	239574
+61	אוחניו דברז	239574
+62	Daniel Nicholas Durant	1514387
+63	Daniel N. Durant	1514387
+64	Kevin H. Chapman	4728
+65	Timothee Chalamet	1190668
+66	Timothy Chalamet	1190668
+67	Timothée Hal Chalamet	1190668
+68	Timothee Hal Chalamet	1190668
+69	티모시 샬라메	1190668
+70	ტიმოთი შალამე	1190668
+71	蒂莫西·柴勒梅德	1190668
+72	Τιμοτέ Σαλαμέ	1190668
+73	טימותי שאלאמה	1190668
+74	蒂莫西·查拉梅	1190668
+75	提摩西·夏勒梅	1190668
+76	 ტიმოთი შალამე	1190668
+77	ティモシー・シャラメ	1190668
+78	ティム	1190668
+79	ティミー	1190668
+80	Rebecca Louisa Ferguson Sundström	933238
+81	ربکا فرگوسن	933238
+82	丽贝卡·弗格森	933238
+83	레베카 퍼거슨	933238
+84	レベッカ・ファーガソン	933238
+85	Oscar Isaac Hernández	25072
+86	奥斯卡·伊萨克	25072
+87	Оскар Айзек	25072
+88	オスカー・アイザック	25072
+89	오스카 아이작	25072
+90	أوسكار إسحاق	25072
+91	Óscar Isaac Hernández Estrada	25072
+92	Oscar Isaac Hernandez	25072
+93	Óscar Isaac	25072
+94	Όσκαρ Άιζακ	25072
+95	Josh J. Brolin	16851
+96	جوش برولين	16851
+97	조시 브롤린	16851
+98	ジョシュ・ブローリン	16851
+99	喬許·布洛林	16851
+100	Джош Бролин	16851
+101	Josh James Brolin	16851
+102	Τζος Μπρόλιν	16851
+103	乔什·布洛林	16851
+104	Стеллан Скарсгард	1640
+105	Stellan John Skarsgård	1640
+106	Στέλαν Σκάρσγκαρντ	1640
+107	스텔란 스카스가드	1640
+108	斯特兰·斯卡斯加德	1640
+109	Batista	543530
+110	Dave Batista	543530
+111	Deacon Batista	543530
+112	David Bautista	543530
+113	Leviathan	543530
+114	Дэйв Батиста	543530
+115	데이브 바티스타	543530
+116	Ντέιβ Μπαουτίστα	543530
+117	The Animal	543530
+118	Batista Bomb	543530
+119	デイヴ・バウティスタ	543530
+120	戴夫·巴帝斯塔	543530
+121	Sharon Duncan Brewster	195666
+122	Stephen McKinley-Henderson 	196179
+123	Stephen McKinley Henderson	196179
+124	Stephen "Schmang" McKinley	196179
+125	赞达亚·科尔曼	505710
+126	Zendaya Coleman	505710
+127	젠데이아 콜먼	505710
+128	Chang Chen	1622
+129	張震	1622
+130	Zhang Zhen	1622
+131	Chen Chang	1622
+132	장첸	1622
+133	张震	1622
+134	 Шарлотта Рэмплинг	44079
+135	샬롯 램플링	44079
+136	夏洛特·兰普林	44079
+137	夏洛特兰普林	44079
+138	杰森·莫玛	117642
+139	제이슨 모모아	117642
+140	Джейсон Момоа	117642
+141	Joseph Jason Namakaeha Momoa	117642
+142	Τζόζεφ Τζέισον Ναμακαέχα Μομόα	117642
+143	Τζέισον Μομόα	117642
+144	ジェイソン・モモア	117642
+145	Javier Ángel Encinas Bardem	3810
+146	Хавьер Бардем	3810
+147	خافيير باردم	3810
+148	하비에르 바르뎀	3810
+149	哈維爾·巴登	3810
+150	ハビエル・バルデム	3810
+151	คาเบียร์ บาร์เดน	3810
+152	خاویر باردم	3810
+153	ხავიერ ბარდემი	3810
+154	데이빗 다스트말치안	83854
+155	David Dastmalchian	83854
+156	大卫·达斯特马奇安	83854
+157	大卫·达斯马齐连	83854
+158	Уилл Смит	2888
+159	Вілл Сміт	2888
+160	The Fresh Prince	2888
+161	Willard Smith	2888
+162	ويل سميث	2888
+163	윌 스미스	2888
+164	วิลล์ สมิธ	2888
+165	威爾·史密斯	2888
+166	וויל סמית	2888
+167	Γουίλ Σμιθ	2888
+168	Willard Christopher "Will" Smith, Jr.	2888
+169	Willard Christopher Smith, Jr.	2888
+170	威尔·史密斯	2888
+171	വിൽ സ്മിത്ത് 	2888
+172	 Γουίλαρντ Κάρολ Σμιθ	2888
+173	ウィル・スミス	2888
+174	ウィラード・キャロル・スミス・ジュニア	2888
+175	Aunjanue L. Ellis 	53923
+176	乔·本恩瑟	19498
+177	جان برانتال	19498
+178	Τζον Μπέρνθαλ	19498
+179	Джон Бернтал	19498
+180	존 번탈	19498
+181	토니 골드윈	3417
+182	Mark Anthony McDermott	32597
+183	Judith Shepard	140198
+184	Erin Lynn Cummings	113734
+185	Baby Haim	1741367
+186	Cooper Alexander Hoffman	2764542
+187	Шон Пенн	2228
+188	숀 펜	2228
+189	شون بن	2228
+190	ショーン・ペン	2228
+191	ฌอน เพนน์	2228
+192	西恩·潘	2228
+193	Sean Justin Penn	2228
+194	Σον Τζάστιν Πεν	2228
+195	Σον Πεν	2228
+196	Thomas Alan Waits	2887
+197	브래들리 쿠퍼	51329
+198	布莱恩·科兰斯顿	51329
+199	Брэдли Купер	51329
+200	برادلي كوبر	51329
+201	ブラッドリー・クーパー	51329
+202	แบรดลีย์ คูเปอร์	51329
+203	布萊德利·古柏	51329
+204	Μπράντλεϊ Κούπερ	51329
+205	Ben Safdie	227564
+206	The Safdie Brothers	227564
+207	Τζον Μίχαελ Χιγκινς	8265
+208	크리스틴 에버솔 	4003
+209	Harriet Harris	538
+210	루니 마라	108916
+211	Patricia Rooney Mara	108916
+212	Руни Мара	108916
+213	鲁妮·玛拉	108916
+214	רוני מארה	108916
+215	Tricia Mara	108916
+216	Bree Daniel	108916
+217	ルーニー・マーラ	108916
+218	Руні Мара	108916
+219	كيت بلانشيت	112
+220	Кейт Бланшетт	112
+221	凯特·布兰切特	112
+222	เคต บลานเชตต์	112
+223	ケイト・ブランシェット	112
+224	케이트 블란쳇	112
+225	Catherine Élise "Cate" Blanchett	112
+226	Catherine Élise Blanchett	112
+227	Catherine Elise Blanchett	112
+228	Κέιτ Μπλάνσετ	112
+229	கேத்தரின் எலிஸ் பிளான்செட்	112
+230	Antonia Collette 	3051
+231	토니 콜렛	3051
+232	Antonia "Toni" Collette	3051
+233	Τόνι Κολέτ	3051
+234	Тони Коллетт	3051
+235	ტონი კოლეტი	3051
+236	Toni Collette Galafassi	3051
+237	Ричард Дженкинс	28633
+238	Richard Dale Jenkins	28633
+239	Ρίτσαρντ Τζένκινς	28633
+240	Willem DeFoe	5293
+241	William Dafoe, Jr.	5293
+242	William J. Dafoe	5293
+243	윌렘 데포	5293
+244	Уиллем Дефо	5293
+245	Γουίλεμ Νταφόε	5293
+246	威廉·达福	5293
+247	William James "Willem" Dafoe	5293
+248	William James Dafoe	5293
+249	David Russell Strathairn	11064
+250	Дэвид Стрэтэйрн	11064
+251	Ronald Perlman	2372
+252	Ronald Francis Perlman	2372
+253	Рон Перлман	2372
+254	Ronald N. "Ron" Perlman	2372
+255	Ronald N. Perlman	2372
+256	Ρον Πέρλμαν	2372
+257	Holt Mccallany 	7497
+258	Holt McAloney	7497
+259	Холт Маккэллани	7497
+260	홀트 맥칼라니	7497
+261	Mary Nell Steenburgen	2453
+262	Μάρι Στινμπούργζεν	2453
+263	James Norman Beaver Jr. 	29862
+264	James Beaver	29862
+265	Richard Muldoon	29862
+266	John Petlock	29862
+267	Clifton Craig Gonzalez Collins Jr. 	5365
+268	William Battersby	5365
+269	Clifton Gonzalez-Gonzalez	5365
+270	 Clifton Craig Collins Jr. 	5365
+271	 Clifton Gonzalez Collins 	5365
+272	Clifton Gonzales Gonzales 	5365
+273	Clifton Gonzalez	5365
+274	Clifton González González	5365
+275	Клифтон Коллинз мл.	5365
+276	클리프톤 콜린스 주니어	5365
+277	Дензел Вашингтон	5292
+278	丹泽尔·华盛顿	5292
+279	دنزل واشنطن	5292
+280	デンゼル・ワシントン	5292
+281	เดนเซล วอชิงตัน	5292
+282	Denzel Hayes Washington, Jr.	5292
+283	Ντένζελ Ουάσινγκτον	5292
+284	Denzel Hayes Washington	5292
+285	Дензел Вашинґтон	5292
+286	Дензъл Уошингтън	5292
+287	دنزل واشنگتن	5292
+288	دنزل واشینگتون	5292
+289	დენზელ ვაშინგტონი	5292
+290	덴젤 워싱턴	5292
+291	丹佐·华盛顿	5292
+292	丹素·华盛顿	5292
+293	Frances Louise McDormand	3910
+294	프란시스 맥도맨드	3910
+295	프랜시스 맥도먼드	3910
+296	Cynthia Ann Smith	3910
+297	弗兰西斯·麦克多蒙德	3910
+298	Фрэнсис Макдорманд	3910
+299	Corey Antonio Hawkins	1154054
+300	Alexander Stephen Hassell	178634
+301	Брендан Глисон	2039
+302	Μπρένταν Γκλίσον	2039
+303	哈利·米爾林	10982
+304	Гарри Меллинг	10982
+305	Мозес Ингрэм	2042908
+306	모세스 잉그램	2042908
+307	Monique Denise Ingram	2042908
+308	Yahoots Magoondi	2719
+309	Steve Root	17401
+310	Стивен Рут	17401
+311	Ansølo	1159982
+312	안셀 엘고트	1159982
+313	Ansel Elgort	1159982
+314	레이첼 제글러	2217977
+315	Rachel Anne Zegler	2217977
+316	レイチェル・ゼグラー	2217977
+317	Рейчел Зеглер	2217977
+318	Michael David Faist	1423520
+319	Brian d’Arcy James	175829
+320	Μπράιαν ντ' Άρσι Τζέιμς	175829
+321	Corey Daniel Stoll	74541
+322	코리 스톨	74541
+323	Rosa Dolores Alverío	13299
+324	Ana Isabel López	1636954
+325	Ezra Menas	2531140
+326	Julius Rubio	2531143
+327	Tanairi Vasquez	2721914
+328	Tainari Vazquez	2721914
+329	Tanairi Vazquez	2721914
+330	Chryssie Whitehead-Disbrow	931876
+331	앨리스 잉글러트	587823
+332	アリス・イングラート	587823
+333	Calvin Michael Desautels	1833006
+334	Roderick Darin	100489
+335	Rod Streetwater	100489
+336	Robert Jeffery	2885791
+337	Bob Jeffery	2885791
+338	Daniel James Walker	2158768
+339	 Anthony R. Molinari	202930
+340	Nathalie Brown	104635
+341	Curtiss Cooke	2254
+342	Curtiss L'Cook	2254
+343	Curtiss I'Cook	2254
+344	Curtis I. Cook	2254
+345	Curtiss I' Cook	2254
+346	커티스 쿡	2254
+347	Steven McHattie	230
+348	Steve McHattie	230
+349	Stephen McHattie Smith	230
+350	Стивен МакХэтти	230
+351	스티븐 맥하티	230
+352	John Gibb Marshall	26860
+353	존 세션스	26860
+354	Bill Macdonald	236
+355	William MacDonald	236
+356	Вадим Ледогоров	96510
+357	Jeffrey Ward	1253648
+358	Michael Baker	1720614
+359	이벳 파슨스	1542446
+360	Kaiden Alexander	2451805
+361	Kayden Koshelev	2451805
+362	Alice Connolly	2089332
+363	Danielle Klupsch	3334647
+364	Sasha Rebecca Spielberg	8700
+365	Buzzy Lee	8700
+366	 Jonathan Richard Bray	129595
+367	Джейми Харрис	111195
+368	Jose Gonsalves 	1849970
+369	Matt Hunnicutt	2935410
+370	Джон Си Райли	4764
+371	约翰·C·赖利	4764
+372	ジョン・C・ライリー	4764
+373	جون ك. رايلي	4764
+374	존 C. 라일리	4764
+375	John Reilly	4764
+376	David Newsome	166594
+377	マックス・ベイカー	10960
+378	Benjamin Clementine	3185383
+379	The Revel Boys 	1622776
+380	Ebboney J. Wilson	2200315
+381	Michael Massimino	1669956
+382	Jess le Protto	3570526
+383	Gabriela Soto	3570534
+384	Juliette Feliciano	3570535
+385	袁之正	2974
+386	Oscar A. Rodriguez Rojas	3570619
+387	René Ojeda	1473511
+388	Susan B James	1590308
+389	Susan J Berger	1590308
+390	Sue Berger	1590308
+391	Susan Berger	1590308
+392	Edward Campbell	11451
+393	Madison Ziegler	1483976
+394	マディー・ジーグラー	1483976
+395	Mary S. Pascoe	3318989
+396	이안 하코트	54494
+397	폴 앤더슨	220448
+398	保罗·安德森	220448
+399	Пол Андерсон	220448
+400	Ralph Inneson	202032
+401	Ralph Michael Ineson	202032
+402	Zach Chicos	2573644
+403	タリア・ライダー	2475409
+404	탈리아 라이더	2475409
+405	Emma Noelle Roberts	968089
+406	Έμμα Ντάμοντ	968089
+407	Pat Salway	3118535
+408	Blone Noble	3118535
+409	카일 앨런	1562074
+410	David Lim	2614781
+411	Lewis Jefferson Mays	183814
+412	Raymond Nicholson	60960
+413	마야 루돌프	52792
+414	Maya Khabira Rudolph	52792
+415	Benjamin Cook	1984115
+416	Richard Ian Porterfield Short	206483
+417	Erica Schaeffer	122518
+418	Erica Schaffer	122518
+419	Feiga M. Martinez	3002009
+420	José Rosario 	130735
+421	Jose R. Rosario	130735
+422	Jose Ramon Rosario	130735
+423	Jose Rosario	130735
+424	José Ramon Rosario 	130735
+425	Mimi O'Donnell	1351363
+426	Destry Allyn	2281194
+427	Destry Spielberg	2281194
+428	David Ian Hewlett	5892
+429	David Hewlitt	5892
+430	Pearl Anderson	3372842
+431	Ricardo A. Zayas	2531145
+432	Carlos Sanchez Falu	2531148
+433	Ben Dilloway	1269682
+434	Michelle Yeoh Choo-Kheng	1620
+435	杨紫琼	1620
+436	楊紫瓊	1620
+437	양자경	1620
+438	Μισέλ Γιο	1620
+439	Мишель Йео	1620
+440	Michelle Khan	1620
+441	Ziqiong Yang	1620
+442	Chi-King Yeung	1620
+443	Jonathan Quan	690
+444	Quan Kế Huy	690
+445	Ke Huy Quan	690
+446	Jonathan Ke Quan	690
+447	关继威	690
+448	Ko-Wei Kuan	690
+449	關繼威	690
+450	許瑋倫	1381186
+451	许玮伦	1381186
+452	James Young	20904
+453	吴汉章	20904
+454	Scream Queen	8944
+455	제이미 리 커티스	8944
+456	Tallie Mara Medel	1071151
+457	제니 슬레이트	213001
+458	岑勇康	232499
+459	Bill Wiff	1367122
+460	Biff Whiff	1367122
+461	Bill Whiff	1367122
+462	Aaron S. Lazar 	964421
+463	黎唯	2410189
+464	黎明	1068877
+465	Daniel Willcox Brown	1535095
+466	Dan W. Brown	1535095
+467	Anthony Nanakornpanom	1310386
+468	Cara Chooljian	2899647
+469	랜들 아처	1099428
+470	Dallas Archer	1099428
+471	Payam Banifazl	1561485
+472	Audrey Wasielewski	86170
+473	李静	3543715
+474	딜런 헨리 라우	2883298
+475	Tim Eulich	1367516
+476	티모시 에울리히	1367516
+477	다니엘 쉐이너트	1317730
+478	Daniels	1317730
+479	丹尼尔·施纳特	1317730
+480	The Daniels	1317730
+481	西协美智子	62426
+482	Tim Ralston	2019612
+483	Tim Rolston	2019612
+484	矢田宏	1394743
+485	Dan Kwan	1383612
+486	다니엘 콴	1383612
+487	关家永	1383612
+488	DY Sao	1466559
+522	Jennifer Shrader Lawrence	72129
+523	제니퍼 로렌스	72129
+524	ジェニファー・ローレンス	72129
+525	جينيفر لورنس	72129
+526	เจนนิเฟอร์ ลอว์เรนซ์	72129
+527	珍妮佛·勞倫斯	72129
+528	Џенифер Лоренс	72129
+529	ჯენიფერ ლოურენსი	72129
+530	Τζένιφερ Λόρενς	72129
+531	Дженнифер Лоуренс	72129
+532	詹妮弗·劳伦斯	72129
+533	Леонардо ДиКаприо	6193
+534	ليوناردو دي كابريو	6193
+535	레오나르도 디카프리오	6193
+536	レオナルド・ディカプリオ	6193
+537	ลีโอนาร์โด ดิแคพรีโอ	6193
+538	莱昂纳多·迪卡普里奥	6193
+539	Leo DiCaprio	6193
+540	Leonardo Wilhelm DiCaprio	6193
+541	Λεονάρντο Ντι Κάπριο	6193
+542	Ντι Κάπριο	6193
+543	Леонардо Ді Капріо	6193
+544	Леонардо ДіКапріо	6193
+545	לאונרדו דיקפריו	6193
+546	ലിയനാർഡോ ഡികാപ്രിയോ	6193
+547	Leonardo Di Caprio	6193
+548	ლეონარდო დიკაპრიო	6193
+549	ميريل ستريب	5064
+550	Мэрил Стрип	5064
+551	메릴 스트립	5064
+552	メリル・ストリープ	5064
+553	เมอรีล สตรีป	5064
+554	梅麗·史翠普	5064
+555	მერილ სტრიპი	5064
+556	Μέριλ Στριπ	5064
+557	梅丽尔·斯特里普	5064
+558	Mary Louise Streep	5064
+559	Роб Морган	1281250
+560	조나 힐	21007
+561	Jonah Hill Feldstein	21007
+562	Τζόνα Χιλ	21007
+563	Джона Гілл	21007
+564	Джона Хилл	21007
+593	David Mark Rylance Waters	40900
+594	마크 라이런스	40900
+595	马克·里朗斯	40900
+596	大卫·马克·里朗斯·沃特斯	40900
+597	타일러 페리	80602
+665	Ariana Grande-Butera 	226001
+666	아리아나 그란데	226001
+667	Ari	226001
+668	Αριάνα Γκράντε Μπουτέρα	226001
+669	Αριάνα Γκράντε	226001
+670	Αρι	226001
+671	Αριάνα Μπουτέρα	226001
+672	爱莉安娜·格兰德	226001
+673	Scott Mescudi	484359
+674	Moon Man	484359
+675	Rager	484359
+676	Scott Ramon Seguro Mescudi	484359
+677	키드 커디	484359
+678	멜라니 린스키	15091
+679	Michael Charles Chiklis	19654
+680	마이클 치클리스	19654
+681	Tomer Gazit	25089
+682	토메르 시슬레	25089
+683	Bob Joy	19976
+684	丁力	3359747
+685	Hetienne Park	1218184
+686	로스 패트리지	45396
+687	Isaac Liev Schreiber	23626
+688	리브 슈라이버	23626
+689	Лев Шрайбер	23626
+690	リーヴ・シュレイバー	23626
+691	李佛·薛伯	23626
+692	Λιβ Σράιμπερ	23626
+693	Samsara Leela Yett	2861577
+694	Meara Gross	2828491
+695	Meara Mahoney-Gross	2828491
+696	Staci Roberts Steele	1459073
+697	Staci Roberts-Steele	1459073
+698	Christina Everett	1544237
+699	Patricia Dehaney-Le May	1417399
+700	Megan Leathers	2803677
+701	사라 실버맨	7404
+702	세라 실버먼	7404
+703	Sarah Kate Silverman	7404
+704	Σάρα Σίλβερμαν	7404
+705	Сара Сильверман	7404
+706	 Richard C. Snee 	133967
+707	كريس إيفانز	16828
+708	크리스 에반스	16828
+709	Крис Эванс	16828
+710	คริส อีแวนส์	16828
+711	克里斯·埃文斯	16828
+712	クリス・エヴァンス	16828
+713	Кріс Еванс	16828
+714	Christopher Robert "Chris" Evans	16828
+715	Christopher Robert Evans	16828
+716	Κρις Έβανς	16828
+717	Κρίστοφερ Ρόμπερτ Έβανς	16828
+718	کریس اوانز	16828
+719	کریس ایوانز	16828
+720	克里斯·伊凡	16828
+721	Zackass	1600403
+722	Ishaan Khatter	930298
+723	Ishaan Khattar	930298
+724	西島秀俊	13250
+725	西岛俊秀	13250
+726	三浦透子	1509659
+727	みうら とうこ	1509659
+728	岡田将生	124402
+729	岡田 将生 	124402
+730	霧島れいか	121750
+731	키리시마 레이코	121750
+732	박유림	3154127
+733	Park Yu-rim	3154127
+734	Yurim Park	3154127
+735	Park Yoo-rim	3154127
+736	Jin Dae-yeon	3154128
+737	Jin Dae Yeon	3154128
+738	진대연	3154128
+739	ジンデヨン	3154128
+740	Zin Dae-yeon	3154128
+741	金大永	3154128
+742	袁子芸	2547327
+743	Yuan Ziyun	2547327
+744	Yuan Zi-yun	2547327
+745	Yuan Zi Yun	2547327
+746	袁 子芸	2547327
+747	안휘태	3154131
+748	Ann Fite	3154131
+749	An Fite	3154131
+750	Ahn Hwitae	3154131
+751	安部聡子	1392004
+752	安部聪子	1392004
+753	山村孝子	2519419
+754	岩瀬亮	1374556
+755	이와세 료	1374556
+756	谷川昭一朗	2256273
+757	Christopher Wolfe	2046873
 \.
 
 
@@ -1680,6 +2393,8 @@ COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
 74	265	Tamil Indian
 75	142	Hoa Chinese
 76	461	Azorean Portuguese
+77	265	Gujarati Indian
+78	305	South Korean
 \.
 
 
@@ -2156,7 +2871,7 @@ COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
 626	229	1317730
 627	556	1383612
 628	142	1383612
-630	369	1071151
+656	229	72129
 631	502	10982
 632	273	10982
 633	277	2217977
@@ -2169,6 +2884,84 @@ COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
 640	321	60960
 641	277	60960
 642	461	11064
+630	369	\N
+643	369	1071151
+644	45	\N
+645	1	\N
+646	550	\N
+647	198	\N
+648	229	\N
+649	273	\N
+650	502	\N
+651	502	72129
+652	273	72129
+653	1	72129
+654	550	72129
+655	198	72129
+657	627	72129
+658	277	6193
+659	229	6193
+660	483	6193
+661	549	5064
+662	502	5064
+663	273	5064
+664	550	5064
+665	1	5064
+666	198	5064
+667	229	5064
+668	8	1281250
+669	283	21007
+672	273	40900
+673	198	40900
+674	8	80602
+711	511	226001
+712	277	226001
+713	369	484359
+714	8	484359
+715	265	1227717
+716	198	15091
+717	502	15091
+718	273	15091
+719	198	19654
+720	273	19654
+721	235	19654
+722	627	23626
+723	422	23626
+724	186	23626
+725	180	23626
+726	550	23626
+727	283	23626
+728	1	23626
+729	502	23626
+730	229	23626
+731	198	23626
+732	211	23626
+733	75	23626
+734	283	7404
+735	627	16828
+736	277	16828
+737	502	16828
+738	229	16828
+739	198	16828
+740	273	16828
+757	413	205923
+758	246	1856875
+759	198	1856875
+760	142	2974
+761	198	19995
+762	283	19995
+763	55	19995
+768	256	2214765
+769	185	2214765
+773	552	227564
+774	483	227564
+775	198	29862
+776	1	29862
+777	136	29862
+778	229	29862
+779	502	29862
+780	455	1102260
+781	502	1102260
 \.
 
 
@@ -2513,6 +3306,100 @@ COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) 
 334	127	371
 335	127	372
 336	84	642
+337	128	606
+338	129	607
+339	129	608
+340	130	609
+341	130	610
+342	131	611
+343	131	612
+344	131	613
+345	131	614
+346	131	615
+347	131	616
+348	131	617
+349	131	618
+350	132	619
+351	133	620
+352	134	621
+353	135	622
+354	135	623
+355	135	624
+356	135	625
+357	135	626
+358	136	627
+359	136	628
+361	138	643
+369	141	651
+370	141	652
+371	141	653
+372	141	654
+373	141	655
+374	141	656
+375	141	657
+376	142	658
+377	142	659
+378	142	660
+379	143	661
+380	143	662
+381	143	663
+382	143	664
+383	143	665
+384	143	666
+385	143	667
+386	144	668
+387	145	669
+390	153	672
+391	153	673
+392	154	674
+429	171	711
+430	171	712
+431	172	713
+432	172	714
+433	173	715
+434	174	716
+435	174	717
+436	174	718
+437	175	719
+438	175	720
+439	175	721
+440	176	722
+441	176	723
+442	176	724
+443	176	725
+444	176	726
+445	176	727
+446	176	728
+447	176	729
+448	176	730
+449	176	731
+450	176	732
+451	176	733
+452	177	734
+453	178	735
+454	178	736
+455	178	737
+456	178	738
+457	178	739
+458	178	740
+475	188	757
+476	189	758
+477	189	759
+478	190	760
+479	191	761
+480	191	762
+481	191	763
+486	194	768
+487	194	769
+491	72	773
+492	72	774
+493	195	775
+494	195	776
+495	195	777
+496	195	778
+497	195	779
+498	196	780
+499	196	781
 \.
 
 
@@ -2630,6 +3517,8 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 29862	nm0064769	Jim Beaver	2	1950-08-12 00:00:00	\N	James Norman "Jim" Beaver, Jr. (born August 12, 1950) is an American stage, film, and television actor, playwright, screenwriter, and film historian. He is perhaps most familiar to worldwide audiences as the gruff but tenderhearted prospector Whitney Ellsworth on the HBO Western drama series Deadwood, a starring role which brought him acclaim and a Screen Actors Guild Awards nomination for Ensemble Acting after three decades of supporting work in films and TV. He currently portrays Bobby Singer in the CW television series Supernatural. His memoir Life's That Way was published in April 2009.\n\nDescription above from the Wikipedia article Jim Beaver, licensed under CC-BY-SA, full list of contributors on Wikipedia	USA	/c3Cqp1XAdcyeUZKkcrdQsPwb010.jpg
 209	nm0011038	Jane Adams	1	1965-04-01 00:00:00	\N	Jane Adams is an American actress. She made her Broadway debut in the original production of I Hate Hamlet in 1991, and won the Tony Award for Best Featured Actress in a Play for the 1994 revival of An Inspector Calls. Her film roles include Happiness (1998), Wonder Boys (2000), Eternal Sunshine of the Spotless Mind (2004), and Little Children (2006). She also had a recurring role on the NBC sitcom Frasier (1999–2000), and was nominated for the 2010 Golden Globe Award for Best Supporting Actress on Television for the HBO series Hung (2009–11).	USA	/2FsPAoatMkUZ7khJ9r4Fa7ZxQzS.jpg
 38673	nm1475594	Channing Tatum	2	1980-04-26 00:00:00	\N	Channing Matthew Tatum (born April 26, 1980) is an American actor. Tatum made his film debut in the drama Coach Carter (2005), and had his breakthrough role in the 2006 dance film Step Up. He gained wider attention for his leading roles in the sports comedy She's the Man (2006), the comedy-drama Magic Mike (2012) and its sequels Magic Mike XXL (2015) and Magic Mike's Last Dance (2023), the latter two of which he also produced, and in the action-comedy 21 Jump Street (2012) and its sequel 22 Jump Street (2014).\n\nTatum has also appeared as Duke in the action film G.I. Joe: The Rise of Cobra (2009) and its sequel G.I. Joe: Retaliation (2013). His other films include White House Down (2013), Foxcatcher (2014), The Hateful Eight (2015), Hail, Caesar! (2016), Logan Lucky (2017), and The Lost City (2022). Tatum has also starred in, produced and co-directed the road film Dog (2022). Time magazine named him one of the 100 most influential people in the world in 2022.	USA	/xdnstENLdWMPWt9qyhtf695L4t6.jpg
+6193	nm0000138	Leonardo DiCaprio	2	1974-11-11 00:00:00	\N	Leonardo Wilhelm DiCaprio (born November 11, 1974) is an American actor and film producer. Known for his work in biopics and period films, DiCaprio is the recipient of numerous accolades, including an Academy Award, a British Academy Film Award, and three Golden Globe Awards. As of 2019, his films have grossed over $7.2 billion worldwide, and he has been placed eight times in annual rankings of the world's highest-paid actors.\n\nBorn in Los Angeles, DiCaprio began his career in the late 1980s by appearing in television commercials. In the early 1990s, he had recurring roles in various television shows, such as the sitcom Parenthood, and had his first major film part as author Tobias Wolff in This Boy's Life (1993). At age 19, he received critical acclaim and his first Academy Award and Golden Globe Award nominations for his performance as a developmentally disabled boy in What's Eating Gilbert Grape (1993). He achieved international stardom with the star-crossed romances Romeo + Juliet (1996) and Titanic (1997).\n\nAfter the latter became the highest-grossing film at the time, he reduced his workload for a few years. In an attempt to shed his image of a romantic hero, DiCaprio sought roles in other genres, including crime drama in Catch Me If You Can (2002) and Gangs of New York (2002); the latter marked the first of his many successful collaborations with director Martin Scorsese. DiCaprio portrayed Howard Hughes in The Aviator (2004) and received acclaim for his performances in the political thriller Blood Diamond (2006), the crime drama The Departed (2006), and the romantic drama Revolutionary Road (2008).\n\nIn the following decade, DiCaprio starred in several high-profile directors' projects, including the science fiction thriller Inception (2010), the western Django Unchained (2012), the biopic The Wolf of Wall Street (2013), the survival drama The Revenant (2015), for which he won an Academy Award and a BAFTA Award for Best Actor in a Leading Role, and the comedy-drama Once Upon a Time in Hollywood (2019), all of which were critical and commercial successes.\n\nDiCaprio is the founder of Appian Way Productions, a production company that has produced some of his films and the documentary series Greensburg (2008–2010), and the Leonardo DiCaprio Foundation, a nonprofit organization devoted to promoting environmental awareness. He regularly supports charitable causes and has produced several documentaries on the environment. In 2005, he was named a Commander of the Ordre des Arts et des Lettres for his contributions to the arts, and in 2016, he appeared in Time magazine's 100 most influential people in the world.	USA	/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg
+72129	nm2225369	Jennifer Lawrence	1	1990-08-15 00:00:00	\N	Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016.\n\nDuring childhood, Lawrence performed in church plays and school musicals. At 14, she was spotted by a talent scout while vacationing in New York City with her family. She moved to Los Angeles and began her acting career in guest roles on television. Her first major role was that of a main cast member on the sitcom The Bill Engvall Show (2007–2009). She made her film debut in a supporting role in the drama Garden Party (2008), and had her breakthrough playing Ree Dolly, a poverty-stricken teenage girl, in the coming-of-age independent mystery drama Winter's Bone (2010). Lawrence's career progressed with starring roles as the mutant Mystique in the X-Men film series (2011–2019) and Katniss Everdeen in The Hunger Games film series (2012–2015). The latter made her the highest-grossing action heroine of all time.\n\nLawrence has received a number of accolades for various films, including her three collaborations with filmmaker David O. Russell. Her performance as a young widow with an unnamed mental disorder in the romance film Silver Linings Playbook (2012) won her the Academy Award for Best Actress, making her the second-youngest Best Actress winner at 22. She won the BAFTA Award for Best Actress in a Supporting Role for playing an unpredictable wife in the black comedy American Hustle (2013). Lawrence also received Golden Globe Awards for both of these films, and for her portrayal of businesswoman Joy Mangano in the biopic Joy (2015). A series of negatively reviewed films, including Passengers (2016) and Red Sparrow (2018), and the subsequent media scrutiny of her choices of roles led to a small break from acting. She returned in 2021 with the satirical black comedy Don't Look Up.	USA	/f7cyXplSWuYFX1e7JxcNMiRfbaH.jpg
 17401	nm0740535	Stephen Root	2	1951-11-17 00:00:00	\N	Stephen Root (born November 17, 1951) is an American actor. He has starred as Jimmy James on the NBC sitcom NewsRadio, as Milton Waddams in the film Office Space (1999), and voiced Bill Dauterive and Buck Strickland on the animated series King of the Hill (1997–2010).\n\nRoot has appeared in numerous Coen brothers films including O Brother, Where Art Thou? (2000), The Ladykillers (2004), No Country for Old Men (2007), The Ballad of Buster Scruggs (2018), The Tragedy of Macbeth (2021). Other notable film roles include in Dave (1993), DodgeBall (2004), Idiocracy (2006), Cedar Rapids (2011), Selma (2014), Trumbo (2015), Get Out (2017), and On the Basis of Sex (2018).\n\nHis television roles have included Capt. K'Vada in the Star Trek: The Next Generation two-part episode "Unification" (1991), Hawthorne Abendsen in seasons 2–4 of the series The Man in the High Castle. He has supporting roles in a variety of HBO series, including Boardwalk Empire, True Blood, Perry Mason, and Succession. He currently stars as Monroe Fuches / The Raven on the HBO dark comedy series Barry (2018–present), for which he was nominated for a Primetime Emmy Award for Outstanding Supporting Actor in a Comedy Series in 2019.	USA	/u1JtE940hFrYFNAQHNJvGnPILoy.jpg
 13299	nm0001549	Rita Moreno	1	1931-12-11 00:00:00	\N	Rita Moreno (born Rosa Dolores Alverío Marcano; December 11, 1931) is a Puerto Rican actress, dancer, and singer. Noted for her work across different areas of the entertainment industry, she has appeared in numerous film, television, and theater projects throughout her extensive career spanning over seven decades.\n\nHer work includes supporting roles in the classic musical films Singin' in the Rain (1952), The King and I (1956), and the 1961 and 2021 film adaptations of West Side Story. Her other notable films include Popi (1969), Carnal Knowledge (1971), The Four Seasons (1981), I Like It Like That (1994) and the cult film Slums of Beverly Hills (1998). She is also known for her work on television including the children's television series The Electric Company (1971–1977), and as Sister Peter Marie Reimondo on the HBO series Oz (1997–2003). She voiced the titular role of in Where on Earth Is Carmen Sandiego? from 1994 to 1999. She also gained acclaim for her roles in Jane the Virgin (2015–2019) and the revival of Norman Lear's One Day at a Time (2017–2020). In theater, she is best known for her role as Googie Gomez in the 1975 musical The Ritz.\n\nAmong her numerous accolades, Moreno is one of a few performers to have been awarded an Emmy, a Grammy, an Oscar, and a Tony (EGOT). She is also one of 24 people who have achieved what is called the Triple Crown of Acting, with individual competitive Academy, Emmy and Tony awards for acting. In 2004, she received the Presidential Medal of Freedom, America's highest civilian honor bestowed upon her by George W. Bush. In 2009, President Barack Obama presented her with the National Medal of Arts. In 2013, she received the Screen Actors Guild Life Achievement Award. In 2015, she was awarded a Kennedy Center Honor for her contribution to American culture through performing arts. She was awarded the Peabody Award in 2019. Her life was profiled in the 2021 documentary Rita Moreno: Just a Girl Who Decided to Go for It.	PRI	/zB0M77jr7tmsmWHEr2bWO2Xq66L.jpg
 1636954	nm3677062	Ana Isabelle	1	1986-04-11 00:00:00	\N		\N	/7Nxp17PyLleWns6iiKfD1bEk7Ei.jpg
@@ -2641,6 +3530,8 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 109708	nm0122987	Bill Burr	2	1968-06-10 00:00:00	\N	William Frederick Burr (born June 10, 1968) is an American stand-up comedian, actor, and podcaster. Outside of stand-up, he is known for creating and starring in the Netflix animated sitcom F Is for Family (2015–present), playing Patrick Kuby in the AMC crime drama series Breaking Bad (2008–2013), and co-founding the All Things Comedy network. He has hosted the twice-weekly comedy podcast, titled The Monday Morning Podcast, since May 2007.\n\nDescription above from the Wikipedia article Bill Burr,  licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/g8VqrigObjAE3QP1Xei1qgO4kfx.jpg
 1369336	nm5046593	Amy Forsyth	1	1995-08-06 00:00:00	\N	Amy Forsyth (Born August 6, 1995) is an Canadian Actress,  who won critical acclaim for her performance as Ashley Fields in the Hulu original series “The Path”. She gained huge fame for played the starring role of Natalie in the 2018 Gregory Plotkin directed horror and thriller film “Hell Fest”. In her acting career, she has been cast in the number of popular TV shows including “Rise”, “Channel Zero”, “Defiance” and “Degrassi: The Next Generation”. She began her acting career with 2013 horror and thriller film “Torment” as Mary Bronson.	CAN	/ii3DqSprC4MTFsqzjAloynqVOKB.jpg
 135352	nm0621760	Kevin Nash	2	1959-07-09 00:00:00	\N	Kevin Scott Nash is an inactive American professional wrestler and actor, who is signed to WWE. Nash has wrestled under various ring names, but is most notably known by his real name in World Championship Wrestling (WCW), and in WWE/World Wrestling Federation/Entertainment, where he was known as Diesel during his first and current run with the company.\n\nBetween WWE, WCW, and TNA, Nash has won 21 total championships, including six world championships (having won the WCW World Heavyweight Championship five times and the WWF Championship once). He has achieved notable success in the tag team division as well, being a twelve-time world tag team champion: a nine-time WCW World Tag Team Champion, two-time WWF World Tag Team Champion and one-time TNA World Tag Team Champion. He is also a one-time WWF Intercontinental Champion and a two-time winner of the TNA Legends Championship (now known as the TNA Television Championship). In addition to championships, he won the 1998 WCW World War 3. Nash is a member of The Kliq, a group which includes Shawn Michaels, Triple H, Scott Hall and Sean Waltman and was known in the WWE during the 90's as a backstage group were shown favoritism by owner Vince McMahon and often refused to work with others outside of their group. He is also one of the three founding members of the New World Order (nWo), along with Hulk Hogan and Scott Hall.	USA	/voSs3NTtgBHZRO4yCqQxwMhEngc.jpg
+5064	nm0000658	Meryl Streep	1	1949-06-22 00:00:00	\N	Mary Louise "Meryl" Streep (born June 22, 1949) is an American actress. Often described as "the best actress of her generation", Streep is particularly known for her versatility and accent adaptability. She has received numerous accolades throughout her career spanning over five decades, including a record 21 Academy Award nominations, winning three, and a record 32 Golden Globe Award nominations, winning eight. She has also received two British Academy Film Awards, two Screen Actors Guild Awards, and three Primetime Emmy Awards, in addition to nominations for a Tony Award and six Grammy Awards.\n\nDescription above from the Wikipedia article Meryl Streep, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/emAAzyK1rJ6aiMi0wsWYp51EC3h.jpg
+1281250	nm1726032	Rob Morgan	2	1973-02-24 00:00:00	\N	Rob Morgan is an American actor known for his role as Turk Barrett in the Netflix series Daredevil, Jessica Jones, Luke Cage, Iron Fist, The Defenders, and The Punisher, and Hap Jackson in Mudbound. He is the only actor to appear in all six of Marvel's Netflix television series.	USA	/yIQd0L0kn1HyZGeEMkUREzMslP0.jpg
 4741	nm1064823	Cayden Boyd	2	1994-05-24 00:00:00	\N	Boyd was born in Bedford, Texas. He currently lives in Los Angeles, California with his parents and actress sister, Jenna Boyd. Cayden plays the violin and cello, is on a football team, and is also a proud Christian. Cayden is more experienced in the acting world than most children his age. Growing up in Texas with his parents and sister Jenna Boyd he has been able to stay grounded and says, "My parents are a big help, and they're always making sure I have a normal life and my life isn't all just about acting and stuff."\n\nCayden landed his first roles, small television roles and commercials, as young as 6 and 7. He was cast alongside Sean Penn and Tim Robbins in film "Mystic River". In 2004, Cayden won the lead role in children's film "The Adventures of Sharkboy and Lavagirl". Cayden has also appeared in a number of TV dramas, including "Crossing Jordan", "Cold Case" and "Close to Home". He also had a small but crucial role in the film "X-Men: The Last Stand". In 2008, Cayden starred alongside Julia Roberts and Willem Dafoe in "Fireflies in the Garden", with a strong performance as young Michael.\n\nIn 2010 Cayden took the leading role in the pilot episode of a new TV show "Past Life" giving a very strong performance, and is in possible talks to be returning to the show at a later date.\n\nBoyd has had bit parts in several feature films, including Freaky Friday and Dodgeball: A True Underdog Story. He also played Tim Robbins's son in Mystic River and appeared on the sitcom Scrubs. Boyd's biggest role to date may have been as Max in The Adventures of Shark Boy and Lava Girl. Most recently, he played young Warren Worthington III in X-Men: The Last Stand, and he also had a starring role in the 2007 film Have Dreams, Will Travel.\n\nDescription above from the Wikipedia article Cayden Boyd, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/5PyOB5F8mSp0n0ZNS6iX6rpXOTv.jpg
 227477	nm2674140	Nicole LaLiberte	1	1981-12-01 00:00:00	\N	Nicole LaLiberte (born c. 1985) is an American actress. She has had recurring roles on the television series How to Make It in America (2011) and Dexter (2012–2013) and played one of the lead roles alongside Danielle Panabaker in the film Girls Against Boys (2012).	USA	/kizEzG8ApsRhfuwxY2mrbzmtqY1.jpg
 1387665	nm4380467	Luke Forbes	2	\N	\N	Luke Forbes is an actor.	\N	/1M69Oj6tKckMJ85RZBEOWbpDiic.jpg
@@ -2651,6 +3542,7 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 2189049	nm8137263	Joy Sunday	1	1995-04-17 00:00:00	\N	Joy Sunday is an actress and filmmaker.	USA	/fTajkqbVGMU4O2LMteuYlffhfJI.jpg
 2491917	nm10705229	Trent Buxton	2	\N	\N		\N	/fIyiHdkshDTQSWr2Piyz5MV3Jx.jpg
 3255984	\N	Darren keilan	2	\N	\N		\N	/rSBxD5GhPTcoCdofT8HvGUvn7If.jpg
+21007	nm1706767	Jonah Hill	2	1983-12-20 00:00:00	\N	Jonah Hill Feldstein (born December 20, 1983) is an American actor, comedian, screenwriter, producer and director. He is known for his comedic roles in films including Superbad (2007), Knocked Up (2007), 21 Jump Street (2012), This Is the End (2013), and 22 Jump Street (2014). For his performances in Moneyball (2011) and The Wolf of Wall Street (2013), he was nominated for the Academy Award for Best Supporting Actor.\n\nHill ranked 28th on Forbes magazine's list of highest-paid actors from June 2014 to June 2015, at $16 million. In 2020, he was found to have sworn on film more than any other actor. As a screenwriter, he contributed to the stories of 21 Jump Street, 22 Jump Street, Sausage Party and Why Him? In 2018, he starred in the Netflix dark comedy miniseries Maniac and made his directorial debut with the film Mid90s. He also wrote the screenplay for Mid90s.\n\nHill has provided voices for the animated films Horton Hears a Who! (2008), Megamind (2010), How to Train Your Dragon (2010–2019), The Lego Movie (2014), and The Lego Movie 2: The Second Part (2019).	USA	/cymlWttB83MsAGR2EkTgANtjeRH.jpg
 1067065	nm1968931	Cameron Hood	0	\N	\N		\N	\N
 3304751	nm6142006	Neiko Neal	2	\N	\N		\N	\N
 73620	nm1719608	Ken Lyle	2	\N	\N		\N	/gNJ6YnTVE4WNK0Jy9crauHgJHuq.jpg
@@ -2693,13 +3585,23 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 30613	nm0001018	Keith Carradine	2	1949-08-08 00:00:00	\N	Keith Ian Carradine (born August 8, 1949) is an American actor and singer-songwriter.	USA	/5gayZWGqjTAVJXr1bXovk3oqOxW.jpg
 3521003	\N	Kenneth Radley	0	\N	\N		\N	\N
 1404367	nm7212536	David Denis	0	\N	\N		\N	\N
+40900	nm0753314	Mark Rylance	2	1960-01-18 00:00:00	\N	Sir David Mark Rylance Waters (born 18 January 1960 in Ashford, Kent, England) is an English actor, theatre director, and playwright.\n\nHe was the first artistic director of Shakespeare's Globe in London, between 1995 and 2005. His film appearances include Prospero's Books (1991), Angels and Insects (1995), Institute Benjamenta (1996), and Intimacy (2001). Rylance won the Academy Award and BAFTA Award for Best Supporting Actor for his portrayal of Rudolf Abel in Bridge of Spies (2015). Rylance played the title role in Steven Spielberg's The BFG (2016), a live-action film adaptation of the children's book by Roald Dahl, and appeared in Christopher Nolan's Dunkirk (2017), based on the British evacuation in World War II. He appeared as James Halliday in Spielberg's 2018 film Ready Player One, based on the novel of the same name.	GBR	/bztEZRyXrvW3Pg1fexNASXlZrq7.jpg
+80602	nm1347153	Tyler Perry	2	1969-09-14 00:00:00	\N	Tyler Perry (born Emmitt Perry, Jr.; September 13, 1969) is an African-American actor, director, playwright, screenwriter, producer, author, songwriter., and entrepreneur.\n\nAlready a successful artist in Southern theater, Perry began to make national celebrity status in 2005 with the release of his first film, Diary of a Mad Black Woman. He has won critical praise for playing Madea, a mentally strong woman who handles adversity with optimism and happiness; his critically acclaimed portrayal of her in the award-winning "Madea" series has caused him to be one of the most respected black actors in Hollywood.\n\nHe has produced multiple TV series as well as films, started a multiple year partnership with OWN (Oprah Winfrey Network), and opened his own film studio, Tyler Perry Studios, in Georgia.\n\nPerry was included in Time's list of the 100 most influential people of 2020. In 2022, he was inducted into the Black Music & Entertainment Walk of Fame.	USA	/8KU0OizemVLrERXt5HJIa0PAkIN.jpg
 3065081	\N	Lewis McAskie	0	\N	\N		\N	\N
 56101	nm0394531	Gerard Horan	2	1962-11-11 00:00:00	\N		GBR	/crvohW6KrgAZUgoBE8IwKN5ErxQ.jpg
 1539216	nm6916321	Ferdia Walsh-Peelo	2	1999-10-12 00:00:00	\N	Ferdia Walsh-Peelo was born on October 12, 1999 in Ashford, County Wicklow, Ireland. He is an actor, known for Sing Street (2016), CODA (2021) and Love Gets a Room (2021).	IRL	/zkBUotUEE6WNlKzd0QPwqf8PE3T.jpg
 3280234	\N	Calvin Clausell Jr.	0	\N	\N		\N	\N
 154785	nm0693957	Mark Povinelli	2	1971-08-09 00:00:00	\N	Mark Povinelli is an actor and stunt.	\N	/yG4uwd6VaX9ThGC4V9cXyIWJ1Hj.jpg
+226001	nm3812858	Ariana Grande	1	1993-06-26 00:00:00	\N	Ariana Grande-Butera (born June 26, 1993) is an American singer, songwriter, and actress. Her personal life and music have been the subject of widespread media attention. Grande has received numerous accolades throughout her career, including two Grammy Awards, one Brit Award, one Bambi Award, two Billboard Music Awards, three American Music Awards, nine MTV Video Music Awards, and 30 Guinness World Records.\n\nGrande began her music career at age 15 in 2008 Broadway musical 13. She rose to fame for playing Cat Valentine in the Nickelodeon television series Victorious (2010–2013) and Sam & Cat (2013–2014). Grande signed with Republic Records in 2011 after label executives viewed YouTube videos of her covering songs. Her 1950s doo-wop-influenced pop and R&B debut album, Yours Truly (2013), topped the US Billboard 200, while it is the lead single, "The Way", reached the top ten of the US Billboard Hot 100.  She continued to explore pop and R&B in her second and third studio albums, My Everything (2014) and Dangerous Woman (2016).  Dangerous Woman became her first of four consecutive number-one albums in the UK. Personal struggles influenced her trap-infused fourth and fifth studio albums, Sweetener (2018) and Thank U, Next (2019). Sweetener won the Grammy Award for Best Pop Vocal Album, and Thank U, Next broke the record for the largest streaming week for a pop album and was nominated for Album of the Year. The singles "Thank U, Next", "7 Rings", and "Break Up with Your Girlfriend, I'm Bored" made Grande the first solo artist to hold the top three spots on the Hot 100 simultaneously and the first woman to succeed herself at the top of the UK Singles Chart.\n\nIn 2020 Ariana collaborate on "Rain on Me" with Lady Gaga who win the Grammy Award for Best Pop Duo/Group Performance. Grande expanded on the trap genre with her sixth studio album, Positions (2020), which both the album and its title track debuted at number one in the UK and the US. Her collaborations with The Weeknd on the remixes of "Save Your Tears" and "Die For You" garnered her sixth and seventh US number-one singles, respectively.	USA	/hPSt9xVwUcyG2BJoJsDF3ODbGex.jpg
+484359	nm3264596	Kid Cudi	2	1984-01-30 00:00:00	\N	Scott Ramon Seguro Mescudi (born January 30, 1984), better known by his stage name Kid Cudi (often stylized as KiD CuDi), is an American rapper, singer, songwriter, record producer, and actor. He has widely been recognized as an influence on several contemporary hip hop and alternative acts. His lyrics are often autobiographical and describe his childhood hardships of depression, loneliness and alienation, his struggle with alcohol and drugs into adulthood, as well as themes of spirituality, heartbreak, dissipation and celebration. Cudi began to gain major recognition following the release of his first official full-length project, a mixtape titled A Kid Named Cudi (2008), which caught the attention of American musician Kanye West, who subsequently signed Cudi to his GOOD Music label imprint by late 2008.\n\nDescription above from the Wikipedia article Kid Cudi, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/z5TRmx4WQB9Ge1WQa6VdxBKnwmC.jpg
+1227717	nm2797744	Himesh Patel	2	1990-10-30 00:00:00	\N	Himesh Patel was born on October 13, 1990 in Huntingdon, Cambridgeshire, England as Himesh Jitendra Patel. He is an actor and writer, known for EastEnders: E20 (2010), My Pure Land (2017) and EastEnders (1985).	GBR	/fC6diZ0i3Epot9dRl7b2SSegf4L.jpg
+15091	nm0001491	Melanie Lynskey	1	1977-05-16 00:00:00	\N	Melanie Jayne Lynskey (born 16 May 1977) is a New Zealand actress. Known for her portrayals of complex women and her command of American dialects, she works predominantly in independent films. Lynskey is the recipient of two Critics' Choice Awards, a HCA Award, a Gracie, a New Zealand Film Award, a Hollywood Film Award, and a Sundance Special Jury Award, as well as Gotham, Satellite, Saturn, Golden Nymph, Independent Spirit, Screen Actors Guild, and Primetime Emmy Award nominations.\n\nDescription above from the Wikipedia article Melanie Lynskey, licensed under CC-BY-SA, full list of contributors on Wikipedia.	NZL	/kzrWI1sTgnA0H7TCIKzDOUtOW4n.jpg
+19654	nm0004821	Michael Chiklis	2	1963-08-30 00:00:00	\N	Michael Charles Chiklis (born August 30, 1963) is an American actor, voice actor, occasional director and television producer. Some of the previous roles for which he is best known include Commissioner Tony Scali on the ABC police drama The Commish, LAPD Detective Vic Mackey on the FX police drama The Shield, Thing in the Fantastic Four film series, and Jim Powell on the science-fiction, comedy-drama No Ordinary Family.	USA	/pAkKjbzxP6Z6Y5zAGpwmWQo1iji.jpg
 1437491	nm3663196	Ariana DeBose	1	1991-01-25 00:00:00	\N	Ariana DeBose (born January 25, 1991) is an American actress, dancer, and singer. Known for her performances on stage and screen, she has received multiple accolades, including an Academy Award, a British Academy Film Award and a Golden Globe Award. In 2022, Time magazine named her one of the 100 most influential people in the world.\n\nDescription above from the Wikipedia article Ariana DeBose, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/8HTSA2iVTsDN83OncAvFTcqxsAr.jpg
+25089	nm0803037	Tomer Sisley	2	1974-08-14 00:00:00	\N		DEU	/2Tqiq9ajbiA0OGbpQDorROU2SO7.jpg
 2225865	nm3174725	David Alvarez	2	1994-05-11 00:00:00	\N		\N	/gQ9VIVXq6N11LMhVaEEGmRD5uqA.jpg
+925	nm0002117	Paul Guilfoyle	2	1949-04-28 00:00:00	\N	Paul Guilfoyle is an American stage and screen actor, best known for playing Captain Jim Brass on the television series "CSI: Crime Scene Investigation". He graduated from Yale University in 1977 with a major in economics and studied at the Actor's Studio in New York City.\n\nHe is often mistakenly referred to as the son of character actor Paul Guilfoyle but they are not related.	USA	/c7unxeM13lF9pMhZhYwlNsSFjFe.jpg
+19976	nm0431451	Robert Joy	2	1951-08-17 00:00:00	\N	Robert Joy (born August 17, 1951) is a Canadian actor and producer.	\N	/kPY9ggs4qCi3oeEvkYP17Yvfm5r.jpg
 1423520	nm4576311	Mike Faist	2	1992-01-05 00:00:00	\N	Mike Faist is an American actor, dancer, and singer. He's starred in the original Broadway productions of Newsies and Dear Evan Hansen, and has starred in movies such as West Side Story (2021), The Grief of Others (2015), and I Can I Will I Did (2017).	USA	/fk7zMd0PAPyhUbEMVH0zzyzzDM7.jpg
 175829	nm0195421	Brian d'Arcy James	2	1968-06-29 00:00:00	\N	Brian d'Arcy James (born June 29, 1968) is an American actor and musician. He is known primarily for his Broadway roles, including Shrek in Shrek The Musical, Nick Bottom in Something Rotten!, King George III in Hamilton, and the Baker in Into the Woods, and has received three Tony Award nominations for his work.\n\nOn-screen, he is known for his recurring role as Andy Baker on the Netflix series 13 Reasons Why, Officer Krupke in West Side Story, and reporter Matt Carroll in Spotlight.\n\nDescription above from the Wikipedia article Brian d'Arcy James, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/2Gz3b0A20Vrq7aadGfjZekdgGFK.jpg
 74541	nm1015684	Corey Stoll	2	1976-03-14 00:00:00	\N	Corey Daniel Stoll (born March 14, 1976) is an American actor. He is best known for his roles as Congressman Peter Russo on the Netflix political thriller series House of Cards (2013–2016), for which he received a Golden Globe nomination in 2013, and Dr. Ephraim Goodweather on the FX horror drama series The Strain (2014–2017). Since 2020, he has portrayed Michael Prince, a business rival to protagonist Bobby Axelrod, in the Showtime series Billions. He was also a regular cast member on the NBC drama series Law & Order: LA (2010–2011) and portrayed Darren Cross / Yellowjacket in the Marvel Cinematic Universe film Ant-Man (2015). Other notable roles include an off-Broadway performance of Intimate Apparel (2004), Ernest Hemingway in the romantic comedy film Midnight in Paris (2011) a performance for which he was nominated for the Independent Spirit Award for Best Supporting Male, bulldog prosecutor Fred Wyshak in Black Mass (2015), and astronaut Buzz Aldrin in the biopic First Man (2018).\n\nDescription above from the Wikipedia article Corey Stoll, licensed under CC-BY-SA, full list of contributors on Wikipedia	USA	/etqmosIyf1xePKpi3i6rHJCm9GE.jpg
@@ -2708,6 +3610,40 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 2531143	nm4029272	Julius Anthony Rubio	2	\N	\N		\N	\N
 2721914	nm3433552	Tanairi Sade Vazquez	1	\N	\N		\N	/AvZ1DjSXCNT4Bvi0SzPftS1swnx.jpg
 3441020	nm5822012	David Aviles Morales	2	\N	\N		\N	\N
+3359748	\N	Jack Alberts	0	\N	\N		\N	\N
+3359747	\N	Ting Lik	0	\N	\N		\N	\N
+1566993	nm6670248	Lance A. Williams	2	\N	\N	Lance A. Williams is known for Whitney Houston: I Wanna Dance with Somebody (2022), Don't Look Up (2021) and The Equalizer 2 (2018).	\N	/9ITZKZYmSdk9i7c2rnvGjnvfE96.jpg
+3081416	\N	Shimali de Silva	0	\N	\N		\N	\N
+1218184	nm1782292	Hettienne Park	1	1983-03-07 00:00:00	\N		USA	/c5fZeiKZ6magmPWbLJkSjKm5oUX.jpg
+2503394	nm9770180	Rafael Silva	2	1990-09-07 00:00:00	\N		BRA	/tlLJZbGf0HEQaNbfuhEKXs5PluZ.jpg
+3096579	\N	Homa Sarabi Daunis	0	\N	\N		\N	\N
+3359750	\N	Barbara Douglass	0	\N	\N		\N	\N
+1232602	nm0661504	Erik Parillo	0	\N	\N		\N	\N
+3347891	\N	Robert Hurst Radochia	0	\N	\N		\N	\N
+2690142	\N	Conor Sweeney	0	\N	\N		\N	\N
+45396	nm0664061	Ross Partridge	2	1968-02-26 00:00:00	\N		USA	/4GCbT5B0WeoDkl5gor8NuAvy4mV.jpg
+1730738	nm0232426	Richard Donelly	0	\N	\N		\N	\N
+23626	nm0000630	Liev Schreiber	2	1967-10-04 00:00:00	\N	Isaac Liev Schreiber (born October 4, 1967) is an American actor, director, screenwriter, producer, and narrator. He became known during the late 1990s and early 2000s after appearing in several independent films, and later mainstream Hollywood films, including the first three Scream horror films (1996-2000), Ransom (1996), Phantoms (1998), The Hurricane (1999), Kate & Leopold (2001), The Sum of All Fears (2002), The Manchurian Candidate (2004), The Omen (2006), Defiance (2008), X-Men Origins: Wolverine (2009), Taking Woodstock (2009), Salt (2010), Goon (2011), Pawn Sacrifice (2014), Spotlight (2015), The 5th Wave (2016), and The French Dispatch (2021). He has also lent his voice to animated films such as My Little Pony: The Movie (2017), Isle of Dogs, and Spider-Man: Into the Spider-Verse (both 2018).\n\nSchreiber has also performed in several Broadway productions. In 2005, he won the Tony Award for Best Featured Actor in a Play for his performance in the play Glengarry Glen Ross. That same year, he made his debut as a film director and writer with Everything Is Illuminated (2005), based on the 2002 novel of the same name. In 2010, he narrated the HBO documentary Magic & Bird: A Courtship of Rivals. For his roles in television, he most notably portrayed the eponymous protagonist of the Showtime drama series Ray Donovan (2013–2020). The role has earned him five Golden Globe Award nominations and three Primetime Emmy Award nominations. He reprised the role in the television film Ray Donovan: The Movie (2022). He also narrates the HBO series Hard Knocks and 24/7, as well as various PBS programs.	USA	/26G7QjSb5ZazgWb9XB2X6SwcILQ.jpg
+2861577	\N	Samsara Yett	1	\N	\N		\N	/ytijuIDKR55LueYLEjagILFtLsI.jpg
+2828491	nm10912916	Meara Mahoney Gross	1	\N	\N		\N	/2FDxv4Om0p08N9Ey1PpKEsHgq3d.jpg
+3359754	\N	Jaden Onwuakor	0	\N	\N		\N	\N
+1459073	nm2381536	Staci Roberts	1	\N	\N		\N	/pMTz66JbivrLpOTjdEqyeQBzDJr.jpg
+3359759	\N	Wendy Bellevue	0	\N	\N		\N	\N
+3359761	\N	Mishka Yarovoy	0	\N	\N		\N	\N
+1544237	nm4114434	Chris Everett	1	\N	\N	Chris Everett is known for Don't Look Up (2021), About Fate (2022) and The Good House (2021).	\N	/qYE9yQJSC0GJeCW3qs30RfvwrUS.jpg
+133964	nm0587912	Annette Miller	0	\N	\N		\N	/dFYcQpvXzfCqgorOR67eie39QsW.jpg
+3359764	nm12060367	Stephen Thorne	2	\N	\N		\N	/1IdobCSx0cUxMBIEZmgumQGNkwJ.jpg
+3359771	\N	Aimee Doherty	0	\N	\N		\N	\N
+3359773	\N	Natalie Rebenkoff	0	\N	\N		\N	\N
+2464114	nm2175609	Gary Tanguay	2	\N	\N		\N	/5WnJ7WUceuarkEjZHoDPZsQA3Jy.jpg
+1183867	nm0528149	Georgia Lyman	1	1977-10-26 00:00:00	\N	Georgia Lyman was born on October 26, 1977 in Boston, Massachusetts, USA. Georgia is an actor, known for Castle Rock (2018), The Makeover (2013) and Brotherhood (2006).	USA	/ktLM8PeCXNjm7qu0jFKxgqmhI50.jpg
+1417399	nm0214912	Patricia DeHaney	1	\N	\N		\N	\N
+1389617	nm4410736	Ben Sidell	2	\N	\N		\N	/sykOYWpldybMVMaVQRidwdtOEMO.jpg
+118913	nm2305730	Therese Plaehn	0	\N	\N	Therese Plaehn is an actress.	\N	/ztGYkpvfYPXCMhhhRvmUKM4Txvs.jpg
+2465122	nm8866958	Omar Ghonim	2	1994-08-22 00:00:00	\N		USA	/4pSUOx8zsa0GpDzYW4kHCPP8i0U.jpg
+1128729	nm0642017	Jody O'Neil	0	\N	\N		\N	\N
+2803677	nm4775000	Meghan Leathers	1	\N	\N		\N	/g35VXs8OeebL0Yu3f5Wph0Ho6Jv.jpg
+1230050	\N	Ashleigh Banfield	1	1967-12-29 00:00:00	\N		CAN	\N
 1638835	nm1302113	Oliver Ryan	2	\N	\N		\N	/S0YPiYOSikfqjR6HMuxoFDzh0f.jpg
 1102260	nm1892299	Lara Jean Chorostecki	1	1984-09-24 00:00:00	\N	Lara Jean Chorostecki is a Canadian stage and screen actress.	CAN	/gBuEZfohaCyZS8FeOUYeJEqLpRY.jpg
 1982903	nm7950698	Gloria Obianyo	1	\N	\N		\N	/8vRsNhtxFzYsHQItIKwcMW9flts.jpg
@@ -2716,6 +3652,11 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 93491	nm2401020	Will Poulter	2	1993-01-28 00:00:00	\N	William Jack Poulter (born January 28, 1993) is an English actor. He first gained recognition for his role as Eustace Scrubb in the fantasy adventure film The Chronicles of Narnia: The Voyage of the Dawn Treader (2010). He received critical praise for his starring role in the comedy film We're the Millers (2013), for which he won the BAFTA Rising Star Award.\n\nPoulter starred in the dystopian science fiction film The Maze Runner (2014) and the sequel Maze Runner: The Death Cure (2018), the period epic film The Revenant (2015), the crime drama film Detroit (2017), the interactive science fiction film Black Mirror: Bandersnatch (2018), and the folk horror film Midsommar (2019). In 2021, he had a leading role in the Hulu miniseries Dopesick, for which he received an Emmy nomination for Outstanding Supporting Actor in a Limited or Anthology Series or Movie. In 2023, he joined the Marvel Cinematic Universe as Adam Warlock in Guardians of the Galaxy Vol. 3.	GBR	/9blYMaj79VGC6BHTLmJp3V5S8r3.jpg
 1133349	nm4456120	Elizabeth Debicki	1	1990-08-24 00:00:00	\N	Elizabeth Debicki (born 24 August 1990) is an Australian actress. After making her feature film debut in A Few Best Men (2011), she appeared in The Great Gatsby (2013) as Jordan Baker. Other roles are in the limited series The Night Manager (2016) and Widows (2018).	FRA	/nXXbGG1vCrHlscwqD55EGI9aHpA.jpg
 1696434	nm5837211	Austin Freeman	2	\N	\N	Austin Freeman is an American actor, born in Anderson, SC to Deana and Robert Roach, and Roger Freeman. He began acting in theatrical productions at the age of 16 where he discovered a love for entertainment. He received his Bachelor's in Theatre Performance with a Minor in Religious Studies from Young Harris College in 2012 and has been pursuing a career in entertainment with a passion. While he is a classically trained stage actor, Austin has performed in productions for theatre, feature film, short film, television, commercial, voice over, web series, and improv performances. He is a singer, musician, dancer, voice actor and combatant. He loves having the ability and opportunity to act and create stories about the human experience while fully experiencing and learning what it means to be human.	USA	/ayMPH1a0QKAeiCVk77L5i5IZdlc.jpg
+7404	nm0798971	Sarah Silverman	1	1970-12-01 00:00:00	\N	Sarah Kate Silverman (born December 1, 1970) is an American comedian, actress, and writer. Her comedy addresses social taboos and controversial topics, including racism, sexism, homophobia, politics, and religion, sometimes having her comic character endorse them in a satirical or deadpan fashion. She has won two Primetime Emmy Awards for her work on television.\n\nSilverman was a writer and performer on Saturday Night Live, and she starred in and produced The Sarah Silverman Program, which ran from 2007 to 2010 on Comedy Central, for which she was nominated for a Primetime Emmy Award for Outstanding Lead Actress in a Comedy Series. She released an autobiography The Bedwetter in 2010. She also appeared in other television programs, such as Mr. Show and V.I.P. and starred in films, including Who's the Caboose? (1997), School of Rock (2003), Wreck-It Ralph (2012), A Million Ways to Die in the West (2014) and Ralph Breaks the Internet (2018). In 2015, she starred in the drama I Smile Back, for which she was nominated for a Screen Actors Guild Award for Outstanding Performance by a Female Actor in a Leading Role.\n\nDuring the 2016 election, she became increasingly politically active; she initially campaigned for Bernie Sanders but later spoke in support of Hillary Clinton at the 2016 Democratic National Convention. She hosted the Hulu streaming television late-night talk show I Love You, America with Sarah Silverman from 2017 until late 2018.\n\nDescription above from the Wikipedia article Sarah Silverman, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/g5G711XyVokJm2RoItpkaHa8mkQ.jpg
+133967	nm0810952	Richard Snee	2	\N	\N		\N	/xLloIthzN9jPqKcgVjLAUqUEvWS.jpg
+2867221	\N	Darryl Wooten	2	\N	\N		\N	\N
+3360293	\N	Danielle Waxman	0	\N	\N		\N	\N
+3360294	\N	Jeffrey Smith	0	\N	\N		\N	\N
 565447	nm0694454	Romina Power	1	1951-10-02 00:00:00	\N	Romina Francesca Power is an American actress and singer born in Los Angeles, California. She is the daughter of Hollywood matinée idol Tyrone Power and actress Linda Christian. Romina Power was half of the music duo Al Bano and Romina Power, which gained popularity in many parts of the world during the 1980s.	USA	/mwrPRD0g0oZCQkPKASMyzsNQy3G.jpg
 2254	nm1478007	Curtiss Cook	2	\N	\N	Curtiss Cook is a film actor.	USA	/3mk5CZBzdjYUzmrfMDSnGJL4QIb.jpg
 2242772	nm7408602	Annelise Cepero	1	\N	\N	Annelise Cepero is an American actress, singer and dancer hailing from Yonkers, New York. She is now based in New York City.	\N	/vxtWQFZF70gsaDyHA6y2uQnEWgO.jpg
@@ -2730,14 +3671,43 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 236	nm0531628	Bill MacDonald	2	\N	\N	Bill MacDonald is known for A History of Violence (2005), The Long Kiss Goodnight (1996) and Nightmare Alley (2021).	\N	/rxbAbufSIWNo8OJvK2BO4cvWC41.jpg
 96510	nm0496606	Vadim Ledogorov	2	1957-05-05 00:00:00	\N		\N	/wgLcf6RCZeU3iB0PvUdqUxiViKC.jpg
 979216	nm1497615	Victor Cruz	2	1980-08-05 00:00:00	\N	Victor Cruz is an American actor, filmmaker and acting coach. He is known for guest roles in film and television, such as "Annie", "The Other Woman", "Law &amp; Order", and "The Humbling".	USA	/qPjjedetherS1O4W0Uv4A2usfOo.jpg
+59842	nm0321835	Jon Glaser	2	1968-06-20 00:00:00	\N	​From Wikipedia, the free encyclopedia.\n\nJonathan Daniel "Jon" Glaser (born June 20, 1968) is an American actor, comedian and television writer based out of New York City. He is best known for his work as a writer and sketch performer for many years on Late Night with Conan O'Brien, as well as for creating and starring in the Adult Swim series Delocated. He currently appears with the recurring role as Leslie Knope's rival, Councilman Jamm on the NBC series Parks and Recreation.\n\nLife and career\n\nGlaser was born in Chicago, Illinois on June 20, 1968, but was raised in Southfield, Michigan. Glaser is a graduate of the University of Michigan, where he performed in the sketch comedy troupes Comedy Company and Just Kidding with Jon Hein, he is a five-time Emmy nominee with the writing staff of Late Night with Conan O'Brien. He has appeared in the movies Pootie Tang, School for Scoundrels, and Be Kind Rewind, and he has guest-starred on comedy programs such as Curb Your Enthusiasm, Wonder Showzen, Bob's Burgers and Aqua Teen Hunger Force. He was also a lead voice actor in several animated comedy programs such as Stroker and Hoop, Freak Show, and Lucy the Daughter of The Devil. In 2012, he began a recurring role as Leslie Knope's rival, Councilman Jeremy Jamm in the fifth and sixth seasons of the NBC sitcom Parks and Recreation.\n\nGlaser is the creator and star of the live-action Adult Swim series Delocated, about "Jon", a man in the witness protection program with his own reality show. The show aired its final episode on March 7, 2013. Glaser's Delocated character, "Jon" was also featured as a DJ on an Adult Swim-themed radio station in the video game Saints Row: The Third.[1] In February 2012, Glaser appeared as the spokesman in a series of Subway commercials playing his Delocated character.\n\nGlaser was a member of the mainstage cast of The Second City during the mid-1990s, performing alongside future Saturday Night Live head writer Adam McKay and cast member Rachel Dratch, as well as future Mr. Show and 30 Rock cast member Scott Adsit. In Second City's award-winning revue Pinata Full of Bees, which was directed by Tom Gianas, Glaser sang about the importance of not betraying a friendship by pretending not to have legs in order to play in a wheelchair basketball league. He also provided musical accompaniment for the show's climax by drumming in a demonic pig mask, and appeared onstage throughout the show to pass judgement on audience members for laughing at jokes he considered socially irresponsible.\n\nGlaser's first published book My Dead Dad Was in ZZ Top, was released on February 8, 2011.	USA	/wJW4JrjHUo8SAptqlsfK3yZkBrx.jpg
+2913114	\N	Dorothy Dwyer	0	\N	\N		\N	/rzhSiepehOt82HPMx2uSvSmzZYf.jpg
+3360298	\N	Odis Spencer Jr.	0	\N	\N		\N	\N
+16828	nm0262635	Chris Evans	2	1981-06-13 00:00:00	\N	Christopher Robert Evans (born June 13, 1981) is an American actor. He began his career with roles in television series, such as in Opposite Sex in 2000. Following appearances in several teen films including 2001's Not Another Teen Movie, he gained attention for his portrayal of Marvel Comics character the Human Torch in 2005's Fantastic Four, and its sequel Fantastic Four: Rise of the Silver Surfer (2007). Evans made further appearances in film adaptations of comic books and graphic novels: TMNT (2007), Scott Pilgrim vs. the World (2010), and Snowpiercer (2013).\n\nHe gained wider recognition for his portrayal of Steve Rogers / Captain America in several Marvel Cinematic Universe films, namely Captain America: The First Avenger (2011), Captain America: The Winter Soldier (2014), and Captain America: Civil War (2016), and the ensemble films The Avengers (2012), Avengers: Age of Ultron (2015), Avengers: Infinity War (2018), and Avengers: Endgame (2019). His work on the Marvel series established him as one of the world's highest-paid actors.\n\nAside from comic book roles, Evans starred in the drama Gifted (2017), the mystery film Knives Out (2019), and the television miniseries Defending Jacob (2020). He made his directorial debut in 2014 with the romantic drama Before We Go, which he also produced and starred in. Evans made his Broadway debut in the 2018 revival of Kenneth Lonergan's play Lobby Hero, which earned him a Drama League Award nomination.\n\nDescription above from the Wikipedia article Chris Evans (actor), licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/3bOGNsHlrswhyW79uvIHH1V43JI.jpg
+1603919	\N	André Silva	0	1983-09-07 00:00:00	\N		\N	/zrJw7Fmd6V6l1L3i4fQhbI1gtz5.jpg
+141449	nm0923902	Lewis D. Wheeler	2	\N	\N		\N	/6jBaDldiWtPaVl7X6Uufkv0mLNt.jpg
+1600403	nm9301658	Zach Holmes	2	1991-09-11 00:00:00	\N	Zach Holmes was born on September 11, 1991 in Hobart, Indiana, USA as Zacharias Holmes. He is a writer and producer, known for Hollywood Uncensored (2021), blockheaDs 3 (2018) and Too Stupid to Die (2018).	\N	/q5HxqgzpKIwhR9bKy51z5V0vlzE.jpg
+1898527	\N	Caroline Bergwall	0	\N	\N		\N	\N
+3802916	nm11768843	Luan Gallagher	2	2000-09-27 00:00:00	\N		GBR	/vDgbFx5WJUcKHQ4NuTsDPlodZgi.jpg
 1253648	nm0911604	Jeff Ward	2	\N	\N	Jeffrey Ward is an actor and stunt performer.	\N	/mgFudU2FAOHUcYJDccPQipjAoQK.jpg
 1720614	nm4016292	Michael Andrew Baker	2	\N	\N		\N	/yww1ArQy1dRZFu5w7iwpT7AhSfe.jpg
 200999	nm0198489	Nancy Daly	0	\N	\N		\N	/8bk5wOqmN4l0eFOZ4JnieLgemWP.jpg
+930298	nm2020109	Ishaan Khattar	2	1995-11-01 00:00:00	\N	Ishaan Khattar is an Indian actor who works in Hindi films. The son of actors Rajesh Khattar and Neelima Azeem, he made his first screen appearance as a child in the 2005 film Vaah! Life Ho Toh Aisi!, which starred his half-brother Shahid Kapoor.\n\nKhatter had his first leading role in Majid Majidi's drama Beyond the Clouds (2017), in which his performance as a drug dealer won him the Filmfare Award for Best Male Debut. His first commercial success came with the romantic drama Dhadak (2018), and he has since starred in the British miniseries A Suitable Boy (2020).	IND	/tPKrj1MVELkcyGEr2YbyKAl5niO.jpg
 8691	nm0757855	Zoe Saldaña	1	1978-06-19 00:00:00	\N	Zoe Yadira Saldaña-Perego (née Saldaña Nazario; born June 19, 1978) is an American actress. After performing with the theater group Faces she appeared in two 1999 episodes of Law & Order. Her film career began a year later with Center Stage (2000) in which she portrayed a ballet dancer.\n\nAfter receiving early recognition for her work opposite Britney Spears in the road film Crossroads (2001), Saldaña achieved her career breakthrough with her work in numerous science fiction films, beginning in 2009 with her first of multiple appearances as Nyota Uhura in the Star Trek film series and her first appearance as Neytiri in the Avatar film series. She portrays Gamora in the Marvel Cinematic Universe, beginning with Guardians of the Galaxy (2014). Saldaña appeared in three of the five highest-grossing films of all time (Avatar, Avengers: Infinity War, and Avengers: Endgame), a feat not achieved by any other actor. Her films grossed more than $11 billion worldwide, and she is the second-highest-grossing film actress of all time as of 2019.\n\nDescription above from the Wikipedia article Zoe Saldaña, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/iOVbUH20il632nj2v01NCtYYeSg.jpg
 73457	nm0695435	Chris Pratt	2	1979-06-21 00:00:00	\N	Christopher Michael Pratt (born 21 June 1979) is an American actor, known for starring in both television and action films. He rose to prominence for his television roles, particularly in the NBC sitcom Parks and Recreation (2009–2015), for which he received critical acclaim and was nominated for the Critics' Choice Television Award for Best Supporting Actor in a Comedy Series in 2013. He also starred earlier in his career as Bright Abbott in The WB drama series Everwood (2002–2006) and had roles in Wanted (2008), Jennifer's Body (2009), Moneyball (2011), The Five-Year Engagement (2012), Zero Dark Thirty (2013), Delivery Man (2013), and Her (2013).\n\nPratt achieved leading man status in 2014, starring in two critically and commercially successful films: The Lego Movie as Emmet Brickowski, and Marvel Studios' Guardians of the Galaxy as Star-Lord. He starred in Jurassic World (2015) and Jurassic World: Fallen Kingdom (2018), and he reprised his Marvel role in Guardians of the Galaxy Vol. 2 (2017), Avengers: Infinity War (2018), Avengers: Endgame (2019), and the planned Guardians of the Galaxy Vol. 3. Meanwhile, in 2016 he was part of an ensemble cast in The Magnificent Seven and the male lead in Passengers.\n\nDescription above is from the Wikipedia article Chris Pratt, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/83o3koL82jt30EJ0rz4Bnzrt2dd.jpg
 543261	nm2394794	Karen Gillan	1	1987-11-28 00:00:00	\N	Karen Gillan (born 28 November 1987) is a Scottish actress, director, and screenwriter from Inverness, Scotland. She played the role of Amy Pond, companion to the Eleventh Doctor, in the BBC One science fiction series Doctor Who (2010–2013). In film, she portrayed Nebula in the Marvel Cinematic Universe films Guardians of the Galaxy (2014) and Guardians of the Galaxy Vol. 2 (2017), Avengers: Infinity War (2018), Avengers: Endgame (2019) and Thor: Love and Thunder (2022), and also played Ruby Roundhouse in the box-office hit Jumanji: Welcome to the Jungle (2017). In 2018, she released her first feature film as writer and director, titled The Party's Just Beginning.\n\nDescription above from the Wikipedia article Karen Gillan, licensed under CC-BY-SA, full list of contributors on Wikipedia.	GBR	/kFLXcFdok3ShDxylr3WNreQphQm.jpg
+13250	nm0632689	Hidetoshi Nishijima	2	1971-03-29 00:00:00	\N	Hidetoshi Nishijima (born March 29, 1971) is a Japanese actor. He is widely regarded as one of Japan's leading actors in numerous films and television drama series. He has appeared in a wide range of films from epic science fiction films such as Shin Ultraman (2022) to small-scale art films such as Dolls (2002). He is best known internationally for his leading role in the film Drive My Car (2021). He received the Japan Academy Film Prize for Best Actor for the film.\n\nDescription above from the Wikipedia article Hidetoshi Nishijima, licensed under CC-BY-SA, full list of contributors on Wikipedia.	JPN	/3FBdbeMMWfyKmHS5j8IECwsZWcY.jpg
 12835	nm0004874	Vin Diesel	2	1967-07-18 00:00:00	\N	Mark Sinclair (born July 18, 1967), known professionally as Vin Diesel, is an American actor and producer. One of the world's highest-grossing actors, he is best known for playing Dominic Toretto in the Fast & Furious franchise.\n\nDiesel began his career in 1990, but faced difficulty achieving recognition until he wrote, directed and starred in the short film Multi-Facial (1995) and his debut feature Strays (1997); the films prompted Steven Spielberg to cast Diesel in the war epic Saving Private Ryan (1998). Diesel subsequently voiced the titular character in The Iron Giant (1999) and then gained a reputation as an action star after headlining the Fast & Furious, XXX, and The Chronicles of Riddick franchises. He is slated to appear in the upcoming Avatar films.\n\nDiesel voices Groot and Groot II in the Marvel Cinematic Universe (MCU); he portrayed the characters in six superhero films, beginning with Guardians of the Galaxy (2014). Diesel has reprised his role as Groot for the Disney+ animated shorts series I Am Groot (2022–present), the television special The Guardians of the Galaxy Holiday Special (2022), and the animated film Ralph Breaks the Internet (2018). Diesel achieved commercial success in the comedy The Pacifier (2005) and his portrayal of Jackie DiNorscio in Find Me Guilty (2006) was praised.\n\nHe founded the production company One Race Films, where he has also served as a producer or executive producer for his star vehicles. Diesel also founded the record label Racetrack Records and video game developer Tigon Studios, providing his voice and motion capture for all of Tigon's releases.\n\nDescription above from the Wikipedia article Vin Diesel, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/7rwSXluNWZAluYMOEWBxkPmckES.jpg
 51663	nm0348231	Sean Gunn	2	1974-05-22 00:00:00	\N	Sean Gunn (born May 22, 1974) is an American actor. He is known for his roles as Kirk Gleason on The WB series Gilmore Girls (2000–2007), Kraglin Obfonteri in the Marvel Cinematic Universe films Guardians of the Galaxy (2014), Guardians of the Galaxy Vol. 2 (2017), Avengers: Endgame (2019), Thor: Love and Thunder (2022) and Guardians of the Galaxy Vol. 3 (2023), and Weasel and Calendar Man in the Warner Bros./DCEU film The Suicide Squad (2021).\n\nDescription above from the Wikipedia article Sean Gunn, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/jXCNsh2c7vKWhWgpSGEdgFSLjxm.jpg
+1509659	nm4392528	Toko Miura	1	1996-10-20 00:00:00	\N		JPN	/kaFqvlsnJ7dtW6mvCuvRsirSS4U.jpg
+124402	nm2347861	Masaki Okada	2	1989-08-15 00:00:00	\N	Masaki Okada (岡田 将生 Okada Masaki, born August 15, 1989 in Tokyo) is a Japanese actor. He is best known for his roles as Sekime Kyogo in the drama Hanazakari no Kimitachi e and as Takuma Kakinouchi in the 2009 film I Give My First Love to You.	JPN	/j8yU6eLFPzxuucMjb8UapQly9cT.jpg
+121750	nm1929776	Reika Kirishima	1	1972-08-05 00:00:00	\N		JPN	/kRW2s6ZgKopON6xKy31ioC4TEWP.jpg
+3154127	nm12719478	Park Yu-rim	1	1993-02-06 00:00:00	\N		KOR	/1cVKz3v0zY1FTwjR1oFMYgf3Rmx.jpg
+3154128	nm12719479	Jin Dae-yeon	2	\N	\N		\N	\N
+2547327	nm12719480	Sonia Yuan	1	1990-09-21 00:00:00	\N		\N	/lYfuqacJq65dvrBcOC9iK4KVly8.jpg
+3154131	nm13161402	Ahn Hwi-tae	2	1984-08-29 00:00:00	\N		\N	/5Qo9QZss31IDkZW0bcNoWpIylqX.jpg
+111636	nm2015658	Perry Dizon	2	\N	\N		\N	/qhBA5QxtpnACIJmx9nKzzZYmBII.jpg
+1392004	nm1209115	Satoko Abe	1	\N	\N		\N	\N
+2795990	\N	Hiroko Matsuda	0	\N	\N		\N	\N
+2424135	nm3825417	Toshiaki Inomata	2	\N	\N		\N	\N
+2519419	nm6228555	Takako Yamamura	0	\N	\N		\N	\N
+1374556	nm3628358	Ryo Iwase	2	1980-11-10 00:00:00	\N		JPN	/5C3BKyXtqejepVOVIz6bwRHoEYa.jpg
+3273186	\N	Faisal Anwar	0	\N	\N		\N	\N
+3414899	nm11757604	Kamal Zharif	2	\N	\N		\N	\N
+3414900	nm2950254	Massimo Biondi	0	\N	\N		\N	\N
+2256273	\N	Shoichiro Tanigawa	0	\N	\N		\N	\N
+2046873	nm6816275	Chris Wolfe	2	\N	\N		\N	/k3QnVCqxdL5khYaWcR1IFODkA3r.jpg
 4024360	\N	Jasmine Sunshine Munoz	0	\N	\N		\N	\N
 3125907	nm4530613	Giovannie Cruz	1	\N	\N		\N	\N
 4028624	nm14819380	Noa Raskin	0	\N	\N		\N	\N
@@ -3407,6 +4377,31 @@ COPY public.cast_races (id, race_id, cast_member_id) FROM stdin;
 229	5	1375002
 230	1	1317730
 231	5	1383612
+232	1	72129
+233	1	6193
+234	1	5064
+235	3	1281250
+236	1	21007
+237	1	40900
+238	3	80602
+258	1	226001
+259	3	484359
+260	4	484359
+261	5	1227717
+262	1	15091
+263	1	19654
+264	1	23626
+265	1	7404
+266	1	16828
+275	3	205923
+276	3	1856875
+277	5	2974
+278	1	19995
+283	3	2214765
+284	4	2214765
+285	2	227564
+286	1	29862
+287	1	1102260
 \.
 
 
@@ -3987,6 +4982,478 @@ COPY public.credits (id, movie_id, "character", "order", cast_member_id) FROM st
 63a37e42435011009f7486ec	545611	Pedestrian (uncredited)	40	1593376
 63a37e4c20ecaf00b3b7a301	545611	Chinese Choir (uncredited)	41	1466559
 63a37e5520ecaf009fef6e9f	545611	Mei Li (uncredited)	42	3169828
+611e89f4385202005d6794dd	776503	Adele Girl	15	3204233
+611e8a11d70594002edf27d7	776503	Harry Potter Boy	16	3204235
+611e8a229f0e1900440efac9	776503	Shaker Girl	17	3204238
+611e8a31cca7de007cf359cd	776503	Tall Boy	18	3204239
+611e8a3f2dc44e0045c0612d	776503	Shy Girl	19	3204240
+611e8a4f2e06970073560c07	776503	Broadway Boy	20	3204241
+611e8a60385202005d6795d1	776503	Off Key Girl	21	1920010
+611e8a71c14fee007dd68356	776503	Suave Boy	22	3204243
+611e8a832dc44e002c478bde	776503	Bass Boy	23	1758334
+611e8a92fd4a960047f661fb	776503	Mondo	24	1849970
+611e8aa0a22d3e005e29ff2e	776503	Jimmy	25	133068
+611e8aac1bf8766eafa835e0	776503	Chubs	26	1244097
+611e8abe5437f5005de5fadb	776503	Bar Bully	27	1992671
+611e8acdc14fee007dd683c3	776503	Bartender	28	1772814
+5fdfc36f1b157d0040c5dac9	776503	Gio Salgado	29	1184209
+611e8b31ac4161002c348f82	776503	John Kaufman	30	3204256
+611e8b89595a560075dd8272	776503	Misha	31	2864883
+611e8b969f0e190073401628	776503	Nina	32	1942150
+611e8ba3f031740045ac7a41	776503	Barb	33	1371551
+5fdfc345a0b690003ea296d0	776503	Angela	34	999737
+611e8bd2595a560046848fad	776503	Chet Turner	35	1026774
+611e8be19f0e190028dc83ef	776503	Joanne Biles	36	557599
+611e8c26385202005d679896	776503	Coast Guard Boarding Officer	37	3204270
+611e8c38d96c3c002b70e653	776503	Coast Guard Officer	38	141448
+611e8c49f03174005d565c37	776503	Monitor #1	39	3204272
+611e8c57595a56002a0d3e4e	776503	Monitor #2	40	3204274
+611e8c66d1a8930072539397	776503	Vocalist	41	3204275
+611e8c9f5437f5004514f8e4	776503	Tanya	42	3204277
+611e8cb03a4a12005e3acf59	776503	Female Jury Member	43	1956550
+611e8cc1d70594002edf2b0c	776503	Male Jury Member	44	166594
+5fdfc367764841003f6f58d5	776503	Cashier (uncredited)	45	2864859
+61189a60cee481004590a920	776503	Shopper Woman (uncredited)	46	2035828
+63965b502cefc2008ca72e17	776503	Jackie Rossi's Attorney (uncredited)	47	3405715
+63c5f121c51acd00916bfb6c	776503	Bass Boy	48	3876864
+62371fb38ec4ab0077d2e642	777270	Mrs Kavanagh	15	1517871
+623720098e8d300047b937a6	777270	Paddy Kavanagh	16	3197731
+618d0aabd55e4d008ee49d0a	777270	Miss Lewis	17	2946871
+5fdc2197cf48a10041486b7c	777270	Bobby Frank	18	1287074
+5fdc21cb109dec0040f30e1b	777270	Mr Singh	19	1821649
+61e321287304b50042a47b83	777270	George Malpass as Scrooge	20	195309
+61e32145cae632009ead90a6	777270	Joseph Tomelty as Marley	21	26860
+620fbc22d100b6004198f1c9	777270	Auntie Eileen	22	3432200
+620fbcb5d100b6004198f343	777270	Mr Kavanagh	23	3432201
+620fbcfc396e970042c1bfb2	777270	Mickey Clanton	24	3432204
+629f81ced2147c117da4615c	777270	Billy Clanton Jr	25	3313929
+621dfd852b8a43006edfdbf2	777270	Cousin Frances	26	3448285
+621dfdbdf12cf40043f2b399	777270	Cousin Vanessa	27	3448286
+621dfdf33acd20006b9cab52	777270	Cousin Charlie	28	3448288
+621dfe219f1be7006b7f6061	777270	Auntie Mary	29	3448289
+621dfe62058224001b4cd8a3	777270	Uncle Sammie	30	3448291
+621dfeab3acd20001825c4c7	777270	Uncle Tony	31	3448293
+621dff7f3acd200042f7c704	777270	Ronnie Boyd	32	3448294
+621dffae2b8a430044550b85	777270	Karen Lambert	33	3448296
+621dfffc12aabc0042aeb781	777270	Walter (Policeman)	34	3448298
+621e0068eea34d0068faec8b	777270	Mary Kavanagh	35	3448299
+623720bedb4ed60073bae6cd	777270	Sharon Nicholas	36	3251452
+621e00388a88b2006dd2efb9	777270	Mrs Ford	37	2568528
+621e009a902012001bccee34	777270	Darlene Clanton	38	3448300
+621e00def12cf4001b7d6952	777270	Fancy Clanton	39	3448308
+621e011bf12cf4006c2ee26a	777270	Young Bill	40	3448313
+621e0112eea34d0043f88ef5	777270	Supermarket Manager	41	3427615
+6237201e075288001c5d5927	777270	Rioter	42	3472653
+62372148209f18001b5ed385	777270	Soldier	43	3417990
+5e4d993e54a098001306f500	646380	Kate Dibiasky	0	72129
+5f874bf3d4b9d90037273f96	646380	Dr. Randall Mindy	1	6193
+5f874bfda275020039cb574b	646380	President Orlean	2	5064
+5f5a410d56b9f7003477f413	646380	Dr. Teddy Oglethorpe	3	1281250
+5f874c27a1c59d003512e3d7	646380	Jason Orlean	4	21007
+5eb99fbac3514c00205f42f3	646380	Brie Evantee	5	112
+6021b581ea37e0003f3fb01e	646380	Peter Isherwell	6	40900
+5fb8b8d72afb25003dfe0313	646380	Jack Bremmer	7	80602
+5f874c113a993700346174a6	646380	Yule	8	1190668
+5fb8b8d13bd26e003f8c1c79	646380	Benedict Drask	9	2372
+5f874c09a1a9ba00364b401c	646380	Riley Bina	10	226001
+5f874c18fcf907003706e90d	646380	DJ Chello	11	484359
+5f874c7c2cefc200361cde90	646380	Phillip	12	1227717
+5fb8b909a24c50003f2f040f	646380	June Mindy	13	15091
+6021f37dd6c300003e67d25f	646380	Dan Pawketty	14	19654
+5f874c96d4b9d90037274128	646380	Adul Grelio	15	25089
+60b3b1ffc490480059720122	646380	General Themes	16	925
+615d8ef46beaea0042a21ec5	646380	Congressman Tenant	17	19976
+61c95e88ca8354005f419677	646380	Oliver	18	3359748
+61c95e4937b3a9008fc6fdcd	646380	Win	19	3359747
+61c58ca1b042280041aa2d6a	646380	Daniel	20	1566993
+61c58cbe9c24fc0062880df3	646380	Nisha	21	3081416
+61c58cceaaec710062825a9a	646380	Dr. Calder	22	1218184
+61c95f4ca93d25001c2ab34d	646380	Nasa Scientist	23	2503394
+61c58d6baaec7100a4a63404	646380	Old Aide #1	24	188049
+61c58d7819ab590019f0c7a8	646380	White House Office Worker	25	3096579
+61c9601cbe2d49001cc26d27	646380	Office Worker	26	3359750
+61c58d8ab6c264001cf6c617	646380	Anchor Reporting On Colon	27	1956550
+61c58d98efd3c2001c3144d7	646380	Sherriff Conlon	28	1232602
+61b92ddaa3d027001d323427	646380	Evan Mindy	29	3347891
+61b92d9cd1444300413d044b	646380	Marshall Mindy	30	2690142
+60b3b245b7b69d00405961a3	646380	Keith Ollens	31	45396
+61c58dce21c4ca0043e7505a	646380	Old Aide #2	32	1730738
+61b92bf943999b00645a3ed9	646380	Bash Narrator (voice)	33	23626
+61c58de1bb10570063f763a7	646380	Isherwell Child Aide	34	2861577
+61c58dede72fe800610fcce2	646380	Isherwell Child Aide	35	2828491
+61c9607ae72fe8001c101ae9	646380	Isherwell Child Aide	36	3359754
+61c58dffd861af001b0de628	646380	Linda Dicalio	37	1459073
+61c960c5be2d49006143c517	646380	Isherwell Child Handler	38	3359759
+61c960e98813e4001cdf66c1	646380	Executive	39	3359761
+61c9611fecaef50042a87e30	646380	Chief Editor Paula Woods	40	1544237
+61c58e18aaec710062825b3f	646380	Mrs. Tanken	41	133964
+61c9625633ad8f001fb6cea0	646380	Benjamin	42	3359764
+61c964bd8d52c90061bf1d85	646380	Passerby	43	3359771
+61c964d5ecaef5008eb8973c	646380	Talent PA	44	3359773
+61c964f0511d09001df46199	646380	News Anchor #2	45	2464114
+61c9652fa055ef001c48c56d	646380	Groomer Thalia	46	1183867
+61c965787dfda600425b0084	646380	Hair Person	47	1417399
+61c965d26476540061d8ff50	646380	Stage Manager	48	1389617
+61c9668f07291c00421968c5	646380	Autopsy Editor In Charge	49	118913
+61c966c037b3a9001d806c4b	646380	Damian	50	2465122
+61c96772f5f1c50061ba0e8f	646380	Stage Manager #2	51	1128729
+61c9e67fce9e9100624e6080	646380	Media Quant	52	2803677
+61c9e6e6511d090043d7c223	646380	Dalia Hensfield	53	1230050
+61c9e7f581a7fc00917071c5	646380	Sarah Benterman	54	7404
+61c9e813b6c264001cfd8f6c	646380	Senator Lerner	55	133967
+61c9e862549dda009c5baf88	646380	FBI Agent	56	2867221
+61c9e8a18813e40054c10f83	646380	College Girl	57	3360293
+61c9e912a055ef008e484e90	646380	Blind Man FBI Agent	58	3360294
+61c9e92bb6c26400610c36b2	646380	Meow Man	59	59842
+61c9e96ecdbaff009cb30a1c	646380	Old Tough Lady	60	2913114
+61c9e9a48813e4007756a2fe	646380	Chief Justice	61	3360298
+61ca67346476540061dab652	646380	Devin Peters (uncredited)	62	16828
+61ccef11e258600043d5bff8	646380		63	1603919
+61db52ef681888006828cfca	646380	Mission Coordinator	64	141449
+6213e9b2383df2006bbe26c5	646380	#LaunchChallenge MeTuber (uncredited)	65	1600403
+624f1633396e9711dbe4f345	646380	Teen Girl Friend	66	1898527
+63816616229ae215b45df842	646380	Figurante	67	3802916
+63dd426fcd204600e20ddc38	646380	Raghav Manavalan	68	930298
+6038f20f68b1ea006cb988af	758866	Yūsuke Kafuku	0	13250
+6038f22de4b576004202b91c	758866	Misaki Watari	1	1509659
+6038f279d400f300691f7842	758866	Kōshi Takatsuki	2	124402
+6038f311f3e0df0023239042	758866	Oto Kafuku	3	121750
+60eb31a7ce5d820047017b8a	758866	Lee Yoo-na	4	3154127
+60eb31b6a14e10004727a34f	758866	Gong Yoon-su	5	3154128
+60eb31c59824c800465c2c9d	758866	Janice Chang	6	2547327
+60eb321853f833005d1fec12	758866	Ryu Jong-ui	7	3154131
+60eb31f8140bad0046f17114	758866	Roy Rossello	8	111636
+60eb31d629c6260047c401da	758866	Yuzuhara	9	1392004
+61ff3fa3dd731b001c032a15	758866	Yumi Etô	10	2795990
+61ff3fb7021cee00e00dff67	758866	Takashi Kimura	11	2424135
+61ff3fc022931a0069769968	758866	Kaoru Komagata	12	2519419
+61ff3fcaad59b5008a6914e9	758866		13	1374556
+61ff3fd59f5dfb006cd5219b	758866		14	3273186
+61ff4001b3e627001daf8810	758866		15	3414899
+61ff400ab3e62700b24a7452	758866		16	3414900
+61ff4022bcf8c9009e2e88dc	758866		17	2256273
+60621d77d7a70a007430f1df	438631	Shadout Mapes	15	1856875
+604c3692ae28110029cfb466	438631	Lieutenant Lanville	16	2974
+61098872dcf875004856d399	438631	Herald of the Change	17	3185383
+6109894e255dba002de4620e	438631	Bene Gesserit Sister	18	261927
+617019e6a097dc00920af978	438631	Arrakeen Residency Gardener	19	2411333
+617019e6a097dc0065e51a15	438631	Sardaukar Bashar	20	178629
+5e446b483dd12600165a37d1	438631	Hawat Specialist	21	1638835
+5e446b99596a91001301aefc	438631	Harkonnen Trooper	22	1929092
+5e446a8a41465c001ad29ace	438631	Harkonnen Trooper	23	1083177
+616d8946ba131b008e16d46f	438631	Harkonnen Trooper	24	3275311
+617019e6d4b9d9008a7b018e	438631	Sardaukar Assassin	25	1269682
+610988955541fa005d8e28cf	438631	Shamir	26	3063993
+617019e6d4b9d9008a7b0191	438631	Tanat	27	1466868
+5e35cc0c4ca676001a513c4a	438631	Female Fremen	28	1982903
+6195ce78fc5f060046a85373	438631	Male Fremen	29	2160722
+6195ceb071458f006186945b	438631	Baron Servant	30	3314410
+6195ceea29733800430b2097	438631	Baron Servant	31	3314411
+6195cf1ce16e5a008ca8be81	438631	Atreides Lieutenant	32	2158768
+5e446a680c2710001a84e594	438631	Sardaukar Soldier	33	1488465
+6195d037e16e5a002b4ecb65	438631	Human Spider Proxy	34	3314417
+6195d078e16e5a0044d5d7aa	438631	Harkonnen Guard	35	2059373
+6195d0abae3843006171c145	438631	Bene Gesserit Ancestor (voice)	36	59051
+6195d0b9528b2e008b2e9ed6	438631	Bene Gesserit Ancestor (voice)	37	19995
+6195d0c69512e1002afe9ce1	438631	Bene Gesserit Ancestor (voice)	38	53934
+6199f1864975600088f4096b	614917	Tunde Price	15	2988968
+6199f1c271458f008af38111	614917	Isha Price	16	2544618
+6199f1f88de0ae00632b1a69	614917	Lyndrea Price	17	1103516
+6199f2248de0ae00632b1aa8	614917	Ms. Strickland	18	150062
+6199f24c71458f004298ddad	614917	PV CC Tennis Pro	19	111945
+6199f2971feac10042b9e3cd	614917	TD	20	3318577
+6199f2ccbc2cb300427db0cb	614917	Monsta	21	2444530
+6199f2ef528b2e008b350a83	614917	Old Patron	22	2215982
+6199f33271458f002aa49591	614917	Bud Collins	23	56267
+6199f3a396033100294c6cbb	614917	Incredulous Pro	24	1169291
+6199f7ee35db45008b16057d	614917	Baffled Pro	25	3318590
+6199f82b1e259a00274b588d	614917	John McEnroe	26	2299496
+6199f8debe7f35002ad342fb	614917	Pete Sampras	27	3318591
+6199f91b2716710092ed08cc	614917	Tournament Director	28	1395234
+6199f94a528b2e008b350ec1	614917	Stacey	29	1988069
+6199f97a52dc7f002abd35cd	614917	Stacey's Dad - Trevor	30	1497866
+6199f9a2c0ae36002b607f02	614917	Line Judge	31	2027042
+6199f9c2bc2cb30090cfce4c	614917	Girl #3 Father	32	1346089
+6199fa374f9a99004372a207	614917	Deputy #1	33	1388183
+6199fa599603310043f558af	614917	Deputy #2	34	1093502
+6199fa7d70b444006703a9f7	614917	Tournament Official	35	122518
+6199faac297338004310d492	614917	Tennis Father #2	36	2943430
+6199fb1b70b444002ca3809e	614917	Matthew Titone	37	149641
+6199fb464f9a990098cf097b	614917	Another Girl	38	3318599
+6199fb68af58cb00666bcff7	614917	Barry	39	2243207
+6199fba08de0ae00632b23d1	614917	Jennifer Capriati	40	3318600
+6199fbce1feac10023a9b3de	614917	ESPN Reporter	41	129595
+6199fbf6297338002910d9fc	614917	Reporter (Florida)	42	2885791
+6199fc30be7f35006499970f	614917	Patrick Dougherty	43	10581
+6199fc5f67b61300946f60b0	614917	Shaun Stafford	44	2999839
+6199fc7f5c071b0065f51b95	614917	Tennis Announcer	45	3238506
+6199fcd1e3294300651627dc	614917	Arantxa Sanchez Vicario	46	3318601
+6199fd0abc2cb300427db7bf	614917	Pro Shop Attendant	47	2231256
+619a62cc5c071b002a807f8d	614917	Another Incredulous Pro	48	1128858
+619a62edbc2cb30090d029a3	614917	Girl #2	49	3318930
+619a63851feac100661bf956	614917	Girl #3	50	3318931
+619a63abbe7f3500907da6b8	614917	Girl #5	51	3318932
+619a63e49603310062d4c6b5	614917	Girl #6 Father	52	1720614
+619a642f9512e10088de04fc	614917	Girl #6 Father	53	3318933
+619a6751497560006158e29d	614917	Girl #8	54	3318942
+619a690652dc7f004398ad4d	614917	Girl #8 Father	55	1218244
+619a69961feac10042ba4b27	614917	Woman In Crowd	56	2174197
+619a69f1497560006158e7a6	614917	Chair Ump - Pro Match	57	3318958
+619a6a0b35db45008b167587	614917	Neighbor	58	1808343
+619a6a59c0ae360044f70cbc	614917	Tournament Official - Oakland Coliseum	59	1437829
+619a6c46be7f35002ad3a5aa	614917	Pro Match Newspaper Reporter	60	100489
+619a6c6e63536a002a7ecfa5	614917	Pro Match Tournament Staff	61	1452949
+619a6cb49512e1002a05a224	614917	Tennis Official	62	1677824
+619a6cee70b44400670424fd	614917	Pro Match Line Judge	63	2655218
+619a6d245c071b002a80939f	614917	Pro Match Net Judge	64	3318986
+619a6d8771458f00618d3663	614917	Mother	65	1277794
+619a6dac71458f00618d367f	614917	Male TV Announcer	66	102777
+619a6dedbe7f35006499fbfc	614917	Net Cord Linesman	67	3318988
+619a6e2552dc7f004398b7a2	614917	Rivera Country Club Waitress	68	3318989
+619a6e5dc0ae360089112153	614917	Chair Ump - Stafford Match	69	3318990
+619a6e802716710043e809f4	614917	Shouting Spectator	70	2200315
+619a6eb7af58cb002a5f0264	614917	Female TV Announcer	71	3318992
+646cb2c2c3514c2b0851fc93	614917	Pro Match TV Reporter	72	2046873
+619a6f33c0ae36006218f08d	614917	AP3	73	113231
+619a6f9d70b44400424939f7	614917	Venus Fan	74	118895
+619a704063536a002a7ed5e4	614917	Tennis Coach	75	2766415
+619a70631feac100905a5b57	614917	Tennis Vendor	76	3125863
+619a716c70b444002ca3f4e3	614917	Country Club Poolside Gal	77	1532940
+619a71cd70b4440042493d21	614917	Elite Tennis Player	78	1730574
+619a71ec4f9a9900244fc260	614917	Tennis Pro	79	1790593
+619a72a64f9a990043730e0f	614917	Spectator	80	3319003
+619a72c9e2ff32004374ea74	614917	Referee	81	2935410
+619a735567b61300447cfec6	614917	Line Judge	82	2792762
+619a73d75c071b00920fe2e9	614917	Tennis Player	83	3319010
+619a76cf71458f00618d497f	614917	Country Club Woman	84	1759682
+619a77421feac100905a690e	614917	Parent	85	2441587
+619a77fd96033100294cf80a	614917	Audience Member	86	3319026
+619a787670b444002ca402b0	614917	Florida TV Reporter	87	1408766
+619a789871458f002aa5203c	614917	Tennis Pro	88	2039574
+61aaed3b8efe73005fb5ef41	718032	Donna Kane	15	3334741
+6143782e85da1200629fcec7	718032	Gale	16	52792
+61aaeccb4f3a4c001c8b4b83	718032	Steve	17	1705236
+60bf939c96e30b00790a1bd7	718032	Brian	18	3029979
+61aaed4fb3e62700429f2903	718032	Sue Pomerantz	19	3159120
+61aaed5ccb75d1008aa08ce2	718032	Frisbee Kahill	20	2281194
+61aaed9bb3e62700429f2a7c	718032	Mr. Jack	21	2354448
+61aaeda2cfe48f0061fd1aea	718032	Brenda	22	1877835
+6190009b20e6a50091903201	718032	B. Mitch Reed	23	1656863
+61523b40158c850042563d43	718032	Brenda	24	968089
+61aaedf4d6d64d00426a1b85	718032	Mioko	25	1502452
+61aaedff0f2ae10062c72d16	718032	Kimiko	26	3235986
+60bf93670bc5290029e9a5cb	718032	Kiki Page	27	1774266
+61aaee250f2ae1001bb5e422	718032	Vic	28	1185053
+61aaee39cfe48f0061fd1c10	718032	Mark	29	3334744
+61aaee98ea39490089571499	718032	Tim	30	3334746
+61aaeea5fe5c91008d4d1e37	718032	Kirk	31	3334748
+61aaeec26728a8001c48e172	718032	Greg Valentine	32	3334749
+601110fbd7cd06003c092f09	718032	Long Hair Freak	33	183519
+60bf93b55b1240007a73d180	718032	Fair Goer #1	34	3118524
+60bf93f0fdc1460077006db5	718032	French Waiter	35	1738122
+60bf944aeb79c200579e957f	718032	Armand	36	1759243
+60bf946bfdc146003f85b565	718032	Valet	37	3118531
+60bf94c5d7fbda0029b5490a	718032	Cop	38	1709422
+61cfccfaa6e2d2006646d2f3	718032	Sonny & Cher Tech	39	1661084
+60bf9525f5c82400405ba99f	718032	Customer #6	40	2949654
+60bf9530992fe6006f3e34a9	718032	Photographer	41	1053402
+619320d0957e6d0060ae91f2	718032	Ray	42	60960
+60bf953bd7fbda0029b549e7	718032	Guillermo	43	2621301
+60bf954996e30b0029fff275	718032	Cop #5	44	3118541
+60bf95578a88b2003fef1a93	718032	Photographer	45	1983914
+61ab090e6728a80041a4766a	718032	Tiny Toes Girl	46	8700
+61d8750ca3e4ba0040d55335	718032	Sharon	47	3372842
+61db7d4c665408001e4e08f8	718032	Joel Wachs Mom	48	162609
+6441b1cee2bca804b542f73b	718032	Reporter	49	1351363
+632c941ec2f44b00838e78d1	718032	Sam Harpoon	50	1210997
+60bf945b96e30b0058bff34d	718032	Latin Lady (uncredited)	51	3118530
+60bf94d413a3880041ac6638	718032	Upscale Restaurant Patron (uncredited)	52	2573644
+60bf95760bc529006f2a8217	718032	Campaign Employee (uncredited)	53	2882010
+60955f6efad8e9003c4819c2	718032	Driver (uncredited)	54	559644
+60bf95828a88b20029b4624a	718032	Teen Fair Goer (uncredited)	55	3118542
+60bf958d0bc529006f2a8235	718032	Fair Goer (uncredited)	56	2910038
+60bf959b992fe600402d8b8f	718032	Golfer (uncredited)	57	1542318
+60bf95a639a45d0057d8fa55	718032	Fair Goer (uncredited)	58	2581752
+61523d0fd1ca2a004260c64c	718032	Pinball Teen (uncredited)	59	1508651
+601110f2ea84c7003ebb7ed3	718032	Cop #2 (uncredited)	60	202930
+614378660cd32a0043edb05d	718032	Fred Gwynne / Herman Munster (uncredited)	61	4764
+60bf949d39a45d0029bd77cb	718032	Pinball Kid (uncredited)	62	3118535
+60bf9518960cde0040f0f05a	718032	Wachs Campaign Staffer (uncredited)	63	2407665
+61522e839974ee0062a0e629	718032	Fairgoer #3 (uncredited)	64	1578406
+61523ce9f04d010091ca3e99	718032	Fair Volunteer (uncredited)	65	2905434
+6067cb56f056d500784e1ac0	597208	Geek #1	15	220448
+61aaeace6728a80041a447e2	597208	Louise Hoatley	16	1102260
+61aaeb2a325a51009332d9e7	597208	Dr. Elrood	17	5892
+61eb16f4ce5d82004316cdf1	597208	Abigail	18	1890153
+61eb174cea37e0011435b683	597208	Dogboy Jojo	19	1674252
+61eb177acd20460092324c2b	597208	Drunk #1	20	1838242
+61eb17ce944a57006cf42dd4	597208	Fee Fee the Birdgirl	21	55624
+61eb1800d75bd60feec35c9a	597208	The Snake Man	22	1903319
+61eb1838c669ad011f6957a7	597208	Human Skeleton	23	3244329
+61e6d987c613ce0067e432e3	597208	Zizi the Pinhead	24	3388019
+61eb18af3faba000e1739696	597208	Geek #2	25	88613
+624f85c5109cd002474bc287	597208	Hotel Manager	26	553381
+61eb1930cedac4006cbf5a10	597208	Stanton’s Dad	27	236
+624f85e815959f0066c04c0c	597208	Deputy #1	28	180683
+624f8602447f9c0051cb538c	597208	Copa Woman	29	2271510
+624f861441465c009a44b745	597208	Bus Station Shaving Man	30	185127
+61eb197b713ea6006ad6430e	597208	Lilith’s Receptionist	31	104635
+624f864aa6c10400504a1277	597208	Armed Guard #1	32	7009
+624f86552f1be0006435028e	597208	Armed Guard #2	33	1330830
+624f863a6840cc0068c87d22	597208	Patron #!	34	1849371
+61eb18f45f622b00ba679519	597208	Hobo #1	35	230
+624f867d2dc9dc0068180fb2	597208	Train Yard Man	36	2004237
+624f868e706e5600a739118a	597208	Woman in Floral Dress	37	2098769
+624f8697fd63000067f19fd1	597208	Piano Player	38	1470381
+624f86a241465c0050a78005	597208	Drunk	39	2845213
+624f86bdb6c2640065d19674	597208	Train Worker	40	3497607
+624f86db383df2009bea1e16	597208	Policeman	41	1833006
+624f86ee2dc9dc00681811c7	597208	Stagehand	42	3497609
+61eb19db4df2910068561596	597208	Brofo the Small	43	1552843
+624f87420328b9009b41bd02	597208	Deputy #2	44	3497611
+624f8762706e560066da2e62	597208	Geek Pit Patron	45	3334647
+624f87a6a055ef004f62e91f	597208	Geek Pit Patron	46	3497615
+624f87b0b6c264009c4f8c65	597208	Geek Pit Patron	47	3497616
+624f87b8109cd002474bccd7	597208	Geek Pit Patron	48	3497617
+624f87bf5a07f500990a11a2	597208	Geek Pit Patron	49	3497620
+624f87d1447f9c0067a8647c	597208	Geek Pit Patron	50	3497621
+624f87de447f9c0067a864a4	597208	Geek Pit Patron	51	1669510
+637baeeafbe36f00ca113ca9	597208	Party Guest	52	565447
+6315eed15507e90082b3083a	600583	Lee	15	3233125
+6315eed87fcab3007a21b46b	600583	Jock	16	2285548
+6315eef71d31430082cf40f7	600583	Stan	17	11451
+6315ef05d40d4c007ddcfa98	600583	Buster	18	587823
+6315ef1d1511aa0080d8e6dd	600583	Queenie	19	3079266
+6315ef2d326c190079d3f2da	600583	Jeanie	20	1440638
+6315ef39ba131b0081d19003	600583	Hettie	21	1542446
+6315ef7e9408ec007bed707d	600583	Evie	22	3233126
+6315ef8a0c125500923af976	600583	Jeanie's Friend	23	1502556
+6315ef921d3143007dcfb76e	600583	Pianola Man	24	1112483
+6315ef9afab3fa0084c2335d	600583	Libby	25	2779742
+6315efa3d40d4c007ddcfad8	600583	Clementine	26	2144644
+6315efbb9408ec0080c63199	600583	Pearl	27	2089332
+6315f0285507e9007ac19774	600583	Doctor	28	1193052
+6315f0387fcab30091dd67e5	600583	Mr Weltz the Undertaker	29	3233127
+6315f041326c190079d3f32a	600583	Consuela	30	1952980
+6315f04f7fcab30091dd67ef	600583	Sue Ella	31	2595001
+6315f058fab3fa007f3e187e	600583	Tanya	32	1731223
+6315f0787fcab3007fbf81ea	600583	Older Man	33	96510
+6315f090ba131b007c55bb93	600583	Mrs Mueller	34	218254
+6315f0a31d31430082cf416e	600583	Old Gent	35	152491
+6315f0b1fab3fa0084c233ab	600583	The Governor's Wife	36	60376
+6315f0c071083a00801f1ccc	600583	Bill	37	1182202
+6315f0c85507e90082b308c5	600583	Cook	38	2614781
+6315f0d60c1255007b8ff0a9	600583	Edward Nappo	39	33527
+6315f0dffab3fa007f3e18ac	600583	Edward Nappo's Son	40	3233128
+6315f0ec71083a009249f467	600583	Undertaker Assistant	41	54494
+5e3c6c980c271000187836cb	511809	Braulio	15	2531146
+5e3c6c8343250f0019c98388	511809	Chago	16	2531145
+61b086425bce9e00198a4997	511809	Flaco	17	3340199
+61b086c3af85de008ff73e53	511809	Jochi	18	3340200
+62955ea376eecf75b0ad619e	511809	Julito	19	3318188
+62955eb23acd2000698ef5c8	511809	Junior	20	2524500
+62955ec6f2cf25009b93ebfb	511809	Manolo	21	3570525
+5e3c6cb643250f0017c85582	511809	Pipo	22	2531148
+62955ef7f2cf25009b93ed2b	511809	Sebas	23	2958277
+62955f09df86a834e1963e4d	511809	Tino	24	2524501
+5e3c6bce98f1f100180c8a0c	511809	Action	25	2531138
+62955f3d0f21c6153897778b	511809	A-Rab	26	3570526
+5e3c6c0a0c27100018783606	511809	Baby John	27	2531142
+5dd3d13cfe077a0013c0feb9	511809	Balkan	28	1562074
+62955f6b5507e9009af5db3b	511809	Big Deal	29	3570527
+6229155d871b340047b93cd7	511809	Diesel	30	1094567
+61c3d0fc8b959e004345a111	511809	Ice	31	1782149
+5f1ac4c2c3bffe0038f7076b	511809	Mouthpiece	32	1984115
+61d390768c22c0009990fca7	511809	Numbers	33	2394264
+62955fc35a4690510ef0ed6d	511809	Skink	34	2524507
+62955fce5cea180052fdc56e	511809	Snowboy	35	1622776
+62955fea5cea18009fd0bb6d	511809	Tiger	36	3570528
+62956257d48cee6d65e346ca	511809	Chucho	37	3570532
+629562945a4690510f7a19e2	511809	Little Moly	38	3570533
+629562b5d48cee6d660d5a20	511809	Clary	39	2647018
+629562c1d48cee6d65e348df	511809	Conchi	40	3570534
+629562d409ed8f125353e341	511809	Cuca	41	3570535
+629562e03acd20009fa91bbc	511809	Ili	42	3570536
+629562eb3acd20009fa91c0a	511809	Isa	43	3570537
+629562fd09ed8f125353e458	511809	Jacinta	44	3570538
+6295630d5507e9009af5f01e	511809	Montse	45	3570539
+6295631dcddbbc130cbdba65	511809	Pili	46	3570540
+6295636beee18600a0ecc82c	511809	Tati	47	3318127
+62956375a44d0900a98b7aa2	511809	Tere	48	3570541
+5ff3849325b9550040fe87f1	511809	Jet	49	2923329
+5cb6e187c3a3683abf80c851	511809	Graziella	50	2290310
+629563a6a44d0900a98b7c52	511809	Gussie	51	3570542
+629563d3a44d090067ba4d2f	511809	Karen	52	3570545
+629563dd0f21c615372efd97	511809	Mack	53	2988275
+629563e8d48cee6d660d609b	511809	Mamie	54	3370468
+629563f9a44d0900a98b7eb8	511809	Maxie	55	3570551
+629564045cea180052fddb3a	511809	Natalie	56	3570552
+6285ced7e004a60050695182	511809	Rhonda	57	1921320
+6295646cdf86a834e19657a8	511809	Sorella	58	3570556
+6295647cf2cf25004f56c8c3	511809	Sweden	59	3570558
+629564843acd200053882ab3	511809	Tat	60	3570559
+5e4f8ebb9b861600166bccc8	511809	Tessa	61	2475409
+5cb6e1a20e0a266b9beeac2d	511809	Velma	62	1483976
+5d31a8896a300b5922acb388	511809	Fausta	63	1363622
+629564bdeee1860051b36f67	511809	Glad Hand	64	2644245
+5e3c6cbe98f1f1000f0c431f	511809	Meche	65	1473232
+61cb32c433ad8f009934a3b5	511809	Provi	66	2242772
+629564fe3acd200053882cee	511809	Lluvia	67	1182472
+5e3c69d00c2710001377fb23	511809	Rory	68	111195
+5e3c68c398f1f100140bc4e7	511809	Abe	69	2254
+6295651da44d0900a98b8766	511809	Streetwalker	70	1722268
+6295652ea44d090067ba544d	511809	Puertorriqueña #1	71	3570563
+629565385a4690510ef10ddd	511809	Puertorriqueña #2	72	2468124
+6295655f0f21c615389796ce	511809	Pachanga Shark Woman	73	3570564
+629569a7a410c815a4062216	511809	Pachanga Dancer	74	3570570
+629569c85507e90066b9e8fd	511809	Pachanga Dancer	75	3570571
+629569da5507e900503baf9b	511809	Pachanga Dancer	76	3570572
+629569e70a517c0051c81632	511809	Pachanga Dancer	77	3570573
+629569f1ca83540051014f7b	511809	Pachanga Dancer	78	3570574
+629569fa5cea1800687e092c	511809	Pachanga Dancer	79	3570575
+62956a035cea180052fdfdda	511809	Pachanga Dancer	80	3570576
+62956a0f0e597b009e4fcf0a	511809	Pachanga Dancer	81	3570577
+62956a1d0e597b00517e2a4f	511809	Pachanga Dancer	82	3570578
+62956a45f2cf250064ecba4d	511809	Pachanga Dancer	83	3570579
+62956a53eee186006798926a	511809	Pachanga Dancer	84	3570580
+62956a5b5507e900503bb386	511809	Pachanga Dancer	85	3570581
+62956ab30e597b00677e4039	511809	Restaurant Owner	86	979216
+62956ac85a4690510f7a470d	511809	Gym Band (Band Leader)	87	3570583
+62956ae20f21c615372f2393	511809	Gym Band (Drums)	88	3570584
+62956b1176eecf75b0adac09	511809	Gym Band (Bass)	89	3570585
+62956b2176eecf75b0adac82	511809	Gym Band (Piano)	90	3570586
+62956b2eeee1860067989738	511809	Gym Band (Guitar)	91	3570587
+62956b3b0f21c615372f259d	511809	Gym Band (Sax)	92	3570589
+62956b49f54836009b4b2ffc	511809	Gym Band (Trombone)	93	3570591
+62956b841e9225004f7776ad	511809	Gym Band (Trumpet 1)	94	3570595
+62956b93eee18600a0ecf981	511809	Gym Band (Trumpet 2)	95	3570597
+62956ba3eee1860067989a75	511809	Gym Band (Reed Player)	96	3570600
+62956bbf0a517c00993145e4	511809	Gym Band (Percussionist 1)	97	3570602
+62956bd10f21c6153897bcd6	511809	Gym Band (Percussionist 2)	98	3570605
+5fe408e570309f003d8024b9	511809	Female Social Worker	99	931876
+62956c1d76eecf75b1ef7a4f	511809	Custodian	100	3570607
+62956c2a0f21c615372f2ad4	511809	Elderly Man	101	1473511
+62956c56d48cee6d65e37e50	511809	Elderly Woman	102	3002009
+62956c925507e90066b9f776	511809	Cop #1	103	1669956
+62956c9ba410c815a40631c4	511809	Cop #2	104	210007
+62956ccbf2cf250064ecca57	511809	Fabric Store Owner	105	1824462
+62956cfff2cf250064eccc06	511809	Gimbels Security Guard	106	1161044
+62956d123acd20009fa95d4b	511809	Detective in Morgue	107	1370985
+62956d36df86a834e2320020	511809	Young Girl María	108	3570609
+62956d475cea18009fd10947	511809	Old Lady María	109	120694
+62956d5dcddbbc130d166c3c	511809	Boxing Promoter	110	3570612
+62956d690a517c0099314dfd	511809	Cop in Salt Shed	111	1216011
+62956d7609ed8f12547c67dd	511809	Detective #2	112	1466172
+62956d830f21c615394e205c	511809	Detective #3	113	1709197
+62956d9cf2cf25004f56ff2f	511809	Grizzled Trainer	114	1253648
+62956db1f5483600506f8322	511809	Hardware Store Owner	115	3570615
+62956dbecddbbc130d166ded	511809	Taxi Passenger	116	209227
+62956dcb0e597b009e4fe414	511809	Demonstrator	117	3570617
+62956ded0a517c0051c82f18	511809	Demonstrator	118	115981
+62956e19a44d0900a98bc445	511809	Demonstrator	119	3570619
+62956e245507e9009af633af	511809	Demonstrator	120	130735
+62956e2ba410c815a54910a6	511809	Demonstrator	121	1681734
+6398e3848ec4ab0089f6c053	511809	Construction Worker	122	1691382
 \.
 
 
@@ -4817,6 +6284,31 @@ COPY public.media_genres (id, genre_id, movie_id) FROM stdin;
 160	878	684428
 161	99	684731
 162	99	503880
+163	878	646380
+164	35	646380
+165	18	646380
+166	27	41434
+167	27	58405
+168	27	428894
+169	18	758866
+\.
+
+
+--
+-- Data for Name: movie_nominations; Type: TABLE DATA; Schema: public; Owner: mithin
+--
+
+COPY public.movie_nominations (id, movie_id, nomination_id) FROM stdin;
+10	776503	94
+11	777270	94
+13	758866	94
+14	438631	94
+15	614917	94
+16	718032	94
+17	597208	94
+18	600583	94
+19	511809	94
+20	646380	94
 \.
 
 
@@ -4881,6 +6373,115 @@ COPY public.movies (id, imdb_id, title, overview, runtime, poster_path, release_
 373223	\N	Matrix	Abstract art film made for gallery exhibition.	\N	/wx2s9xYeC6uP2auuuVg99yl4RpU.jpg	1973-09-06 00:00:00	\N	\N
 775293	\N	Matrix	"MATRIX is a flicker film which utilizes 81 still photographs of my wife's head. It is a film dependent upon variation of intense light changes by calculated combinations of black and white frame alternations with exposure changes. Throughout, the light intensity rises and falls as the head rotates in varying directions within a 360 degree frontal area." — James Cagle	\N	/frDqG8rmqKUg4HzQ604LZo8VLHB.jpg	1973-01-01 00:00:00	\N	\N
 447365	tt6791350	Guardians of the Galaxy Vol. 3	Peter Quill, still reeling from the loss of Gamora, must rally his team around him to defend the universe along with protecting one of their own. A mission that, if not completed successfully, could quite possibly lead to the end of the Guardians as we know them.	150	/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg	2023-05-03 00:00:00	250000000	528801000
+41434	\N	Don't Look Up	While filming in Transylvania, a crew unearths celluloid images of a woman’s murder and unleashes the wrath of evil spirits.	\N	/v7p4AO8GjtOJnuDsriwHNYx72Ua.jpg	2009-09-24 00:00:00	\N	\N
+58405	\N	Don't Look Up	On the set of a dark war time drama at an old movie studio, a young director, Toshio Murai, is trying to complete his debut film. The two starring actresses, Hitomi Kurokawa and Saori Murakami, play sisters in his film. Murai has a crush on Hitomi, the seasoned leading actress, and keeps a photo of her by his bed. The younger and less experienced actress, Saori, is annoying and likes to have recess on the set. The production of the movie is consistently interrupted by strange occurrences and the cast and crew begin to get spooked.	\N	/liJtNCgfTKFRJCu44ZsbfDHQUM1.jpg	1996-03-22 00:00:00	\N	\N
+428894	\N	Don't Look Up	A young woman comes home late night on public transportation and puts herself in a precarious position where she comes across an urban legend that may be true.	\N	/2ICHGjUbqX7QsVnJrpnpwIF0Sq9.jpg	2015-06-26 00:00:00	\N	\N
+1054677	\N	Don't Look up My Skirt Unless You Mean It (or How Butch Are You Really?)	Title says it all.	\N	\N	1994-01-01 00:00:00	\N	\N
+646380	tt11286314	Don't Look Up	Two American astronomers attempt to warn humankind about an approaching comet that will wipe out life on planet Earth.	138	/th4E1yqsE8DGpAseLiUrI60Hf8V.jpg	2021-12-07 00:00:00	75000000	791863
+1019504	\N	Down the Road: The Making of Drive My Car	Spanning locations in Tokyo, Hiroshima, and Hokkaido and featuring interviews with cast members and rare behind-the-scenes footage, it captures the creative collective journey of the filmmaking team.	\N	\N	2022-02-18 00:00:00	\N	\N
+758866	tt14039582	Drive My Car	Yusuke Kafuku, a stage actor and director, still unable, after two years, to cope with the loss of his beloved wife, accepts to direct Uncle Vanya at a theater festival in Hiroshima. There he meets Misaki, an introverted young woman, appointed to drive his car. In between rides, secrets from the past and heartfelt confessions will be unveiled.	179	/3cOsf5HBjPK2QCz9ebQlGHNnE7y.jpg	2021-08-18 00:00:00	0	15308325
+\.
+
+
+--
+-- Data for Name: nominations; Type: TABLE DATA; Schema: public; Owner: mithin
+--
+
+COPY public.nominations (id, name, year) FROM stdin;
+1	Academy Awards	1929
+2	Academy Awards	1930
+3	Academy Awards	1931
+4	Academy Awards	1932
+5	Academy Awards	1933
+6	Academy Awards	1934
+7	Academy Awards	1935
+8	Academy Awards	1936
+9	Academy Awards	1937
+10	Academy Awards	1938
+11	Academy Awards	1939
+12	Academy Awards	1940
+13	Academy Awards	1941
+14	Academy Awards	1942
+15	Academy Awards	1943
+16	Academy Awards	1944
+17	Academy Awards	1945
+18	Academy Awards	1946
+19	Academy Awards	1947
+20	Academy Awards	1948
+21	Academy Awards	1949
+22	Academy Awards	1950
+23	Academy Awards	1951
+24	Academy Awards	1952
+25	Academy Awards	1953
+26	Academy Awards	1954
+27	Academy Awards	1955
+28	Academy Awards	1956
+29	Academy Awards	1957
+30	Academy Awards	1958
+31	Academy Awards	1959
+32	Academy Awards	1960
+33	Academy Awards	1961
+34	Academy Awards	1962
+35	Academy Awards	1963
+36	Academy Awards	1964
+37	Academy Awards	1965
+38	Academy Awards	1966
+39	Academy Awards	1967
+40	Academy Awards	1968
+41	Academy Awards	1969
+42	Academy Awards	1970
+43	Academy Awards	1971
+44	Academy Awards	1972
+45	Academy Awards	1973
+46	Academy Awards	1974
+47	Academy Awards	1975
+48	Academy Awards	1976
+49	Academy Awards	1977
+50	Academy Awards	1978
+51	Academy Awards	1979
+52	Academy Awards	1980
+53	Academy Awards	1981
+54	Academy Awards	1982
+55	Academy Awards	1983
+56	Academy Awards	1984
+57	Academy Awards	1985
+58	Academy Awards	1986
+59	Academy Awards	1987
+60	Academy Awards	1988
+61	Academy Awards	1989
+62	Academy Awards	1990
+63	Academy Awards	1991
+64	Academy Awards	1992
+65	Academy Awards	1993
+66	Academy Awards	1994
+67	Academy Awards	1995
+68	Academy Awards	1996
+69	Academy Awards	1997
+70	Academy Awards	1998
+71	Academy Awards	1999
+72	Academy Awards	2000
+73	Academy Awards	2001
+74	Academy Awards	2002
+75	Academy Awards	2003
+76	Academy Awards	2004
+77	Academy Awards	2005
+78	Academy Awards	2006
+79	Academy Awards	2007
+80	Academy Awards	2008
+81	Academy Awards	2009
+82	Academy Awards	2010
+83	Academy Awards	2011
+84	Academy Awards	2012
+85	Academy Awards	2013
+86	Academy Awards	2014
+87	Academy Awards	2015
+88	Academy Awards	2016
+89	Academy Awards	2017
+90	Academy Awards	2018
+91	Academy Awards	2019
+92	Academy Awards	2020
+93	Academy Awards	2021
+94	Academy Awards	2022
 \.
 
 
@@ -4924,7 +6525,6 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 33	1	https://ethnicelebs.com/jesse-plemons
 34	1	https://ethnicelebs.com/thomasin-mckenzie
 35	1	https://ethnicelebs.com/frances-conroy
-36	5	https://en.wikipedia.org/wiki/Caitr%C3%ADona_Balfe
 37	1	https://ethnicelebs.com/jamie-dornan
 38	1	https://ethnicelebs.com/judi-dench
 39	1	https://ethnicelebs.com/ciaran-hinds
@@ -4960,7 +6560,6 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 69	1	https://ethnicelebs.com/sean-penn
 70	1	https://ethnicelebs.com/tom-waits
 71	1	https://ethnicelebs.com/bradley-cooper
-72	5	https://en.wikipedia.org/wiki/Benny_Safdie
 73	1	https://ethnicelebs.com/skyler-gisondo
 74	1	https://ethnicelebs.com/john-michael-higgins
 75	1	https://ethnicelebs.com/christine-ebersole
@@ -5016,6 +6615,40 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 125	1	https://ethnicelebs.com/sean-patrick-thomas
 126	1	https://ethnicelebs.com/hannah-barefoot
 127	1	https://ethnicelebs.com/stephen-collins
+128	1	https://ethnicelebs.com/michelle-yeoh
+129	1	https://ethnicelebs.com/ke-huy-quan
+130	1	https://ethnicelebs.com/stephanie-hsu
+131	1	https://ethnicelebs.com/jamie-lee-curtis
+132	1	https://ethnicelebs.com/jenny-slate
+133	1	https://ethnicelebs.com/harry-shum-jr
+134	1	https://ethnicelebs.com/sunita-mani
+135	1	https://ethnicelebs.com/daniel-scheinert
+136	1	https://ethnicelebs.com/daniel-kwan
+36	2	https://en.wikipedia.org/wiki/Caitr%C3%ADona_Balfe
+72	2	https://en.wikipedia.org/wiki/Benny_Safdie
+138	2	https://en.wikipedia.org/wiki/Tallie_Medel
+141	1	https://ethnicelebs.com/jennifer-lawrence
+142	1	https://ethnicelebs.com/leonardo-dicaprio
+143	1	https://ethnicelebs.com/meryl-streep
+144	1	https://ethnicelebs.com/rob-morgan
+145	1	https://ethnicelebs.com/jonah-hill
+153	1	https://ethnicelebs.com/mark-rylance
+154	1	https://ethnicelebs.com/tyler-perry
+171	1	https://ethnicelebs.com/ariana-grande
+172	1	https://ethnicelebs.com/kid-cudi
+173	1	https://ethnicelebs.com/himesh-patel
+174	1	https://ethnicelebs.com/melanie-lynskey
+175	1	https://ethnicelebs.com/michael-chiklis
+176	1	https://ethnicelebs.com/liev-schreiber
+177	1	https://ethnicelebs.com/sarah-silverman
+178	1	https://ethnicelebs.com/chris-evans
+188	2	https://en.wikipedia.org/wiki/Babs_Olusanmokun
+189	2	https://en.wikipedia.org/wiki/Golda_Rosheuvel
+190	2	https://en.wikipedia.org/wiki/Roger_Yuan
+191	2	https://en.wikipedia.org/wiki/Marianne_Faithfull
+194	2	https://en.wikipedia.org/wiki/Demi_Singleton
+195	2	https://en.wikipedia.org/wiki/Jim_Beaver
+196	2	https://en.wikipedia.org/wiki/Lara_Jean_Chorostecki
 \.
 
 
@@ -5025,8 +6658,7 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 
 COPY public.sources (id, name, domain) FROM stdin;
 1	Ethnicelebs	https://ethnicelebs.com
-2	Wikipedia	https://wikipedia.org
-5	Https://en	https://https://en.wikipedia.org
+2	Wikipedia	https://en.wikipedia.org
 \.
 
 
@@ -5067,7 +6699,7 @@ COPY public.subregions (id, name, region_id) FROM stdin;
 -- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.also_known_as_id_seq', 4234, true);
+SELECT pg_catalog.setval('public.also_known_as_id_seq', 757, true);
 
 
 --
@@ -5081,21 +6713,21 @@ SELECT pg_catalog.setval('public.alt_countries_id_seq', 789, true);
 -- Name: alt_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 76, true);
+SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 78, true);
 
 
 --
 -- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 642, true);
+SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 781, true);
 
 
 --
 -- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 336, true);
+SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 499, true);
 
 
 --
@@ -5109,7 +6741,7 @@ SELECT pg_catalog.setval('public.cast_members_id_seq', 1, false);
 -- Name: cast_races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_races_id_seq', 231, true);
+SELECT pg_catalog.setval('public.cast_races_id_seq', 287, true);
 
 
 --
@@ -5137,7 +6769,14 @@ SELECT pg_catalog.setval('public.genres_id_seq', 1, false);
 -- Name: media_genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.media_genres_id_seq', 162, true);
+SELECT pg_catalog.setval('public.media_genres_id_seq', 169, true);
+
+
+--
+-- Name: movie_nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+--
+
+SELECT pg_catalog.setval('public.movie_nominations_id_seq', 20, true);
 
 
 --
@@ -5145,6 +6784,13 @@ SELECT pg_catalog.setval('public.media_genres_id_seq', 162, true);
 --
 
 SELECT pg_catalog.setval('public.movies_id_seq', 1, false);
+
+
+--
+-- Name: nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+--
+
+SELECT pg_catalog.setval('public.nominations_id_seq', 94, true);
 
 
 --
@@ -5165,7 +6811,7 @@ SELECT pg_catalog.setval('public.regions_id_seq', 6, true);
 -- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.source_links_id_seq', 127, true);
+SELECT pg_catalog.setval('public.source_links_id_seq', 196, true);
 
 
 --
@@ -5295,11 +6941,27 @@ ALTER TABLE ONLY public.media_genres
 
 
 --
+-- Name: movie_nominations movie_nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.movie_nominations
+    ADD CONSTRAINT movie_nominations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
 --
 
 ALTER TABLE ONLY public.movies
     ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nominations nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.nominations
+    ADD CONSTRAINT nominations_pkey PRIMARY KEY (id);
 
 
 --
@@ -5500,6 +7162,22 @@ ALTER TABLE ONLY public.media_genres
 
 ALTER TABLE ONLY public.media_genres
     ADD CONSTRAINT media_genres_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.movies(id);
+
+
+--
+-- Name: movie_nominations movie_nominations_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.movie_nominations
+    ADD CONSTRAINT movie_nominations_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.movies(id);
+
+
+--
+-- Name: movie_nominations movie_nominations_nomination_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+--
+
+ALTER TABLE ONLY public.movie_nominations
+    ADD CONSTRAINT movie_nominations_nomination_id_fkey FOREIGN KEY (nomination_id) REFERENCES public.nominations(id);
 
 
 --

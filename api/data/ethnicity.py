@@ -1,11 +1,14 @@
-import requests
-import re
+import requests, re, unicodedata
 from datetime import datetime
 from bs4 import BeautifulSoup
 from data.gpt import *
 from data.palm import *
 from model import AlsoKnownAs
 
+
+def strip_accents(text):
+    return ''.join(c for c in unicodedata.normalize('NFD', text)
+                  if unicodedata.category(c) != 'Mn')
 
 def parse_ethnicelebs(txt):
     """Parse <strong> block in ethnicelebs.com to return ethnicity list."""
@@ -45,7 +48,8 @@ def parse_ethnicelebs(txt):
 def ethnicelebs(given_name):
     """Given cast name, use ethnicelebs.com to return list of ethnicity data."""
 
-    person_name = given_name.lower().replace(" ", "-").replace(".", "")
+    stripped = strip_accents(given_name)
+    person_name = stripped.lower().replace(" ", "-").replace(".", "")
     print(f"Attempting {person_name} on ethnicelebs.com")
 
     url = f"https://ethnicelebs.com/{person_name}"

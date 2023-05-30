@@ -1,10 +1,13 @@
-import json, requests, time, re
+import json, requests, time, re, os
 from datetime import datetime
 from bs4 import BeautifulSoup
 from sqlalchemy import and_, extract
+
 from model import *
+import crud
 import app
 
+TMDB_ACCESS_TOKEN = os.environ['TMDB_ACCESS_TOKEN']
 
 def find_nominations(year):
     response = requests.get(f"https://www.imdb.com/event/ev0000003/{year}/1/", headers={
@@ -29,15 +32,42 @@ def find_nominations(year):
                         {
                             'notes': nomination['notes'],
                             'won': nomination['isWinner'],
-                            'primary': [primary['name'] for primary in nomination['primaryNominees']],
-                            'secondary': [secondary['name'] for secondary in nomination['secondaryNominees']]
+                            'primary': [primary['name'] for primary in nomination['primaryNominees']][0],
+                            # 'secondary': [secondary['name'] for secondary in nomination['secondaryNominees']]
                         }
                         for nomination in award['nominations']
                     ]
                 }
-                for award in categories if 'Best Motion Picture of the Year'
+                for award in categories if award['categoryName'] == 'Best Motion Picture of the Year'
             ]
     return nominees
+
+
+def check_nominations(year: int) -> str:
+    nominees = find_nominations(year)
+    for nominee in nominees[0]['nominations']:
+        title = nominee['primary']
+        print(f"Checking if {title} ({year - 1}) is in db...", end=" ")
+        query = Movie.query.filter(and_(Movie.title == title, extract('year', Movie.release_date) == year - 1)).first()
+
+        if query == None:
+            url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year - 1}&page=1"
+            headers = {
+                "accept": "application/json",
+                "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
+            }
+            response = requests.get(url, headers=headers)
+            results = response.json()
+            movie_id = results['results'][0]['id']
+            crud.add_new_movie(movie_id=movie_id)
+
+            query = Movie.query.filter(and_(Movie.title == title, extract('year', Movie.release_date) == year - 1)).first()
+        else:
+            print("found!")
+
+        crud.add_nomination(query, year)
+
+    db.session.commit()
 
 
 def make_nominations():
@@ -50,7 +80,7 @@ def make_nominations():
     db.session.commit()
 
 
-def add_nominations(year, award='Academy Awards'):
+def add_nominations_json(year, award='Academy Awards'):
     with open(f'data/{year}.json', 'r') as file:
         data = json.load(file)
 

@@ -92,8 +92,8 @@ class Movie(db.Model):
     runtime = db.Column(db.Integer)
     poster_path = db.Column(db.String())
     release_date = db.Column(db.DateTime)
-    budget = db.Column(db.Integer)
-    revenue = db.Column(db.Integer)
+    budget = db.Column(db.BigInteger)
+    revenue = db.Column(db.BigInteger)
 
     genres = db.relationship(
         "Genre", secondary="media_genres", uselist=True, back_populates="movies")

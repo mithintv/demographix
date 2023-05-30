@@ -1513,6 +1513,31 @@ COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
 755	이와세 료	1374556
 756	谷川昭一朗	2256273
 757	Christopher Wolfe	2046873
+758	ادين حسنوفيتش	212930
+759	다니엘 브륄	3872
+760	Ντάνιελ Μπρουλ	3872
+761	Daniel Bruehl	3872
+762	Daniel César Martín Brühl González	3872
+763	 Sebastian Huelk	550554
+764	Антон фон Люк	1576708
+765	Daniel Brown	1253821
+766	Daniel Fleischer-Brown	1253821
+767	Philipp Kaspar Schenker	2359478
+768	Philip Schenke	2359478
+769	Cyril Dobry	1570412
+770	Якоб Диль	56062
+771	Нико Эрентайт	1624048
+772	Daniel F. Kamen	1727943
+773	Daniel Frantisek Kamen	1727943
+774	Daniel František Kamen	1727943
+775	Daniel Kamen	1727943
+776	Alzbeta Malá	3412516
+777	Tomas Zelinski	1438484
+778	Tomás Zielinski	1438484
+779	Tomas Weber	3549254
+780	Tomás Weber	3549254
+781	Martin Nemec	1074002
+782	Tomás Merkl	3329970
 \.
 
 
@@ -2962,6 +2987,11 @@ COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
 779	502	29862
 780	455	1102260
 781	502	1102260
+782	55	3631223
+783	229	3872
+784	529	3872
+785	95	3872
+786	1	3872
 \.
 
 
@@ -3400,6 +3430,11 @@ COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) 
 497	195	779
 498	196	780
 499	196	781
+500	197	782
+501	198	783
+502	198	784
+503	198	785
+504	198	786
 \.
 
 
@@ -3708,18 +3743,33 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 3414900	nm2950254	Massimo Biondi	0	\N	\N		\N	\N
 2256273	\N	Shoichiro Tanigawa	0	\N	\N		\N	\N
 2046873	nm6816275	Chris Wolfe	2	\N	\N		\N	/k3QnVCqxdL5khYaWcR1IFODkA3r.jpg
+3631223	nm0436835	Felix Kammerer	2	1995-09-19 00:00:00	\N		\N	/9YfDc3yccNQK4rziqb9S3sSzoOL.jpg
 4024360	\N	Jasmine Sunshine Munoz	0	\N	\N		\N	\N
 3125907	nm4530613	Giovannie Cruz	1	\N	\N		\N	\N
+1111158	nm3477129	Albrecht Schuch	2	1985-08-21 00:00:00	\N	Albrecht Schuch was born in 1985 as Albrecht Abraham Schuch. He is an actor, known for Die Vermessung der Welt (2012), Neue Vahr Süd (2010) and Westwind (2011).	DEU	/bYqsnHVbaLTnffo4Dj5UiyPBm4U.jpg
 4028624	nm14819380	Noa Raskin	0	\N	\N		\N	\N
 18273	nm0794896	Miriam Shor	1	1971-07-25 00:00:00	\N	From Wikipedia, the free encyclopedia\n\nMiriam Shor (born July 25, 1971) is an American film and television actress.\n\nDescription above from the Wikipedia article Miriam Shor, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/mT3sSMwk0opAQze2bJvu2JWyHoe.jpg
 85096	nm0002888	Stephen Blackehart	2	1967-12-01 00:00:00	\N	From Wikipedia, the free encyclopedia.\n\nStephen Blackehart (born 1 December 1967 in New York City) is an American actor and producer from Hell's Kitchen, New York. It has been reported that Blackehart was born Stefano Brando and is the son of actor Marlon Brando. A graduate of the London Academy of Music and Dramatic Art, Blackehart is most known for playing Benny Que in the cult classic film Tromeo and Juliet, though he has also acted in many other B-movies, such as Rockabilly Vampire, Retro Puppet Master and 100 Million BC.\n\nIn addition to his film work, Blackehart has acted in such TV series as Grey's Anatomy, The Big Apple, and as Lt. Pa'ak in Star Trek: Deep Space Nine. He was a regular on the BBC's The Tromaville Cafe, where he originated the role of Felix, the French Trickster.\n\nIn 2004, Blackehart produced Jenna Fischer's mockumentary film LolliLove, and was among the first ever producers to make extensive use of social networking sites like MySpace to aggressively promote a feature film.[citation needed] It was subsequently picked up for distribution by Troma and garnered DVD Talk's distinction as a "Collector's Series" disc immediately upon its video release. It was also voted #2 by the editors of Amazon in their list of Best DVDs of the Year - Comedy, and completely sold out of all copies within the first day of release.\n\nMost recently, he has produced hit comedy web series like James Gunn's PG Porn and Humanzee!\n\nDescription above from the Wikipedia article Stephen Blackehart, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/v5niazocH1HjyCIxrnbrf93P1dK.jpg
 1411625	nm0741893	Terence Rosemore	2	1964-07-29 00:00:00	\N	Terence Rosemore was born in Great Falls, Montana and raised in New Orleans where he got his start as an Actor in Ted Gilliam's Dashiki Theatre Company.\n\nHe is an award winning Filmmaker and Actor who has worked with some of the biggest names in the industry including Robert Duvall, Halle Berry, Matthew McConaughy, Kevin Hart, Nicolas Cage, Don Cheadle, and Will Ferrell.\n\nRosemore is the founder of digital media company Out of Nowhere Films. Content created by Rosemore has been featured on NBC/Universal's DotComedy.com, ChannelME.TV and Columbia/Sony's Crackle.com.\n\nHe lives in Los Angeles writing, directing, producing and developing Film, Television and Web based projects. IMDb Mini Biography	\N	/mjBaREqAREvJLxDpOlUGLxaYrIP.jpg
+1820948	nm6037256	Aaron Hilmer	2	1999-05-11 00:00:00	\N	Aaron Hilmer is an actor, known for The Most Beautiful Girl in the World (2018), All Quiet on the Western Front (2022) and The Peppercorns (1999).	DEU	/wVVbhpjsDeC6GI9Pa37qqbuVhZd.jpg
+1818302	nm2714111	Moritz Klaus	2	\N	\N		\N	/lTHzlm3oYg8rLYOI4FZ58EvG8ao.jpg
 5365	nm0004286	Clifton Collins Jr.	2	1970-06-16 00:00:00	\N	Clifton Collins Jr. is an American film and television actor, best known for playing student Cesar Sanchez opposite substitute teacher Samuel L. Jackson in the feature film "One Eight Seven", and as the killer Perry Smith in the independent movie "Capote". He also played recurring characters in many television shows and is a series regular in HBO's "Westworld".	USA	/ceryVVubF74pgu13Y0KUqIzxOae.jpg
 5292	nm0000243	Denzel Washington	2	1954-12-28 00:00:00	\N	Denzel Hayes Washington, Jr. is an American actor, screenwriter, director and film producer. He first rose to prominence when he joined the cast of the medical drama St. Elsewhere, playing Dr. Philip Chandler for six years. He has received much critical acclaim for his work in film since the 1990s, including for his portrayals of real-life figures, such as Steve Biko, Malcolm X, Rubin ‘Hurricane’ Carter, Melvin B. Tolson, Frank Lucas, and Herman Boone. Washington has received two Academy Awards, two Golden Globe awards, and a Tony Award. He is notable for winning the Best Supporting Actor Oscar for his part in Glory in 1989, and the Academy Award for Best Actor in 2001 for his role in the film Training Day.	USA	/jj2Gcobpopokal0YstuCQW0ldJ4.jpg
+2951325	nm9620384	Adrian Grünewald	2	\N	\N		DEU	/2QHe0fAcPKKaHpIeNVp9Ei3AuEu.jpg
+212930	nm2518296	Edin Hasanović	2	1992-04-02 00:00:00	\N		BIH	/MW0VhzAHi3oMtnzNuESbpx02Wa.jpg
+3872	nm0117709	Daniel Brühl	2	1978-06-16 00:00:00	\N	Daniel César Martín Brühl González is a Spanish-German actor, producer and director.	ESP	/3YlmTfiy5qZXkrdKGjaM1uMjGKP.jpg
+19361	nm0598857	Thibault de Montalembert	2	1962-02-10 00:00:00	\N	Thibault Charles Marie Septime de Montalembert (born 10 February 1962) is a French theatre, film and television actor. He is perhaps best known for his roles in the television series The Tunnel (2013–2018) and Call My Agent! (2015–present).\n\nHe was a resident of the Comédie-Française from 1994 to 1996.\n\nSource: Article "Thibault de Montalembert" from Wikipedia in English, licensed under CC-BY-SA 3.0.	FRA	/rlmatSXCig3KrEeTh1yKVTOZnMc.jpg
+6086	nm0834479	Devid Striesow	2	1973-10-01 00:00:00	\N	Devid Striesow (born October 1, 1973 in Bergen auf Rügen) is a German actor. He starred as "Sturmbannführer Herzog" (Bernhard Krüger) in Stefan Ruzowitzky's 2007 film The Counterfeiters, which was awarded the Academy Award for Best Foreign Language Film for that year.\n\nDescription above from the Wikipedia article Devid Striesow, licensed under CC-BY-SA, full list of contributors on Wikipedia.	DEU	/dV5Sdfa7ED8gkbof8pWuBfPR7lo.jpg
 1817	nm0004802	Linda Cardellini	1	1975-06-25 00:00:00	\N	Linda Edna Cardellini (born June 25, 1975) is an American actress. In television, she is known for her leading roles in the teen drama Freaks and Geeks (1999–2000), the medical drama ER (2003–09), the drama thriller Bloodline (2015–17), and the tragicomedy Dead to Me (2019–present), the latter of which earned her a nomination for the Primetime Emmy Award for Outstanding Lead Actress in a Comedy Series. She also guest starred in the period drama Mad Men (2013–15), for which she received a Primetime Emmy Award nomination. Her voice work includes the animated series Scooby-Doo! Mystery Incorporated (2010–13), Regular Show (2012–15), Gravity Falls (2012–16), and Sanjay and Craig (2013–16).\n\nIn film, Cardellini is best known for her portrayal of Velma Dinkley in Scooby-Doo (2002) and its sequel Scooby-Doo 2: Monsters Unleashed (2004), and her supporting roles in Legally Blonde (2001), Brokeback Mountain (2005), Grandma’s Boy (2006), Kill the Irishman (2011), Avengers: Age of Ultron (2015), The Founder (2016), Green Book, A Simple Favor (both 2018), and Avengers: Endgame (2019). She also starred in the drama Return (2011), earning an Independent Spirit Award for Best Female Lead nomination, the comedies Daddy's Home (2015) and Daddy's Home 2 (2017), and the horror film The Curse of La Llorona (2019).\n\nDescription above from the Wikipedia article Linda Cardellini, licensed under CC-BY-SA, full list of contributors on Wikipedia.	USA	/bcycvynDprC1rrhBNrnBjn5uOUd.jpg
+1411011	nm2435705	Andreas Döhler	2	1974-01-01 00:00:00	\N		DEU	/ie0EpjPa9bZvaqNJKR21xKjs4hf.jpg
+550554	nm1389891	Sebastian Hülk	2	1975-01-10 00:00:00	\N	Sebastian Hülk was born on January 10, 1975 in Bottrop, Germany. Sebastian is an actor, known for The White Ribbon (2009), Hanna (2011) and Red Sparrow (2018).	DEU	/qmEnennLfGF2ksDwbt3Pqdo49UQ.jpg
+235807	nm0270784	Luc Feit	2	1962-06-28 00:00:00	\N		\N	/qLg5l56oNwziohvddF6ixivtSD6.jpg
+20266	nm0937000	Michael Wittenborn	2	1953-05-31 00:00:00	\N		DEU	/9GEmghNGmJ8h3BrbUeHXLyEROqm.jpg
+1502005	nm2345047	Michael Stange	2	1980-01-03 00:00:00	\N		\N	/4aLkSITel8ws2G06hRqN2tIewXB.jpg
 1159982	nm5052065	Ansel Elgort	2	1994-03-14 00:00:00	\N	Ansel Elgort (born March 14, 1994) is an American actor and singer. He began his acting career with a supporting role in the horror film Carrie (2013) and gained wider recognition for starring as a teenage cancer patient in the romantic drama film The Fault in Our Stars (2014) and for his supporting role in The Divergent Series (2014–2016). In 2017, he played the title character in Edgar Wright's action thriller Baby Driver, for which he received a Golden Globe Award nomination for Best Actor in a Motion Picture – Musical or Comedy. He is also known for his lead role in The Goldfinch (2019) and his performance in the lead role of Tony in Steven Spielberg's 2021 film version of West Side Story.	USA	/ynceZwoR41V4FBiElUpgG5aFi9i.jpg
 2217977	nm10399505	Rachel Zegler	1	2001-05-03 00:00:00	\N	Rachel Anne Zegler (born May 3, 2001) is an American actress and singer. She made her film debut playing Maria Vasquez in the 2021 musical drama West Side Story, for which she won the Golden Globe Award for Best Actress – Motion Picture Comedy or Musical.	USA	/ycseVLFDnnTQ9QubleZjdbrGl4r.jpg
 1730574	nm5091224	Kika Cicmanec	0	\N	\N		\N	/l5qJsjzmtYY17vRHM3NwOvHZEd1.jpg
+564809	nm2584311	Sascha Nathan	2	1977-05-04 00:00:00	\N		DEU	/f5CUdBC8yIFfmvsCzWxBG5RaflT.jpg
 1656863	nm2616557	Ray Chase	2	\N	\N		\N	/xeJKJnvIwItI90roo7mMUduBbbq.jpg
 931876	nm1033625	Chryssie Whitehead	1	\N	\N	Chryssie Whitehead is an actress.	USA	/9kUVzfjtq77tPeSKMUaMrLNEJRK.jpg
 2215982	\N	Jimmy Walker Jr.	2	1949-02-12 00:00:00	\N		USA	/ucTGwh5gTwU3063omYa6FXtSZkC.jpg
@@ -3730,7 +3780,11 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 2035828	nm7347679	Pamela Jayne Morgan	1	\N	\N	Pamela Jayne Morgan is an actress.	USA	/zaeCnBH0BvWhXopMHmT4sN3yuxz.jpg
 2211961	\N	Wayne T. Carr	0	\N	\N		\N	/9TBD3GoEH3SR29fyZF4jJcHu4kl.jpg
 1937912	\N	Reinaldo Faberlle	0	\N	\N		\N	\N
+1258564	nm0486437	Tobias Langhoff	2	1962-11-28 00:00:00	\N		DEU	\N
 3192808	nm3459297	Jared Leland Gore	2	\N	\N		\N	\N
+1576708	nm6077587	Anton von Lucke	2	1989-09-30 00:00:00	\N		DEU	/5oUa4F7bYNvQi6Ybl8C8l8MvKtn.jpg
+1905701	nm4528152	Michael Pitthan	2	\N	\N		\N	/dcfJWYyduxuJFSGmCGVkznXbNQs.jpg
+1759586	nm5265332	Joe Weintraub	2	\N	\N		\N	/9SWHnuJKbCRlffEpr5trdIA9ciI.jpg
 4040040	\N	Hanna Pak	0	\N	\N		\N	\N
 1437829	nm3456228	Danya LaBelle	0	\N	\N		\N	/5U6EVYgvyqhioe1tQCw1VcQFrbT.jpg
 15762	nm0152839	Tara Strong	1	1973-02-12 00:00:00	\N	Tara Lyn Charendoff-Strong (born February 12, 1973) is a Canadian-American actress, voice-over artist, comedian, musician, singer, and businesswoman, who is best known for her roles as Timmy Turner in the The Fairly OddParents, Bubbles in The Powerpuff Girls, Ben Tennyson in Ben 10 and Ben 10: Ultimate Alien, Dil Pickles in Rugrats and All Grown Up, and her recurring role as Miss Collins in Big Time Rush.\n\nDescription above from the Wikipedia article Tara Strong, licensed under CC-BY-SA, full list of contributors on Wikipedia.	CAN	/y9S3QzI3L5aARP8GYYO86rREKxU.jpg
@@ -3740,8 +3794,42 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 87165	nm1684744	Jennifer Holland	1	1984-06-04 00:00:00	\N	Jennifer Holland is an American actress. She is known for her work as Emilia Harcourt in the film The Suicide Squad and the television series Peacemaker. She also worked in American Pie Presents: The Book of Love.	USA	/ynuKq1Pd6aVGwhb07uJ0PiYV4F6.jpg
 149641	nm1265899	Chet Grissom	2	1965-01-27 00:00:00	\N	Chet Grissom is an actor.	USA	/yTfrcarwGM9H8F47VA2Z0sXATCF.jpg
 939406	nm0301842	Elan Gale	2	1983-10-27 00:00:00	\N		USA	/An6kvqA5gkQnNO9aOqxSiY4U54w.jpg
+1747036	nm6370107	Charles Morillon	2	1985-03-21 00:00:00	\N		FRA	/rRme4EixYTgMT8sLmiBaMEtiJpo.jpg
+1417038	nm3172643	Gabriel Dufay	2	\N	\N		\N	\N
+1253821	nm0281514	Dan Brown	2	\N	\N		\N	/9MsdHXEaWuiImffJ1C17vBbU7fd.jpg
+2359478	nm2601165	Philipp Schenker	2	\N	\N		\N	\N
+1570412	nm8113129	Cyril Dobrý	2	\N	\N		\N	/A5kLwIl5KX1unFhsz1lIof9yLDv.jpg
+2143488	nm5595674	Sebastian Jacques	2	\N	\N		\N	\N
+545294	nm1087129	Gregory Gudgeon	2	\N	\N		\N	/nUmytl8enaRWd0BvcXHsL3E5KY9.jpg
+2277915	nm10559014	Cyril Čechák	0	\N	\N		\N	\N
+2465739	nm8668838	Jakob Schmidt	2	1999-09-01 00:00:00	\N		\N	\N
+1838573	nm6515162	Felix von Bredow	2	1986-01-01 00:00:00	\N		DEU	/dHz8DS1JPxsMzQSGvuvL71ImaSR.jpg
+3055073	nm12480190	Martin Dostál	2	\N	\N		\N	\N
+2899666	nm5259074	Marek Simbersky	0	\N	\N		\N	\N
+56062	nm2428413	Jakob Diehl	2	1978-09-25 00:00:00	\N		FRA	/tx49ojPhegCyQ0AhYxEDi9vyjL5.jpg
+3980548	nm14287214	Friedrich Berger	2	\N	\N		\N	\N
+584987	nm0657698	Anthony Paliotti	2	\N	\N		\N	/dLI5zXisgtjNh0EyZqPWpx9pEz9.jpg
+3980549	nm14182682	Radek Brodil	2	\N	\N		\N	\N
+3980550	nm14182683	Jonathan Henault	2	\N	\N		\N	\N
+1624048	nm5345373	Nico Ehrenteit	2	1989-01-01 00:00:00	\N		DEU	/4AzmPygq5m1vVLdcUYRTEIy53TZ.jpg
+1538910	nm3267326	Hendrik Heutmann	2	1982-11-11 00:00:00	\N		DEU	/qscFtLmF6B8duirx41QglMS3Ub1.jpg
+1727943	nm1651116	Daniel-Frantisek Kamen	2	\N	\N		\N	/pP6jejcnqrfun25rZrnAd20kANf.jpg
+3875723	nm4326492	Tomáš Čapek	2	\N	\N		\N	\N
+553003	nm2858075	Markus Tomczyk	2	1980-01-01 00:00:00	\N		DEU	/yxwhUtUkXEJultcnZjlRi6PcWB1.jpg
+3875885	nm14182684	Emil Rothermel	2	\N	\N		\N	\N
+1533547	nm7522509	Wolf Danny Homann	2	1990-01-01 00:00:00	\N		DEU	/AuOS1urtn4eLKvSoYf9rjkqg7Sc.jpg
+3980555	nm14182685	Michal Závodský	2	\N	\N		\N	\N
+3980557	nm14182686	Nicolas Prokop	2	\N	\N		\N	\N
+3980558	nm13456462	Jacob Zacharias Eckstein	2	\N	\N		\N	\N
+3980552	nm14182687	Adam Mensdorff	2	\N	\N		\N	\N
+1819333	nm1551940	Peter Sikorski	2	1979-01-01 00:00:00	\N		DEU	/9b7UG09iZecMOtiI8kGFhQS2uYw.jpg
+3412516	nm13155406	Alžběta Malá	1	1997-08-06 00:00:00	\N		CZE	/esYiX0Ql5d4qDgNfqojaVRcIwv6.jpg
+3980553	nm14182716	Andrea Zatloukalová	1	\N	\N		\N	\N
 1827845	\N	Kyle Mclean	0	\N	\N		\N	\N
+1438484	nm2256018	Thomas Zielinski	2	1972-04-25 00:00:00	\N		\N	\N
+3549254	nm10195292	Tomáš Weber	2	\N	\N		\N	/xd4fxDTvjx1PWAtnKNtjwoT39c3.jpg
 3061301	nm9757312	Joe Daru	2	\N	\N		\N	\N
+2741191	nm10999904	Samuel Neduha	2	\N	\N		\N	\N
 1635223	nm6724964	Diego Ward	2	\N	\N		\N	\N
 1768007	\N	Renae Moneymaker	1	\N	\N		\N	\N
 4040048	\N	Alexis Hadesty	0	\N	\N		\N	\N
@@ -3754,6 +3842,8 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 1356013	nm1177880	Benjamin Byron Davis	2	1972-06-21 00:00:00	\N	Benjamin Byron Davis (born June 21, 1972) is an American actor, writer, director and acting coach. He is known for his performance as Dutch van der Linde in the video games Red Dead Redemption and Red Dead Redemption 2.\n\nFrom Wikipedia, the free encyclopedia	USA	/5WHDh9l9Ylsbf5ZKt3nQ4FRweUi.jpg
 1404452	nm4227751	Tiffany Smith	1	1982-11-29 00:00:00	\N	Tiffany Smith has appeared on The CW's Supernatural and Jane The Virgin, the McG FOX pilot Behind Enemy Lines, and the recent psychological thriller, House of Demons. She is also an On-Camera Host, Actress, Influencer and go-to Geek Gal. From cons and carpets to set visits and #setlife, Tiffany succeeds in various live and on-camera roles, in all realms of media. She has hosted network/cable TV shows and specials (AMC's Geeking Out, CW Fan Feast, G4's Attack of The Show!); digitally live-streamed premiere and award show red carpets (WB, CW, NBCU, Syfy/Syfy Wire, DCE, IGN, Oxygen, Disney, Netflix, E!, Focus Features, Marvel, Sony Pictures) and con/expo coverage (SDCC, NYCC, C2E2, WonderCon, E3); and multiple digital/new media series' (CW Fan Talk: The Flash, Collider Jedi Council, DC All Access, Syfy's Krypton Trivia Series, Fandango Movie3Some and Weekend Ticket, Screenvision, Nerdist, The Chive, Crafting Comics, AT&T U-Verse Buzz). She has also appeared as a film/TV expert and correspondent on Dr. Drew On Call, Michaela HLN, E!'s ATT Live 360 and HLN's The Daily Share, to name a few. Her collective social following of 150k+ and ability to reach millions across her platforms, has landed her branded digital and social media partnerships with Dairy Queen/Marvel, Warner Bros., Hershey's, Delta, Xbox, Cricket Wireless and Ford.	USA	/7kPvIwIEJ5WuoQgOnrxjngyl3Sp.jpg
 1717376	nm3710906	Caleb Spillyards	2	\N	\N		\N	/5r7Q82C3g8CCIR2Eew6gc2oWSK2.jpg
+1074002	nm1099009	Martin Němec	2	1957-06-16 00:00:00	\N	Martin Němec is a Czech musician and music composer who also writes for film and television.	\N	/93hoR3myweiY5NF1bDc1BI89ONZ.jpg
+3329970	nm9601812	Tomáš Merkl	2	2005-06-08 00:00:00	\N		\N	\N
 1543993	\N	Jessica Fontaine	0	\N	\N		\N	\N
 1504236	nm3537390	Bonnie Discepolo	1	\N	\N		\N	\N
 4040065	\N	Grace Gunn	0	\N	\N		\N	\N
@@ -4402,6 +4492,9 @@ COPY public.cast_races (id, race_id, cast_member_id) FROM stdin;
 285	2	227564
 286	1	29862
 287	1	1102260
+288	1	3631223
+289	1	3872
+290	4	3872
 \.
 
 
@@ -5454,6 +5547,61 @@ COPY public.credits (id, movie_id, "character", "order", cast_member_id) FROM st
 62956e245507e9009af633af	511809	Demonstrator	120	130735
 62956e2ba410c815a54910a6	511809	Demonstrator	121	1681734
 6398e3848ec4ab0089f6c053	511809	Construction Worker	122	1691382
+62d81a591dbc8803343c7592	49046	Paul Bäumer	0	3631223
+609a47fc4dc34a003b9e89fe	49046	Stanislaus "Kat" Katczinsky	1	1111158
+609a481038469a003f70b829	49046	Albert Kropp	2	1820948
+609a481c006eee003c1f15bb	49046	Franz Müller	3	1818302
+609a492bd6590b003c212683	49046	Ludwig Behm	4	2951325
+609a482841eee1003bda5d0c	49046	Tjaden Stackfleet	5	212930
+5e63e861459ad60011575831	49046	Matthias Erzberger	6	3872
+6336953cdb4ed6007c88164f	49046	General Ferdinand Foch	7	19361
+609a47ca38469a003d70b665	49046	General Friedrichs	8	6086
+609a47da0f1e58003e37213b	49046	Lieutenant Hoppe	9	1411011
+609a486e20af77003d81309d	49046	Major von Brixdorf	10	550554
+609a48f638469a003c707deb	49046	Staff Surgeon	11	235807
+609a48e6511d09003e4ce086	49046	Principal	12	20266
+6336964c42f19f007de4253b	49046	Military Recruiter	13	1502005
+633695716e0d72009b6aea8c	49046	Count von Oberndorff	14	564809
+609a491c72a2c9003e35348e	49046	Major General von Winterfeldt	15	1258564
+609a48d672a2c9003e353466	49046	Captain von Helldorf	16	1576708
+63646f7ae61e6d007916e645	49046	Captain Ernst von Vanselow	17	1905701
+63369652c072a2007eb955b8	49046	Captain Geyer	18	1759586
+63369559255dba0079fea2d1	49046	Capitaine Paul Lepèrche	19	1747036
+63aa45c6aaec7100bb4fabb2	49046	Major General Maxime Weygand	20	1417038
+63aa46be9408ec0089934a16	49046	Admiral Rosslyn Wemyss	21	1253821
+63aa47e3b3316b00cfbd7cf3	49046	Admiral George Hope	22	2359478
+63aa4802aaec71007b2f71d2	49046	Butler General Foch	23	1570412
+63aa487baaec7100a11384c0	49046	Butler	24	2143488
+63aa488abfeb8b008d5626b4	49046	Farmer	25	545294
+63aa48e80721660084e08bc3	49046	Farm Boy	26	2277915
+6336956142f19f007de424d0	49046	Heinrich Gerber	27	2465739
+63aa491e9408ec007d684e0b	49046	Sergeant	28	1838573
+63aa494ea6a4c1008a84cef4	49046	Young Recruit	29	3055073
+63aa498776eecf007f3f7026	49046	Gérard Duval	30	2899666
+63aa49adb3316b007a8c1a3b	49046	Sergeant Steinberger	31	56062
+642061236a344800a90a448f	49046	Walter	32	3980548
+63aae162c8113d00c88dfdac	49046	Major Grenier	33	584987
+642061442dc9dc007c06697c	49046	French Soldier	34	3980549
+6420616e2dc9dc007c066994	49046	Moreau	35	3980550
+63369545b076e5007e5c33a6	49046	Soldier Lemrott	36	1624048
+642061f753466100f0ebf47c	49046	Paramedic Eguisac	37	1538910
+6420620b534661008579de20	49046	Military Surgeon Eguisac	38	1727943
+64206213534661008579de27	49046	Recruit Eguisac	39	3875723
+6420622f8d22fc00ef16cd7d	49046	Cookhouse Wallah	40	553003
+6420625953466100cd403396	49046	Recruit Kitchen	41	3875885
+6336954d0d11f20082fb0f0e	49046	Military Policeman	42	1533547
+6420627953466100aa001d1d	49046	Military Policeman Eguisac	43	3980555
+642062ae534661007a78df50	49046	Deserter	44	3980557
+642062c253466100f0ebf4c5	49046	Soldier Bunker	45	3980558
+642061956a344800a90a44c3	49046	Digging Soldier	46	3980552
+6336956adb4ed60084b91a16	49046	Sergeant Trench	47	1819333
+63ad3a527ef3811f6c1543af	49046	French Girl 1	48	3412516
+642061a608cf8700fd86e7f1	49046	French Girl 2	49	3980553
+63ad3a6cbe4b36008a6cafbb	49046	Priest	50	1438484
+63ad3a811f748b00a0f158d0	49046	Dying Frenchman	51	3549254
+63ad3a971f748b008236f767	49046	Celebrating Soldier	52	2741191
+642061b623be460082b281de	49046	Veteran	53	1074002
+63ad39525ad76b00ae8f5d13	49046	Young Soldier	54	3329970
 \.
 
 
@@ -6291,6 +6439,8 @@ COPY public.media_genres (id, genre_id, movie_id) FROM stdin;
 167	27	58405
 168	27	428894
 169	18	758866
+172	18	49046
+173	10752	49046
 \.
 
 
@@ -6377,6 +6527,7 @@ COPY public.movies (id, imdb_id, title, overview, runtime, poster_path, release_
 58405	\N	Don't Look Up	On the set of a dark war time drama at an old movie studio, a young director, Toshio Murai, is trying to complete his debut film. The two starring actresses, Hitomi Kurokawa and Saori Murakami, play sisters in his film. Murai has a crush on Hitomi, the seasoned leading actress, and keeps a photo of her by his bed. The younger and less experienced actress, Saori, is annoying and likes to have recess on the set. The production of the movie is consistently interrupted by strange occurrences and the cast and crew begin to get spooked.	\N	/liJtNCgfTKFRJCu44ZsbfDHQUM1.jpg	1996-03-22 00:00:00	\N	\N
 428894	\N	Don't Look Up	A young woman comes home late night on public transportation and puts herself in a precarious position where she comes across an urban legend that may be true.	\N	/2ICHGjUbqX7QsVnJrpnpwIF0Sq9.jpg	2015-06-26 00:00:00	\N	\N
 1054677	\N	Don't Look up My Skirt Unless You Mean It (or How Butch Are You Really?)	Title says it all.	\N	\N	1994-01-01 00:00:00	\N	\N
+49046	tt1016150	All Quiet on the Western Front	Paul Baumer and his friends Albert and Muller, egged on by romantic dreams of heroism, voluntarily enlist in the German army. Full of excitement and patriotic fervour, the boys enthusiastically march into a war they believe in. But once on the Western Front, they discover the soul-destroying horror of World War I.	147	/2IRjbi9cADuDMKmHdLK7LaqQDKA.jpg	2022-10-07 00:00:00	20000000	0
 646380	tt11286314	Don't Look Up	Two American astronomers attempt to warn humankind about an approaching comet that will wipe out life on planet Earth.	138	/th4E1yqsE8DGpAseLiUrI60Hf8V.jpg	2021-12-07 00:00:00	75000000	791863
 1019504	\N	Down the Road: The Making of Drive My Car	Spanning locations in Tokyo, Hiroshima, and Hokkaido and featuring interviews with cast members and rare behind-the-scenes footage, it captures the creative collective journey of the filmmaking team.	\N	\N	2022-02-18 00:00:00	\N	\N
 758866	tt14039582	Drive My Car	Yusuke Kafuku, a stage actor and director, still unable, after two years, to cope with the loss of his beloved wife, accepts to direct Uncle Vanya at a theater festival in Hiroshima. There he meets Misaki, an introverted young woman, appointed to drive his car. In between rides, secrets from the past and heartfelt confessions will be unveiled.	179	/3cOsf5HBjPK2QCz9ebQlGHNnE7y.jpg	2021-08-18 00:00:00	0	15308325
@@ -6649,6 +6800,8 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 194	2	https://en.wikipedia.org/wiki/Demi_Singleton
 195	2	https://en.wikipedia.org/wiki/Jim_Beaver
 196	2	https://en.wikipedia.org/wiki/Lara_Jean_Chorostecki
+197	1	https://ethnicelebs.com/felix-kammerer
+198	2	https://en.wikipedia.org/wiki/Daniel_Br%C3%BChl
 \.
 
 
@@ -6699,7 +6852,7 @@ COPY public.subregions (id, name, region_id) FROM stdin;
 -- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.also_known_as_id_seq', 757, true);
+SELECT pg_catalog.setval('public.also_known_as_id_seq', 782, true);
 
 
 --
@@ -6720,14 +6873,14 @@ SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 78, true);
 -- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 781, true);
+SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 786, true);
 
 
 --
 -- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 499, true);
+SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 504, true);
 
 
 --
@@ -6741,7 +6894,7 @@ SELECT pg_catalog.setval('public.cast_members_id_seq', 1, false);
 -- Name: cast_races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.cast_races_id_seq', 287, true);
+SELECT pg_catalog.setval('public.cast_races_id_seq', 290, true);
 
 
 --
@@ -6769,14 +6922,14 @@ SELECT pg_catalog.setval('public.genres_id_seq', 1, false);
 -- Name: media_genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.media_genres_id_seq', 169, true);
+SELECT pg_catalog.setval('public.media_genres_id_seq', 173, true);
 
 
 --
 -- Name: movie_nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.movie_nominations_id_seq', 20, true);
+SELECT pg_catalog.setval('public.movie_nominations_id_seq', 22, true);
 
 
 --
@@ -6790,7 +6943,7 @@ SELECT pg_catalog.setval('public.movies_id_seq', 1, false);
 -- Name: nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.nominations_id_seq', 94, true);
+SELECT pg_catalog.setval('public.nominations_id_seq', 95, true);
 
 
 --
@@ -6811,7 +6964,7 @@ SELECT pg_catalog.setval('public.regions_id_seq', 6, true);
 -- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
 --
 
-SELECT pg_catalog.setval('public.source_links_id_seq', 196, true);
+SELECT pg_catalog.setval('public.source_links_id_seq', 198, true);
 
 
 --

@@ -14,6 +14,53 @@ key = os.environ['TMDB_API_KEY']
 access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 
+def add_new_movie(movie_id):
+    print(f"missing... making api call...\n")
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US"
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {access_token}"
+    }
+    response = requests.get(url, headers=headers)
+    movie = response.json()
+
+    format = "%Y-%m-%d"
+    formatted_date = datetime.strptime(movie['release_date'], format)
+    new_movie = Movie(id=movie["id"],
+                      title=movie["title"],
+                      overview=movie["overview"],
+                      poster_path=movie["poster_path"],
+                      release_date=formatted_date,
+                      imdb_id = movie["imdb_id"],
+                      runtime = movie["runtime"],
+                      budget = movie["budget"],
+                      revenue = movie["revenue"])
+    print(f'Created new movie: {new_movie.title} ({new_movie.release_date.year})')
+    for genre in movie["genres"]:
+        genre_object = Genre.query.filter(Genre.id == genre['id']).one()
+        new_movie.genres.append(genre_object)
+
+    # Get cast list and add cast members
+    cast_credit_list = query_api_credits(movie_id)
+    query_api_people(cast_credit_list)
+
+    # Add credits after adding cast members
+    add_credits(cast_credit_list, new_movie)
+
+
+def add_nomination(movie: Movie, year: int, award='Academy Awards'):
+    nomination = Nomination.query.filter(and_(Nomination.name == award, Nomination.year == year)).first()
+
+    if nomination == None:
+        nomination = Nomination(name='Academy Awards', year=year)
+        print(f"Adding {nomination.name} {nomination.year} to db...")
+
+    movie.nominations.append(nomination)
+    date_format = '%Y'
+
+    print(f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})")
+
+
 def add_source_data(new_person, ethnicity_object, source):
     formatted_source = "/".join(source.split("/")[0:3])
 
@@ -206,7 +253,7 @@ def update_cast_member(person_obj, person_order):
         add_race_data(curr_person)
 
 
-def add_cast_member(person):
+def add_cast_member(person, order):
     """Add cast member information from api call."""
     if type(person) == str:
         print(f"Making api call...")
@@ -260,7 +307,7 @@ def add_cast_member(person):
             (Country.id == country[-1].strip()) | (Country.name == country[-1].strip()) | (AltCountry.alt_name == country[-1].strip())).first()
         new_person.country_of_birth = country_object
 
-    if person['order'] < 10:
+    if order < 10:
         # Add ethnicity data
         add_ethnicity_data(new_person)
 
@@ -373,7 +420,7 @@ def query_api_credits(movie_id):
     return movie_credits['cast']
 
 
-def query_api_people(credit_list, movie_title):
+def query_api_people(credit_list):
     """Create cast members for given list of credits."""
 
     update_count = 0
@@ -388,12 +435,12 @@ def query_api_people(credit_list, movie_title):
 
         if person_query == None:
             print(
-                f"{person['name']} doesn't exist in database...\nMaking api call...")
+                f"{person['name']} doesn't exist in database... making api call...")
             url = f"https://api.themoviedb.org/3/person/{person['id']}?api_key={key}"
             response = requests.get(url)
-            person = response.json()
+            person_details = response.json()
 
-            cast_member = add_cast_member(person)
+            cast_member = add_cast_member(person_details, person['order'])
             db.session.add(cast_member)
             add_count += 1
 

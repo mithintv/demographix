@@ -37,7 +37,7 @@ const Histogram = React.memo((props) => {
         return d.amount;
       }) // I need to give the vector of value
       .domain(x.domain()) // then the domain of the graphic
-      .thresholds(x.ticks(70)); // then the numbers of bins
+      .thresholds(x.ticks(30)); // then the numbers of bins
 
     // And apply this function to data to get the bins
     const bins = histogram(data);
@@ -62,8 +62,9 @@ const Histogram = React.memo((props) => {
         return `translate(${x(d.x0)} , ${y(d.length)})`;
       })
       .attr("width", function (d) {
-        return x(d.x1) - x(d.x0) - 1;
+        return x(d.x1) - x(d.x0);
       })
+      .attr("stroke", "white")
       .attr("height", function (d) {
         return height - y(d.length);
       })

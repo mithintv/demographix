@@ -511,7 +511,7 @@ def get_movie_cast(movie_id):
                     'gender': cast.Gender.name,
                     'ethnicity': ethnicities,
                     'race': races,
-                    'country_of_birth': cast.Country.name if cast.Country else None,
+                    'country_of_birth': cast.Country.id if cast.Country else None,
                     'character': cast.Credit.character,
                     'order': cast.Credit.order,
                     'profile_path': cast.CastMember.profile_path}

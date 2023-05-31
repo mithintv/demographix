@@ -32,8 +32,24 @@ const WorldMap = React.memo((props) => {
         "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
       ),
     ]).then(function (loadData) {
-      console.log(loadData);
       let topo = loadData[0];
+
+      let mouseOver = function (d) {
+        d3.selectAll(".Country")
+          .transition()
+          .duration(200)
+          .style("opacity", 0.5);
+
+        d3.select(this).transition().duration(200).style("opacity", 1);
+      };
+
+      let mouseLeave = function (d) {
+        d3.selectAll(".Country")
+          .transition()
+          .duration(200)
+          .style("opacity", 0.8);
+        d3.select(this).transition().duration(200);
+      };
 
       // Draw the map
       svg
@@ -43,15 +59,26 @@ const WorldMap = React.memo((props) => {
         .join("path")
         // .attr("fill", "#69b3a2")
         .attr("d", d3.geoPath().projection(projection))
-        .style("stroke", "#fff")
+        .style("stroke", "white")
         // .data(data, (d) => (d.name, d.amount))
+        .attr("stroke-width", (d) => {
+          const element = data.find((el) => d.id === el.name);
+          if (element) return 1;
+          else return 0;
+        })
         .attr("fill", (d) => {
           const element = data.find((el) => d.id === el.name);
           if (element) {
             d.total = element.amount;
             return colorScale(d.total);
           }
-        });
+        })
+        .attr("class", function (d) {
+          return "Country";
+        })
+        .style("opacity", 0.8)
+        .on("mouseover", mouseOver)
+        .on("mouseleave", mouseLeave);
     });
   }, []);
 

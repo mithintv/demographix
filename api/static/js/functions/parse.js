@@ -59,9 +59,7 @@ const parseRace = (movieCast) => {
     },
   ];
   for (const race in raceData) {
-    console.log(race);
     const update = listRaceData.find(obj => obj.name == race.toString());
-    console.log(update);
     update.amount = raceData[race];
   }
   return listRaceData;

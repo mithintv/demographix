@@ -27,11 +27,12 @@ const MovieDetails = (props) => {
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
         }}
       >
         {ageData && <Histogram data={ageData} />}
         {raceData && <BarChart data={raceData} />}
-        {cobData && <PieChart data={cobData} />}
+        {cobData && <WorldMap data={cobData} />}
       </div>
       {movieDetails && <CastDetails cast={movieDetails.cast} />}
     </React.Fragment>

@@ -29,8 +29,7 @@ const NomMovies = (props) => {
     <React.Fragment>
       {ageData && <Histogram data={ageData} />}
       {raceData && <BarChart data={raceData} />}
-      {/* {raceData && <PieChart data={raceData} />*/}
-      {cobData && <PieChart data={cobData} />}
+      {cobData && <WorldMap data={cobData} />}
       {!showDetails &&
         movies.map((movie, index) => {
           const releaseDate = new Date(movie.release_date);

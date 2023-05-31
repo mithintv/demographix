@@ -39,10 +39,8 @@ const PieChart = React.memo((props) => {
       .range(d3.schemeDark2);
 
     // Compute the position of each group on the pie:
-    const pie = d3.pie().value((d) => d.value);
-    const data_ready = pie(
-      Object.entries(data).map(([key, value]) => ({ key, value }))
-    );
+    const pie = d3.pie().value((d) => d.amount);
+    const data_ready = pie(data);
 
     // The arc generator
     const arc = d3
@@ -105,7 +103,7 @@ const PieChart = React.memo((props) => {
       })
       .append("tspan")
       .text((d) => {
-        const label = d.data.key;
+        const label = d.data.name;
         if (label.includes("/")) {
           return label.split("/")[0] + "/";
         }
@@ -115,7 +113,7 @@ const PieChart = React.memo((props) => {
       })
       .append("tspan")
       .text((d) => {
-        const label = d.data.key;
+        const label = d.data.name;
         if (label.includes("/")) {
           return label.split("/")[1];
         }

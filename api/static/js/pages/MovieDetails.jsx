@@ -29,7 +29,7 @@ const MovieDetails = (props) => {
           display: "flex",
         }}
       >
-        {ageData && <BarChart data={ageData} />}
+        {ageData && <Histogram data={ageData} />}
         {raceData && <BarChart data={raceData} />}
         {cobData && <PieChart data={cobData} />}
       </div>

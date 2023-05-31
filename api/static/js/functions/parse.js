@@ -69,16 +69,27 @@ const parseRace = (movieCast) => {
 
 
 const parseCountryOfBirth = (movieCast) => {
-  const listCOBData = {};
+  const listCOBData = [];
   movieCast.forEach((cast) => {
-    if (cast.country_of_birth === null) {
-      listCOBData["Unknown"] = listCOBData["Unknown"]
-        ? (listCOBData["Unknown"] += 1)
-        : 1;
-    } else {
-      listCOBData[cast.country_of_birth] = listCOBData[cast.country_of_birth]
-        ? (listCOBData[cast.country_of_birth] += 1)
-        : 1;
+    const new_entry = {};
+    if (cast.country_of_birth !== null) {
+      //   const entry = listCOBData.find(entry => entry.name == 'Unknown');
+      //   if (!entry) {
+      //     new_entry.name = 'Unknown';
+      //     new_entry.amount = 1;
+      //     listCOBData.push(new_entry);
+      //   } else {
+      //     entry.amount += 1;
+      //   }
+      // } else {
+      const entry = listCOBData.find(entry => entry.name == cast.country_of_birth);
+      if (!entry) {
+        new_entry.name = cast.country_of_birth;
+        new_entry.amount = 1;
+        listCOBData.push(new_entry);
+      } else {
+        entry.amount += 1;
+      }
     }
   });
   return listCOBData;

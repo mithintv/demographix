@@ -3,6 +3,7 @@ const NomMovies = (props) => {
   const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
   const [ageData, setAgeData] = React.useState();
+  const [genderData, setGenderData] = React.useState();
   const [raceData, setRaceData] = React.useState();
   const [cobData, setCOBData] = React.useState();
 
@@ -13,6 +14,7 @@ const NomMovies = (props) => {
       setMovies(movieList);
 
       const castList = compileAges(movieList);
+      setGenderData(parseGenders(castList));
       setAgeData(parseAges(castList));
       setRaceData(parseRace(castList));
       setCOBData(parseCountryOfBirth(castList));
@@ -28,6 +30,7 @@ const NomMovies = (props) => {
   return (
     <React.Fragment>
       {ageData && <Histogram data={ageData} />}
+      {genderData && <PieChart data={genderData} />}
       {raceData && <BarChart data={raceData} />}
       {cobData && <WorldMap data={cobData} />}
       {!showDetails &&

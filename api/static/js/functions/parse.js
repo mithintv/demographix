@@ -1,3 +1,20 @@
+const parseGenders = (movieCast) => {
+  const listGenderData = [];
+  movieCast.forEach((cast) => {
+    const new_entry = {};
+    const entry = listGenderData.find(entry => entry.name == cast.gender);
+    if (!entry) {
+      new_entry.name = cast.gender;
+      new_entry.amount = 1;
+      listGenderData.push(new_entry);
+    } else {
+      entry.amount += 1;
+    }
+  });
+  return listGenderData;
+};
+
+
 const parseAges = (movieCast) => {
   const listAgeData = [];
   const filteredBdays = movieCast.filter((cast) => cast.birthday !== null);
@@ -13,6 +30,7 @@ const parseAges = (movieCast) => {
 
   return listAgeData;
 };
+
 
 const parseRace = (movieCast) => {
   const raceData = {};

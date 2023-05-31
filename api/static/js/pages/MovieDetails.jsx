@@ -1,6 +1,7 @@
 const MovieDetails = (props) => {
   const [movieDetails, setMovieDetails] = React.useState();
   const [ageData, setAgeData] = React.useState();
+  const [genderData, setGenderData] = React.useState();
   const [raceData, setRaceData] = React.useState();
   const [cobData, setCOBData] = React.useState();
 
@@ -12,6 +13,9 @@ const MovieDetails = (props) => {
 
       const listAgeData = parseAges(movieData.cast);
       setAgeData(listAgeData);
+
+      const listGenderData = parseGenders(movieData.cast);
+      setGenderData(listGenderData);
 
       const listRaceData = parseRace(movieData.cast);
       setRaceData(listRaceData);
@@ -31,6 +35,7 @@ const MovieDetails = (props) => {
         }}
       >
         {ageData && <Histogram data={ageData} />}
+        {genderData && <PieChart data={genderData} />}
         {raceData && <BarChart data={raceData} />}
         {cobData && <WorldMap data={cobData} />}
       </div>

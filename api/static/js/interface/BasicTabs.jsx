@@ -9,11 +9,7 @@ const TabPanel = (props) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -25,12 +21,31 @@ const a11yProps = (index) => {
   };
 };
 
-const BasicTabs = () => {
+const BasicTabs = (props) => {
   const [value, setValue] = React.useState(0);
+  const [ageData, setAgeData] = React.useState();
+  const [genderData, setGenderData] = React.useState();
+  const [raceData, setRaceData] = React.useState();
+  const [cobData, setCOBData] = React.useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/nom/${props.year}`);
+      const movieList = await response.json();
+      // setMovies(movieList);
+
+      const castList = compileAges(movieList);
+      setGenderData(parseGenders(castList));
+      setAgeData(parseAges(castList));
+      setRaceData(parseRace(castList));
+      setCOBData(parseCountryOfBirth(castList));
+    };
+    fetchData();
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -40,19 +55,23 @@ const BasicTabs = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Age" {...a11yProps(0)} />
+          <Tab label="Gender" {...a11yProps(1)} />
+          <Tab label="Race" {...a11yProps(2)} />
+          <Tab label="Birth Country" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+        {ageData && <Histogram data={ageData} />}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        {genderData && <PieChart data={genderData} />}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        {raceData && <BarChart data={raceData} />}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        {cobData && <WorldMap data={cobData} />}
       </TabPanel>
     </Box>
   );

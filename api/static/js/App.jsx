@@ -146,9 +146,8 @@ const App = () => {
           </IconButton>
         </Paper>
         <Route path="/movies/:id" component={MovieDetails} exact></Route>
-        <BasicTabs />
+        <BasicTabs year={new Date().getFullYear()} />
         {searchMovies && <SearchResults results={searchResults} />}
-        <NomMovies year={new Date().getFullYear()} />
       </Container>
     </BrowserRouter>
   );

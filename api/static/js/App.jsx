@@ -65,11 +65,10 @@ const App = () => {
       <Container
         maxWidth="lg"
         sx={{
+          mt: 10,
           display: "flex",
           height: "100vh",
           flexDirection: "column",
-          justifyContent: "center",
-          alignContent: "center",
         }}
       >
         <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">

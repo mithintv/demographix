@@ -1,6 +1,6 @@
 const MovieCard = (props) => {
   const { movie } = props;
-  console.log(props.movie);
+
   return (
     <React.Fragment>
       <Card
@@ -37,7 +37,7 @@ const MovieCard = (props) => {
             <CardMedia
               sx={{ my: 2 }}
               component="img"
-              width="275"
+              width={275}
               image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
               alt={`Movie poster for ${movie.title}`}
             />

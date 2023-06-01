@@ -64,6 +64,11 @@ const SearchBar = (props) => {
     };
   }, [searchInput]);
 
+  const clearInputHandler = () => {
+    setSearchMovies(false)
+    setSearchInput("")
+  }
+
   return (
     <Container maxWidth="md">
       <Paper
@@ -93,7 +98,7 @@ const SearchBar = (props) => {
             <span className="material-symbols-outlined">search</span>
           </IconButton>
         </Container>
-        {searchMovies && <SearchResults results={searchResults} />}
+        {searchMovies && <SearchResults clicked={clearInputHandler} results={searchResults} />}
       </Paper>
     </Container>
   );

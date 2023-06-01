@@ -61,7 +61,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Route path="/movies/:id" component={MovieDetails} exact></Route>
       <Container
         maxWidth="lg"
         sx={{
@@ -77,10 +76,11 @@ const App = () => {
           </Typography>
         </Link>
         <Typography color="textSecondary" variant="subtitle2" align="center">
-          Visualize the diverse tapestry of on-screen talent in blockbusterfilms
+          Visualize the diverse tapestry of on-screen talent in blockbuster
+          films
         </Typography>
         <SearchBar />
-
+        <Route path="/movies/:id" component={MovieDetails} exact></Route>
         {/* <BasicTabs year={new Date().getFullYear()} /> */}
       </Container>
     </BrowserRouter>

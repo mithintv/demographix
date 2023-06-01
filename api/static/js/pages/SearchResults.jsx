@@ -3,6 +3,7 @@ const SearchResults = (props) => {
   const [showDetails, setShowDetails] = React.useState(false);
 
   const setMovieHandler = (movie_id) => {
+    props.clicked();
     setShowDetails(true);
     setCurrMovie(movie_id);
   };
@@ -10,7 +11,6 @@ const SearchResults = (props) => {
   return (
     <React.Fragment>
       <Box
-        disableGutters
         sx={{
           boxSizing: "border-box",
           width: props.results.length * 132,

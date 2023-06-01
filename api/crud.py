@@ -346,7 +346,8 @@ def query_movie(keywords):
 
     query = Movie.query.filter(func.lower(Movie.title).like(
         f'{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
-    return query
+    filtered = filter(lambda movie: len(movie.credits) > 0, query)
+    return list(filtered)
 
 
 def query_movie_credits(movie_obj):

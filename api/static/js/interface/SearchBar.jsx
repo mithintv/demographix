@@ -65,31 +65,34 @@ const SearchBar = (props) => {
   }, [searchInput]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Paper
         onSubmit={searchHandler}
         component="form"
         sx={{
           m: "1rem 1rem",
-          p: "0.25rem 1rem",
+          py: "0.25rem",
           display: "flex",
+          flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <InputBase
-          sx={{ width: "100%" }}
-          inputRef={searchRef}
-          value={searchInput}
-          id="outlined-basic"
-          name="search"
-          label=""
-          placeholder="Search Movies"
-          variant="outlined"
-          onChange={searchInputHandler}
-        />
-        <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
-          <span className="material-symbols-outlined">search</span>
-        </IconButton>
+        <Container sx={{ display: "flex", flexDirection: "row" }}>
+          <InputBase
+            sx={{ width: "100%" }}
+            inputRef={searchRef}
+            value={searchInput}
+            id="outlined-basic"
+            name="search"
+            label=""
+            placeholder="Search Movies"
+            variant="outlined"
+            onChange={searchInputHandler}
+          />
+          <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+            <span className="material-symbols-outlined">search</span>
+          </IconButton>
+        </Container>
         {searchMovies && <SearchResults results={searchResults} />}
       </Paper>
     </Container>

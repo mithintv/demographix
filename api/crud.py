@@ -517,8 +517,11 @@ def get_movie_cast(movie_id):
                     'profile_path': cast.CastMember.profile_path}
         cast_details.append(new_cast)
 
+    genre_list = [genre.name for genre in movie.genres]
+
     data = {
         'title': movie.title,
+        'genres': genre_list,
         'overview': movie.overview,
         'runtime': movie.runtime,
         'poster_path': movie.poster_path,

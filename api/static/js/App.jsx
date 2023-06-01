@@ -1,6 +1,10 @@
 const { BrowserRouter, Route, Link: RouterLink } = ReactRouterDOM;
 const {
   Box,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
   colors,
   createTheme,
   CssBaseline,
@@ -20,14 +24,24 @@ const {
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-  },
-  components: {
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          textDecoration: "none",
-        },
-      },
+    primary: {
+      main: "#fdbd25",
+    },
+    secondary: {
+      main: "#e64788",
+    },
+    background: {
+      default: "#151036",
+      paper: "#2c274f",
+    },
+    text: {
+      primary: "#fefffe",
+    },
+    warning: {
+      main: "#ed6c02",
+    },
+    success: {
+      main: "#2e7d32",
     },
   },
 });
@@ -105,27 +119,18 @@ const App = () => {
   return (
     <BrowserRouter>
       <Container
-        maxWidth="sm"
+        maxWidth="lg"
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
         }}
       >
-        <Link component={RouterLink} to="/">
-          <Typography
-            variant="h1"
-            sx={{
-              textDecoration: "none",
-            }}
-          >
-            Demographix
-          </Typography>
-        </Link>
         <Paper
           onSubmit={searchHandler}
           component="form"
           sx={{
+            m: "1rem 1rem",
             p: "0.25rem 1rem",
             display: "flex",
             justifyContent: "space-between",
@@ -145,6 +150,15 @@ const App = () => {
             <span className="material-symbols-outlined">search</span>
           </IconButton>
         </Paper>
+        <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
+          <Typography align="center" variant="h1">
+            Demographix
+          </Typography>
+        </Link>
+        <Typography color="textSecondary" variant="subtitle2" align="center">
+          Visualize the diverse tapestry of on-screen talent in blockbusterfilms
+        </Typography>
+
         <Route path="/movies/:id" component={MovieDetails} exact></Route>
         <BasicTabs year={new Date().getFullYear()} />
         {searchMovies && <SearchResults results={searchResults} />}

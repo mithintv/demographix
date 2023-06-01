@@ -65,6 +65,7 @@ const SearchBar = (props) => {
   }, [searchInput]);
 
   const clearInputHandler = () => {
+    props.clicked()
     setSearchMovies(false)
     setSearchInput("")
   }

@@ -5,7 +5,7 @@ const MovieCard = (props) => {
     <React.Fragment>
       <Card
         sx={{
-          margin: 2,
+          my: 2,
           py: 3,
           px: 4,
           width: "350px",

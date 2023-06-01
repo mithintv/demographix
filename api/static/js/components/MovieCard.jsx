@@ -9,7 +9,6 @@ const MovieCard = (props) => {
           py: 3,
           px: 4,
           width: "350px",
-          height: "100%",
           display: "flex",
           flexDirection: "column",
         }}

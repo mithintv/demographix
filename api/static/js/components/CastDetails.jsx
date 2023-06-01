@@ -2,7 +2,15 @@ const CastDetails = React.memo((props) => {
   console.log("Rendering Cast Data: ", props.cast);
 
   return (
-    <div>
+    <Container
+      disableGutters
+      sx={{
+        height: "500px",
+        overflowX: "auto",
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
       {props.cast.map((cast, index) => {
         let age = "Unknown";
         if (cast.birthday) {
@@ -19,22 +27,22 @@ const CastDetails = React.memo((props) => {
         return (
           <div key={index}>
             <img style={{ borderRadius: "25px" }} src={imgPath} width={100} />
-            <span>Name: {cast.name} </span>
-            <span>Gender: {cast.gender} </span>
-            <span>Age: {age} </span>
+            <Typography variant="subtitle1">Name: {cast.name} </Typography>
+            <Typography variant="subtitle1">Gender: {cast.gender} </Typography>
+            <Typography variant="subtitle1">Age: {age} </Typography>
             <div>
               Race:
               {cast.race.map((race, j) => {
-                return <span key={j}>{race}, </span>;
+                return <Typography key={j}>{race}, </Typography>;
               })}
             </div>
             <div>
               Ethnicity:{" "}
               {cast.ethnicity.map((ethnicity, k) => {
                 return (
-                  <span key={k}>
-                    {ethnicity.name} ({ethnicity.sources}),{" "}
-                  </span>
+                  <Link href={ethnicity.sources} key={k}>
+                    {ethnicity.name}
+                  </Link>
                 );
               })}
             </div>
@@ -43,6 +51,6 @@ const CastDetails = React.memo((props) => {
           </div>
         );
       })}
-    </div>
+    </Container>
   );
 });

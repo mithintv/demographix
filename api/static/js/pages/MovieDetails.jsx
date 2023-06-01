@@ -44,7 +44,6 @@ const MovieDetails = (props) => {
           {raceData && <BarChart data={raceData} />}
           {cobData && <WorldMap data={cobData} />}
         </Container>
-        {movieDetails && <CastDetails cast={movieDetails.cast} />}
       </Container>
     </Fade>
   );

@@ -10,6 +10,7 @@ const {
   CssBaseline,
   Container,
   Fade,
+  GlobalStyles,
   Link,
   IconButton,
   InputBase,
@@ -55,6 +56,25 @@ const darkTheme = createTheme({
   },
 });
 
+const globalStyles = (
+  <GlobalStyles
+    styles={{
+      "*::-webkit-scrollbar-track": {
+        padding: 1,
+        backgroundColor: "#151036",
+      },
+      "*::-webkit-scrollbar": {
+        height: "0.4rem",
+        width: "0.4em",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        backgroundColor: "#545995",
+        borderRadius: "2.5px",
+      },
+    }}
+  />
+);
+
 const App = () => {
   const nomMovieHandler = () => {
     setNomMovies(true);
@@ -62,6 +82,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {globalStyles}
       <Container
         maxWidth="lg"
         sx={{

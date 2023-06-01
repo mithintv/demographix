@@ -63,6 +63,8 @@ const MovieCard = (props) => {
               })}
             </Container>
             <Typography sx={{ my: 1 }}>{movie.overview}</Typography>
+
+            <CastDetails cast={movie.cast} />
           </Container>
         ) : (
           <Container

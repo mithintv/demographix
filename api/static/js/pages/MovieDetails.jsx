@@ -27,23 +27,25 @@ const MovieDetails = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
-      <Container
-        disableGutters
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <MovieCard movie={movieDetails} />
-        <Card>
-          <CardContent>{ageData && <Histogram data={ageData} />}</CardContent>
-        </Card>
-        {genderData && <PieChart data={genderData} />}
-        {raceData && <BarChart data={raceData} />}
-        {cobData && <WorldMap data={cobData} />}
+    <Fade in>
+      <Container>
+        <Container
+          disableGutters
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <MovieCard movie={movieDetails} />
+          <Card>
+            <CardContent>{ageData && <Histogram data={ageData} />}</CardContent>
+          </Card>
+          {genderData && <PieChart data={genderData} />}
+          {raceData && <BarChart data={raceData} />}
+          {cobData && <WorldMap data={cobData} />}
+        </Container>
+        {movieDetails && <CastDetails cast={movieDetails.cast} />}
       </Container>
-      {movieDetails && <CastDetails cast={movieDetails.cast} />}
-    </React.Fragment>
+    </Fade>
   );
 };

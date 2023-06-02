@@ -84,10 +84,26 @@ const BarChart = React.memo((props) => {
     svg.append("g").call(yAxis);
 
     svg.call(yTitle);
+
+    return () => {
+      // Remove the SVG element from the DOM
+      d3.select(barChartRef.current).selectAll("g").remove();
+    };
   }, [data]);
   return (
-    <div>
-      <svg ref={barChartRef}></svg>
-    </div>
+    <Paper
+      elevation={2}
+      sx={{
+        p: 0,
+        m: 2,
+        display: "flex",
+        height: "330px",
+        backgroundColor: "background.default",
+      }}
+    >
+      <Box>
+        <svg ref={barChartRef}></svg>
+      </Box>
+    </Paper>
   );
 });

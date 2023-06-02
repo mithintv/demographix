@@ -123,15 +123,32 @@ const PieChart = React.memo((props) => {
       })
       .attr("x", 0)
       .attr("dy", "1em");
-  }, []);
+
+    return () => {
+      // Remove the SVG element from the DOM
+      d3.select(pieChartRef.current).selectAll("svg").remove();
+    };
+  }, [data]);
 
   return (
-    <div
-      style={{
+    <Paper
+      elevation={2}
+      sx={{
+        p: 0,
+        m: 2,
         display: "flex",
-        justifyContent: "center",
+        height: "330px",
+        backgroundColor: "background.default",
       }}
-      ref={pieChartRef}
-    ></div>
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "330px",
+        }}
+        ref={pieChartRef}
+      ></Box>
+    </Paper>
   );
 });

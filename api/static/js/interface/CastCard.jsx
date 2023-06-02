@@ -11,6 +11,7 @@ const CastCard = React.memo((props) => {
         py: 2,
         display: "flex",
         flexDirection: "row",
+        width: "100%",
         overflowX: "auto",
       }}
     >
@@ -35,13 +36,14 @@ const CastCard = React.memo((props) => {
               sx={{
                 width: 125,
                 mx: 1,
-                backgroundColor: "#151036",
+                backgroundColor: "background.default",
                 flex: "0 0 auto",
               }}
             >
               <CardMedia
                 sx={{ mb: 1 }}
                 width={150}
+                height={187.5}
                 component="img"
                 image={imgPath}
                 alt={`Image of ${cast.name}`}

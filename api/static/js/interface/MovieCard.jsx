@@ -5,12 +5,14 @@ const MovieCard = (props) => {
     <React.Fragment>
       <Card
         sx={{
-          my: 2,
+          mr: 2,
+          mb: 2,
           py: 3,
           px: 4,
           width: "350px",
           display: "flex",
           flexDirection: "column",
+          flex: "1 1",
         }}
       >
         {movie ? (
@@ -26,15 +28,15 @@ const MovieCard = (props) => {
                 flexDirection: "row",
               }}
             >
-              <Typography sx={{ paddingRight: 1 }} variant="subtitle1">
+              <Typography sx={{ paddingRight: 1 }} variant="caption">
                 {new Date(movie.release_date).getFullYear()}
               </Typography>
-              <Typography variant="subtitle1">
+              <Typography variant="caption">
                 {compileRuntime(movie.runtime)}
               </Typography>
             </Container>
             <CardMedia
-              sx={{ my: 2 }}
+              sx={{ mt: 2, mb: 1 }}
               component="img"
               width={275}
               image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
@@ -55,15 +57,16 @@ const MovieCard = (props) => {
                   <Typography
                     sx={{ paddingRight: 1 }}
                     key={i}
-                    variant="subtitle1"
+                    variant="caption"
                   >
                     {genre}
                   </Typography>
                 );
               })}
             </Container>
-            <Typography sx={{ my: 1 }}>{movie.overview}</Typography>
-
+            <Typography variant="subtitle2" sx={{ my: 1 }}>
+              {movie.overview}
+            </Typography>
           </Container>
         ) : (
           <Container

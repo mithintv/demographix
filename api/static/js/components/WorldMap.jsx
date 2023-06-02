@@ -8,7 +8,7 @@ const WorldMap = React.memo((props) => {
     const svg = d3.select(mapRef.current),
       margin = { top: 0, right: 100, bottom: 0, left: 100 },
       width = 450,
-      height = 350;
+      height = 325;
 
     // Map and projection
     const projection = d3
@@ -82,5 +82,18 @@ const WorldMap = React.memo((props) => {
     });
   }, []);
 
-  return <svg ref={mapRef}></svg>;
+  return (
+    <Paper
+      elevation={2}
+      sx={{
+        p: 0,
+        m: 2,
+        display: "flex",
+        height: "330px",
+        backgroundColor: "background.default",
+      }}
+    >
+      <svg ref={mapRef}></svg>
+    </Paper>
+  );
 });

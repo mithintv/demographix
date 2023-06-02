@@ -85,7 +85,7 @@ const App = () => {
     <BrowserRouter>
       {globalStyles}
       <Container
-        maxWidth="lg"
+        maxWidth="xl"
         sx={{
           mt: 10,
           display: "flex",

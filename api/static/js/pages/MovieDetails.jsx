@@ -1,5 +1,6 @@
 const MovieDetails = (props) => {
   const [movieDetails, setMovieDetails] = React.useState();
+  const [castDetails, setCastDetails] = React.useState([]);
   const [ageData, setAgeData] = React.useState();
   const [genderData, setGenderData] = React.useState();
   const [raceData, setRaceData] = React.useState();
@@ -10,6 +11,7 @@ const MovieDetails = (props) => {
       const response = await fetch(`/api/movies/${props.match.params.id}`);
       const movieData = await response.json();
       setMovieDetails(movieData);
+      setCastDetails(movieData.cast);
 
       const listAgeData = parseAges(movieData.cast);
       setAgeData(listAgeData);
@@ -37,6 +39,7 @@ const MovieDetails = (props) => {
           }}
         >
           <MovieCard movie={movieDetails} />
+          <CastCard cast={castDetails} />
           <Card>
             <CardContent>{ageData && <Histogram data={ageData} />}</CardContent>
           </Card>

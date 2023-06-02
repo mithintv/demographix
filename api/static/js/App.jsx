@@ -61,9 +61,10 @@ const globalStyles = (
     styles={{
       "*::-webkit-scrollbar-track": {
         padding: 1,
-        backgroundColor: "#151036",
+        backgroundColor: "#2c274f",
       },
       "*::-webkit-scrollbar": {
+        m: 2,
         height: "0.4rem",
         width: "0.4em",
       },

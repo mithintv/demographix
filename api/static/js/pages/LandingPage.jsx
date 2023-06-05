@@ -1,6 +1,6 @@
 const LandingPage = () => {
   const [showLanding, setShowLanding] = React.useState(true);
-  const [range, setRange] = React.useState("summary");
+  const [range, setRange] = React.useState("yearly");
   const [award, setAward] = React.useState("academy awards");
   const [summary, setSummary] = React.useState("last 5");
   const [year, setYear] = React.useState(new Date().getFullYear());

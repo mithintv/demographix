@@ -22,7 +22,7 @@ const Histogram = React.memo((props) => {
     // d3.csv(
     //   "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv"
     // ).then((data) => {
-    console.log(data);
+
     // X axis: scale and draw:
     const x = d3
       .scaleLinear()

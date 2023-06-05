@@ -1,10 +1,20 @@
 const LandingPage = () => {
   const [showLanding, setShowLanding] = React.useState(true);
-  const [award, setAward] = React.useState(new Date().getFullYear());
+  const [range, setRange] = React.useState("summary");
+  const [award, setAward] = React.useState("academy awards");
+  const [summary, setSummary] = React.useState("last 5");
   const [year, setYear] = React.useState(new Date().getFullYear());
 
   const handleAward = (event) => {
     setAward(event.target.value);
+  };
+
+  const handleRange = (event) => {
+    setRange(event.target.value);
+  };
+
+  const handleSummary = (event) => {
+    setSummary(event.target.value);
   };
 
   const handleYear = (event) => {
@@ -64,19 +74,58 @@ const LandingPage = () => {
               m: 1,
             }}
           >
-            <InputLabel id="year">Year</InputLabel>
+            <InputLabel id="range">Range</InputLabel>
             <Select
-              labelId="year"
-              id="year"
-              value={year}
-              label="Year"
-              onChange={handleYear}
+              labelId="range"
+              id="range"
+              value={range}
+              label="range"
+              onChange={handleRange}
             >
-              <MenuItem value={2023}>2023</MenuItem>
-              <MenuItem value={2022}>2022</MenuItem>
-              <MenuItem value={2021}>2021</MenuItem>
+              <MenuItem value={"summary"}>Summary</MenuItem>
+              <MenuItem value={"yearly"}>Yearly</MenuItem>
             </Select>
           </FormControl>
+          {range === "summary" ? (
+            <FormControl
+              sx={{
+                m: 1,
+                width: "150px",
+              }}
+            >
+              <InputLabel id={"summary"}>Summary</InputLabel>
+              <Select
+                labelId="summary"
+                id="summary"
+                value={summary}
+                label="summary"
+                onChange={handleSummary}
+              >
+                <MenuItem value={"last 5"}>Last 5 Years</MenuItem>
+                <MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+              </Select>
+            </FormControl>
+          ) : (
+            <FormControl
+              sx={{
+                m: 1,
+                width: "100px",
+              }}
+            >
+              <InputLabel id={"year"}>Year</InputLabel>
+              <Select
+                labelId="year"
+                id="year"
+                value={year}
+                label="Year"
+                onChange={handleYear}
+              >
+                <MenuItem value={2023}>2023</MenuItem>
+                <MenuItem value={2022}>2022</MenuItem>
+                <MenuItem value={2021}>2021</MenuItem>
+              </Select>
+            </FormControl>
+          )}
         </Box>
         <NomMovies award={award} year={year} />
       </Container>

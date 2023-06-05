@@ -43,12 +43,16 @@ def find_nominations(year):
     return nominees
 
 
-def check_nominations(year: int) -> str:
+def check_nominations(year: int) -> None:
     nominees = find_nominations(year)
     for nominee in nominees[0]['nominations']:
         title = nominee['primary']
         print(f"Checking if {title} ({year - 1}) is in db...", end=" ")
         query = Movie.query.filter(and_(func.lower(Movie.title) == title.lower(), extract('year', Movie.release_date) == year - 1)).first()
+
+        if query == None:
+            print(f"missing...\nChecking if {title} ({year}) is in db...", end=" ")
+            query = Movie.query.filter(and_(func.lower(Movie.title) == title.lower(), extract('year', Movie.release_date) == year)).first()
 
         if query == None:
             url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year - 1}&page=1"
@@ -58,10 +62,21 @@ def check_nominations(year: int) -> str:
             }
             response = requests.get(url, headers=headers)
             results = response.json()
+
+            if not results['results']:
+                url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year}&page=1"
+                headers = {
+                    "accept": "application/json",
+                    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
+                }
+                response = requests.get(url, headers=headers)
+                results = response.json()
             movie_id = results['results'][0]['id']
             crud.add_new_movie(movie_id=movie_id)
 
             query = Movie.query.filter(and_(Movie.title == title, extract('year', Movie.release_date) == year - 1)).first()
+            if query == None:
+                query = Movie.query.filter(and_(Movie.title == title, extract('year', Movie.release_date) == year)).first()
         else:
             print("found!")
 

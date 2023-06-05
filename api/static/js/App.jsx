@@ -57,6 +57,9 @@ const darkTheme = createTheme({
     h2: {
       fontWeight: 500,
     },
+    overline: {
+      fontWeight: 500,
+    },
   },
 });
 

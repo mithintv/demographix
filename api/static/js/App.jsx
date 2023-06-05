@@ -10,11 +10,15 @@ const {
   CssBaseline,
   Container,
   Fade,
+  FormControl,
   GlobalStyles,
+  InputLabel,
   Link,
+  MenuItem,
   IconButton,
   InputBase,
   Paper,
+  Select,
   Tab,
   Tabs,
   TextField,
@@ -53,6 +57,9 @@ const darkTheme = createTheme({
     h2: {
       fontWeight: 500,
     },
+    overline: {
+      fontWeight: 500,
+    },
   },
 });
 
@@ -66,7 +73,7 @@ const globalStyles = (
       "*::-webkit-scrollbar": {
         m: 2,
         height: "0.4rem",
-        width: "0.4em",
+        width: "0.5em",
       },
       "*::-webkit-scrollbar-thumb": {
         backgroundColor: "#545995",

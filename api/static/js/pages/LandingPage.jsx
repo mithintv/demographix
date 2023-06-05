@@ -2,7 +2,7 @@ const LandingPage = () => {
   const [showLanding, setShowLanding] = React.useState(true);
   const [range, setRange] = React.useState("yearly");
   const [award, setAward] = React.useState("academy awards");
-  const [summary, setSummary] = React.useState("last 5");
+  const [summary, setSummary] = React.useState("last 3");
   const [year, setYear] = React.useState(new Date().getFullYear());
 
   const handleAward = (event) => {
@@ -15,6 +15,7 @@ const LandingPage = () => {
 
   const handleSummary = (event) => {
     setSummary(event.target.value);
+    setYear(event.target.value);
   };
 
   const handleYear = (event) => {
@@ -24,6 +25,13 @@ const LandingPage = () => {
   const searchClickHandler = () => {
     setShowLanding(false);
   };
+
+  React.useEffect(() => {
+    if (range === "summary") {
+      setYear(summary);
+    } else setYear(new Date().getFullYear());
+  }, [range]);
+
   return (
     <Fade in={showLanding}>
       <Container>
@@ -101,6 +109,7 @@ const LandingPage = () => {
                 label="summary"
                 onChange={handleSummary}
               >
+                <MenuItem value={"last 3"}>Last 3 Years</MenuItem>
                 <MenuItem value={"last 5"}>Last 5 Years</MenuItem>
                 <MenuItem value={"last 10"}>Last 10 Years</MenuItem>
               </Select>

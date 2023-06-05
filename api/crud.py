@@ -7,6 +7,7 @@ from datetime import datetime
 from sqlalchemy import func, and_, or_, desc, extract
 from model import *
 
+from data.nominations import *
 from data.ethnicity import *
 from data.palm import *
 
@@ -160,7 +161,7 @@ def add_race_data(new_person):
                         mena = Race.query.filter(Race.short == 'MENA').one()
                         add_race_ids.add(mena.id)
 
-                    if approx_country.region.name == 'Africa' or approx_country.name in ['Haiti', 'Dominican Republic']:
+                    if approx_country.region.name == 'Africa' or approx_country.name in ['Haiti', 'Dominican Republic', 'Trinidad and Tobago']:
                         black = Race.query.filter(Race.short == 'BLK').one()
                         add_race_ids.add(black.id)
 
@@ -488,7 +489,7 @@ def get_movie_cast(movie_id):
         Gender, Gender.id == CastMember.gender_id, isouter=True).join(
         Country, Country.id == CastMember.country_of_birth_id, isouter=True).join(
         Movie, Movie.id == Credit.movie_id, isouter=True).filter(
-        Movie.id == movie_id).order_by(
+        Movie.id == movie_id).filter(Credit.order < 10).order_by(
         Credit.order).all()
 
     cast_details = []
@@ -540,6 +541,9 @@ def get_nom_movies(year):
 
     nomination = Nomination.query.filter(Nomination.year == year).first()
     movie_noms = MovieNomination.query.filter(MovieNomination.nomination_id == nomination.id).all()
+    if len(movie_noms) == 0:
+        check_nominations(int(year))
+        movie_noms = MovieNomination.query.filter(MovieNomination.nomination_id == nomination.id).all()
 
     all_movie_data = []
     for movie_nom in movie_noms:

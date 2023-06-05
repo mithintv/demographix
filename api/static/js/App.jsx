@@ -70,7 +70,7 @@ const globalStyles = (
       "*::-webkit-scrollbar": {
         m: 2,
         height: "0.4rem",
-        width: "0.4em",
+        width: "0.5em",
       },
       "*::-webkit-scrollbar-thumb": {
         backgroundColor: "#545995",

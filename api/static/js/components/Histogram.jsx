@@ -82,6 +82,7 @@ const Histogram = React.memo((props) => {
         justifyContent: "center",
         height: "330px",
         backgroundColor: "background.default",
+        flexGrow: 1,
       }}
     >
       <Box

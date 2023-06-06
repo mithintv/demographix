@@ -88,12 +88,10 @@ const globalStyles = (
   />
 );
 
-const App = (props) => {
+const App = () => {
   const nomMovieHandler = () => {
     setNomMovies(true);
   };
-
-  console.log(props.match);
 
   return (
     <BrowserRouter>

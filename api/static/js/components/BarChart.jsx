@@ -57,6 +57,7 @@ const BarChart = React.memo((props) => {
 
     const svg = d3
       .select(barChartRef.current)
+      .append("svg")
       .attr("width", width + margin.left)
       .attr("height", height + margin.bottom + margin.top)
       .attr(
@@ -87,7 +88,7 @@ const BarChart = React.memo((props) => {
 
     return () => {
       // Remove the SVG element from the DOM
-      d3.select(barChartRef.current).selectAll("g").remove();
+      d3.select(barChartRef.current).selectAll("svg").remove();
     };
   }, [data]);
   return (
@@ -97,12 +98,23 @@ const BarChart = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
+        justifyContent: "center",
         height: "330px",
         backgroundColor: "background.default",
+        flexGrow: 1,
       }}
     >
-      <Box>
-        <svg ref={barChartRef}></svg>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "330px",
+          width: "100%",
+        }}
+        ref={barChartRef}
+      >
+        {/* <svg ref={barChartRef}></svg> */}
       </Box>
     </Paper>
   );

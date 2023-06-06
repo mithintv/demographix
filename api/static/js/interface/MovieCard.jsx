@@ -8,7 +8,7 @@ const MovieCard = (props) => {
           mr: 2,
           mb: 2,
           py: 3,
-          px: 4,
+          px: 3,
           width: "350px",
           display: "flex",
           flexDirection: "column",
@@ -36,14 +36,14 @@ const MovieCard = (props) => {
               </Typography>
             </Container>
             <CardMedia
-              sx={{ mt: 2, mb: 1 }}
+              sx={{ my: 2 }}
               component="img"
-              width={275}
+              width={200}
               image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
               alt={`Movie poster for ${movie.title}`}
             />
 
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
               {movie.genres.map((genre, i) => {
                 return <Chip key={i} label={genre} />;
               })}

@@ -1,16 +1,17 @@
 const MovieDetails = (props) => {
+  const { id } = props.match.params;
   const [movieDetails, setMovieDetails] = React.useState();
   const [castDetails, setCastDetails] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`/api/movies/${props.match.params.id}`);
+      const response = await fetch(`/api/movies/${id}`);
       const movieData = await response.json();
       setMovieDetails(movieData);
       setCastDetails(movieData.cast);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <Fade in>
@@ -18,12 +19,14 @@ const MovieDetails = (props) => {
         disableGutters
         maxWidth="xl"
         sx={{
-          m: 0,
+          my: 0,
+          mx: "auto",
           display: "flex",
           flexDirection: "column",
           flex: "1 1",
         }}
       >
+        <NavBar />
         <Container
           disableGutters
           maxWidth="xl"

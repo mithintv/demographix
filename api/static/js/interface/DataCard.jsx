@@ -28,6 +28,18 @@ const DataCard = React.memo((props) => {
         flex: "3 3",
       }}
     >
+      <Typography
+        sx={{
+          mt: 1,
+          pl: 2,
+          width: "100%",
+          borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
+        }}
+        variant="overline"
+        color="primary"
+      >
+        Demographics
+      </Typography>
       <Box
         sx={{
           display: "flex",

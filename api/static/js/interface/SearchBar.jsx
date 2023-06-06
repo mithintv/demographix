@@ -1,6 +1,6 @@
 const SearchBar = (props) => {
   const [searchMovies, setSearchMovies] = React.useState(false);
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [results, setResults] = React.useState([]);
   const searchRef = React.useRef(null);
   const [searchInput, setSearchInput] = React.useState("");
 
@@ -28,7 +28,7 @@ const SearchBar = (props) => {
       const json = await response.json();
       setSearchResults(json);
 
-      console.log(searchResults);
+      console.log(results);
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +51,7 @@ const SearchBar = (props) => {
           };
           const response = await fetch("/", options);
           const json = await response.json();
-          setSearchResults(json);
+          setResults(json);
         } catch (err) {
           console.log(err);
         }
@@ -65,25 +65,23 @@ const SearchBar = (props) => {
   }, [searchInput]);
 
   const clearInputHandler = () => {
-    props.clicked()
-    setSearchMovies(false)
-    setSearchInput("")
-  }
+    setSearchMovies(false);
+    setSearchInput("");
+  };
 
   return (
-    <Container maxWidth="md">
+    <Box sx={{ width: "33%" }}>
       <Paper
         onSubmit={searchHandler}
         component="form"
         sx={{
-          m: "1rem 1rem",
           py: "0.25rem",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <Container sx={{ display: "flex", flexDirection: "row" }}>
+        <Box sx={{ display: "flex", flexDirection: "row", pl: 2, pr: 1 }}>
           <InputBase
             sx={{ width: "100%" }}
             inputRef={searchRef}
@@ -98,9 +96,11 @@ const SearchBar = (props) => {
           <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
             <span className="material-symbols-outlined">search</span>
           </IconButton>
-        </Container>
-        {searchMovies && <SearchResults clicked={clearInputHandler} results={searchResults} />}
+        </Box>
+        {searchMovies && (
+          <SearchResults clicked={clearInputHandler} results={results} />
+        )}
       </Paper>
-    </Container>
+    </Box>
   );
 };

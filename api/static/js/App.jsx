@@ -1,5 +1,6 @@
 const { BrowserRouter, Route, Link: RouterLink } = ReactRouterDOM;
 const {
+  AppBar,
   Box,
   Card,
   CardContent,
@@ -23,6 +24,7 @@ const {
   Tabs,
   TextField,
   ThemeProvider,
+  Toolbar,
   Typography,
 } = MaterialUI;
 
@@ -57,6 +59,9 @@ const darkTheme = createTheme({
     h2: {
       fontWeight: 500,
     },
+    h3: {
+      fontWeight: 500,
+    },
     overline: {
       fontWeight: 500,
     },
@@ -83,27 +88,19 @@ const globalStyles = (
   />
 );
 
-const App = () => {
+const App = (props) => {
   const nomMovieHandler = () => {
     setNomMovies(true);
   };
 
+  console.log(props.match);
+
   return (
     <BrowserRouter>
       {globalStyles}
-      <Container
-        maxWidth="xl"
-        sx={{
-          mt: 10,
-          display: "flex",
-          height: "100vh",
-          flexDirection: "column",
-        }}
-      >
-        <Route path="/" component={LandingPage} exact></Route>
-        <Route path="/movies/:id" component={MovieDetails} exact></Route>
-        {/* <BasicTabs year={new Date().getFullYear()} /> */}
-      </Container>
+      <Route path="/" component={LandingPage} exact></Route>
+      <Route path="/movies/:id" component={MovieDetails} exact></Route>
+      {/* <BasicTabs year={new Date().getFullYear()} /> */}
     </BrowserRouter>
   );
 };

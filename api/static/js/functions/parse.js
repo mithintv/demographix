@@ -1,6 +1,7 @@
 const parseGenders = (movieCast) => {
   const listGenderData = [];
-  movieCast.forEach((cast) => {
+  const filtered = movieCast.filter((cast) => cast.gender !== 'Unknown');
+  filtered.forEach((cast) => {
     const new_entry = {};
     const entry = listGenderData.find(entry => entry.name == cast.gender);
     if (!entry) {

@@ -42,28 +42,12 @@ const MovieCard = (props) => {
               image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
               alt={`Movie poster for ${movie.title}`}
             />
-            <Container
-              disableGutters
-              sx={{
-                p: 0,
-                marginLeft: 0,
-                marginRight: "auto",
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
+
+            <Stack direction="row" spacing={1}>
               {movie.genres.map((genre, i) => {
-                return (
-                  <Typography
-                    sx={{ paddingRight: 1 }}
-                    key={i}
-                    variant="caption"
-                  >
-                    {genre}
-                  </Typography>
-                );
+                return <Chip key={i} label={genre} />;
               })}
-            </Container>
+            </Stack>
             <Typography variant="subtitle2" sx={{ my: 1 }}>
               {movie.overview}
             </Typography>

@@ -5,6 +5,7 @@ const {
   Card,
   CardContent,
   CardMedia,
+  Chip,
   CircularProgress,
   colors,
   createTheme,
@@ -20,6 +21,7 @@ const {
   InputBase,
   Paper,
   Select,
+  Stack,
   Tab,
   Tabs,
   TextField,
@@ -61,6 +63,9 @@ const darkTheme = createTheme({
     },
     h3: {
       fontWeight: 500,
+    },
+    subtitle2: {
+      fontWeight: 400,
     },
     overline: {
       fontWeight: 500,

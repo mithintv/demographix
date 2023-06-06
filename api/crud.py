@@ -351,9 +351,17 @@ def add_credits(credit_list, curr_movie):
 def query_movie(keywords):
     """Return search query results."""
 
-    query = Movie.query.filter(func.lower(Movie.title).like(
-        f'{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
-    # print(query)
+    # Regular expression pattern for year in parentheses
+    pattern = r'^(.*?)\s*\((\d{4})\)$'
+    match = re.search(pattern, keywords)
+    if match:
+        title = match.group(1)
+        year = match.group(2)
+        query = Movie.query.filter(and_(func.lower(Movie.title).like(
+        f'{title.lower()}%'), extract('year', Movie.release_date) == year)).order_by(desc(Movie.release_date)).all()
+    else:
+        query = Movie.query.filter(func.lower(Movie.title).like(
+            f'{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
     # filtered = filter(lambda movie: len(movie.credits) > 0, query)
     # print (list(filtered))
     return query

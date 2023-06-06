@@ -101,7 +101,7 @@ class Movie(db.Model):
     nominations = db.relationship("Nomination", secondary="movie_nominations", back_populates="movies")
 
     def __repr__(self):
-        return f'<Movie id={self.id} title={self.title}>'
+        return f'<Movie id={self.id} title={self.title} release_date={self.release_date}>'
 
 
 class Nomination(db.Model):

@@ -25,8 +25,11 @@ def add_new_movie(movie_id):
     response = requests.get(url, headers=headers)
     movie = response.json()
 
-    format = "%Y-%m-%d"
-    formatted_date = datetime.strptime(movie['release_date'], format)
+    formatted_date = None
+    print(movie['release_date'])
+    if len(movie['release_date']) > 0:
+        format = "%Y-%m-%d"
+        formatted_date = datetime.strptime(movie['release_date'], format)
     new_movie = Movie(id=movie["id"],
                       title=movie["title"],
                       overview=movie["overview"],
@@ -36,7 +39,7 @@ def add_new_movie(movie_id):
                       runtime = movie["runtime"],
                       budget = movie["budget"],
                       revenue = movie["revenue"])
-    print(f'Created new movie: {new_movie.title} ({new_movie.release_date.year})')
+    print(f'Created new movie: {new_movie}')
     for genre in movie["genres"]:
         genre_object = Genre.query.filter(Genre.id == genre['id']).one()
         new_movie.genres.append(genre_object)
@@ -219,14 +222,17 @@ def get_movies():
 
 
 def add_movie_from_search(movie):
-    format = "%Y-%m-%d"
-    formatted_date = datetime.strptime(movie['release_date'], format)
+    formatted_date = None
+    print(movie['release_date'])
+    if len(movie['release_date']) > 0:
+        format = "%Y-%m-%d"
+        formatted_date = datetime.strptime(movie['release_date'], format)
     new_movie = Movie(id=movie["id"],
                       title=movie["title"],
                       overview=movie["overview"],
                       poster_path=movie["poster_path"],
                       release_date=formatted_date)
-    print(f'Created new movie: {new_movie.title}')
+    print(f'Created new movie: {new_movie}')
     for id in movie["genre_ids"]:
         genre_object = Genre.query.filter(Genre.id == id).one()
         new_movie.genres.append(genre_object)
@@ -347,8 +353,10 @@ def query_movie(keywords):
 
     query = Movie.query.filter(func.lower(Movie.title).like(
         f'{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
-    filtered = filter(lambda movie: len(movie.credits) > 0, query)
-    return list(filtered)
+    # print(query)
+    # filtered = filter(lambda movie: len(movie.credits) > 0, query)
+    # print (list(filtered))
+    return query
 
 
 def query_movie_credits(movie_obj):
@@ -380,7 +388,7 @@ def query_api_movie(keywords):
             f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}')
         result_list = response.json()
         movies = result_list['results']
-        print(len(movies))
+        print(f'Found {len(movies)} movies with query "{keywords}"')
 
         new_movies = []
         for movie in movies:
@@ -388,7 +396,7 @@ def query_api_movie(keywords):
             if curr_movie is None:
                 curr_movie = add_movie_from_search(movie)
                 new_movies.append(curr_movie)
-                print(f"Adding new move to db: {curr_movie.title}...")
+                print(f"Adding new move to db: {curr_movie}...")
 
             query.append(curr_movie)
 
@@ -450,9 +458,9 @@ def query_api_people(credit_list):
             update_cast_member(person_query, person['order'])
             update_count += 1
 
-        if person['order'] < 10:
-            print("Sleeping for 5 seconds...\n")
-            time.sleep(5)
+        # if person['order'] < 10:
+        #     print("Sleeping for 5 seconds...\n")
+        #     time.sleep(5)
 
     db.session.commit()
 

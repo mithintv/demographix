@@ -2,8 +2,14 @@ const NavBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <IconButton
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            py: 2,
+          }}
+        >
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -11,7 +17,7 @@ const NavBar = () => {
             sx={{ mr: 2 }}
           >
             <span className="material-symbols-outlined">menu</span>
-          </IconButton>
+          </IconButton> */}
           <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
             <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
               Demographix

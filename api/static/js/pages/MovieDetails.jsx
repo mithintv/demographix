@@ -18,12 +18,14 @@ const MovieDetails = (props) => {
         disableGutters
         maxWidth="xl"
         sx={{
-          m: 0,
+          my: 0,
+          mx: "auto",
           display: "flex",
           flexDirection: "column",
           flex: "1 1",
         }}
       >
+        <NavBar />
         <Container
           disableGutters
           maxWidth="xl"

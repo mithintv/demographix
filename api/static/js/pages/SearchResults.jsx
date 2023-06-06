@@ -1,13 +1,4 @@
 const SearchResults = (props) => {
-  const [currMovie, setCurrMovie] = React.useState(null);
-  const [showDetails, setShowDetails] = React.useState(false);
-
-  const setMovieHandler = (movie_id) => {
-    props.clicked();
-    setShowDetails(true);
-    setCurrMovie(movie_id);
-  };
-
   return (
     <React.Fragment>
       <Box
@@ -35,20 +26,20 @@ const SearchResults = (props) => {
             }
 
             return (
-              <Card key={index}>
-                <Link
-                  component={RouterLink}
-                  onClick={setMovieHandler.bind(this, movie.id)}
-                  to={`/movies/${movie.id}`}
-                >
+              <Link
+                key={index}
+                component={RouterLink}
+                to={`/movies/${movie.id}`}
+              >
+                <Card>
                   <CardMedia
                     sx={{ width: 100 }}
                     component="img"
                     image={imgPath}
                     alt={`Movie poster for ${movie.title}`}
                   />
-                </Link>
-              </Card>
+                </Card>
+              </Link>
             );
           })
         ) : (

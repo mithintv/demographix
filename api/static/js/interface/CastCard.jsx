@@ -16,7 +16,7 @@ const CastCard = React.memo((props) => {
       <Typography
         sx={{
           mb: 2,
-          pl: 2,
+          pl: 3,
           width: "100%",
           borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
         }}

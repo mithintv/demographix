@@ -489,7 +489,7 @@ def get_movie_cast(movie_id):
         Gender, Gender.id == CastMember.gender_id, isouter=True).join(
         Country, Country.id == CastMember.country_of_birth_id, isouter=True).join(
         Movie, Movie.id == Credit.movie_id, isouter=True).filter(
-        Movie.id == movie_id).filter(Credit.order < 10).order_by(
+        Movie.id == movie_id).filter(Credit.order < 15).order_by(
         Credit.order).all()
 
     cast_details = []

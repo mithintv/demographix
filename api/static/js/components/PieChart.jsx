@@ -109,16 +109,22 @@ const PieChart = React.memo((props) => {
         }
         if (label.includes(" ")) {
           return label.split(" ")[0];
-        } else return label;
+        }
+        if (label.includes("-")) {
+          return label.split("-")[0] + "-";
+        } else return `${label} (${d.data.amount})`;
       })
       .append("tspan")
       .text((d) => {
         const label = d.data.name;
         if (label.includes("/")) {
-          return label.split("/")[1];
+          return `${label.split("/")[1]} (${d.data.amount})`;
         }
         if (label.includes(" ")) {
-          return label.split(" ")[1];
+          return `${label.split(" ")[1]} (${d.data.amount})`;
+        }
+        if (label.includes("-")) {
+          return `${label.split("-")[1]} (${d.data.amount})`;
         }
       })
       .attr("x", 0)

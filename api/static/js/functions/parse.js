@@ -35,12 +35,8 @@ const parseAges = (movieCast) => {
 
 const parseRace = (movieCast) => {
   const raceData = {};
-  movieCast.forEach((cast) => {
-    if (cast.race.length === 0) {
-      raceData["Unknown"] = raceData["Unknown"]
-        ? (raceData["Unknown"] += 1)
-        : 1;
-    }
+  const filtered = movieCast.filter((cast) => cast.race.length !== 0);
+  filtered.forEach((cast) => {
     cast.race.forEach((race) => {
       raceData[race] = raceData[race]
         ? (raceData[race] += 1)

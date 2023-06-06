@@ -1,5 +1,4 @@
 const LandingPage = () => {
-  const [showLanding, setShowLanding] = React.useState(true);
   const [range, setRange] = React.useState("yearly");
   const [award, setAward] = React.useState("academy awards");
   const [summary, setSummary] = React.useState("last 3");
@@ -22,10 +21,6 @@ const LandingPage = () => {
     setYear(event.target.value);
   };
 
-  const searchClickHandler = () => {
-    setShowLanding(false);
-  };
-
   React.useEffect(() => {
     if (range === "summary") {
       setYear(summary);
@@ -33,8 +28,16 @@ const LandingPage = () => {
   }, [range]);
 
   return (
-    <Fade in={showLanding}>
-      <Container>
+    <Fade in>
+      <Container
+        maxWidth="lg"
+        sx={{
+          mt: 10,
+          display: "flex",
+          height: "100vh",
+          flexDirection: "column",
+        }}
+      >
         <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
           <Typography align="center" variant="h1">
             Demographix
@@ -44,7 +47,7 @@ const LandingPage = () => {
           Visualize the diverse tapestry of on-screen talent in blockbuster
           films
         </Typography>
-        <SearchBar clicked={searchClickHandler} />
+        <SearchBar />
 
         <Typography
           sx={{ mt: 4, mb: 2 }}

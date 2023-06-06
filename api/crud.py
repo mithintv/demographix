@@ -522,6 +522,7 @@ def get_movie_cast(movie_id):
     genre_list = [genre.name for genre in movie.genres]
 
     data = {
+        'id': movie.id,
         'title': movie.title,
         'genres': genre_list,
         'overview': movie.overview,

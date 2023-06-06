@@ -1,7 +1,6 @@
 const NomMovies = (props) => {
   const { award, year } = props;
   const [movies, setMovies] = React.useState([]);
-  const [currMovie, setCurrMovie] = React.useState(null);
   const [showDetails, setShowDetails] = React.useState(false);
   const [castData, setCastData] = React.useState([]);
 
@@ -16,11 +15,6 @@ const NomMovies = (props) => {
     };
     fetchData();
   }, [award, year]);
-
-  const setMovieHandler = (movie_id) => {
-    setShowDetails(true);
-    setCurrMovie(movie_id);
-  };
 
   return (
     <React.Fragment>
@@ -66,12 +60,10 @@ const NomMovies = (props) => {
                     mx: 1,
                     backgroundColor: "background.default",
                     flex: "0 0 auto",
+                    cursor: "pointer",
                   }}
                 >
-                  <Link
-                    sx={{ mb: 1 }}
-                    onClick={setMovieHandler.bind(this, movie.id)}
-                  >
+                  <Link component={RouterLink} to={`/movies/${movie.id}`}>
                     <CardMedia
                       width={100}
                       component="img"

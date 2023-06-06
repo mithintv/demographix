@@ -143,14 +143,17 @@ const PieChart = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
+        justifyContent: "center",
         height: "330px",
         backgroundColor: "background.default",
+        flexGrow: 1,
       }}
     >
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
           height: "330px",
         }}
         ref={pieChartRef}

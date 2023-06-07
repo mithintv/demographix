@@ -4,6 +4,12 @@ const PieChart = React.memo((props) => {
   console.log("Rendering Pie Chart: ", data);
 
   React.useEffect(() => {
+    const colorScheme = {
+      "Male": "#38c6f4",
+      "Female": "#e54787",
+      "Non-Binary": "#18bd9b",
+    };
+
     const width = 350;
     const height = 300;
     const margin = {
@@ -32,14 +38,17 @@ const PieChart = React.memo((props) => {
           ")"
       );
 
-    // set the color scale
+    // Create a color scale using the custom color scheme
     const color = d3
       .scaleOrdinal()
-      .domain(Object.keys(data))
-      .range(d3.schemeDark2);
+      .domain(Object.keys(colorScheme))
+      .range(Object.values(colorScheme));
 
     // Compute the position of each group on the pie:
-    const pie = d3.pie().value((d) => d.amount);
+    const pie = d3
+      .pie()
+      .value((d) => d.amount)
+      .padAngle(0.05);
     const data_ready = pie(data);
 
     // The arc generator
@@ -62,9 +71,8 @@ const PieChart = React.memo((props) => {
       .append("path")
       .attr("d", arc)
       .attr("fill", (d) => color(d.data))
-      .attr("stroke", "white")
-      .style("stroke-width", "2px")
-      .style("opacity", 0.7);
+      .style("stroke-width", "1px")
+      .style("opacity", 0.75);
 
     svg
       .selectAll("allPolylines")

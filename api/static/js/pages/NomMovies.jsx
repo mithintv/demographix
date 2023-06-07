@@ -45,7 +45,7 @@ const NomMovies = (props) => {
             display: "flex",
             flexDirection: "row",
             width: "100%",
-            overflowX: "auto",
+            overflowX: "scroll",
           }}
         >
           {!showDetails &&

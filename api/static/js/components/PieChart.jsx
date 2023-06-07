@@ -1,12 +1,18 @@
 const PieChart = React.memo((props) => {
   const pieChartRef = React.useRef(null);
   const { data } = props;
+
   console.log("Rendering Pie Chart: ", data);
 
   React.useEffect(() => {
+    let total = 0;
+    data.forEach((el) => {
+      total += el.amount;
+    });
+
     const colorScheme = {
-      "Male": "#38c6f4",
-      "Female": "#e54787",
+      "Male": "#369EC8",
+      "Female": "#B63E76",
       "Non-Binary": "#18bd9b",
     };
 
@@ -49,7 +55,6 @@ const PieChart = React.memo((props) => {
       .pie()
       .value((d) => d.amount)
       .padAngle(0.05);
-    const data_ready = pie(data);
 
     // The arc generator
     const arc = d3
@@ -58,85 +63,106 @@ const PieChart = React.memo((props) => {
       .outerRadius(radius * 0.8);
 
     // Another arc that won't be drawn. Just for labels positioning
+    const midArc = d3
+      .arc()
+      .innerRadius(radius * 0.55)
+      .outerRadius(radius * 0.8);
+
+    // Another arc that won't be drawn. Just for labels positioning
     const outerArc = d3
       .arc()
       .innerRadius(radius * 0.9)
       .outerRadius(radius * 0.9);
 
-    // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-    svg
-      .selectAll("allSlices")
-      .data(data_ready)
-      .enter()
-      .append("path")
-      .attr("d", arc)
-      .attr("fill", (d) => color(d.data))
-      .style("stroke-width", "1px")
-      .style("opacity", 0.75);
+    const updateChart = (newData) => {
+      const data_ready = pie(newData);
+      const slices = svg.selectAll("allSlices").data(data_ready);
 
-    svg
-      .selectAll("allPolylines")
-      .data(data_ready)
-      .join("polyline")
-      .attr("stroke", "white")
-      .style("fill", "none")
-      .attr("stroke-width", 1)
-      .attr("points", function (d, i) {
-        const centroid = outerArc.centroid(d);
-        const posA = arc.centroid(d); // line insertion in the slice
-        const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
-        const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB
-        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
-        posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+      slices
+        .enter()
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", (d) => color(d.data))
+        .style("stroke-width", "1px")
+        .transition()
+        .duration(1000);
 
-        return [posA, posB, posC];
-      });
+      svg
+        .selectAll("allPolylines")
+        .data(data_ready)
+        .join("polyline")
+        .attr("stroke", "white")
+        .style("fill", "none")
+        .attr("stroke-width", 1)
+        .attr("points", function (d, i) {
+          const centroid = outerArc.centroid(d);
+          const posA = midArc.centroid(d); // line insertion in the slice
+          const posB = [centroid[0], centroid[1]]; // line break: we use the other arc generator that has been built only for that
+          const posC = [centroid[0], centroid[1]]; // Label position = almost the same as posB
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
+          posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
 
-    // Add the polylines between chart and labels:
-    svg
-      .selectAll("allLabels")
-      .data(data_ready)
-      .join("text")
-      .attr("transform", function (d) {
-        const pos = outerArc.centroid(d);
-        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-        pos[0] = radius * 1 * (midangle < Math.PI ? 1 : -1);
-        pos[1] += 2.5;
-        return `translate(${pos})`;
-      })
-      .style("fill", "white")
-      .style("text-anchor", function (d) {
-        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-        return midangle < Math.PI ? "start" : "end";
-      })
-      .append("tspan")
-      .text((d) => {
-        const label = d.data.name;
-        if (label.includes("/")) {
-          return label.split("/")[0] + "/";
-        }
-        if (label.includes(" ")) {
-          return label.split(" ")[0];
-        }
-        if (label.includes("-")) {
-          return label.split("-")[0] + "-";
-        } else return `${label} (${d.data.amount})`;
-      })
-      .append("tspan")
-      .text((d) => {
-        const label = d.data.name;
-        if (label.includes("/")) {
-          return `${label.split("/")[1]} (${d.data.amount})`;
-        }
-        if (label.includes(" ")) {
-          return `${label.split(" ")[1]} (${d.data.amount})`;
-        }
-        if (label.includes("-")) {
-          return `${label.split("-")[1]} (${d.data.amount})`;
-        }
-      })
-      .attr("x", 0)
-      .attr("dy", "1em");
+          return [posA, posB, posC];
+        })
+        .transition()
+        .duration(1000);
+
+      // Add the polylines between chart and labels:
+      svg
+        .selectAll("allLabels")
+        .data(data_ready)
+        .join("text")
+        .attr("transform", function (d) {
+          const pos = outerArc.centroid(d);
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+          pos[0] = radius * 1 * (midangle < Math.PI ? 1 : -1);
+          pos[1] += 2.5;
+          return `translate(${pos})`;
+        })
+        .style("fill", "white")
+        .style("text-anchor", function (d) {
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+          return midangle < Math.PI ? "start" : "end";
+        })
+        .append("tspan")
+        .text((d) => {
+          const label = d.data.name;
+          if (label.includes("/")) {
+            return label.split("/")[0] + "/";
+          }
+          if (label.includes(" ")) {
+            return label.split(" ")[0];
+          }
+          if (label.includes("-")) {
+            return label.split("-")[0] + "-";
+          } else
+            return `${label} (${Math.round((d.data.amount / total) * 100)}%)`;
+        })
+        .append("tspan")
+        .text((d) => {
+          const label = d.data.name;
+          if (label.includes("/")) {
+            return `${label.split("/")[1]} (${Math.round(
+              (d.data.amount / total) * 100
+            )}%)`;
+          }
+          if (label.includes(" ")) {
+            return `${label.split(" ")[1]} (${Math.round(
+              (d.data.amount / total) * 100
+            )}%)`;
+          }
+          if (label.includes("-")) {
+            return `${label.split("-")[1]} (${Math.round(
+              (d.data.amount / total) * 100
+            )}%)`;
+          }
+        })
+        .attr("x", 0)
+        .attr("dy", "1em")
+        .transition()
+        .duration(2000);
+    };
+    updateChart(data);
 
     return () => {
       // Remove the SVG element from the DOM

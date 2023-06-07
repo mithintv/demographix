@@ -1,5 +1,9 @@
 const parseGenders = (movieCast) => {
-  const listGenderData = [];
+  const listGenderData = [
+    { name: 'Male', amount: 0 },
+    { name: 'Female', amount: 0 },
+    { name: 'Non-Binary', amount: 0 }
+  ];
   const filtered = movieCast.filter((cast) => cast.gender !== 'Unknown');
   filtered.forEach((cast) => {
     const new_entry = {};
@@ -12,7 +16,8 @@ const parseGenders = (movieCast) => {
       entry.amount += 1;
     }
   });
-  return listGenderData;
+  const removeEmpty = listGenderData.filter(label => label.amount !== 0);
+  return removeEmpty;
 };
 
 

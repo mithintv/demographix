@@ -151,12 +151,13 @@ const PieChart = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
-        justifyContent: "center",
-        height: "330px",
+        flexDirection: "column",
+        justifyContent: "start",
         backgroundColor: "background.default",
         flexGrow: 1,
       }}
     >
+      <ChartLabel label={"Gender Ratio"} />
       <Box
         sx={{
           display: "flex",

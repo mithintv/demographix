@@ -85,11 +85,12 @@ const WorldMap = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
-        height: "330px",
+        flexDirection: "column",
         backgroundColor: "background.default",
         flexGrow: 1,
       }}
     >
+      <ChartLabel label={"Country of Birth"} />
       <Box
         sx={{
           display: "flex",

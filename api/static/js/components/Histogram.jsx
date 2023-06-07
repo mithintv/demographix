@@ -79,12 +79,13 @@ const Histogram = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
-        height: "330px",
         backgroundColor: "background.default",
         flexGrow: 1,
       }}
     >
+      <ChartLabel label={"Age Distribution"} />
       <Box
         sx={{
           display: "flex",

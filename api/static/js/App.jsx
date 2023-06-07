@@ -31,6 +31,18 @@ const {
   Typography,
 } = MaterialUI;
 
+const {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} = window.Recharts;
+
 // Create a theme instance.
 const darkTheme = createTheme({
   palette: {

@@ -53,9 +53,10 @@ const DataCard = React.memo((props) => {
         sx={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: "space-evenly",
         }}
       >
-        {raceData && <BarChart data={raceData} />}
+        {raceData && <RaceChart data={raceData} />}
         {cobData && <WorldMap data={cobData} />}
       </Box>
     </Paper>

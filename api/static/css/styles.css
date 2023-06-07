@@ -1,3 +1,21 @@
 html {
   overflow-y: scroll;
 }
+
+tspan {
+  margin: 0;
+  font-weight: 500;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 0.75rem;
+  line-height: 2.66;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  display: inline;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  margin-left: 8px;
+  margin-right: 8px;
+}

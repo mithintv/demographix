@@ -11,6 +11,7 @@ const {
   createTheme,
   CssBaseline,
   Container,
+  Divider,
   Fade,
   FormControl,
   GlobalStyles,

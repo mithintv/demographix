@@ -107,6 +107,14 @@ const tickStyle = {
 const cursorColor = {
   fill: darkTheme.palette.text.disabled,
 };
+const histogramLabelStyle = {
+  fill: darkTheme.palette.text.secondary,
+  position: "top",
+};
+const barChartLabelStyle = {
+  fill: darkTheme.palette.text.secondary,
+  position: "right",
+};
 
 const globalStyles = (
   <GlobalStyles

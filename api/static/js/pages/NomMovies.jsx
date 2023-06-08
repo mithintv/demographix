@@ -22,6 +22,7 @@ const NomMovies = (props) => {
         mb: 2,
       }}
     >
+      <DataCard cast={castData} />
       <Paper
         sx={{
           display: "flex",
@@ -80,7 +81,6 @@ const NomMovies = (props) => {
             })}
         </Container>
       </Paper>
-      <DataCard cast={castData} />
     </Box>
   );
 };

@@ -64,7 +64,7 @@ const CustomLabel = (props) => {
 const GenderChart = React.memo((props) => {
   const { data } = props;
 
-  const COLORS = ["#369EC8", "#B63E76", "#FFBB28", "#FF8042"];
+  const COLORS = ["#0088FE", "#B63E76", "#FFBB28", "#FF8042"];
 
   return (
     <Paper

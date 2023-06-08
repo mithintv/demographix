@@ -6,6 +6,7 @@ const ChartLabel = (props) => {
         flexDirection: "row",
         alignItems: "center",
         mt: 1,
+        width: "100%",
       }}
     >
       <Box

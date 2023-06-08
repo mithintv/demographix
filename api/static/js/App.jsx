@@ -41,6 +41,7 @@ const {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Treemap,
 } = window.Recharts;
 
 // Create a theme instance.

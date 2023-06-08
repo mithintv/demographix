@@ -51,23 +51,25 @@ const Histogram = React.memo((props) => {
       }}
     >
       <ChartLabel label={"Age Distribution"} />
-      <BarChart
-        width={500}
-        height={300}
-        data={histogram}
-        margin={{
-          top: 0,
-          right: 0,
-          bottom: 25,
-          left: -35,
-        }}
-      >
-        <XAxis dataKey="ageGroup" />
-        <YAxis dataKey="count" />
-        <Tooltip content={<CustomTooltip />} />
-        {/* <Legend iconSize={12} /> */}
-        <Bar dataKey="count" fill="#8884d8" />
-      </BarChart>
+      <ResponsiveContainer width={550}>
+        <BarChart
+          width={500}
+          height={300}
+          data={histogram}
+          margin={{
+            top: 0,
+            right: 0,
+            bottom: 25,
+            left: -35,
+          }}
+        >
+          <XAxis dataKey="ageGroup" />
+          <YAxis dataKey="count" />
+          <Tooltip content={<CustomTooltip />} />
+          {/* <Legend iconSize={12} /> */}
+          <Bar dataKey="count" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
     </Paper>
   );
 });

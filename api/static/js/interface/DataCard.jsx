@@ -46,7 +46,7 @@ const DataCard = React.memo((props) => {
           flexDirection: "row",
         }}
       >
-        {genderData && <PieChart data={genderData} />}
+        {genderData && <GenderChart data={genderData} />}
         {ageData && <Histogram data={ageData} />}
       </Box>
       <Box

@@ -67,10 +67,6 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const formatYAxisTick = (tick) => {
-  return Math.floor(tick);
-};
-
 const Histogram = React.memo((props) => {
   const theme = useTheme();
   const [histogram, setHistogram] = React.useState([]);
@@ -124,7 +120,7 @@ const Histogram = React.memo((props) => {
             top: 25,
             right: 25,
             bottom: 10,
-            left: 5,
+            left: 20,
           }}
         >
           <XAxis
@@ -138,15 +134,32 @@ const Histogram = React.memo((props) => {
             axisLine={axisLineStyle}
             tick={tickStyle}
             dataKey="count"
-            // domain={[0, 10]}
-            // interval={1}
-          />
+            // label={{
+            //   value: "Number of Cast Members",
+            //   angle: -90,
+            //   position: "insideLeft",
+            //   fill: theme.palette.text.secondary,
+            //   offset: 20,
+            // }}
+          >
+            <Label
+              angle={-90}
+              fill={theme.palette.text.secondary}
+              value="Number of Cast Members"
+              position="insideLeft"
+              style={{ textAnchor: "middle" }}
+            />
+          </YAxis>
           <Tooltip
             style={{ zIndex: 9999 }}
             content={<CustomTooltip />}
             cursor={cursorColor}
           />
-          <Bar dataKey="count" fill={theme.palette.primary.main} />
+          <Bar
+            dataKey="count"
+            fill={theme.palette.primary.main}
+            label={histogramLabelStyle}
+          ></Bar>
         </BarChart>
       </ResponsiveContainer>
     </Paper>

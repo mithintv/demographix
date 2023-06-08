@@ -110,7 +110,7 @@ const LandingPage = () => {
                 label="range"
                 onChange={handleRange}
               >
-                <MenuItem value={"summary"}>Summary</MenuItem>
+                <MenuItem value={"summary"}>Cumulative</MenuItem>
                 <MenuItem value={"yearly"}>Yearly</MenuItem>
               </Select>
             </FormControl>
@@ -152,6 +152,8 @@ const LandingPage = () => {
                   <MenuItem value={2023}>2023</MenuItem>
                   <MenuItem value={2022}>2022</MenuItem>
                   <MenuItem value={2021}>2021</MenuItem>
+                  <MenuItem value={2022}>2020</MenuItem>
+                  <MenuItem value={2021}>2019</MenuItem>
                 </Select>
               </FormControl>
             )}

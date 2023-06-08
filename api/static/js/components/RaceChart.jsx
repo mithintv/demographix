@@ -27,7 +27,7 @@ const RaceChart = React.memo((props) => {
   const theme = useTheme();
   const { data } = props;
 
-  data.sort((a, b) => d3.descending(a.amount, b.amount));
+  // data.sort((a, b) => d3.descending(a.amount, b.amount));
 
   const colors = [
     "#fff",
@@ -52,17 +52,17 @@ const RaceChart = React.memo((props) => {
       }}
     >
       <ChartLabel label={"Race"} />
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={350}>
         <BarChart
           layout="vertical"
           width={550}
-          height={300}
+          height={350}
           data={data}
           margin={{
             top: 20,
             right: 50,
             left: 100,
-            bottom: 10,
+            bottom: 30,
           }}
         >
           {/* <CartesianGrid strokeDasharray="3 3" /> */}
@@ -71,7 +71,14 @@ const RaceChart = React.memo((props) => {
             tickLine={axisLineStyle}
             axisLine={axisLineStyle}
             tick={tickStyle}
-          />
+          >
+            <Label
+              fill={theme.palette.text.secondary}
+              value="Number of Cast Members"
+              offset={-10}
+              position="insideBottom"
+            />
+          </XAxis>
           <YAxis
             type="category"
             dataKey="name"
@@ -84,7 +91,7 @@ const RaceChart = React.memo((props) => {
             viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
             content={<RaceTooltip />}
           />
-          <Bar dataKey="amount">
+          <Bar dataKey="amount" label={barChartLabelStyle}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={colors[index]} />
             ))}

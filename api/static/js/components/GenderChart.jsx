@@ -81,12 +81,12 @@ const GenderChart = React.memo((props) => {
       }}
     >
       <ChartLabel label={"Gender Ratio"} />
-      <PieChart width={500} height={350}>
+      <PieChart width={550} height={350}>
         <Pie
           data={data}
           cx="45%"
           cy="50%"
-          width={500}
+          width={550}
           height={350}
           innerRadius={55}
           outerRadius={100}

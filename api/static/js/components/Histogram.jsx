@@ -16,6 +16,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const Histogram = React.memo((props) => {
+  const theme = useTheme();
   const [histogram, setHistogram] = React.useState([]);
   const { data } = props;
 
@@ -57,17 +58,27 @@ const Histogram = React.memo((props) => {
           height={300}
           data={histogram}
           margin={{
-            top: 0,
-            right: 0,
-            bottom: 25,
-            left: -35,
+            top: 25,
+            right: 25,
+            bottom: 10,
+            left: 5,
           }}
         >
-          <XAxis dataKey="ageGroup" />
-          <YAxis dataKey="count" />
-          <Tooltip content={<CustomTooltip />} />
+          <XAxis
+            dataKey="ageGroup"
+            tickLine={axisLineStyle}
+            axisLine={axisLineStyle}
+            tick={tickStyle}
+          />
+          <YAxis
+            tickLine={axisLineStyle}
+            axisLine={axisLineStyle}
+            tick={tickStyle}
+            dataKey="count"
+          />
+          <Tooltip content={<CustomTooltip />} cursor={cursorColor} />
           {/* <Legend iconSize={12} /> */}
-          <Bar dataKey="count" fill="#8884d8" />
+          <Bar dataKey="count" fill={theme.palette.primary.main} />
         </BarChart>
       </ResponsiveContainer>
     </Paper>

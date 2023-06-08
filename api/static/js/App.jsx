@@ -29,6 +29,7 @@ const {
   ThemeProvider,
   Toolbar,
   Typography,
+  useTheme,
 } = MaterialUI;
 
 const {
@@ -65,6 +66,7 @@ const darkTheme = createTheme({
     },
     text: {
       primary: "#fefffe",
+      secondary: "rgba(255, 255, 255, 0.7)",
     },
     warning: {
       main: "#ed6c02",
@@ -91,6 +93,16 @@ const darkTheme = createTheme({
     },
   },
 });
+
+const axisLineStyle = {
+  stroke: darkTheme.palette.text.secondary,
+};
+const tickStyle = {
+  fill: darkTheme.palette.text.secondary,
+};
+const cursorColor = {
+  fill: darkTheme.palette.text.disabled,
+};
 
 const globalStyles = (
   <GlobalStyles

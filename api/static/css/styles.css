@@ -2,7 +2,8 @@ html {
   overflow-y: scroll;
 }
 
-tspan {
+tspan,
+text {
   margin: 0;
   font-weight: 500;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;

@@ -91,6 +91,10 @@ const darkTheme = createTheme({
     overline: {
       fontWeight: 500,
     },
+    overline2: {
+      fontSize: "16px",
+      fontWeight: 500,
+    },
   },
 });
 

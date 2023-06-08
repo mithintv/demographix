@@ -77,7 +77,6 @@ const Histogram = React.memo((props) => {
             dataKey="count"
           />
           <Tooltip content={<CustomTooltip />} cursor={cursorColor} />
-          {/* <Legend iconSize={12} /> */}
           <Bar dataKey="count" fill={theme.palette.primary.main} />
         </BarChart>
       </ResponsiveContainer>

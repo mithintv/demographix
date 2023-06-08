@@ -30,9 +30,9 @@ const LandingPage = () => {
   return (
     <Fade in>
       <Container
-        maxWidth="lg"
+        disableGutters
         sx={{
-          mt: 5,
+          my: 5,
           display: "flex",
           height: "100vh",
           flexDirection: "column",

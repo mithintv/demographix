@@ -17,7 +17,11 @@ const NomMovies = (props) => {
   }, [award, year]);
 
   return (
-    <React.Fragment>
+    <Box
+      sx={{
+        mb: 2,
+      }}
+    >
       <Paper
         sx={{
           display: "flex",
@@ -77,6 +81,6 @@ const NomMovies = (props) => {
         </Container>
       </Paper>
       <DataCard cast={castData} />
-    </React.Fragment>
+    </Box>
   );
 };

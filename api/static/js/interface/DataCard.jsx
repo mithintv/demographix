@@ -57,7 +57,7 @@ const DataCard = React.memo((props) => {
         }}
       >
         {raceData && <RaceChart data={raceData} />}
-        {cobData && <WorldMap data={cobData} />}
+        {/* {cobData && <WorldMap data={cobData} />} */}
       </Box>
     </Paper>
   );

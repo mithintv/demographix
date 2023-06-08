@@ -30,6 +30,7 @@ const parseAges = (movieCast) => {
     const age = currYear - birthday;
     listAgeData.push({
       name: cast.name,
+      profile_path: cast.profile_path,
       amount: age,
     });
   });
@@ -46,6 +47,9 @@ const parseRace = (movieCast) => {
       raceData[race] = raceData[race]
         ? (raceData[race] += 1)
         : 1;
+    });
+    cast.ethnicity.forEach((ethnicity) => {
+
     });
   });
   const listRaceData = [

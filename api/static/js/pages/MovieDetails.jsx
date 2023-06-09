@@ -1,9 +1,23 @@
 const MovieDetails = (props) => {
   const { id } = props.match.params;
-  const [movieDetails, setMovieDetails] = React.useState();
+  const [movieDetails, setMovieDetails] = React.useState({
+    "id": null,
+    "title": null,
+    "genres": [],
+    "overview": "",
+    "runtime": "",
+    "poster_path": "",
+    "release_date": null,
+    "budget": "",
+    "revenue": null,
+    "cast": [],
+  });
   const [castDetails, setCastDetails] = React.useState([]);
 
   React.useEffect(() => {
+    // Set scroll position when the component mounts
+    window.scrollTo(0, 0);
+
     const fetchData = async () => {
       const response = await fetch(`/api/movies/${id}`);
       const movieData = await response.json();
@@ -38,7 +52,10 @@ const MovieDetails = (props) => {
             }}
           >
             <MovieCard movie={movieDetails} />
-            <DataCard cast={castDetails} />
+            <DataCard
+              cast={castDetails}
+              releaseDate={new Date(movieDetails.release_date).getFullYear()}
+            />
           </Container>
           <CastCard cast={castDetails} />
         </Container>

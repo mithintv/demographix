@@ -5,7 +5,6 @@ const NomMovies = (props) => {
   const [castData, setCastData] = React.useState([]);
 
   const data = castData.sort((a, b) => a.id - b.id);
-  console.log(data);
 
   React.useEffect(() => {
     const fetchData = async () => {

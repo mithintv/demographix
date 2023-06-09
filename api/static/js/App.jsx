@@ -92,8 +92,9 @@ const darkTheme = createTheme({
       fontWeight: 500,
     },
     overline2: {
-      fontSize: "16px",
-      fontWeight: 500,
+      fontSize: "2rem",
+      fontWeight: 700,
+      textTransform: "uppercase",
     },
   },
 });

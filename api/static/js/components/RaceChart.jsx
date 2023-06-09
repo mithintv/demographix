@@ -44,6 +44,7 @@ const RaceChart = React.memo((props) => {
       sx={{
         p: 0,
         m: 2,
+        mt: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -52,52 +53,67 @@ const RaceChart = React.memo((props) => {
       }}
     >
       <ChartLabel label={"Race"} />
-      <ResponsiveContainer width="100%" height={350}>
-        <BarChart
-          layout="vertical"
-          width={550}
-          height={350}
-          data={data}
-          margin={{
-            top: 20,
-            right: 50,
-            left: 100,
-            bottom: 30,
-          }}
-        >
-          {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis
-            type="number"
-            tickLine={axisLineStyle}
-            axisLine={axisLineStyle}
-            tick={tickStyle}
-          >
-            <Label
-              fill={theme.palette.text.secondary}
-              value="Number of Cast Members"
-              offset={-10}
-              position="insideBottom"
-            />
-          </XAxis>
-          <YAxis
-            type="category"
-            dataKey="name"
-            tickLine={axisLineStyle}
-            axisLine={axisLineStyle}
-            tick={tickStyle}
-            tickFormatter={formatYAxisLabel}
-          />
-          <Tooltip
-            viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
-            content={<RaceTooltip />}
-          />
-          <Bar dataKey="amount" label={barChartLabelStyle}>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+
+          height: 350,
+        }}
+      >
+        {data.length > 0 ? (
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart
+              layout="vertical"
+              width={550}
+              height={350}
+              data={data}
+              margin={{
+                top: 20,
+                right: 50,
+                left: 100,
+                bottom: 30,
+              }}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis
+                type="number"
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+              >
+                <Label
+                  fill={theme.palette.text.secondary}
+                  value="Number of Cast Members"
+                  offset={-10}
+                  position="insideBottom"
+                />
+              </XAxis>
+              <YAxis
+                type="category"
+                dataKey="name"
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+                tickFormatter={formatYAxisLabel}
+              />
+              <Tooltip
+                viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
+                content={<RaceTooltip />}
+              />
+              <Bar dataKey="amount" label={barChartLabelStyle}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <CircularProgress size={100} thickness={10} />
+        )}
+      </Box>
     </Paper>
   );
 });

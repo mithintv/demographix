@@ -1,8 +1,8 @@
 const DataCard = React.memo((props) => {
   const { cast } = props;
-  const [ageData, setAgeData] = React.useState();
-  const [genderData, setGenderData] = React.useState();
-  const [raceData, setRaceData] = React.useState();
+  const [ageData, setAgeData] = React.useState([]);
+  const [genderData, setGenderData] = React.useState([]);
+  const [raceData, setRaceData] = React.useState([]);
   const [cobData, setCOBData] = React.useState();
 
   React.useEffect(() => {
@@ -25,7 +25,7 @@ const DataCard = React.memo((props) => {
         display: "flex",
         flexDirection: "column",
         mb: 2,
-        flex: "3 3",
+        flex: "2 1 auto",
       }}
     >
       <Typography
@@ -46,8 +46,8 @@ const DataCard = React.memo((props) => {
           flexDirection: "row",
         }}
       >
-        {genderData && <GenderChart data={genderData} />}
-        {ageData && <Histogram data={ageData} />}
+        <GenderChart data={genderData} />
+        <Histogram data={ageData} />
       </Box>
       <Box
         sx={{
@@ -56,7 +56,7 @@ const DataCard = React.memo((props) => {
           justifyContent: "space-evenly",
         }}
       >
-        {raceData && <RaceChart data={raceData} />}
+        <RaceChart data={raceData} />
         {/* {cobData && <WorldMap data={cobData} />} */}
       </Box>
     </Paper>

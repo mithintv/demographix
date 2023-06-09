@@ -12,7 +12,7 @@ const MovieCard = (props) => {
           width: "350px",
           display: "flex",
           flexDirection: "column",
-          flex: "1 1",
+          flex: "1 0 auto",
         }}
       >
         {movie ? (
@@ -61,7 +61,7 @@ const MovieCard = (props) => {
               alignItems: "center",
             }}
           >
-            <CircularProgress />
+            <CircularProgress size={100} thickness={10} />
           </Container>
         )}
       </Card>

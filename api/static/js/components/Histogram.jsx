@@ -3,7 +3,6 @@ const CustomTooltip = ({ active, payload, label }) => {
     const ageGroup = payload[0].payload.ageGroup;
     const count = payload[0].value;
     const cast = payload[0].payload.cast || [];
-    console.log(payload);
     return (
       <Paper sx={{ px: 2, py: 2, display: "flex", flexDirection: "column" }}>
         <Typography

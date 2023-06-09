@@ -106,62 +106,78 @@ const Histogram = React.memo((props) => {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "background.default",
-        flexGrow: 1,
+        flex: "1 0 auto",
       }}
     >
       <ChartLabel label={"Age Distribution"} />
-      <ResponsiveContainer width={550}>
-        <BarChart
-          style={{ zIndex: 2 }}
-          width={500}
-          height={300}
-          data={histogram}
-          margin={{
-            top: 25,
-            right: 25,
-            bottom: 10,
-            left: 20,
-          }}
-        >
-          <XAxis
-            dataKey="ageGroup"
-            tickLine={axisLineStyle}
-            axisLine={axisLineStyle}
-            tick={tickStyle}
-          />
-          <YAxis
-            tickLine={axisLineStyle}
-            axisLine={axisLineStyle}
-            tick={tickStyle}
-            dataKey="count"
-            // label={{
-            //   value: "Number of Cast Members",
-            //   angle: -90,
-            //   position: "insideLeft",
-            //   fill: theme.palette.text.secondary,
-            //   offset: 20,
-            // }}
-          >
-            <Label
-              angle={-90}
-              fill={theme.palette.text.secondary}
-              value="Number of Cast Members"
-              position="insideLeft"
-              style={{ textAnchor: "middle" }}
-            />
-          </YAxis>
-          <Tooltip
-            style={{ zIndex: 9999 }}
-            content={<CustomTooltip />}
-            cursor={cursorColor}
-          />
-          <Bar
-            dataKey="count"
-            fill={theme.palette.primary.main}
-            label={histogramLabelStyle}
-          ></Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "330px",
+          flex: "1 0 auto",
+        }}
+      >
+        {data.length > 0 ? (
+          <ResponsiveContainer width={550} height={300}>
+            <BarChart
+              style={{ zIndex: 2 }}
+              width={500}
+              height={300}
+              data={histogram}
+              margin={{
+                top: 25,
+                right: 20,
+                bottom: 10,
+                left: 25,
+              }}
+            >
+              <XAxis
+                dataKey="ageGroup"
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+              />
+              <YAxis
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+                dataKey="count"
+                // label={{
+                //   value: "Number of Cast Members",
+                //   angle: -90,
+                //   position: "insideLeft",
+                //   fill: theme.palette.text.secondary,
+                //   offset: 20,
+                // }}
+              >
+                <Label
+                  angle={-90}
+                  fill={theme.palette.text.secondary}
+                  value="Number of Cast Members"
+                  position="insideLeft"
+                  style={{ textAnchor: "middle" }}
+                  offset={2}
+                />
+              </YAxis>
+              <Tooltip
+                style={{ zIndex: 9999 }}
+                content={<CustomTooltip />}
+                cursor={cursorColor}
+              />
+              <Bar
+                dataKey="count"
+                fill={theme.palette.primary.main}
+                label={histogramLabelStyle}
+              ></Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <CircularProgress size={100} thickness={10} />
+        )}
+      </Box>
     </Paper>
   );
 });

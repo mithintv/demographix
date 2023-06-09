@@ -42,6 +42,7 @@ const parseAges = (movieCast, releaseDate) => {
 
 
 const parseRace = (movieCast) => {
+  if (movieCast.length === 0) return [];
   const raceData = {};
   const filtered = movieCast.filter((cast) => cast.race.length !== 0);
   filtered.forEach((cast) => {
@@ -49,9 +50,6 @@ const parseRace = (movieCast) => {
       raceData[race] = raceData[race]
         ? (raceData[race] += 1)
         : 1;
-    });
-    cast.ethnicity.forEach((ethnicity) => {
-
     });
   });
   const listRaceData = [
@@ -85,6 +83,31 @@ const parseRace = (movieCast) => {
     update.amount = raceData[race];
   }
   return listRaceData;
+};
+
+
+const parseEthnicity = (movieCast) => {
+  if (movieCast.length === 0) return [];
+  const ethnicityData = {};
+  const filtered = movieCast.filter((cast) => cast.ethnicity.length !== 0);
+  filtered.forEach((cast) => {
+    cast.ethnicity.forEach((ethnicity) => {
+      ;
+      ethnicityData[ethnicity.name] = ethnicityData[ethnicity.name]
+        ? (ethnicityData[ethnicity.name] += 1)
+        : 1;
+    });
+  });
+  const listEthnicityData = [];
+  console.log(ethnicityData);
+  for (const ethnicity in ethnicityData) {
+
+    listEthnicityData.push({
+      name: ethnicity,
+      amount: ethnicityData[ethnicity]
+    });
+  }
+  return listEthnicityData;
 };
 
 

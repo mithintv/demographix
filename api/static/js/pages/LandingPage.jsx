@@ -51,13 +51,16 @@ const LandingPage = () => {
             </Typography>
           </Link>
           <Typography
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, width: "700px" }}
             color="textSecondary"
-            variant="subtitle2"
+            variant="body"
             align="center"
           >
             Visualize the diverse tapestry of on-screen talent in highly
-            acclaimed blockbuster films
+            acclaimed blockbuster films. This is a summary of demographic
+            information of top billed cast in Academy Award nominated movies.
+            Additionally, you can also search for demographic breakdowns in
+            individual productions.
           </Typography>
           <SearchBar />
         </Box>

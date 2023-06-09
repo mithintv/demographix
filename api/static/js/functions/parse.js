@@ -21,13 +21,15 @@ const parseGenders = (movieCast) => {
 };
 
 
-const parseAges = (movieCast) => {
+const parseAges = (movieCast, releaseDate) => {
   const listAgeData = [];
   const filteredBdays = movieCast.filter((cast) => cast.birthday !== null);
   filteredBdays.forEach((cast) => {
     const birthday = new Date(cast.birthday).getFullYear();
-    const currYear = new Date().getFullYear();
-    const age = currYear - birthday;
+    if (releaseDate === null) {
+      releaseDate = new Date().getFullYear();
+    }
+    const age = releaseDate - birthday;
     listAgeData.push({
       name: cast.name,
       profile_path: cast.profile_path,

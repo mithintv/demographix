@@ -1,8 +1,11 @@
 const SearchResults = (props) => {
+  const theme = useTheme();
   return (
-    <Box
+    <Paper
       sx={{
+        position: "absolute",
         boxSizing: "border-box",
+        transform: "translate(-10%, 25%)",
         width: props.results.length * 132,
         mx: "auto",
         minHeight: 182,
@@ -12,6 +15,8 @@ const SearchResults = (props) => {
         flexDirection: "row",
         justifyContent: "space-between",
         alignContent: "center",
+        zIndex: 3,
+        backgroundColor: theme.palette.background.paper,
       }}
     >
       {props.results.length > 0 ? (
@@ -46,6 +51,6 @@ const SearchResults = (props) => {
         <CircularProgress sx={{ margin: "auto" }} />
       )}
       {/* {showDetails && <MovieDetails movie_id={currMovie} />} */}
-    </Box>
+    </Paper>
   );
 };

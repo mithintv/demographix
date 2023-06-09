@@ -8,11 +8,11 @@ const MovieCard = (props) => {
           mr: 2,
           mb: 2,
           py: 3,
-          px: 4,
+          px: 3,
           width: "350px",
           display: "flex",
           flexDirection: "column",
-          flex: "1 1",
+          flex: "1 0 auto",
         }}
       >
         {movie ? (
@@ -36,34 +36,18 @@ const MovieCard = (props) => {
               </Typography>
             </Container>
             <CardMedia
-              sx={{ mt: 2, mb: 1 }}
+              sx={{ my: 2 }}
               component="img"
-              width={275}
+              width={200}
               image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
               alt={`Movie poster for ${movie.title}`}
             />
-            <Container
-              disableGutters
-              sx={{
-                p: 0,
-                marginLeft: 0,
-                marginRight: "auto",
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
+
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
               {movie.genres.map((genre, i) => {
-                return (
-                  <Typography
-                    sx={{ paddingRight: 1 }}
-                    key={i}
-                    variant="caption"
-                  >
-                    {genre}
-                  </Typography>
-                );
+                return <Chip key={i} label={genre} />;
               })}
-            </Container>
+            </Stack>
             <Typography variant="subtitle2" sx={{ my: 1 }}>
               {movie.overview}
             </Typography>
@@ -77,7 +61,7 @@ const MovieCard = (props) => {
               alignItems: "center",
             }}
           >
-            <CircularProgress />
+            <CircularProgress size={100} thickness={10} />
           </Container>
         )}
       </Card>

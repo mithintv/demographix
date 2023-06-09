@@ -1,8 +1,20 @@
 const LandingPage = () => {
   const [range, setRange] = React.useState("yearly");
   const [award, setAward] = React.useState("academy awards");
-  const [summary, setSummary] = React.useState("last 3");
+  const [cumulative, setCumulative] = React.useState("last 3");
+  const [cumYears, setCumYears] = React.useState("");
   const [year, setYear] = React.useState(new Date().getFullYear());
+  const [title, setTitle] = React.useState("");
+
+  React.useEffect(() => {
+    if (range === "cumulative") {
+      const years = year.toString().split(" ");
+      console.log(year);
+      const current_year = new Date().getFullYear();
+      const string = `${current_year - years[1] + 1} - ${current_year}`;
+      setCumYears(string);
+    }
+  }, [year, range]);
 
   const handleAward = (event) => {
     setAward(event.target.value);
@@ -12,8 +24,8 @@ const LandingPage = () => {
     setRange(event.target.value);
   };
 
-  const handleSummary = (event) => {
-    setSummary(event.target.value);
+  const handleCumulative = (event) => {
+    setCumulative(event.target.value);
     setYear(event.target.value);
   };
 
@@ -22,17 +34,17 @@ const LandingPage = () => {
   };
 
   React.useEffect(() => {
-    if (range === "summary") {
-      setYear(summary);
+    if (range === "cumulative") {
+      setYear(cumulative);
     } else setYear(new Date().getFullYear());
   }, [range]);
 
   return (
     <Fade in>
       <Container
-        maxWidth="lg"
+        disableGutters
         sx={{
-          mt: 5,
+          my: 5,
           display: "flex",
           height: "100vh",
           flexDirection: "column",
@@ -51,13 +63,17 @@ const LandingPage = () => {
             </Typography>
           </Link>
           <Typography
-            sx={{ mb: 2 }}
+            sx={{ my: 2, width: "700px" }}
             color="textSecondary"
-            variant="subtitle2"
-            align="center"
+            variant="body"
+            align="justify"
           >
             Visualize the diverse tapestry of on-screen talent in highly
-            acclaimed blockbuster films
+            acclaimed blockbuster films. Demographix is a visualization of
+            demographic information of top billed cast in movies nominated for
+            prestigious awards such as the Academy Awards, the Golden Globes,
+            BAFTA, etc. You can also search for demographic breakdowns of cast
+            members in individual productions.
           </Typography>
           <SearchBar />
         </Box>
@@ -71,9 +87,26 @@ const LandingPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography align="center" color="primary" variant="h3">
-            Overview
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "end",
+            }}
+          >
+            <Typography
+              sx={{ lineHeight: 0.75 }}
+              color="primary"
+              variant="overline2"
+            >
+              Top Billed Cast
+            </Typography>
+            <Typography color="primary" variant="overline">
+              Academy Award Nominated Titles (
+              {range === "yearly" ? year : cumYears})
+            </Typography>
+          </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -110,24 +143,24 @@ const LandingPage = () => {
                 label="range"
                 onChange={handleRange}
               >
-                <MenuItem value={"summary"}>Summary</MenuItem>
+                <MenuItem value={"cumulative"}>Cumulative</MenuItem>
                 <MenuItem value={"yearly"}>Yearly</MenuItem>
               </Select>
             </FormControl>
-            {range === "summary" ? (
+            {range === "cumulative" ? (
               <FormControl
                 sx={{
                   m: 1,
                   width: "150px",
                 }}
               >
-                <InputLabel id={"summary"}>Summary</InputLabel>
+                <InputLabel id={"cumulative"}>Cumulative</InputLabel>
                 <Select
-                  labelId="summary"
-                  id="summary"
-                  value={summary}
-                  label="summary"
-                  onChange={handleSummary}
+                  labelId="cumulative"
+                  id="cumulative"
+                  value={cumulative}
+                  label="cumulative"
+                  onChange={handleCumulative}
                 >
                   <MenuItem value={"last 3"}>Last 3 Years</MenuItem>
                   <MenuItem value={"last 5"}>Last 5 Years</MenuItem>
@@ -152,6 +185,8 @@ const LandingPage = () => {
                   <MenuItem value={2023}>2023</MenuItem>
                   <MenuItem value={2022}>2022</MenuItem>
                   <MenuItem value={2021}>2021</MenuItem>
+                  <MenuItem value={2022}>2020</MenuItem>
+                  <MenuItem value={2021}>2019</MenuItem>
                 </Select>
               </FormControl>
             )}

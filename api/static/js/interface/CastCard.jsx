@@ -8,17 +8,15 @@ const CastCard = React.memo((props) => {
       sx={{
         mb: 2,
         pt: 1,
-        pb: 2,
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        overflowX: "auto",
       }}
     >
       <Typography
         sx={{
           mb: 2,
-          pl: 2,
+          pl: 3,
           width: "100%",
           borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
         }}
@@ -32,6 +30,8 @@ const CastCard = React.memo((props) => {
           display: "flex",
           flexDirection: "row",
           px: 1,
+          pb: 2,
+          overflowX: "auto",
         }}
       >
         {cast ? (

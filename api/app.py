@@ -53,7 +53,7 @@ def query_api():
                       }
         search_results.append(movie_dict)
 
-        print(f"{movie.title} ({movie.release_date.year})")
+        print(f"<Movie id={movie.id} title={movie.title}>")
 
     return jsonify(search_results)
 

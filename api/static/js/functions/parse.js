@@ -77,10 +77,6 @@ const parseRace = (movieCast) => {
       name: "Native Hawaiian/Pacific Islander",
       amount: 0
     },
-    {
-      name: "Unknown",
-      amount: 0
-    },
   ];
   for (const race in raceData) {
     const update = listRaceData.find(obj => obj.name == race.toString());

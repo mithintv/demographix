@@ -24,6 +24,7 @@ const formatYAxisLabel = (label) => {
 };
 
 const RaceChart = React.memo((props) => {
+  console.log(data);
   const theme = useTheme();
   const { data } = props;
 
@@ -59,7 +60,6 @@ const RaceChart = React.memo((props) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-
           height: 350,
         }}
       >

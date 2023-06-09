@@ -121,7 +121,7 @@ const Histogram = React.memo((props) => {
           <ResponsiveContainer width={550} height={300}>
             <BarChart
               style={{ zIndex: 2 }}
-              width={500}
+              width={550}
               height={300}
               data={histogram}
               margin={{

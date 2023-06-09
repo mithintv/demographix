@@ -75,7 +75,9 @@ const LandingPage = () => {
           }}
         >
           <Typography align="center" color="primary" variant="h3">
-            Overview
+            {range === "yearly"
+              ? `${year} Academy Awards`
+              : `Academy Awards ()`}
           </Typography>
           <Box
             sx={{

@@ -5,11 +5,13 @@ const {
   Card,
   CardContent,
   CardMedia,
+  Chip,
   CircularProgress,
   colors,
   createTheme,
   CssBaseline,
   Container,
+  Divider,
   Fade,
   FormControl,
   GlobalStyles,
@@ -20,13 +22,33 @@ const {
   InputBase,
   Paper,
   Select,
+  Stack,
   Tab,
   Tabs,
   TextField,
   ThemeProvider,
   Toolbar,
   Typography,
+  useTheme,
 } = MaterialUI;
+
+const {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Label,
+  LabelList,
+  PieChart,
+  Pie,
+  Sector,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  Treemap,
+} = window.Recharts;
 
 // Create a theme instance.
 const darkTheme = createTheme({
@@ -44,6 +66,7 @@ const darkTheme = createTheme({
     },
     text: {
       primary: "#fefffe",
+      secondary: "rgba(255, 255, 255, 0.7)",
     },
     warning: {
       main: "#ed6c02",
@@ -62,11 +85,37 @@ const darkTheme = createTheme({
     h3: {
       fontWeight: 500,
     },
+    subtitle2: {
+      fontWeight: 400,
+    },
     overline: {
       fontWeight: 500,
     },
+    overline2: {
+      fontSize: "2rem",
+      fontWeight: 700,
+      textTransform: "uppercase",
+    },
   },
 });
+
+const axisLineStyle = {
+  stroke: darkTheme.palette.text.secondary,
+};
+const tickStyle = {
+  fill: darkTheme.palette.text.secondary,
+};
+const cursorColor = {
+  fill: darkTheme.palette.text.disabled,
+};
+const histogramLabelStyle = {
+  fill: darkTheme.palette.text.secondary,
+  position: "top",
+};
+const barChartLabelStyle = {
+  fill: darkTheme.palette.text.secondary,
+  position: "right",
+};
 
 const globalStyles = (
   <GlobalStyles
@@ -88,12 +137,10 @@ const globalStyles = (
   />
 );
 
-const App = (props) => {
+const App = () => {
   const nomMovieHandler = () => {
     setNomMovies(true);
   };
-
-  console.log(props.match);
 
   return (
     <BrowserRouter>

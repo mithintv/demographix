@@ -26,9 +26,9 @@ const SearchBar = (props) => {
       };
       const response = await fetch("/search", options);
       const json = await response.json();
-      setSearchResults(json);
+      setResults(json);
 
-      console.log(results);
+      console.log(json);
     } catch (err) {
       console.log(err);
     }

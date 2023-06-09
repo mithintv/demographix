@@ -5,10 +5,10 @@ const WorldMap = React.memo((props) => {
   console.log("Rendering Map: ", data);
 
   React.useEffect(() => {
-    const svg = d3.select(mapRef.current),
-      margin = { top: 0, right: 100, bottom: 0, left: 100 },
-      width = 450,
-      height = 325;
+    const svg = d3.select(mapRef.current).append("svg"),
+      margin = { top: 0, right: 10, bottom: 0, left: 10 },
+      width = 400,
+      height = 320;
 
     // Map and projection
     const projection = d3
@@ -31,8 +31,12 @@ const WorldMap = React.memo((props) => {
       d3.json(
         "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
       ),
-    ]).then(function (loadData) {
+    ]).then((loadData) => {
       let topo = loadData[0];
+      data.forEach((country) => {
+        const found = topo.features.find((el) => el.id === country.name);
+        found.amount = country.amount;
+      });
 
       let mouseOver = function (d) {
         d3.selectAll(".Country")
@@ -57,22 +61,10 @@ const WorldMap = React.memo((props) => {
         .selectAll("path")
         .data(topo.features)
         .join("path")
-        // .attr("fill", "#69b3a2")
         .attr("d", d3.geoPath().projection(projection))
         .style("stroke", "white")
-        // .data(data, (d) => (d.name, d.amount))
-        .attr("stroke-width", (d) => {
-          const element = data.find((el) => d.id === el.name);
-          if (element) return 1;
-          else return 0;
-        })
-        .attr("fill", (d) => {
-          const element = data.find((el) => d.id === el.name);
-          if (element) {
-            d.total = element.amount;
-            return colorScale(d.total);
-          }
-        })
+        .attr("stroke-width", (d) => (d.amount ? 1 : 0))
+        .attr("fill", (d) => colorScale(d.amount))
         .attr("class", function (d) {
           return "Country";
         })
@@ -80,7 +72,11 @@ const WorldMap = React.memo((props) => {
         .on("mouseover", mouseOver)
         .on("mouseleave", mouseLeave);
     });
-  }, []);
+    return () => {
+      // Remove the SVG element from the DOM
+      d3.select(mapRef.current).selectAll("svg").remove();
+    };
+  }, [data]);
 
   return (
     <Paper
@@ -89,11 +85,23 @@ const WorldMap = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
-        height: "330px",
+        flexDirection: "column",
         backgroundColor: "background.default",
+        flexGrow: 1,
       }}
     >
-      <svg ref={mapRef}></svg>
+      <ChartLabel label={"Country of Birth"} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "330px",
+          width: "100%",
+        }}
+        ref={mapRef}
+      ></Box>
+      {/* <svg ref={mapRef}></svg> */}
     </Paper>
   );
 });

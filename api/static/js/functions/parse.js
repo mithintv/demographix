@@ -1,6 +1,11 @@
 const parseGenders = (movieCast) => {
-  const listGenderData = [];
-  movieCast.forEach((cast) => {
+  const listGenderData = [
+    { name: 'Male', amount: 0 },
+    { name: 'Female', amount: 0 },
+    { name: 'Non-Binary', amount: 0 }
+  ];
+  const filtered = movieCast.filter((cast) => cast.gender !== 'Unknown');
+  filtered.forEach((cast) => {
     const new_entry = {};
     const entry = listGenderData.find(entry => entry.name == cast.gender);
     if (!entry) {
@@ -11,7 +16,8 @@ const parseGenders = (movieCast) => {
       entry.amount += 1;
     }
   });
-  return listGenderData;
+  const removeEmpty = listGenderData.filter(label => label.amount !== 0);
+  return removeEmpty;
 };
 
 
@@ -24,6 +30,7 @@ const parseAges = (movieCast) => {
     const age = currYear - birthday;
     listAgeData.push({
       name: cast.name,
+      profile_path: cast.profile_path,
       amount: age,
     });
   });
@@ -34,16 +41,15 @@ const parseAges = (movieCast) => {
 
 const parseRace = (movieCast) => {
   const raceData = {};
-  movieCast.forEach((cast) => {
-    if (cast.race.length === 0) {
-      raceData["Unknown"] = raceData["Unknown"]
-        ? (raceData["Unknown"] += 1)
-        : 1;
-    }
+  const filtered = movieCast.filter((cast) => cast.race.length !== 0);
+  filtered.forEach((cast) => {
     cast.race.forEach((race) => {
       raceData[race] = raceData[race]
         ? (raceData[race] += 1)
         : 1;
+    });
+    cast.ethnicity.forEach((ethnicity) => {
+
     });
   });
   const listRaceData = [
@@ -69,10 +75,6 @@ const parseRace = (movieCast) => {
     },
     {
       name: "Native Hawaiian/Pacific Islander",
-      amount: 0
-    },
-    {
-      name: "Unknown",
       amount: 0
     },
   ];

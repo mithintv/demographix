@@ -1,75 +1,95 @@
-const Histogram = React.memo((props) => {
-  const histogramRef = React.useRef(null);
-  const { data } = props;
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const ageGroup = payload[0].payload.ageGroup;
+    const count = payload[0].value;
+    const cast = payload[0].payload.cast || [];
+    return (
+      <Paper sx={{ px: 2, py: 2, display: "flex", flexDirection: "column" }}>
+        <Typography
+          align="center"
+          variant="overline"
+        >{`${ageGroup} Age Group`}</Typography>
+        <Typography
+          align="center"
+          variant="overline"
+        >{`${count} Cast`}</Typography>
+        <Box
+          sx={{
+            maxWidth: "700px",
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            flexShrink: 1,
+          }}
+        >
+          {cast.map((el, index) => {
+            let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${el.profile_path}`;
+            if (el.profile_path == null) {
+              imgPath =
+                "https://th.bing.com/th/id/OIP.rjbP0DPYm_qmV_cG-S-DUAAAAA?pid=ImgDet&rs=1";
+            }
+            return (
+              <Card
+                key={index}
+                elevation={2}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "75px",
+                  mx: 1,
+                  my: 1,
+                  backgroundColor: "background.default",
+                  flex: "0 0 auto",
+                }}
+              >
+                <CardMedia
+                  sx={{ width: "75px" }}
+                  width="75px"
+                  height="75px"
+                  component="img"
+                  image={imgPath}
+                  alt={`Image of ${cast.name}`}
+                />
+                <Container disableGutters sx={{ px: 1, mb: 1 }}>
+                  <Typography variant="caption">{el.name}</Typography>
+                </Container>
+              </Card>
+            );
+          })}
+        </Box>
+      </Paper>
+    );
+  }
 
-  console.log("Rendering Histogram: ", data);
+  return null;
+};
+
+const Histogram = React.memo((props) => {
+  const theme = useTheme();
+  const [histogram, setHistogram] = React.useState([]);
+  let { data } = props;
 
   React.useEffect(() => {
-    // set the dimensions and margins of the graph
-    const margin = { top: 10, right: 30, bottom: 30, left: 40 },
-      width = 450 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom;
+    const histogramData = d3.range(0, 10).map((i) => ({
+      ageGroup: `${i * 10}-${(i + 1) * 10}`,
+      count: 0,
+      cast: [],
+    }));
 
-    // append the svg object to the body of the page
-    const svg = d3
-      .select(histogramRef.current)
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+    data.forEach((item) => {
+      const ageGroupIndex = Math.floor(item.amount / 10);
+      if (ageGroupIndex >= 0 && ageGroupIndex < histogramData.length) {
+        histogramData[ageGroupIndex].count++;
+        histogramData[ageGroupIndex].cast.push({
+          name: item.name,
+          profile_path: item.profile_path,
+        });
+      }
+    });
 
-    // d3.csv(
-    //   "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv"
-    // ).then((data) => {
-
-    // X axis: scale and draw:
-    const x = d3
-      .scaleLinear()
-      .domain([0, 100]) // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-      .range([0, width]);
-
-    svg
-      .append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(x));
-
-    // set the parameters for the histogram
-    const histogram = d3
-      .histogram()
-      .value((d) => d.amount) // I need to give the vector of value
-      .domain(x.domain()) // then the domain of the graphic
-      .thresholds(x.ticks(30)); // then the numbers of bins
-
-    // And apply this function to data to get the bins
-    const bins = histogram(data);
-
-    // Y axis: scale and draw:
-    const y = d3.scaleLinear().range([height, 0]);
-    y.domain([
-      0,
-      d3.max(bins, function (d) {
-        return d.length;
-      }),
-    ]); // d3.hist has to be called before the Y axis obviously
-    svg.append("g").call(d3.axisLeft(y));
-
-    // append the bar rectangles to the svg element
-    svg
-      .selectAll("rect")
-      .data(bins)
-      .join("rect")
-      .attr("x", 1)
-      .attr("transform", (d) => `translate(${x(d.x0)} , ${y(d.length)})`)
-      .attr("width", (d) => x(d.x1) - x(d.x0))
-      .attr("height", (d) => height - y(d.length))
-      .attr("stroke", "white")
-      .style("fill", "#69b3a2");
-    // });
-    return () => {
-      // Remove the SVG element from the DOM
-      d3.select(histogramRef.current).selectAll("svg").remove();
-    };
+    setHistogram(histogramData);
   }, [data]);
 
   return (
@@ -79,21 +99,82 @@ const Histogram = React.memo((props) => {
         p: 0,
         m: 2,
         display: "flex",
-        justifyContent: "center",
-        height: "330px",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
         backgroundColor: "background.default",
+        flex: "1 0 auto",
       }}
     >
+      <ChartLabel label={"Age Distribution"} />
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           height: "330px",
-          width: "100%",
+          flex: "1 0 auto",
         }}
-        ref={histogramRef}
-      ></Box>
+      >
+        {data.length > 0 ? (
+          <ResponsiveContainer width={550} height={300}>
+            <BarChart
+              style={{ zIndex: 2 }}
+              width={500}
+              height={300}
+              data={histogram}
+              margin={{
+                top: 25,
+                right: 20,
+                bottom: 10,
+                left: 25,
+              }}
+            >
+              <XAxis
+                dataKey="ageGroup"
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+              />
+              <YAxis
+                tickLine={axisLineStyle}
+                axisLine={axisLineStyle}
+                tick={tickStyle}
+                dataKey="count"
+                // label={{
+                //   value: "Number of Cast Members",
+                //   angle: -90,
+                //   position: "insideLeft",
+                //   fill: theme.palette.text.secondary,
+                //   offset: 20,
+                // }}
+              >
+                <Label
+                  angle={-90}
+                  fill={theme.palette.text.secondary}
+                  value="Number of Cast Members"
+                  position="insideLeft"
+                  style={{ textAnchor: "middle" }}
+                  offset={2}
+                />
+              </YAxis>
+              <Tooltip
+                style={{ zIndex: 9999 }}
+                content={<CustomTooltip />}
+                cursor={cursorColor}
+              />
+              <Bar
+                dataKey="count"
+                fill={theme.palette.primary.main}
+                label={histogramLabelStyle}
+              ></Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <CircularProgress size={100} thickness={10} />
+        )}
+      </Box>
     </Paper>
   );
 });

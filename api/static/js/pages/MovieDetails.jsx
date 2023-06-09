@@ -15,32 +15,34 @@ const MovieDetails = (props) => {
 
   return (
     <Fade in>
-      <Container
-        disableGutters
-        maxWidth="xl"
-        sx={{
-          my: 0,
-          mx: "auto",
-          display: "flex",
-          flexDirection: "column",
-          flex: "1 1",
-        }}
-      >
+      <Box>
         <NavBar />
         <Container
           disableGutters
           maxWidth="xl"
           sx={{
+            my: 2,
+            mx: "auto",
             display: "flex",
-            flexDirection: "row",
-            pt: 1,
+            flexDirection: "column",
+            flex: "1 1",
           }}
         >
-          <MovieCard movie={movieDetails} />
-          <DataCard cast={castDetails} />
+          <Container
+            disableGutters
+            maxWidth="xl"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              pt: 1,
+            }}
+          >
+            <MovieCard movie={movieDetails} />
+            <DataCard cast={castDetails} />
+          </Container>
+          <CastCard cast={castDetails} />
         </Container>
-        <CastCard cast={castDetails} />
-      </Container>
+      </Box>
     </Fade>
   );
 };

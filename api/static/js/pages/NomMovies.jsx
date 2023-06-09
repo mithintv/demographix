@@ -4,20 +4,27 @@ const NomMovies = (props) => {
   const [showDetails, setShowDetails] = React.useState(false);
   const [castData, setCastData] = React.useState([]);
 
+  const data = castData.sort((a, b) => a.id - b.id);
+
   React.useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/nom/${year}`);
       const movieList = await response.json();
       setMovies(movieList);
 
-      const castList = compileAges(movieList);
+      const castList = compileCast(movieList);
       setCastData(castList);
     };
     fetchData();
   }, [award, year]);
 
   return (
-    <React.Fragment>
+    <Box
+      sx={{
+        mb: 2,
+      }}
+    >
+      <DataCard cast={castData} />
       <Paper
         sx={{
           display: "flex",
@@ -45,7 +52,7 @@ const NomMovies = (props) => {
             display: "flex",
             flexDirection: "row",
             width: "100%",
-            overflowX: "auto",
+            overflowX: "scroll",
           }}
         >
           {!showDetails &&
@@ -76,7 +83,6 @@ const NomMovies = (props) => {
             })}
         </Container>
       </Paper>
-      <DataCard cast={castData} />
-    </React.Fragment>
+    </Box>
   );
 };

@@ -70,9 +70,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Histogram = React.memo((props) => {
   const theme = useTheme();
   const [histogram, setHistogram] = React.useState([]);
-  const { data } = props;
-
-  console.log(data);
+  let { data } = props;
 
   React.useEffect(() => {
     const histogramData = d3.range(0, 10).map((i) => ({

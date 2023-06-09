@@ -4,13 +4,16 @@ const NomMovies = (props) => {
   const [showDetails, setShowDetails] = React.useState(false);
   const [castData, setCastData] = React.useState([]);
 
+  const data = castData.sort((a, b) => a.id - b.id);
+  console.log(data);
+
   React.useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/nom/${year}`);
       const movieList = await response.json();
       setMovies(movieList);
 
-      const castList = compileAges(movieList);
+      const castList = compileCast(movieList);
       setCastData(castList);
     };
     fetchData();

@@ -32,10 +32,6 @@ def query():
         search_results.append(movie_dict)
 
     return jsonify(search_results)
-
-
-@app.route('/search', methods=['POST'])
-def query_api():
     """Return search results from api in json. Currently set to run if 'search' button is pressed"""
 
     data = request.get_json()

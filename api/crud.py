@@ -223,7 +223,6 @@ def get_movies():
 
 def add_movie_from_search(movie):
     formatted_date = None
-    print(movie['release_date'])
     if len(movie['release_date']) > 0:
         format = "%Y-%m-%d"
         formatted_date = datetime.strptime(movie['release_date'], format)
@@ -354,9 +353,12 @@ def query_movie(keywords):
     if keywords == "":
         query = Movie.query.filter(Movie.poster_path != None).order_by(func.random()).limit(28).all()
         return query
+
     else:
         keyword_query = Movie.query.filter(func.lower(Movie.title).like(
             f'{keywords.lower()}%')).order_by(desc(Movie.release_date))
+        if len(keyword_query.all()) < 10:
+            keyword_query = query_api_movie(keywords)
         additional_query = Movie.query.filter(Movie.poster_path != None).order_by(Movie.title.like(f'{keywords[0].lower()}%'))
 
         combined_query = keyword_query.union_all(additional_query)
@@ -364,7 +366,6 @@ def query_movie(keywords):
         results = limited_query.all()
 
         return results
-
 
 
 def query_movie_credits(movie_obj):
@@ -385,32 +386,27 @@ def query_cast(keywords):
 def query_api_movie(keywords):
     """Return search query results from api."""
 
-    # filters = [func.lower(Movie.title).like(
-    #     f'%{keyword.lower()}%') for keyword in keywords]
+    print("Not enough results in db...\nMaking API call...")
+    response = requests.get(
+        f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}')
+    result_list = response.json()
+    movies = result_list['results']
+    print(f'Found {len(movies)} movies with query "{keywords}"')
+
+    new_movies = []
+    for movie in movies:
+        curr_movie = Movie.query.filter(Movie.id == movie['id']).first()
+        if curr_movie is None:
+            curr_movie = add_movie_from_search(movie)
+            new_movies.append(curr_movie)
+            print(f"Adding new move to db: {curr_movie}...\n")
+
+    db.session.add_all(new_movies)
+    db.session.commit()
+    print(f"Added {len(new_movies)} movies to db!")
+
     query = Movie.query.filter(func.lower(Movie.title).like(
-        f'{keywords.lower()}%')).all()
-
-    if len(query) < 10:
-        print("Not enough results in db...\nMaking API call...")
-        response = requests.get(
-            f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}')
-        result_list = response.json()
-        movies = result_list['results']
-        print(f'Found {len(movies)} movies with query "{keywords}"')
-
-        new_movies = []
-        for movie in movies:
-            curr_movie = Movie.query.filter(Movie.id == movie['id']).first()
-            if curr_movie is None:
-                curr_movie = add_movie_from_search(movie)
-                new_movies.append(curr_movie)
-                print(f"Adding new move to db: {curr_movie}...")
-
-            query.append(curr_movie)
-
-        db.session.add_all(new_movies)
-        db.session.commit()
-        print(f"Added {len(new_movies)} movies to db!")
+            f'{keywords.lower()}%')).order_by(desc(Movie.release_date))
 
     return query
 

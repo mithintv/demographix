@@ -1,8 +1,12 @@
 const NomMovies = (props) => {
-  const { award, year } = props;
   const [movies, setMovies] = React.useState([]);
-  const [showDetails, setShowDetails] = React.useState(false);
   const [castData, setCastData] = React.useState([]);
+
+  const [range, setRange] = React.useState("yearly");
+  const [award, setAward] = React.useState("academy awards");
+  const [cumulative, setCumulative] = React.useState("last 3");
+  const [cumYears, setCumYears] = React.useState("");
+  const [year, setYear] = React.useState(new Date().getFullYear());
 
   const data = castData.sort((a, b) => a.id - b.id);
 
@@ -18,71 +22,227 @@ const NomMovies = (props) => {
     fetchData();
   }, [award, year]);
 
+  React.useEffect(() => {
+    if (range === "cumulative") {
+      setYear(cumulative);
+    } else setYear(new Date().getFullYear());
+  }, [range]);
+
+  React.useEffect(() => {
+    if (range === "cumulative") {
+      const years = year.toString().split(" ");
+      console.log(year);
+      const current_year = new Date().getFullYear();
+      const string = `${current_year - years[1] + 1} - ${current_year}`;
+      setCumYears(string);
+    }
+  }, [year, range]);
+
+  const handleAward = (event) => {
+    setAward(event.target.value);
+  };
+
+  const handleRange = (event) => {
+    setRange(event.target.value);
+  };
+
+  const handleCumulative = (event) => {
+    setCumulative(event.target.value);
+    setYear(event.target.value);
+  };
+
+  const handleYear = (event) => {
+    setYear(event.target.value);
+  };
+
   return (
-    <Box
-      sx={{
-        mb: 2,
-      }}
-    >
-      <DataCard cast={castData} releaseDate={null} />
-      <Paper
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          mb: 2,
-        }}
-      >
-        <Typography
-          sx={{
-            mt: 1,
-            pl: 2,
-            width: "100%",
-            borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
-          }}
-          variant="overline"
-          color="primary"
-        >
-          Nominations
-        </Typography>
+    <Fade in>
+      <Box>
+        <NavBar />
         <Container
           disableGutters
           sx={{
-            px: 1,
-            py: 2,
+            my: 5,
             display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            overflowX: "scroll",
+            height: "100vh",
+            flexDirection: "column",
           }}
         >
-          {!showDetails &&
-            movies.map((movie, index) => {
-              const releaseDate = new Date(movie.release_date);
-              return (
-                <Card
-                  key={index}
-                  elevation={2}
+          <Box
+            sx={{
+              pl: 1,
+              mt: 4,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
+              }}
+            >
+              <Typography
+                sx={{ lineHeight: 0.75 }}
+                color="primary"
+                variant="overline2"
+              >
+                Top Billed Cast
+              </Typography>
+              <Typography color="primary" variant="overline">
+                Academy Award Nominated Titles (
+                {range === "yearly" ? year : cumYears})
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "end",
+              }}
+            >
+              <FormControl
+                sx={{
+                  m: 1,
+                }}
+              >
+                <InputLabel id="award">Award</InputLabel>
+                <Select
+                  labelId="award"
+                  id="award"
+                  value={award}
+                  label="Award"
+                  onChange={handleAward}
+                >
+                  <MenuItem value={award}>Academy Awards</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl
+                sx={{
+                  m: 1,
+                }}
+              >
+                <InputLabel id="range">Range</InputLabel>
+                <Select
+                  labelId="range"
+                  id="range"
+                  value={range}
+                  label="range"
+                  onChange={handleRange}
+                >
+                  <MenuItem value={"cumulative"}>Cumulative</MenuItem>
+                  <MenuItem value={"yearly"}>Yearly</MenuItem>
+                </Select>
+              </FormControl>
+              {range === "cumulative" ? (
+                <FormControl
                   sx={{
-                    width: 125,
-                    mx: 1,
-                    backgroundColor: "background.default",
-                    flex: "0 0 auto",
-                    cursor: "pointer",
+                    m: 1,
+                    width: "150px",
                   }}
                 >
-                  <Link component={RouterLink} to={`/movies/${movie.id}`}>
-                    <CardMedia
-                      width={100}
-                      component="img"
-                      image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
-                      alt={`Poster image of ${movie.title} (${releaseDate})`}
-                    />
-                  </Link>
-                </Card>
-              );
-            })}
+                  <InputLabel id={"cumulative"}>Cumulative</InputLabel>
+                  <Select
+                    labelId="cumulative"
+                    id="cumulative"
+                    value={cumulative}
+                    label="cumulative"
+                    onChange={handleCumulative}
+                  >
+                    <MenuItem value={"last 3"}>Last 3 Years</MenuItem>
+                    <MenuItem value={"last 5"}>Last 5 Years</MenuItem>
+                    <MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+                  </Select>
+                </FormControl>
+              ) : (
+                <FormControl
+                  sx={{
+                    m: 1,
+                    width: "100px",
+                  }}
+                >
+                  <InputLabel id={"year"}>Year</InputLabel>
+                  <Select
+                    labelId="year"
+                    id="year"
+                    value={year}
+                    label="Year"
+                    onChange={handleYear}
+                  >
+                    <MenuItem value={2023}>2023</MenuItem>
+                    <MenuItem value={2022}>2022</MenuItem>
+                    <MenuItem value={2021}>2021</MenuItem>
+                    <MenuItem value={2022}>2020</MenuItem>
+                    <MenuItem value={2021}>2019</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            </Box>
+          </Box>
+          <DataCard cast={castData} releaseDate={null} />
+          <Paper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              mb: 2,
+            }}
+          >
+            <Typography
+              sx={{
+                mt: 1,
+                pl: 2,
+                width: "100%",
+                borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
+              }}
+              variant="overline"
+              color="primary"
+            >
+              Nominations
+            </Typography>
+            <Container
+              disableGutters
+              sx={{
+                px: 1,
+                py: 2,
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                overflowX: "scroll",
+              }}
+            >
+              {movies.map((movie, index) => {
+                const releaseDate = new Date(movie.release_date);
+                return (
+                  <Card
+                    key={index}
+                    elevation={2}
+                    sx={{
+                      width: 125,
+                      mx: 1,
+                      backgroundColor: "background.default",
+                      flex: "0 0 auto",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Link component={RouterLink} to={`/movies/${movie.id}`}>
+                      <CardMedia
+                        width={100}
+                        component="img"
+                        image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
+                        alt={`Poster image of ${movie.title} (${releaseDate})`}
+                      />
+                    </Link>
+                  </Card>
+                );
+              })}
+            </Container>
+          </Paper>
         </Container>
-      </Paper>
-    </Box>
+      </Box>
+    </Fade>
   );
 };

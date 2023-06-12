@@ -12,6 +12,8 @@ const MovieCard = (props) => {
           width: "350px",
           display: "flex",
           flexDirection: "column",
+          justifyContent: movie.id ? "start" : "center",
+          alignItems: movie.id ? "start" : "center",
           flex: "1 0 auto",
         }}
       >
@@ -53,16 +55,7 @@ const MovieCard = (props) => {
             </Typography>
           </Container>
         ) : (
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress size={100} thickness={10} />
-          </Container>
+          <CircularProgress size={100} thickness={10} />
         )}
       </Card>
     </React.Fragment>

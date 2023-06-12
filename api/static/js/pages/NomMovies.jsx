@@ -57,14 +57,21 @@ const NomMovies = (props) => {
 
   return (
     <Fade in>
-      <Box>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          background:
+            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
+        }}
+      >
         <NavBar />
         <Container
           disableGutters
           sx={{
-            my: 5,
+            pb: 2,
+            pt: 8,
             display: "flex",
-            height: "100vh",
             flexDirection: "column",
           }}
         >
@@ -176,8 +183,8 @@ const NomMovies = (props) => {
                     <MenuItem value={2023}>2023</MenuItem>
                     <MenuItem value={2022}>2022</MenuItem>
                     <MenuItem value={2021}>2021</MenuItem>
-                    <MenuItem value={2022}>2020</MenuItem>
-                    <MenuItem value={2021}>2019</MenuItem>
+                    <MenuItem value={2020}>2020</MenuItem>
+                    <MenuItem value={2019}>2019</MenuItem>
                   </Select>
                 </FormControl>
               )}

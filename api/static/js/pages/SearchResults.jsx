@@ -1,26 +1,56 @@
-const SearchResults = (props) => {
+const SearchResults = ({ clicked, keywords }) => {
+  const [results, setResults] = React.useState([]);
   const theme = useTheme();
+
+  React.useEffect(() => {
+    const fetchSearch = async (query) => {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            search: query,
+          }),
+        };
+        const response = await fetch("/", options);
+        const json = await response.json();
+        setResults(json);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    let timeout;
+    if (keywords.length === 0) {
+      fetchSearch(keywords);
+    } else {
+      timeout = setTimeout(async () => {
+        fetchSearch(keywords);
+      }, 2000);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [keywords]);
   return (
-    <Paper
+    <Box
       sx={{
-        position: "absolute",
         boxSizing: "border-box",
-        transform: "translate(-10%, 25%)",
-        width: props.results.length * 132,
         mx: "auto",
-        minHeight: 182,
+        minHeight: 760,
         px: 2,
         py: 2,
         display: "flex",
         flexDirection: "row",
+        flexWrap: "wrap",
         justifyContent: "space-between",
         alignContent: "center",
         zIndex: 3,
-        backgroundColor: theme.palette.background.paper,
       }}
     >
-      {props.results.length > 0 ? (
-        props.results.map((movie, index) => {
+      {results.length > 0 ? (
+        results.map((movie, index) => {
           const releaseDate = new Date(movie.release_date);
 
           let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`;
@@ -34,9 +64,13 @@ const SearchResults = (props) => {
               key={index}
               component={RouterLink}
               to={`/movies/${movie.id}`}
-              onClick={props.clicked}
+              onClick={clicked}
             >
-              <Card>
+              <Card
+                sx={{
+                  m: 2,
+                }}
+              >
                 <CardMedia
                   sx={{ width: 100 }}
                   component="img"
@@ -48,9 +82,9 @@ const SearchResults = (props) => {
           );
         })
       ) : (
-        <CircularProgress sx={{ margin: "auto" }} />
+        <CircularProgress size={100} thickness={10} />
       )}
       {/* {showDetails && <MovieDetails movie_id={currMovie} />} */}
-    </Paper>
+    </Box>
   );
 };

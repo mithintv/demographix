@@ -4,7 +4,7 @@ import requests
 import os
 import time
 from datetime import datetime
-from sqlalchemy import func, and_, or_, desc, extract
+from sqlalchemy import func, and_, or_, desc, extract, union_all
 from model import *
 
 from data.nominations import *
@@ -351,12 +351,20 @@ def add_credits(credit_list, curr_movie):
 def query_movie(keywords):
     """Return search query results."""
 
-    query = Movie.query.filter(func.lower(Movie.title).like(
-        f'{keywords.lower()}%')).order_by(desc(Movie.release_date)).all()
-    # print(query)
-    # filtered = filter(lambda movie: len(movie.credits) > 0, query)
-    # print (list(filtered))
-    return query
+    if keywords == "":
+        query = Movie.query.filter(Movie.poster_path != None).order_by(func.random()).limit(28).all()
+        return query
+    else:
+        keyword_query = Movie.query.filter(func.lower(Movie.title).like(
+            f'{keywords.lower()}%')).order_by(desc(Movie.release_date))
+        additional_query = Movie.query.filter(Movie.poster_path != None).order_by(Movie.title.like(f'{keywords[0].lower()}%'))
+
+        combined_query = keyword_query.union_all(additional_query)
+        limited_query = combined_query.limit(28)
+        results = limited_query.all()
+
+        return results
+
 
 
 def query_movie_credits(movie_obj):

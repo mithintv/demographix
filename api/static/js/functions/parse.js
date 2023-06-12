@@ -99,7 +99,6 @@ const parseEthnicity = (movieCast) => {
     });
   });
   const listEthnicityData = [];
-  console.log(ethnicityData);
   for (const ethnicity in ethnicityData) {
 
     listEthnicityData.push({

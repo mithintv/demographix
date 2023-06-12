@@ -46,7 +46,7 @@ const SearchPage = ({ nav }) => {
     <React.Fragment>
       {!nav && (
         <Button variant="outlined" onClick={handleOpen}>
-          Search
+          Search Movies
         </Button>
       )}
       {nav && (
@@ -83,7 +83,7 @@ const SearchPage = ({ nav }) => {
             bgcolor: "background.default",
             border: "2px solid #000",
             boxShadow: 24,
-            pt: 4,
+            py: 4,
             px: 4,
           }}
         >
@@ -99,7 +99,7 @@ const SearchPage = ({ nav }) => {
             }}
           >
             <TextField
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", mb: 2 }}
               inputRef={searchRef}
               value={searchInput}
               name="search"

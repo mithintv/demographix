@@ -2,6 +2,7 @@ const { BrowserRouter, Route, Link: RouterLink } = ReactRouterDOM;
 const {
   AppBar,
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -18,6 +19,7 @@ const {
   InputLabel,
   Link,
   MenuItem,
+  Modal,
   IconButton,
   InputBase,
   Paper,

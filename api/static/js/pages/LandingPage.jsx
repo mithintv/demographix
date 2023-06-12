@@ -79,7 +79,7 @@ const LandingPage = () => {
             BAFTA, etc. You can also search for demographic breakdowns of cast
             members in individual productions.
           </Typography>
-          <SearchBar />
+          <SearchPage />
         </Box>
         <Box
           sx={{

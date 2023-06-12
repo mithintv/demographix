@@ -1,12 +1,13 @@
 const SearchPage = ({ nav }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    clearInputHandler();
-    setOpen(false);
-  };
   const searchRef = React.useRef(null);
   const [searchInput, setSearchInput] = React.useState("");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setSearchInput("");
+    setOpen(false);
+  };
 
   const searchInputHandler = async (e) => {
     setSearchInput(searchRef.current.value);
@@ -36,10 +37,6 @@ const SearchPage = ({ nav }) => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const clearInputHandler = () => {
-    setSearchInput("");
   };
 
   return (
@@ -115,7 +112,7 @@ const SearchPage = ({ nav }) => {
               variant="standard"
             />
           </Box>
-          <SearchResults clicked={clearInputHandler} keywords={searchInput} />
+          <SearchResults clicked={handleClose} keywords={searchInput} />
         </Paper>
       </Modal>
     </React.Fragment>

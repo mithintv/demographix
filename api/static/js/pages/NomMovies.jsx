@@ -24,7 +24,7 @@ const NomMovies = (props) => {
         mb: 2,
       }}
     >
-      <DataCard cast={castData} />
+      <DataCard cast={castData} releaseDate={null} />
       <Paper
         sx={{
           display: "flex",

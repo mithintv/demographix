@@ -7,6 +7,16 @@ const LandingPage = () => {
   const [title, setTitle] = React.useState("");
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  React.useEffect(() => {
+    if (range === "cumulative") {
+      setYear(cumulative);
+    } else setYear(new Date().getFullYear());
+  }, [range]);
+
+  React.useEffect(() => {
     if (range === "cumulative") {
       const years = year.toString().split(" ");
       console.log(year);
@@ -32,12 +42,6 @@ const LandingPage = () => {
   const handleYear = (event) => {
     setYear(event.target.value);
   };
-
-  React.useEffect(() => {
-    if (range === "cumulative") {
-      setYear(cumulative);
-    } else setYear(new Date().getFullYear());
-  }, [range]);
 
   return (
     <Fade in>
@@ -75,7 +79,7 @@ const LandingPage = () => {
             BAFTA, etc. You can also search for demographic breakdowns of cast
             members in individual productions.
           </Typography>
-          <SearchBar />
+          <SearchPage nav={false} />
         </Box>
         <Box
           sx={{

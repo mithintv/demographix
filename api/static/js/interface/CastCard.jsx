@@ -1,6 +1,5 @@
 const CastCard = React.memo((props) => {
   const { cast } = props;
-  console.log("Rendering Cast Data: ", cast);
 
   return (
     <Paper

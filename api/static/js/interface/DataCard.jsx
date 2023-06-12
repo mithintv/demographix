@@ -1,12 +1,13 @@
 const DataCard = React.memo((props) => {
-  const { cast } = props;
+  const { cast, releaseDate } = props;
   const [ageData, setAgeData] = React.useState([]);
   const [genderData, setGenderData] = React.useState([]);
   const [raceData, setRaceData] = React.useState([]);
+  const [ethnicityData, setEthnicityData] = React.useState([]);
   const [cobData, setCOBData] = React.useState();
 
   React.useEffect(() => {
-    const listAgeData = parseAges(cast);
+    const listAgeData = parseAges(cast, releaseDate);
     setAgeData(listAgeData);
 
     const listGenderData = parseGenders(cast);
@@ -15,9 +16,12 @@ const DataCard = React.memo((props) => {
     const listRaceData = parseRace(cast);
     setRaceData(listRaceData);
 
+    const listEthnicityData = parseEthnicity(cast);
+    setEthnicityData(listEthnicityData);
+
     const listCOBData = parseCountryOfBirth(cast);
     setCOBData(listCOBData);
-  }, [cast]);
+  }, [cast, releaseDate]);
 
   return (
     <Paper
@@ -57,6 +61,7 @@ const DataCard = React.memo((props) => {
         }}
       >
         <RaceChart data={raceData} />
+        <RaceChart data={ethnicityData} />
         {/* {cobData && <WorldMap data={cobData} />} */}
       </Box>
     </Paper>

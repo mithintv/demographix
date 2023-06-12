@@ -23,6 +23,25 @@ const formatYAxisLabel = (label) => {
   return label;
 };
 
+const CustomizedLabel = (props) => {
+  const { x, width, y, height, value, index, total } = props;
+  console.log(total);
+  if ((index % 2 === 0 && total > 10) || total < 10) {
+    return (
+      <g>
+        <text
+          x={x + 5 + width}
+          y={total < 10 ? y + 4 + height / 2 : y + 3 + height / 2}
+          style={total < 10 ? barChartLabelStyle : barChartLabelStyle2}
+        >
+          {value}
+        </text>
+      </g>
+    );
+  }
+  return null;
+};
+
 const RaceChart = React.memo(({ data, title, colors }) => {
   const theme = useTheme();
 
@@ -92,7 +111,10 @@ const RaceChart = React.memo(({ data, title, colors }) => {
                 viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
                 content={<RaceTooltip />}
               />
-              <Bar dataKey="amount" label={barChartLabelStyle}>
+              <Bar
+                dataKey="amount"
+                label={<CustomizedLabel total={data.length} />}
+              >
                 {data.map((entry, index) => {
                   if (colors.length === 1) {
                     return <Cell key={`cell-${index}`} fill={colors[0]} />;

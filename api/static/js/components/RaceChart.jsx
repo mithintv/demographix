@@ -24,7 +24,6 @@ const formatYAxisLabel = (label) => {
 };
 
 const RaceChart = React.memo((props) => {
-  console.log(data);
   const theme = useTheme();
   const { data } = props;
 

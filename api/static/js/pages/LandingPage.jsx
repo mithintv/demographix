@@ -5,7 +5,7 @@ const LandingPage = () => {
 
   return (
     <Fade in>
-      <Container
+      <Box
         disableGutters
         sx={{
           pb: 20,
@@ -13,6 +13,8 @@ const LandingPage = () => {
           height: "100vh",
           flexDirection: "column",
           justifyContent: "center",
+          background:
+            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
         }}
       >
         <Box
@@ -28,16 +30,15 @@ const LandingPage = () => {
             </Typography>
           </Link>
           <Typography
-            sx={{ my: 2, width: "700px" }}
+            sx={{ mt: 2, mb: 4, width: "800px" }}
             color="textSecondary"
             variant="body"
-            align="justify"
+            align="center"
           >
-            Demographix is a visualization of demographic information of top
-            billed cast in movies nominated for prestigious awards such as the
-            Academy Awards, the Golden Globes, BAFTA, etc. You can also search
-            for demographic breakdowns of cast members in individual
-            productions.
+            Visualize demographic information of top billed cast in movies
+            nominated for prestigious awards such as the Academy Awards, the
+            Golden Globes, BAFTA, etc. You can also search for demographic
+            breakdowns of cast members in individual productions.
           </Typography>
           <Box
             sx={{
@@ -48,12 +49,19 @@ const LandingPage = () => {
             }}
           >
             <Link to="/noms" component={RouterLink}>
-              <Button variant="outlined">Visualize Data</Button>
+              <Button
+                startIcon={
+                  <span className="material-symbols-outlined">bar_chart</span>
+                }
+                variant="outlined"
+              >
+                Visualize Data
+              </Button>
             </Link>
             <SearchPage nav={false} />
           </Box>
         </Box>
-      </Container>
+      </Box>
     </Fade>
   );
 };

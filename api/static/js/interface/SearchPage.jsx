@@ -42,7 +42,11 @@ const SearchPage = ({ nav }) => {
   return (
     <React.Fragment>
       {!nav && (
-        <Button variant="outlined" onClick={handleOpen}>
+        <Button
+          startIcon={<span className="material-symbols-outlined">search</span>}
+          variant="outlined"
+          onClick={handleOpen}
+        >
           Search Movies
         </Button>
       )}

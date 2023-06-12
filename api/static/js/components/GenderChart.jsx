@@ -80,7 +80,6 @@ const GenderChart = React.memo((props) => {
         alignItems: "center",
         backgroundColor: "background.default",
         flex: "1 0 auto",
-        minWidth: "568px",
       }}
     >
       <ChartLabel label={"Gender Ratio"} />
@@ -90,38 +89,37 @@ const GenderChart = React.memo((props) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          width: "550px",
           height: "330px",
           flex: "1 0 auto",
         }}
       >
         {data.length > 0 ? (
-          <ResponsiveContainer width={550} height={300}>
-            <PieChart width={550} height={350}>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                width={550}
-                height={350}
-                startAngle={90}
-                endAngle={-450}
-                innerRadius={55}
-                outerRadius={90}
-                stroke="none"
-                fill="#8884d8"
-                nameKey="name"
-                dataKey="amount"
-                label={<CustomLabel />}
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <PieChart width={550} height={350}>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              width={550}
+              height={350}
+              startAngle={90}
+              endAngle={-450}
+              innerRadius={55}
+              outerRadius={90}
+              stroke="none"
+              fill="#8884d8"
+              nameKey="name"
+              dataKey="amount"
+              label={<CustomLabel />}
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
         ) : (
           <CircularProgress size={100} thickness={10} />
         )}

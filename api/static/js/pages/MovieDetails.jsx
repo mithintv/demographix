@@ -29,13 +29,19 @@ const MovieDetails = (props) => {
 
   return (
     <Fade in>
-      <Box>
+      <Box
+        sx={{
+          background:
+            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
+        }}
+      >
         <NavBar />
         <Container
           disableGutters
           maxWidth="xl"
           sx={{
-            my: 2,
+            pb: 2,
+            pt: 10,
             mx: "auto",
             display: "flex",
             flexDirection: "column",

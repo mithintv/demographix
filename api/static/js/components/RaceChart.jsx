@@ -23,20 +23,10 @@ const formatYAxisLabel = (label) => {
   return label;
 };
 
-const RaceChart = React.memo((props) => {
+const RaceChart = React.memo(({ data, title, colors }) => {
   const theme = useTheme();
-  const { data } = props;
 
   // data.sort((a, b) => d3.descending(a.amount, b.amount));
-
-  const colors = [
-    "#fff",
-    "#B63E76",
-    "#0088FE",
-    "#00C49F",
-    "#FFBB28",
-    "#FF8042",
-  ];
 
   return (
     <Paper
@@ -52,7 +42,7 @@ const RaceChart = React.memo((props) => {
         flexGrow: 1,
       }}
     >
-      <ChartLabel label={"Race"} />
+      <ChartLabel label={title} />
       <Box
         sx={{
           display: "flex",
@@ -63,7 +53,7 @@ const RaceChart = React.memo((props) => {
         }}
       >
         {data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width={550} height={350}>
             <BarChart
               layout="vertical"
               width={550}
@@ -103,9 +93,12 @@ const RaceChart = React.memo((props) => {
                 content={<RaceTooltip />}
               />
               <Bar dataKey="amount" label={barChartLabelStyle}>
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index]} />
-                ))}
+                {data.map((entry, index) => {
+                  if (colors.length === 1) {
+                    return <Cell key={`cell-${index}`} fill={colors[0]} />;
+                  }
+                  return <Cell key={`cell-${index}`} fill={colors[index]} />;
+                })}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

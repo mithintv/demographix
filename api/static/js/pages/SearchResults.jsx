@@ -39,8 +39,6 @@ const SearchResults = ({ clicked, keywords }) => {
         boxSizing: "border-box",
         mx: "auto",
         minHeight: 760,
-        px: 2,
-        py: 2,
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -68,11 +66,11 @@ const SearchResults = ({ clicked, keywords }) => {
             >
               <Card
                 sx={{
-                  m: 2,
+                  m: 1,
                 }}
               >
                 <CardMedia
-                  sx={{ width: 100 }}
+                  sx={{ width: 110 }}
                   component="img"
                   image={imgPath}
                   alt={`Movie poster for ${movie.title}`}

@@ -16,6 +16,7 @@ const {
   Fade,
   FormControl,
   GlobalStyles,
+  InputAdornment,
   InputLabel,
   Link,
   MenuItem,

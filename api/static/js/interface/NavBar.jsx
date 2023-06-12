@@ -23,7 +23,7 @@ const NavBar = () => {
               Demographix
             </Typography>
           </Link>
-          <SearchBar />
+          <SearchPage nav={true} />
         </Toolbar>
       </AppBar>
     </Box>

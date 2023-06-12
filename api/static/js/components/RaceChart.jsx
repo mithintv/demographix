@@ -59,7 +59,6 @@ const RaceChart = React.memo((props) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-
           height: 350,
         }}
       >

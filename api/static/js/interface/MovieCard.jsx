@@ -15,7 +15,7 @@ const MovieCard = (props) => {
           flex: "1 0 auto",
         }}
       >
-        {movie ? (
+        {movie.id ? (
           <Container disableGutters>
             <Typography variant="h5">{movie.title}</Typography>
             <Container

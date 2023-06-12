@@ -60,8 +60,23 @@ const DataCard = React.memo((props) => {
           justifyContent: "space-evenly",
         }}
       >
-        <RaceChart data={raceData} />
-        <RaceChart data={ethnicityData} />
+        <RaceChart
+          title="race"
+          data={raceData}
+          colors={[
+            "#fff",
+            "#B63E76",
+            "#0088FE",
+            "#00C49F",
+            "#FFBB28",
+            "#FF8042",
+          ]}
+        />
+        <RaceChart
+          title="ethnicity"
+          data={ethnicityData}
+          colors={["#FFBB28"]}
+        />
         {/* {cobData && <WorldMap data={cobData} />} */}
       </Box>
     </Paper>

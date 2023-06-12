@@ -41,16 +41,14 @@ const SearchPage = ({ nav }) => {
 
   return (
     <React.Fragment>
-      {!nav && (
-        <Button
-          startIcon={<span className="material-symbols-outlined">search</span>}
-          variant="outlined"
-          onClick={handleOpen}
-        >
-          Search Movies
-        </Button>
-      )}
-      {nav && (
+      <Button
+        startIcon={<span className="material-symbols-outlined">search</span>}
+        variant={nav ? "text" : "contained"}
+        onClick={handleOpen}
+      >
+        Search Movies
+      </Button>
+      {/* {nav && (
         <IconButton
           onClick={handleOpen}
           sx={{ p: "10px" }}
@@ -60,7 +58,7 @@ const SearchPage = ({ nav }) => {
         >
           <span className="material-symbols-outlined">search</span>
         </IconButton>
-      )}
+      )} */}
       <Modal
         sx={{
           position: "fixed",

@@ -149,6 +149,7 @@ const App = () => {
     <BrowserRouter>
       {globalStyles}
       <Route path="/" component={LandingPage} exact></Route>
+      <Route path="/noms" component={NomMovies} exact></Route>
       <Route path="/movies/:id" component={MovieDetails} exact></Route>
       {/* <BasicTabs year={new Date().getFullYear()} /> */}
     </BrowserRouter>

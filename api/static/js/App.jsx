@@ -118,6 +118,12 @@ const histogramLabelStyle = {
 const barChartLabelStyle = {
   fill: darkTheme.palette.text.secondary,
   position: "right",
+  fontSize: "0.75em",
+};
+const barChartLabelStyle2 = {
+  fill: darkTheme.palette.text.secondary,
+  position: "right",
+  fontSize: "0.66em",
 };
 
 const globalStyles = (

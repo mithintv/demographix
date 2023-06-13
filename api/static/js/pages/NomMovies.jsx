@@ -1,12 +1,15 @@
 const NomMovies = (props) => {
+	const { rangeParam, yearParam } = props.match.params;
 	const [movies, setMovies] = React.useState([]);
 	const [castData, setCastData] = React.useState([]);
 
-	const [range, setRange] = React.useState("yearly");
+	const [range, setRange] = React.useState(rangeParam);
 	const [award, setAward] = React.useState("academy awards");
-	const [cumulative, setCumulative] = React.useState("last 3");
 	const [cumYears, setCumYears] = React.useState("");
-	const [year, setYear] = React.useState(new Date().getFullYear());
+	const [year, setYear] = React.useState(yearParam);
+
+	const history = useHistory();
+	const location = useLocation();
 
 	const data = castData.sort((a, b) => a.id - b.id);
 
@@ -24,9 +27,11 @@ const NomMovies = (props) => {
 
 	React.useEffect(() => {
 		if (range === "cumulative") {
-			setYear(cumulative);
-		} else setYear(new Date().getFullYear());
-	}, [range]);
+			setYear(yearParam);
+		} else {
+			setYear(yearParam);
+		}
+	}, [range, yearParam, rangeParam]);
 
 	React.useEffect(() => {
 		if (range === "cumulative") {
@@ -43,16 +48,32 @@ const NomMovies = (props) => {
 	};
 
 	const handleRange = (event) => {
-		setRange(event.target.value);
+		const selectedRange = event.target.value;
+		setRange(selectedRange);
+		let selectedYear = "last 3";
+		if (selectedRange === "cumulative") {
+			setYear("last 3");
+		} else {
+			selectedYear = new Date().getFullYear();
+			setYear(selectedYear);
+		}
+		location.pathname = `/noms/${selectedRange}/${selectedYear}`;
+		history.push(location.pathname);
 	};
 
 	const handleCumulative = (event) => {
-		setCumulative(event.target.value);
-		setYear(event.target.value);
+		const selectedYear = event.target.value;
+		console.log(selectedYear);
+		setYear(selectedYear);
+		location.pathname = `/noms/${range}/${selectedYear}`;
+		history.push(location.pathname);
 	};
 
 	const handleYear = (event) => {
-		setYear(event.target.value);
+		const selectedYear = event.target.value;
+		setYear(selectedYear);
+		location.pathname = `/noms/${range}/${selectedYear}`;
+		history.push(location.pathname);
 	};
 
 	return (
@@ -157,7 +178,7 @@ const NomMovies = (props) => {
 									<Select
 										labelId="cumulative"
 										id="cumulative"
-										value={cumulative}
+										value={year}
 										label="cumulative"
 										onChange={handleCumulative}
 									>

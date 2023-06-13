@@ -74,7 +74,10 @@ const LandingPage = () => {
 							width: "25%",
 						}}
 					>
-						<Link to="/noms" component={RouterLink}>
+						<Link
+							to={`/noms/yearly/${new Date().getFullYear()}`}
+							component={RouterLink}
+						>
 							<Button
 								size="large"
 								startIcon={

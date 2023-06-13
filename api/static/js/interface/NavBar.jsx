@@ -18,7 +18,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar
         sx={{
           backgroundColor: navTransparent
@@ -26,7 +26,7 @@ const NavBar = () => {
             : theme.palette.background.default,
           boxShadow: navTransparent ? "none" : "2px",
           backgroundImage: "none",
-          transition: "500ms all",
+          transition: "background-color 500ms",
         }}
         position="fixed"
       >

@@ -143,7 +143,7 @@ const globalStyles = (
         width: "0.5em",
       },
       "*::-webkit-scrollbar-thumb": {
-        backgroundColor: "#545995",
+        backgroundColor: "#66689f",
         borderRadius: "2.5px",
       },
     }}
@@ -151,17 +151,12 @@ const globalStyles = (
 );
 
 const App = () => {
-  const nomMovieHandler = () => {
-    setNomMovies(true);
-  };
-
   return (
     <BrowserRouter>
       {globalStyles}
       <Route path="/" component={LandingPage} exact></Route>
       <Route path="/noms" component={NomMovies} exact></Route>
       <Route path="/movies/:id" component={MovieDetails} exact></Route>
-      {/* <BasicTabs year={new Date().getFullYear()} /> */}
     </BrowserRouter>
   );
 };

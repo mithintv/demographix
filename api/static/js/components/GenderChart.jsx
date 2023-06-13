@@ -24,7 +24,7 @@ const CustomLabel = (props) => {
   const textAnchor = cos >= 0 ? "start" : "end";
 
   return (
-    <Fade in>
+    <Fade in timeout={250}>
       <g>
         <Sector
           cx={cx}

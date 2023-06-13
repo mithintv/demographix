@@ -106,7 +106,7 @@ const parseEthnicity = (movieCast) => {
       amount: ethnicityData[ethnicity]
     });
   }
-  return listEthnicityData;
+  return listEthnicityData.sort((a, b) => b.amount - a.amount);
 };
 
 

@@ -21,33 +21,27 @@ const Footer = () => {
         }}
       >
         <Link href="https://mithin.com">
-          <IconButton>
-            <i
-              className="fa-solid fa-code"
-              style={{
-                color: "rgba(255, 255, 255, 0.7)",
-                "&:hover": {
-                  color: "#fff",
-                },
-              }}
-            ></i>
-          </IconButton>
+          <i
+            className="fa-solid fa-code"
+            style={{
+              color: "rgba(255, 255, 255, 0.7)",
+              "&:hover": {
+                color: "#fff",
+              },
+            }}
+          ></i>
         </Link>
         <Link href="https://linkedin.com/in/mithintv">
-          <IconButton>
-            <i
-              className="fa-brands fa-linkedin"
-              style={{ color: "rgba(255, 255, 255, 0.7)" }}
-            ></i>
-          </IconButton>
+          <i
+            className="fa-brands fa-linkedin"
+            style={{ color: "rgba(255, 255, 255, 0.7)" }}
+          ></i>
         </Link>
         <Link href="https://github.com/mithintv">
-          <IconButton>
-            <i
-              className="fa-brands fa-github"
-              style={{ color: "rgba(255, 255, 255, 0.7)" }}
-            ></i>
-          </IconButton>
+          <i
+            className="fa-brands fa-github"
+            style={{ color: "rgba(255, 255, 255, 0.7)" }}
+          ></i>
         </Link>
       </Box>
     </Box>

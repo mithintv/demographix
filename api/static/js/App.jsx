@@ -120,6 +120,7 @@ const axisLineStyle = {
 };
 const tickStyle = {
 	fill: darkTheme.palette.text.secondary,
+	y: -10,
 };
 const cursorColor = {
 	fill: darkTheme.palette.text.disabled,

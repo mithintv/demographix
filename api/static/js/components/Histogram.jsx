@@ -8,11 +8,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <Typography
           align="center"
           variant="overline"
-        >{`${ageGroup} Age Group`}</Typography>
-        <Typography
-          align="center"
-          variant="overline"
-        >{`${count} Cast`}</Typography>
+        >{`${ageGroup}: ${count} Cast Members`}</Typography>
         <Box
           sx={{
             maxWidth: "700px",
@@ -24,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }) => {
             flexShrink: 1,
           }}
         >
-          {cast.map((el, index) => {
+          {/* {cast.map((el, index) => {
             let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${el.profile_path}`;
             if (el.profile_path == null) {
               imgPath =
@@ -57,7 +53,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                 </Container>
               </Card>
             );
-          })}
+          })} */}
         </Box>
       </Paper>
     );
@@ -113,64 +109,63 @@ const Histogram = React.memo((props) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          width: "550px",
           height: "330px",
           flex: "1 0 auto",
         }}
       >
         {data.length > 0 ? (
-          <ResponsiveContainer width={550} height={300}>
-            <BarChart
-              style={{ zIndex: 2 }}
-              width={550}
-              height={300}
-              data={histogram}
-              margin={{
-                top: 25,
-                right: 20,
-                bottom: 10,
-                left: 25,
-              }}
+          <BarChart
+            style={{ zIndex: 2 }}
+            width={550}
+            height={300}
+            data={histogram}
+            margin={{
+              top: 25,
+              right: 20,
+              bottom: 10,
+              left: 25,
+            }}
+          >
+            <XAxis
+              dataKey="ageGroup"
+              tickLine={axisLineStyle}
+              axisLine={axisLineStyle}
+              tick={tickStyle}
+            />
+            <YAxis
+              tickLine={axisLineStyle}
+              axisLine={axisLineStyle}
+              tick={tickStyle}
+              dataKey="count"
+              // label={{
+              //   value: "Number of Cast Members",
+              //   angle: -90,
+              //   position: "insideLeft",
+              //   fill: theme.palette.text.secondary,
+              //   offset: 20,
+              // }}
             >
-              <XAxis
-                dataKey="ageGroup"
-                tickLine={axisLineStyle}
-                axisLine={axisLineStyle}
-                tick={tickStyle}
+              <Label
+                angle={-90}
+                fill={theme.palette.text.secondary}
+                value="Number of Cast Members"
+                position="insideLeft"
+                style={{ textAnchor: "middle" }}
+                offset={2}
               />
-              <YAxis
-                tickLine={axisLineStyle}
-                axisLine={axisLineStyle}
-                tick={tickStyle}
-                dataKey="count"
-                // label={{
-                //   value: "Number of Cast Members",
-                //   angle: -90,
-                //   position: "insideLeft",
-                //   fill: theme.palette.text.secondary,
-                //   offset: 20,
-                // }}
-              >
-                <Label
-                  angle={-90}
-                  fill={theme.palette.text.secondary}
-                  value="Number of Cast Members"
-                  position="insideLeft"
-                  style={{ textAnchor: "middle" }}
-                  offset={2}
-                />
-              </YAxis>
-              <Tooltip
-                style={{ zIndex: 9999 }}
-                content={<CustomTooltip />}
-                cursor={cursorColor}
-              />
-              <Bar
-                dataKey="count"
-                fill={theme.palette.primary.main}
-                label={histogramLabelStyle}
-              ></Bar>
-            </BarChart>
-          </ResponsiveContainer>
+            </YAxis>
+            <Tooltip
+              style={{ zIndex: 9999 }}
+              content={<CustomTooltip />}
+              cursor={cursorColor}
+            />
+            <Bar
+              dataKey="count"
+              fill={theme.palette.primary.main}
+              label={histogramLabelStyle}
+            ></Bar>
+          </BarChart>
         ) : (
           <CircularProgress size={100} thickness={10} />
         )}

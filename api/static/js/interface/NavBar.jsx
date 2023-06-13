@@ -1,7 +1,35 @@
 const NavBar = () => {
+  const theme = useTheme();
+  const [navTransparent, setNavTransparent] = React.useState(true);
+
+  const handleScroll = () => {
+    if (window.scrollY > 32) {
+      setNavTransparent(false);
+    } else {
+      setNavTransparent(true);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box>
+      <AppBar
+        sx={{
+          backgroundColor: navTransparent
+            ? "transparent"
+            : theme.palette.background.default,
+          boxShadow: navTransparent ? "none" : "2px",
+          backgroundImage: "none",
+          transition: "background-color 500ms",
+        }}
+        position="fixed"
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -18,12 +46,34 @@ const NavBar = () => {
           >
             <span className="material-symbols-outlined">menu</span>
           </IconButton> */}
+
           <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
             <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
               Demographix
             </Typography>
           </Link>
-          <SearchPage nav={true} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDiection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Link
+              sx={{ textDecoration: "none", mx: 2 }}
+              component={RouterLink}
+              to="/noms"
+            >
+              <Button
+                startIcon={
+                  <span className="material-symbols-outlined">bar_chart</span>
+                }
+              >
+                Cumulative Data
+              </Button>
+            </Link>
+            <SearchPage nav={true} />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

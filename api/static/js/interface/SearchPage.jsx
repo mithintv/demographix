@@ -1,12 +1,13 @@
 const SearchPage = ({ nav }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    clearInputHandler();
-    setOpen(false);
-  };
   const searchRef = React.useRef(null);
   const [searchInput, setSearchInput] = React.useState("");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setSearchInput("");
+    setOpen(false);
+  };
 
   const searchInputHandler = async (e) => {
     setSearchInput(searchRef.current.value);
@@ -38,18 +39,16 @@ const SearchPage = ({ nav }) => {
     }
   };
 
-  const clearInputHandler = () => {
-    setSearchInput("");
-  };
-
   return (
     <React.Fragment>
-      {!nav && (
-        <Button variant="outlined" onClick={handleOpen}>
-          Search
-        </Button>
-      )}
-      {nav && (
+      <Button
+        startIcon={<span className="material-symbols-outlined">search</span>}
+        variant={nav ? "text" : "contained"}
+        onClick={handleOpen}
+      >
+        Search Movies
+      </Button>
+      {/* {nav && (
         <IconButton
           onClick={handleOpen}
           sx={{ p: "10px" }}
@@ -59,7 +58,7 @@ const SearchPage = ({ nav }) => {
         >
           <span className="material-symbols-outlined">search</span>
         </IconButton>
-      )}
+      )} */}
       <Modal
         sx={{
           position: "fixed",
@@ -83,7 +82,7 @@ const SearchPage = ({ nav }) => {
             bgcolor: "background.default",
             border: "2px solid #000",
             boxShadow: 24,
-            pt: 4,
+            py: 4,
             px: 4,
           }}
         >
@@ -99,7 +98,7 @@ const SearchPage = ({ nav }) => {
             }}
           >
             <TextField
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", mb: 2 }}
               inputRef={searchRef}
               value={searchInput}
               name="search"
@@ -115,7 +114,7 @@ const SearchPage = ({ nav }) => {
               variant="standard"
             />
           </Box>
-          <SearchResults clicked={clearInputHandler} keywords={searchInput} />
+          <SearchResults clicked={handleClose} keywords={searchInput} />
         </Paper>
       </Modal>
     </React.Fragment>

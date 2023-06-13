@@ -127,7 +127,7 @@ const barChartLabelStyle = {
 const barChartLabelStyle2 = {
   fill: darkTheme.palette.text.secondary,
   position: "right",
-  fontSize: "0.5em",
+  fontSize: "0",
 };
 
 const globalStyles = (

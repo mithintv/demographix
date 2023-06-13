@@ -45,7 +45,11 @@ const CustomizedLabel = (props) => {
 const RaceChart = React.memo(({ data, title, colors }) => {
   const theme = useTheme();
 
-  // data.sort((a, b) => d3.descending(a.amount, b.amount));
+  React.useEffect(() => {
+    if (data.length > 10) {
+      data = data.sort((a, b) => d3.descending(a.amount, b.amount));
+    }
+  }, [data]);
 
   return (
     <Paper
@@ -68,7 +72,7 @@ const RaceChart = React.memo(({ data, title, colors }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: 350,
+          minHeight: "350px",
         }}
       >
         {data.length > 0 ? (

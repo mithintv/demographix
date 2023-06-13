@@ -64,6 +64,7 @@ const MovieDetails = (props) => {
           </Container>
           <CastCard cast={castDetails} />
         </Container>
+        <Footer/>
       </Box>
     </Fade>
   );

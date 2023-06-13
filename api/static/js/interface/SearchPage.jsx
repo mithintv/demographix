@@ -42,6 +42,7 @@ const SearchPage = ({ nav }) => {
   return (
     <React.Fragment>
       <Button
+        size="large"
         startIcon={<span className="material-symbols-outlined">search</span>}
         variant={nav ? "text" : "contained"}
         onClick={handleOpen}

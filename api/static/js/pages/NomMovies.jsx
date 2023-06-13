@@ -13,6 +13,7 @@ const NomMovies = (props) => {
 
 	const data = castData.sort((a, b) => a.id - b.id);
 
+	// fetch call for data retrieval
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const response = await fetch(`/api/nom/${year}`);
@@ -25,24 +26,23 @@ const NomMovies = (props) => {
 		fetchData();
 	}, [award, year]);
 
+	// useEffect for changing charts based on url params
 	React.useEffect(() => {
-		if (range === "cumulative") {
-			setYear(yearParam);
-		} else {
-			setYear(yearParam);
-		}
-	}, [range, yearParam, rangeParam]);
+		setYear(yearParam);
+		setRange(rangeParam);
+	}, [yearParam, rangeParam]);
 
+	// useEffect for displaying cumulative years in data card title
 	React.useEffect(() => {
 		if (range === "cumulative") {
 			const years = year.toString().split(" ");
-			console.log(year);
 			const current_year = new Date().getFullYear();
 			const string = `${current_year - years[1] + 1} - ${current_year}`;
 			setCumYears(string);
 		}
 	}, [year, range]);
 
+	// functions that handle filter onChange events
 	const handleAward = (event) => {
 		setAward(event.target.value);
 	};
@@ -58,14 +58,6 @@ const NomMovies = (props) => {
 			setYear(selectedYear);
 		}
 		location.pathname = `/noms/${selectedRange}/${selectedYear}`;
-		history.push(location.pathname);
-	};
-
-	const handleCumulative = (event) => {
-		const selectedYear = event.target.value;
-		console.log(selectedYear);
-		setYear(selectedYear);
-		location.pathname = `/noms/${range}/${selectedYear}`;
 		history.push(location.pathname);
 	};
 
@@ -180,7 +172,7 @@ const NomMovies = (props) => {
 										id="cumulative"
 										value={year}
 										label="cumulative"
-										onChange={handleCumulative}
+										onChange={handleYear}
 									>
 										<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
 										<MenuItem value={"last 5"}>Last 5 Years</MenuItem>

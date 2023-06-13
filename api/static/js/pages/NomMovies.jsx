@@ -1,10 +1,10 @@
 const NomMovies = (props) => {
-	const { rangeParam, yearParam } = props.match.params;
+	const { awardParam, rangeParam, yearParam } = props.match.params;
 	const [movies, setMovies] = React.useState([]);
 	const [castData, setCastData] = React.useState([]);
 
 	const [range, setRange] = React.useState(rangeParam);
-	const [award, setAward] = React.useState("academy awards");
+	const [award, setAward] = React.useState(awardParam);
 	const [cumYears, setCumYears] = React.useState("");
 	const [year, setYear] = React.useState(yearParam);
 
@@ -30,7 +30,7 @@ const NomMovies = (props) => {
 	React.useEffect(() => {
 		setYear(yearParam);
 		setRange(rangeParam);
-	}, [yearParam, rangeParam]);
+	}, [awardParam, yearParam, rangeParam]);
 
 	// useEffect for displaying cumulative years in data card title
 	React.useEffect(() => {
@@ -44,7 +44,10 @@ const NomMovies = (props) => {
 
 	// functions that handle filter onChange events
 	const handleAward = (event) => {
-		setAward(event.target.value);
+		const selectedAward = event.target.value;
+		setAward(selectedAward);
+		location.pathname = `/noms/${selectedAward}/${range}/${year}`;
+		history.push(location.pathname);
 	};
 
 	const handleRange = (event) => {
@@ -57,14 +60,14 @@ const NomMovies = (props) => {
 			selectedYear = new Date().getFullYear();
 			setYear(selectedYear);
 		}
-		location.pathname = `/noms/${selectedRange}/${selectedYear}`;
+		location.pathname = `/noms/${award}/${selectedRange}/${selectedYear}`;
 		history.push(location.pathname);
 	};
 
 	const handleYear = (event) => {
 		const selectedYear = event.target.value;
 		setYear(selectedYear);
-		location.pathname = `/noms/${range}/${selectedYear}`;
+		location.pathname = `/noms/${award}/${range}/${selectedYear}`;
 		history.push(location.pathname);
 	};
 

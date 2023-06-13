@@ -1,8 +1,35 @@
 const NavBar = () => {
   const theme = useTheme();
+  const [navTransparent, setNavTransparent] = React.useState(true);
+
+  const handleScroll = () => {
+    if (window.scrollY > 32) {
+      setNavTransparent(false);
+    } else {
+      setNavTransparent(true);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar
+        sx={{
+          backgroundColor: navTransparent
+            ? "transparent"
+            : theme.palette.background.default,
+          boxShadow: navTransparent ? "none" : "2px",
+          backgroundImage: "none",
+          transition: "500ms all",
+        }}
+        position="fixed"
+      >
         <Toolbar
           sx={{
             display: "flex",

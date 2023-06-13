@@ -8,11 +8,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <Typography
           align="center"
           variant="overline"
-        >{`${ageGroup} Age Group`}</Typography>
-        <Typography
-          align="center"
-          variant="overline"
-        >{`${count} Cast`}</Typography>
+        >{`${ageGroup}: ${count} Cast Members`}</Typography>
         <Box
           sx={{
             maxWidth: "700px",
@@ -24,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }) => {
             flexShrink: 1,
           }}
         >
-          {cast.map((el, index) => {
+          {/* {cast.map((el, index) => {
             let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${el.profile_path}`;
             if (el.profile_path == null) {
               imgPath =
@@ -57,7 +53,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                 </Container>
               </Card>
             );
-          })}
+          })} */}
         </Box>
       </Paper>
     );

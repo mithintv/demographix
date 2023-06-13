@@ -45,7 +45,7 @@ const LandingPage = () => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-evenly",
-              width: "30%",
+              width: "20%",
             }}
           >
             <Link to="/noms" component={RouterLink}>

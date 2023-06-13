@@ -9,8 +9,12 @@ import app
 
 TMDB_ACCESS_TOKEN = os.environ['TMDB_ACCESS_TOKEN']
 
-def find_nominations(year):
-    response = requests.get(f"https://www.imdb.com/event/ev0000003/{year}/1/", headers={
+def find_nominations(year, event='academy awards'):
+    events = {
+        'academy awards': 'ev0000003',
+        'golden globes': 'ev0000292'
+    }
+    response = requests.get(f"https://www.imdb.com/event/{events[event]}/{year}/1/", headers={
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57",
     })
     soup = BeautifulSoup(response.text, features="html.parser")
@@ -38,7 +42,7 @@ def find_nominations(year):
                         for nomination in award['nominations']
                     ]
                 }
-                for award in categories if award['categoryName'] == 'Best Motion Picture of the Year'
+                for award in categories if 'Best Motion Picture' in award['categoryName']
             ]
     return nominees
 

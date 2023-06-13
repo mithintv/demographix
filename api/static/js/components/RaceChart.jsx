@@ -13,7 +13,7 @@ const RaceTooltip = ({ active, payload, label }) => {
 	return null;
 };
 
-const formatYAxisLabel = (label) => {
+const formatYAxisLabel = (label, index) => {
 	if (label === "Middle Eastern/North African") {
 		return "MENA";
 	}
@@ -25,7 +25,6 @@ const formatYAxisLabel = (label) => {
 
 const CustomizedLabel = (props) => {
 	const { x, width, y, height, value, index, total } = props;
-	console.log(total);
 	if ((index % 2 === 0 && total > 10) || total < 10) {
 		return (
 			<g>
@@ -40,6 +39,12 @@ const CustomizedLabel = (props) => {
 		);
 	}
 	return null;
+};
+
+const calculateInterval = (chartHeight, labelCount) => {
+	// Customize the interval calculation based on your requirements
+	const maxVisibleLabels = Math.floor(chartHeight / 15); // Assuming each label is 30px in height
+	return Math.ceil(labelCount / maxVisibleLabels);
 };
 
 const RaceChart = React.memo(({ data, title, colors }) => {
@@ -109,6 +114,9 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 								tickLine={axisLineStyle}
 								axisLine={axisLineStyle}
 								tick={tickStyle}
+								interval={
+									data.length > 10 ? calculateInterval(350, data.length) : 0
+								}
 								tickFormatter={formatYAxisLabel}
 							/>
 							<Tooltip

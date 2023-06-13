@@ -6,13 +6,12 @@ const LandingPage = () => {
   return (
     <Fade in>
       <Box
-        disableGutters
         sx={{
-          pb: 20,
+          pb: 10,
           display: "flex",
           height: "100vh",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "space-between",
           background: backgroundGradient,
         }}
       >
@@ -21,6 +20,7 @@ const LandingPage = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            pt: 40,
           }}
         >
           <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
@@ -29,26 +29,27 @@ const LandingPage = () => {
             </Typography>
           </Link>
           <Typography
-            sx={{ mt: 2, mb: 4, width: "800px" }}
+            sx={{ mt: 2, mb: 4, width: "950px", lineHeight: 1.25 }}
             color="textSecondary"
-            variant="body"
+            variant="h5"
             align="center"
           >
-            Visualize demographic information of top billed cast in movies
-            nominated for prestigious awards such as the Academy Awards, the
-            Golden Globes, BAFTA, etc. You can also search for demographic
-            breakdowns of cast members in individual productions.
+            Visualize demographics of top billed cast in movies nominated for
+            prestigious awards including the Academy Awards, the Golden Globes,
+            BAFTA, etc. Demographix also provides demographic breakdowns of cast
+            members in individual productions.
           </Typography>
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-evenly",
-              width: "20%",
+              width: "25%",
             }}
           >
             <Link to="/noms" component={RouterLink}>
               <Button
+                size="large"
                 startIcon={
                   <span className="material-symbols-outlined">bar_chart</span>
                 }
@@ -60,6 +61,7 @@ const LandingPage = () => {
             <SearchPage nav={false} />
           </Box>
         </Box>
+        <Footer />
       </Box>
     </Fade>
   );

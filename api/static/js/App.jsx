@@ -89,6 +89,9 @@ const darkTheme = createTheme({
     h3: {
       fontWeight: 500,
     },
+    h5: {
+      fontWeight: 500,
+    },
     subtitle2: {
       fontWeight: 400,
     },

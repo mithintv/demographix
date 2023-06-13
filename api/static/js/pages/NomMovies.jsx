@@ -124,6 +124,8 @@ const NomMovies = (props) => {
                   label="Award"
                   onChange={handleAward}
                 >
+                  <MenuItem value={"golden globes"}>Golden Globes</MenuItem>
+                  <MenuItem value={"bafta"}>BAFTA</MenuItem>
                   <MenuItem value={award}>Academy Awards</MenuItem>
                 </Select>
               </FormControl>
@@ -248,6 +250,7 @@ const NomMovies = (props) => {
             </Container>
           </Paper>
         </Container>
+        <Footer />
       </Box>
     </Fade>
   );

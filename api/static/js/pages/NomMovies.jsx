@@ -248,6 +248,7 @@ const NomMovies = (props) => {
             </Container>
           </Paper>
         </Container>
+        <Footer />
       </Box>
     </Fade>
   );

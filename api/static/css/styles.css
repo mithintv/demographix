@@ -24,3 +24,7 @@ text {
 .recharts-tooltip {
   z-index: 9999;
 }
+
+i:hover {
+  color: #fff;
+}

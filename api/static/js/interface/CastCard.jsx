@@ -26,6 +26,7 @@ const CastCard = React.memo((props) => {
       </Typography>
       <Box
         sx={{
+          position: "relative",
           display: "flex",
           flexDirection: "row",
           px: 1,
@@ -79,6 +80,18 @@ const CastCard = React.memo((props) => {
         ) : (
           <CircularProgress />
         )}
+        {/* <Box
+          sx={{
+            content: "''",
+            position: "absolute",
+            width: "60px",
+            top: "0",
+            right: "0",
+            bottom: "0",
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0) 0%, #151036 100%)",
+          }}
+        /> */}
       </Box>
     </Paper>
   );

@@ -32,6 +32,7 @@ const {
   ThemeProvider,
   Toolbar,
   Typography,
+  useScrollTrigger,
   useTheme,
 } = MaterialUI;
 
@@ -123,7 +124,7 @@ const barChartLabelStyle = {
 const barChartLabelStyle2 = {
   fill: darkTheme.palette.text.secondary,
   position: "right",
-  fontSize: "0.66em",
+  fontSize: "0.5em",
 };
 
 const globalStyles = (

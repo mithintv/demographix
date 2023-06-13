@@ -23,20 +23,33 @@ const formatYAxisLabel = (label) => {
   return label;
 };
 
-const RaceChart = React.memo((props) => {
+const CustomizedLabel = (props) => {
+  const { x, width, y, height, value, index, total } = props;
+  console.log(total);
+  if ((index % 2 === 0 && total > 10) || total < 10) {
+    return (
+      <g>
+        <text
+          x={x + 5 + width}
+          y={total < 10 ? y + 4 + height / 2 : y + 3 + height / 2}
+          style={total < 10 ? barChartLabelStyle : barChartLabelStyle2}
+        >
+          {value}
+        </text>
+      </g>
+    );
+  }
+  return null;
+};
+
+const RaceChart = React.memo(({ data, title, colors }) => {
   const theme = useTheme();
-  const { data } = props;
 
-  // data.sort((a, b) => d3.descending(a.amount, b.amount));
-
-  const colors = [
-    "#fff",
-    "#B63E76",
-    "#0088FE",
-    "#00C49F",
-    "#FFBB28",
-    "#FF8042",
-  ];
+  React.useEffect(() => {
+    if (data.length > 10) {
+      data = data.sort((a, b) => d3.descending(a.amount, b.amount));
+    }
+  }, [data]);
 
   return (
     <Paper
@@ -52,18 +65,18 @@ const RaceChart = React.memo((props) => {
         flexGrow: 1,
       }}
     >
-      <ChartLabel label={"Race"} />
+      <ChartLabel label={title} />
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: 350,
+          minHeight: "350px",
         }}
       >
         {data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width={550} height={350}>
             <BarChart
               layout="vertical"
               width={550}
@@ -102,10 +115,16 @@ const RaceChart = React.memo((props) => {
                 viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
                 content={<RaceTooltip />}
               />
-              <Bar dataKey="amount" label={barChartLabelStyle}>
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index]} />
-                ))}
+              <Bar
+                dataKey="amount"
+                label={<CustomizedLabel total={data.length} />}
+              >
+                {data.map((entry, index) => {
+                  if (colors.length === 1) {
+                    return <Cell key={`cell-${index}`} fill={colors[0]} />;
+                  }
+                  return <Cell key={`cell-${index}`} fill={colors[index]} />;
+                })}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

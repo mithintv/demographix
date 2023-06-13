@@ -29,7 +29,7 @@ const DataCard = React.memo((props) => {
         display: "flex",
         flexDirection: "column",
         mb: 2,
-        flex: "2 1 auto",
+        flex: "3 0 auto",
       }}
     >
       <Typography
@@ -48,6 +48,7 @@ const DataCard = React.memo((props) => {
         sx={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: "space-evenly",
         }}
       >
         <GenderChart data={genderData} />
@@ -60,9 +61,23 @@ const DataCard = React.memo((props) => {
           justifyContent: "space-evenly",
         }}
       >
-        <RaceChart data={raceData} />
-        <RaceChart data={ethnicityData} />
-        {/* {cobData && <WorldMap data={cobData} />} */}
+        <RaceChart
+          title="ethnicity"
+          data={ethnicityData}
+          colors={["#FFBB28"]}
+        />
+        <RaceChart
+          title="race"
+          data={raceData}
+          colors={[
+            "#fff",
+            "#B63E76",
+            "#0088FE",
+            "#00C49F",
+            "#FFBB28",
+            "#FF8042",
+          ]}
+        />
       </Box>
     </Paper>
   );

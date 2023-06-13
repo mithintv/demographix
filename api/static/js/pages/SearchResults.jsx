@@ -42,8 +42,8 @@ const SearchResults = ({ clicked, keywords }) => {
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-between",
-        alignContent: "center",
+        justifyContent: results.length > 0 ? "space-between" : "center",
+        alignContent: results.length > 0 ? "space-between" : "center",
         zIndex: 3,
       }}
     >
@@ -67,6 +67,7 @@ const SearchResults = ({ clicked, keywords }) => {
               <Card
                 sx={{
                   m: 1,
+                  width: 110,
                 }}
               >
                 <CardMedia
@@ -76,6 +77,17 @@ const SearchResults = ({ clicked, keywords }) => {
                   alt={`Movie poster for ${movie.title}`}
                 />
               </Card>
+              {/* <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="overline">
+                  {new Date(movie.release_date).getFullYear()}
+                </Typography>
+                <Typography variant="caption">{movie.title}</Typography>
+              </Box> */}
             </Link>
           );
         })

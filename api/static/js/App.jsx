@@ -32,6 +32,7 @@ const {
   ThemeProvider,
   Toolbar,
   Typography,
+  useScrollTrigger,
   useTheme,
 } = MaterialUI;
 
@@ -102,6 +103,9 @@ const darkTheme = createTheme({
   },
 });
 
+const backgroundGradient =
+  "radial-gradient(ellipse at center, #151036 50%, #100b2a 100%)";
+
 const axisLineStyle = {
   stroke: darkTheme.palette.text.secondary,
 };
@@ -118,6 +122,12 @@ const histogramLabelStyle = {
 const barChartLabelStyle = {
   fill: darkTheme.palette.text.secondary,
   position: "right",
+  fontSize: "0.75em",
+};
+const barChartLabelStyle2 = {
+  fill: darkTheme.palette.text.secondary,
+  position: "right",
+  fontSize: "0",
 };
 
 const globalStyles = (
@@ -133,7 +143,7 @@ const globalStyles = (
         width: "0.5em",
       },
       "*::-webkit-scrollbar-thumb": {
-        backgroundColor: "#545995",
+        backgroundColor: "#66689f",
         borderRadius: "2.5px",
       },
     }}
@@ -141,16 +151,12 @@ const globalStyles = (
 );
 
 const App = () => {
-  const nomMovieHandler = () => {
-    setNomMovies(true);
-  };
-
   return (
     <BrowserRouter>
       {globalStyles}
       <Route path="/" component={LandingPage} exact></Route>
+      <Route path="/noms" component={NomMovies} exact></Route>
       <Route path="/movies/:id" component={MovieDetails} exact></Route>
-      {/* <BasicTabs year={new Date().getFullYear()} /> */}
     </BrowserRouter>
   );
 };

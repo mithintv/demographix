@@ -1,68 +1,95 @@
 const LandingPage = () => {
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+	React.useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
-  return (
-    <Fade in>
-      <Box
-        sx={{
-          pb: 10,
-          display: "flex",
-          height: "100vh",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          background: backgroundGradient,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            pt: 40,
-          }}
-        >
-          <Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
-            <Typography align="center" variant="h1">
-              Demographix
-            </Typography>
-          </Link>
-          <Typography
-            sx={{ mt: 2, mb: 4, width: "950px", lineHeight: 1.25 }}
-            color="textSecondary"
-            variant="h5"
-            align="center"
-          >
-            Visualize demographics of top billed cast in movies nominated for
-            prestigious awards including the Academy Awards, the Golden Globes,
-            BAFTA, etc. Demographix also provides demographic breakdowns of cast
-            members in individual productions.
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              width: "25%",
-            }}
-          >
-            <Link to="/noms" component={RouterLink}>
-              <Button
-                size="large"
-                startIcon={
-                  <span className="material-symbols-outlined">bar_chart</span>
-                }
-                variant="outlined"
-              >
-                Visualize Data
-              </Button>
-            </Link>
-            <SearchPage nav={false} />
-          </Box>
-        </Box>
-        <Footer />
-      </Box>
-    </Fade>
-  );
+	return (
+		<Fade in>
+			<Box
+				sx={{
+					pb: 10,
+					display: "flex",
+					height: "100vh",
+					flexDirection: "column",
+					justifyContent: "space-between",
+					background: backgroundGradient,
+				}}
+			>
+				{/* <iframe
+					style={{
+						position: "absolute",
+						zIndex: -2,
+						filter: "blur(4px)",
+					}}
+					width="100%"
+					height="100%"
+					src="https://www.youtube.com/embed/qfPd8P6tMeM?autoplay=1&mute=1"
+					title="Cinematography &amp; Colorist Reel - Mithin G. Thomas"
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen
+					loop
+				></iframe>
+				<div
+					style={{
+						position: "absolute",
+						zIndex: -1,
+						top: 0,
+						left: 0,
+						width: "100%",
+						height: "100%",
+						backgroundColor: "#151036",
+						opacity: 0.5,
+					}}
+				></div> */}
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						pt: 40,
+					}}
+				>
+					<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
+						<Typography align="center" variant="h1">
+							Demographix
+						</Typography>
+					</Link>
+					<Typography
+						sx={{ mt: 2, mb: 4, width: "950px", lineHeight: 1.25 }}
+						color="textSecondary"
+						variant="h5"
+						align="center"
+					>
+						Visualize demographics of top billed cast in movies nominated for
+						prestigious awards including the Academy Awards, the Golden Globes,
+						BAFTA, etc. Demographix also provides demographic breakdowns of cast
+						members in individual productions.
+					</Typography>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "space-evenly",
+							width: "25%",
+						}}
+					>
+						<Link to="/noms" component={RouterLink}>
+							<Button
+								size="large"
+								startIcon={
+									<span className="material-symbols-outlined">bar_chart</span>
+								}
+								variant="outlined"
+							>
+								Visualize Data
+							</Button>
+						</Link>
+						<SearchPage nav={false} />
+					</Box>
+				</Box>
+				<Footer />
+			</Box>
+		</Fade>
+	);
 };

@@ -31,8 +31,7 @@ const MovieDetails = (props) => {
     <Fade in>
       <Box
         sx={{
-          background:
-            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
+          background: backgroundGradient,
         }}
       >
         <NavBar />

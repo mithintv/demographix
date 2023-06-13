@@ -61,8 +61,7 @@ const NomMovies = (props) => {
         sx={{
           width: "100%",
           height: "100%",
-          background:
-            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
+          background: backgroundGradient,
         }}
       >
         <NavBar />

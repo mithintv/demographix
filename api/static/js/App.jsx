@@ -103,6 +103,9 @@ const darkTheme = createTheme({
   },
 });
 
+const backgroundGradient =
+  "radial-gradient(ellipse at center, #151036 50%, #100b2a 100%)";
+
 const axisLineStyle = {
   stroke: darkTheme.palette.text.secondary,
 };

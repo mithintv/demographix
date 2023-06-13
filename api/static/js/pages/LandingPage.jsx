@@ -13,8 +13,7 @@ const LandingPage = () => {
           height: "100vh",
           flexDirection: "column",
           justifyContent: "center",
-          background:
-            "radial-gradient(ellipse at center, #151036 50%, #000 100%)",
+          background: backgroundGradient,
         }}
       >
         <Box

@@ -165,7 +165,7 @@ const App = () => {
 			{globalStyles}
 			<Route path="/" component={LandingPage} exact></Route>
 			<Route
-				path="/noms/:rangeParam/:yearParam"
+				path="/noms/:awardParam/:rangeParam/:yearParam"
 				component={NomMovies}
 				exact
 			></Route>

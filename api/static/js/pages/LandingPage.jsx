@@ -75,7 +75,7 @@ const LandingPage = () => {
 						}}
 					>
 						<Link
-							to={`/noms/yearly/${new Date().getFullYear()}`}
+							to={`/noms/academy awards/yearly/${new Date().getFullYear()}`}
 							component={RouterLink}
 						>
 							<Button

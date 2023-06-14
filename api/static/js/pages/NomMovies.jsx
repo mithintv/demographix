@@ -1,5 +1,6 @@
 const NomMovies = (props) => {
 	const { awardParam, rangeParam, yearParam } = props.match.params;
+
 	const [movies, setMovies] = React.useState([]);
 	const [castData, setCastData] = React.useState([]);
 
@@ -9,9 +10,6 @@ const NomMovies = (props) => {
 	const [year, setYear] = React.useState(yearParam);
 
 	const history = useHistory();
-	const location = useLocation();
-
-	const data = castData.sort((a, b) => a.id - b.id);
 
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
@@ -30,13 +28,7 @@ const NomMovies = (props) => {
 		fetchData();
 	}, [award, year]);
 
-	// useEffect for changing charts based on url params
-	React.useEffect(() => {
-		setYear(yearParam);
-		setRange(rangeParam);
-	}, [awardParam, yearParam, rangeParam]);
-
-	// useEffect for displaying cumulative years in data card title
+	// useEffect for displaying title with cumulative years above data card
 	React.useEffect(() => {
 		if (range === "cumulative") {
 			const years = year.toString().split(" ");
@@ -50,8 +42,7 @@ const NomMovies = (props) => {
 	const handleAward = (event) => {
 		const selectedAward = event.target.value;
 		setAward(selectedAward);
-		location.pathname = `/noms/${selectedAward}/${range}/${year}`;
-		history.push(location.pathname);
+		history.push(`/noms/${selectedAward}/${range}/${year}`);
 	};
 
 	const handleRange = (event) => {
@@ -59,20 +50,18 @@ const NomMovies = (props) => {
 		setRange(selectedRange);
 		let selectedYear = "last 3";
 		if (selectedRange === "cumulative") {
-			setYear("last 3");
+			setYear(selectedYear);
 		} else {
 			selectedYear = new Date().getFullYear();
 			setYear(selectedYear);
 		}
-		location.pathname = `/noms/${award}/${selectedRange}/${selectedYear}`;
-		history.push(location.pathname);
+		history.push(`/noms/${award}/${selectedRange}/${selectedYear}`);
 	};
 
 	const handleYear = (event) => {
 		const selectedYear = event.target.value;
 		setYear(selectedYear);
-		location.pathname = `/noms/${award}/${range}/${selectedYear}`;
-		history.push(location.pathname);
+		history.push(`/noms/${award}/${range}/${selectedYear}`);
 	};
 
 	return (

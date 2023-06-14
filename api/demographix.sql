@@ -16,12 +16,118 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE ONLY public.subregions DROP CONSTRAINT subregions_region_id_fkey;
+ALTER TABLE ONLY public.source_links DROP CONSTRAINT source_links_source_id_fkey;
+ALTER TABLE ONLY public.movie_nominations DROP CONSTRAINT movie_nominations_nomination_id_fkey;
+ALTER TABLE ONLY public.movie_nominations DROP CONSTRAINT movie_nominations_movie_id_fkey;
+ALTER TABLE ONLY public.media_genres DROP CONSTRAINT media_genres_movie_id_fkey;
+ALTER TABLE ONLY public.media_genres DROP CONSTRAINT media_genres_genre_id_fkey;
+ALTER TABLE ONLY public.ethnicities DROP CONSTRAINT ethnicities_subregion_id_fkey;
+ALTER TABLE ONLY public.ethnicities DROP CONSTRAINT ethnicities_region_id_fkey;
+ALTER TABLE ONLY public.credits DROP CONSTRAINT credits_movie_id_fkey;
+ALTER TABLE ONLY public.credits DROP CONSTRAINT credits_cast_member_id_fkey;
+ALTER TABLE ONLY public.countries DROP CONSTRAINT countries_subregion_id_fkey;
+ALTER TABLE ONLY public.countries DROP CONSTRAINT countries_region_id_fkey;
+ALTER TABLE ONLY public.cast_races DROP CONSTRAINT cast_races_race_id_fkey;
+ALTER TABLE ONLY public.cast_races DROP CONSTRAINT cast_races_cast_member_id_fkey;
+ALTER TABLE ONLY public.cast_members DROP CONSTRAINT cast_members_gender_id_fkey;
+ALTER TABLE ONLY public.cast_members DROP CONSTRAINT cast_members_country_of_birth_id_fkey;
+ALTER TABLE ONLY public.cast_ethnicity_source_links DROP CONSTRAINT cast_ethnicity_source_links_source_link_id_fkey;
+ALTER TABLE ONLY public.cast_ethnicity_source_links DROP CONSTRAINT cast_ethnicity_source_links_cast_ethnicity_id_fkey;
+ALTER TABLE ONLY public.cast_ethnicities DROP CONSTRAINT cast_ethnicities_ethnicity_id_fkey;
+ALTER TABLE ONLY public.cast_ethnicities DROP CONSTRAINT cast_ethnicities_cast_member_id_fkey;
+ALTER TABLE ONLY public.alt_ethnicities DROP CONSTRAINT alt_ethnicities_ethnicity_id_fkey;
+ALTER TABLE ONLY public.alt_countries DROP CONSTRAINT alt_countries_country_id_fkey;
+ALTER TABLE ONLY public.also_known_as DROP CONSTRAINT also_known_as_cast_member_id_fkey;
+ALTER TABLE ONLY public.subregions DROP CONSTRAINT subregions_pkey;
+ALTER TABLE ONLY public.sources DROP CONSTRAINT sources_pkey;
+ALTER TABLE ONLY public.source_links DROP CONSTRAINT source_links_pkey;
+ALTER TABLE ONLY public.regions DROP CONSTRAINT regions_pkey;
+ALTER TABLE ONLY public.races DROP CONSTRAINT races_short_key;
+ALTER TABLE ONLY public.races DROP CONSTRAINT races_pkey;
+ALTER TABLE ONLY public.nominations DROP CONSTRAINT nominations_pkey;
+ALTER TABLE ONLY public.movies DROP CONSTRAINT movies_pkey;
+ALTER TABLE ONLY public.movie_nominations DROP CONSTRAINT movie_nominations_pkey;
+ALTER TABLE ONLY public.media_genres DROP CONSTRAINT media_genres_pkey;
+ALTER TABLE ONLY public.genres DROP CONSTRAINT genres_pkey;
+ALTER TABLE ONLY public.genders DROP CONSTRAINT genders_pkey;
+ALTER TABLE ONLY public.ethnicities DROP CONSTRAINT ethnicities_pkey;
+ALTER TABLE ONLY public.credits DROP CONSTRAINT credits_pkey;
+ALTER TABLE ONLY public.countries DROP CONSTRAINT countries_pkey;
+ALTER TABLE ONLY public.cast_races DROP CONSTRAINT cast_races_pkey;
+ALTER TABLE ONLY public.cast_members DROP CONSTRAINT cast_members_pkey;
+ALTER TABLE ONLY public.cast_ethnicity_source_links DROP CONSTRAINT cast_ethnicity_source_links_pkey;
+ALTER TABLE ONLY public.cast_ethnicities DROP CONSTRAINT cast_ethnicities_pkey;
+ALTER TABLE ONLY public.alt_ethnicities DROP CONSTRAINT alt_ethnicities_pkey;
+ALTER TABLE ONLY public.alt_countries DROP CONSTRAINT alt_countries_pkey;
+ALTER TABLE ONLY public.also_known_as DROP CONSTRAINT also_known_as_pkey;
+ALTER TABLE ONLY public.alembic_version DROP CONSTRAINT alembic_version_pkc;
+ALTER TABLE public.subregions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.sources ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.source_links ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.regions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.races ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.nominations ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.movies ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.movie_nominations ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.media_genres ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.genres ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.genders ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.ethnicities ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.cast_races ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.cast_members ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.cast_ethnicity_source_links ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.cast_ethnicities ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.alt_ethnicities ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.alt_countries ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.also_known_as ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.subregions_id_seq;
+DROP TABLE public.subregions;
+DROP SEQUENCE public.sources_id_seq;
+DROP TABLE public.sources;
+DROP SEQUENCE public.source_links_id_seq;
+DROP TABLE public.source_links;
+DROP SEQUENCE public.regions_id_seq;
+DROP TABLE public.regions;
+DROP SEQUENCE public.races_id_seq;
+DROP TABLE public.races;
+DROP SEQUENCE public.nominations_id_seq;
+DROP TABLE public.nominations;
+DROP SEQUENCE public.movies_id_seq;
+DROP TABLE public.movies;
+DROP SEQUENCE public.movie_nominations_id_seq;
+DROP TABLE public.movie_nominations;
+DROP SEQUENCE public.media_genres_id_seq;
+DROP TABLE public.media_genres;
+DROP SEQUENCE public.genres_id_seq;
+DROP TABLE public.genres;
+DROP SEQUENCE public.genders_id_seq;
+DROP TABLE public.genders;
+DROP SEQUENCE public.ethnicities_id_seq;
+DROP TABLE public.ethnicities;
+DROP TABLE public.credits;
+DROP TABLE public.countries;
+DROP SEQUENCE public.cast_races_id_seq;
+DROP TABLE public.cast_races;
+DROP SEQUENCE public.cast_members_id_seq;
+DROP TABLE public.cast_members;
+DROP SEQUENCE public.cast_ethnicity_source_links_id_seq;
+DROP TABLE public.cast_ethnicity_source_links;
+DROP SEQUENCE public.cast_ethnicities_id_seq;
+DROP TABLE public.cast_ethnicities;
+DROP SEQUENCE public.alt_ethnicities_id_seq;
+DROP TABLE public.alt_ethnicities;
+DROP SEQUENCE public.alt_countries_id_seq;
+DROP TABLE public.alt_countries;
+DROP SEQUENCE public.also_known_as_id_seq;
+DROP TABLE public.also_known_as;
+DROP TABLE public.alembic_version;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: mithin
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.alembic_version (
@@ -29,10 +135,8 @@ CREATE TABLE public.alembic_version (
 );
 
 
-ALTER TABLE public.alembic_version OWNER TO mithin;
-
 --
--- Name: also_known_as; Type: TABLE; Schema: public; Owner: mithin
+-- Name: also_known_as; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.also_known_as (
@@ -42,10 +146,8 @@ CREATE TABLE public.also_known_as (
 );
 
 
-ALTER TABLE public.also_known_as OWNER TO mithin;
-
 --
--- Name: also_known_as_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: also_known_as_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.also_known_as_id_seq
@@ -57,17 +159,15 @@ CREATE SEQUENCE public.also_known_as_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.also_known_as_id_seq OWNER TO mithin;
-
 --
--- Name: also_known_as_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: also_known_as_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.also_known_as_id_seq OWNED BY public.also_known_as.id;
 
 
 --
--- Name: alt_countries; Type: TABLE; Schema: public; Owner: mithin
+-- Name: alt_countries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.alt_countries (
@@ -77,10 +177,8 @@ CREATE TABLE public.alt_countries (
 );
 
 
-ALTER TABLE public.alt_countries OWNER TO mithin;
-
 --
--- Name: alt_countries_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: alt_countries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.alt_countries_id_seq
@@ -92,17 +190,15 @@ CREATE SEQUENCE public.alt_countries_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.alt_countries_id_seq OWNER TO mithin;
-
 --
--- Name: alt_countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: alt_countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.alt_countries_id_seq OWNED BY public.alt_countries.id;
 
 
 --
--- Name: alt_ethnicities; Type: TABLE; Schema: public; Owner: mithin
+-- Name: alt_ethnicities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.alt_ethnicities (
@@ -112,10 +208,8 @@ CREATE TABLE public.alt_ethnicities (
 );
 
 
-ALTER TABLE public.alt_ethnicities OWNER TO mithin;
-
 --
--- Name: alt_ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: alt_ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.alt_ethnicities_id_seq
@@ -127,17 +221,15 @@ CREATE SEQUENCE public.alt_ethnicities_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.alt_ethnicities_id_seq OWNER TO mithin;
-
 --
--- Name: alt_ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: alt_ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.alt_ethnicities_id_seq OWNED BY public.alt_ethnicities.id;
 
 
 --
--- Name: cast_ethnicities; Type: TABLE; Schema: public; Owner: mithin
+-- Name: cast_ethnicities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cast_ethnicities (
@@ -147,10 +239,8 @@ CREATE TABLE public.cast_ethnicities (
 );
 
 
-ALTER TABLE public.cast_ethnicities OWNER TO mithin;
-
 --
--- Name: cast_ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: cast_ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.cast_ethnicities_id_seq
@@ -162,17 +252,15 @@ CREATE SEQUENCE public.cast_ethnicities_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cast_ethnicities_id_seq OWNER TO mithin;
-
 --
--- Name: cast_ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: cast_ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.cast_ethnicities_id_seq OWNED BY public.cast_ethnicities.id;
 
 
 --
--- Name: cast_ethnicity_source_links; Type: TABLE; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cast_ethnicity_source_links (
@@ -182,10 +270,8 @@ CREATE TABLE public.cast_ethnicity_source_links (
 );
 
 
-ALTER TABLE public.cast_ethnicity_source_links OWNER TO mithin;
-
 --
--- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.cast_ethnicity_source_links_id_seq
@@ -197,17 +283,15 @@ CREATE SEQUENCE public.cast_ethnicity_source_links_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cast_ethnicity_source_links_id_seq OWNER TO mithin;
-
 --
--- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.cast_ethnicity_source_links_id_seq OWNED BY public.cast_ethnicity_source_links.id;
 
 
 --
--- Name: cast_members; Type: TABLE; Schema: public; Owner: mithin
+-- Name: cast_members; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cast_members (
@@ -223,10 +307,8 @@ CREATE TABLE public.cast_members (
 );
 
 
-ALTER TABLE public.cast_members OWNER TO mithin;
-
 --
--- Name: cast_members_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: cast_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.cast_members_id_seq
@@ -238,17 +320,15 @@ CREATE SEQUENCE public.cast_members_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cast_members_id_seq OWNER TO mithin;
-
 --
--- Name: cast_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: cast_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.cast_members_id_seq OWNED BY public.cast_members.id;
 
 
 --
--- Name: cast_races; Type: TABLE; Schema: public; Owner: mithin
+-- Name: cast_races; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cast_races (
@@ -258,10 +338,8 @@ CREATE TABLE public.cast_races (
 );
 
 
-ALTER TABLE public.cast_races OWNER TO mithin;
-
 --
--- Name: cast_races_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: cast_races_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.cast_races_id_seq
@@ -273,17 +351,15 @@ CREATE SEQUENCE public.cast_races_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cast_races_id_seq OWNER TO mithin;
-
 --
--- Name: cast_races_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: cast_races_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.cast_races_id_seq OWNED BY public.cast_races.id;
 
 
 --
--- Name: countries; Type: TABLE; Schema: public; Owner: mithin
+-- Name: countries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.countries (
@@ -295,10 +371,8 @@ CREATE TABLE public.countries (
 );
 
 
-ALTER TABLE public.countries OWNER TO mithin;
-
 --
--- Name: credits; Type: TABLE; Schema: public; Owner: mithin
+-- Name: credits; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.credits (
@@ -310,10 +384,8 @@ CREATE TABLE public.credits (
 );
 
 
-ALTER TABLE public.credits OWNER TO mithin;
-
 --
--- Name: ethnicities; Type: TABLE; Schema: public; Owner: mithin
+-- Name: ethnicities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.ethnicities (
@@ -324,10 +396,8 @@ CREATE TABLE public.ethnicities (
 );
 
 
-ALTER TABLE public.ethnicities OWNER TO mithin;
-
 --
--- Name: ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: ethnicities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.ethnicities_id_seq
@@ -339,17 +409,15 @@ CREATE SEQUENCE public.ethnicities_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ethnicities_id_seq OWNER TO mithin;
-
 --
--- Name: ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: ethnicities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.ethnicities_id_seq OWNED BY public.ethnicities.id;
 
 
 --
--- Name: genders; Type: TABLE; Schema: public; Owner: mithin
+-- Name: genders; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.genders (
@@ -358,10 +426,8 @@ CREATE TABLE public.genders (
 );
 
 
-ALTER TABLE public.genders OWNER TO mithin;
-
 --
--- Name: genders_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: genders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.genders_id_seq
@@ -373,17 +439,15 @@ CREATE SEQUENCE public.genders_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.genders_id_seq OWNER TO mithin;
-
 --
--- Name: genders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: genders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.genders_id_seq OWNED BY public.genders.id;
 
 
 --
--- Name: genres; Type: TABLE; Schema: public; Owner: mithin
+-- Name: genres; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.genres (
@@ -392,10 +456,8 @@ CREATE TABLE public.genres (
 );
 
 
-ALTER TABLE public.genres OWNER TO mithin;
-
 --
--- Name: genres_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: genres_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.genres_id_seq
@@ -407,17 +469,15 @@ CREATE SEQUENCE public.genres_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.genres_id_seq OWNER TO mithin;
-
 --
--- Name: genres_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: genres_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.genres_id_seq OWNED BY public.genres.id;
 
 
 --
--- Name: media_genres; Type: TABLE; Schema: public; Owner: mithin
+-- Name: media_genres; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.media_genres (
@@ -427,10 +487,8 @@ CREATE TABLE public.media_genres (
 );
 
 
-ALTER TABLE public.media_genres OWNER TO mithin;
-
 --
--- Name: media_genres_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: media_genres_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.media_genres_id_seq
@@ -442,17 +500,15 @@ CREATE SEQUENCE public.media_genres_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.media_genres_id_seq OWNER TO mithin;
-
 --
--- Name: media_genres_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: media_genres_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.media_genres_id_seq OWNED BY public.media_genres.id;
 
 
 --
--- Name: movie_nominations; Type: TABLE; Schema: public; Owner: mithin
+-- Name: movie_nominations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.movie_nominations (
@@ -462,10 +518,8 @@ CREATE TABLE public.movie_nominations (
 );
 
 
-ALTER TABLE public.movie_nominations OWNER TO mithin;
-
 --
--- Name: movie_nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: movie_nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.movie_nominations_id_seq
@@ -477,17 +531,15 @@ CREATE SEQUENCE public.movie_nominations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.movie_nominations_id_seq OWNER TO mithin;
-
 --
--- Name: movie_nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: movie_nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.movie_nominations_id_seq OWNED BY public.movie_nominations.id;
 
 
 --
--- Name: movies; Type: TABLE; Schema: public; Owner: mithin
+-- Name: movies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.movies (
@@ -503,10 +555,8 @@ CREATE TABLE public.movies (
 );
 
 
-ALTER TABLE public.movies OWNER TO mithin;
-
 --
--- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.movies_id_seq
@@ -518,17 +568,15 @@ CREATE SEQUENCE public.movies_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.movies_id_seq OWNER TO mithin;
-
 --
--- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
 
 
 --
--- Name: nominations; Type: TABLE; Schema: public; Owner: mithin
+-- Name: nominations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.nominations (
@@ -538,10 +586,8 @@ CREATE TABLE public.nominations (
 );
 
 
-ALTER TABLE public.nominations OWNER TO mithin;
-
 --
--- Name: nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: nominations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.nominations_id_seq
@@ -553,17 +599,15 @@ CREATE SEQUENCE public.nominations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.nominations_id_seq OWNER TO mithin;
-
 --
--- Name: nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: nominations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.nominations_id_seq OWNED BY public.nominations.id;
 
 
 --
--- Name: races; Type: TABLE; Schema: public; Owner: mithin
+-- Name: races; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.races (
@@ -574,10 +618,8 @@ CREATE TABLE public.races (
 );
 
 
-ALTER TABLE public.races OWNER TO mithin;
-
 --
--- Name: races_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: races_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.races_id_seq
@@ -589,17 +631,15 @@ CREATE SEQUENCE public.races_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.races_id_seq OWNER TO mithin;
-
 --
--- Name: races_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: races_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.races_id_seq OWNED BY public.races.id;
 
 
 --
--- Name: regions; Type: TABLE; Schema: public; Owner: mithin
+-- Name: regions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.regions (
@@ -608,10 +648,8 @@ CREATE TABLE public.regions (
 );
 
 
-ALTER TABLE public.regions OWNER TO mithin;
-
 --
--- Name: regions_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: regions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.regions_id_seq
@@ -623,17 +661,15 @@ CREATE SEQUENCE public.regions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.regions_id_seq OWNER TO mithin;
-
 --
--- Name: regions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: regions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.regions_id_seq OWNED BY public.regions.id;
 
 
 --
--- Name: source_links; Type: TABLE; Schema: public; Owner: mithin
+-- Name: source_links; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.source_links (
@@ -643,10 +679,8 @@ CREATE TABLE public.source_links (
 );
 
 
-ALTER TABLE public.source_links OWNER TO mithin;
-
 --
--- Name: source_links_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: source_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.source_links_id_seq
@@ -658,17 +692,15 @@ CREATE SEQUENCE public.source_links_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.source_links_id_seq OWNER TO mithin;
-
 --
--- Name: source_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: source_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.source_links_id_seq OWNED BY public.source_links.id;
 
 
 --
--- Name: sources; Type: TABLE; Schema: public; Owner: mithin
+-- Name: sources; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.sources (
@@ -678,10 +710,8 @@ CREATE TABLE public.sources (
 );
 
 
-ALTER TABLE public.sources OWNER TO mithin;
-
 --
--- Name: sources_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: sources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.sources_id_seq
@@ -693,17 +723,15 @@ CREATE SEQUENCE public.sources_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sources_id_seq OWNER TO mithin;
-
 --
--- Name: sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.sources_id_seq OWNED BY public.sources.id;
 
 
 --
--- Name: subregions; Type: TABLE; Schema: public; Owner: mithin
+-- Name: subregions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.subregions (
@@ -713,10 +741,8 @@ CREATE TABLE public.subregions (
 );
 
 
-ALTER TABLE public.subregions OWNER TO mithin;
-
 --
--- Name: subregions_id_seq; Type: SEQUENCE; Schema: public; Owner: mithin
+-- Name: subregions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.subregions_id_seq
@@ -728,150 +754,148 @@ CREATE SEQUENCE public.subregions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.subregions_id_seq OWNER TO mithin;
-
 --
--- Name: subregions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mithin
+-- Name: subregions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.subregions_id_seq OWNED BY public.subregions.id;
 
 
 --
--- Name: also_known_as id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: also_known_as id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.also_known_as ALTER COLUMN id SET DEFAULT nextval('public.also_known_as_id_seq'::regclass);
 
 
 --
--- Name: alt_countries id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: alt_countries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_countries ALTER COLUMN id SET DEFAULT nextval('public.alt_countries_id_seq'::regclass);
 
 
 --
--- Name: alt_ethnicities id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: alt_ethnicities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_ethnicities ALTER COLUMN id SET DEFAULT nextval('public.alt_ethnicities_id_seq'::regclass);
 
 
 --
--- Name: cast_ethnicities id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: cast_ethnicities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicities ALTER COLUMN id SET DEFAULT nextval('public.cast_ethnicities_id_seq'::regclass);
 
 
 --
--- Name: cast_ethnicity_source_links id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicity_source_links ALTER COLUMN id SET DEFAULT nextval('public.cast_ethnicity_source_links_id_seq'::regclass);
 
 
 --
--- Name: cast_members id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: cast_members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_members ALTER COLUMN id SET DEFAULT nextval('public.cast_members_id_seq'::regclass);
 
 
 --
--- Name: cast_races id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: cast_races id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_races ALTER COLUMN id SET DEFAULT nextval('public.cast_races_id_seq'::regclass);
 
 
 --
--- Name: ethnicities id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: ethnicities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ethnicities ALTER COLUMN id SET DEFAULT nextval('public.ethnicities_id_seq'::regclass);
 
 
 --
--- Name: genders id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: genders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.genders ALTER COLUMN id SET DEFAULT nextval('public.genders_id_seq'::regclass);
 
 
 --
--- Name: genres id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: genres id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.genres ALTER COLUMN id SET DEFAULT nextval('public.genres_id_seq'::regclass);
 
 
 --
--- Name: media_genres id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: media_genres id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.media_genres ALTER COLUMN id SET DEFAULT nextval('public.media_genres_id_seq'::regclass);
 
 
 --
--- Name: movie_nominations id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: movie_nominations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movie_nominations ALTER COLUMN id SET DEFAULT nextval('public.movie_nominations_id_seq'::regclass);
 
 
 --
--- Name: movies id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: movies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
 
 
 --
--- Name: nominations id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: nominations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.nominations ALTER COLUMN id SET DEFAULT nextval('public.nominations_id_seq'::regclass);
 
 
 --
--- Name: races id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: races id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.races ALTER COLUMN id SET DEFAULT nextval('public.races_id_seq'::regclass);
 
 
 --
--- Name: regions id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: regions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.regions ALTER COLUMN id SET DEFAULT nextval('public.regions_id_seq'::regclass);
 
 
 --
--- Name: source_links id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: source_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.source_links ALTER COLUMN id SET DEFAULT nextval('public.source_links_id_seq'::regclass);
 
 
 --
--- Name: sources id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: sources id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sources ALTER COLUMN id SET DEFAULT nextval('public.sources_id_seq'::regclass);
 
 
 --
--- Name: subregions id; Type: DEFAULT; Schema: public; Owner: mithin
+-- Name: subregions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subregions ALTER COLUMN id SET DEFAULT nextval('public.subregions_id_seq'::regclass);
 
 
 --
--- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
@@ -880,7 +904,7 @@ b95ceb377a3a
 
 
 --
--- Data for Name: also_known_as; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: also_known_as; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
@@ -3886,7 +3910,7 @@ COPY public.also_known_as (id, name, cast_member_id) FROM stdin;
 
 
 --
--- Data for Name: alt_countries; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: alt_countries; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.alt_countries (id, country_id, alt_name) FROM stdin;
@@ -4683,7 +4707,7 @@ COPY public.alt_countries (id, country_id, alt_name) FROM stdin;
 
 
 --
--- Data for Name: alt_ethnicities; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: alt_ethnicities; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
@@ -4771,7 +4795,7 @@ COPY public.alt_ethnicities (id, ethnicity_id, alt_name) FROM stdin;
 
 
 --
--- Data for Name: cast_ethnicities; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: cast_ethnicities; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
@@ -6179,7 +6203,7 @@ COPY public.cast_ethnicities (id, ethnicity_id, cast_member_id) FROM stdin;
 
 
 --
--- Data for Name: cast_ethnicity_source_links; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: cast_ethnicity_source_links; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) FROM stdin;
@@ -7474,7 +7498,7 @@ COPY public.cast_ethnicity_source_links (id, source_link_id, cast_ethnicity_id) 
 
 
 --
--- Data for Name: cast_members; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: cast_members; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biography, country_of_birth_id, profile_path) FROM stdin;
@@ -10937,7 +10961,7 @@ COPY public.cast_members (id, imdb_id, name, gender_id, birthday, deathday, biog
 
 
 --
--- Data for Name: cast_races; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: cast_races; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.cast_races (id, race_id, cast_member_id) FROM stdin;
@@ -11423,7 +11447,7 @@ COPY public.cast_races (id, race_id, cast_member_id) FROM stdin;
 
 
 --
--- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.countries (id, name, demonym, region_id, subregion_id) FROM stdin;
@@ -11681,7 +11705,7 @@ IOT	British Indian Ocean Territory	Military Personnel	1	6
 
 
 --
--- Data for Name: credits; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: credits; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.credits (id, movie_id, "character", "order", cast_member_id) FROM stdin;
@@ -15318,7 +15342,7 @@ COPY public.credits (id, movie_id, "character", "order", cast_member_id) FROM st
 
 
 --
--- Data for Name: ethnicities; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: ethnicities; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.ethnicities (id, name, region_id, subregion_id) FROM stdin;
@@ -15981,7 +16005,7 @@ COPY public.ethnicities (id, name, region_id, subregion_id) FROM stdin;
 
 
 --
--- Data for Name: genders; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: genders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.genders (id, name) FROM stdin;
@@ -15993,7 +16017,7 @@ COPY public.genders (id, name) FROM stdin;
 
 
 --
--- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.genres (id, name) FROM stdin;
@@ -16020,7 +16044,7 @@ COPY public.genres (id, name) FROM stdin;
 
 
 --
--- Data for Name: media_genres; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: media_genres; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.media_genres (id, genre_id, movie_id) FROM stdin;
@@ -16591,7 +16615,7 @@ COPY public.media_genres (id, genre_id, movie_id) FROM stdin;
 
 
 --
--- Data for Name: movie_nominations; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: movie_nominations; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.movie_nominations (id, movie_id, nomination_id) FROM stdin;
@@ -16651,7 +16675,7 @@ COPY public.movie_nominations (id, movie_id, nomination_id) FROM stdin;
 
 
 --
--- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.movies (id, imdb_id, title, overview, runtime, poster_path, release_date, budget, revenue) FROM stdin;
@@ -16982,7 +17006,7 @@ COPY public.movies (id, imdb_id, title, overview, runtime, poster_path, release_
 
 
 --
--- Data for Name: nominations; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: nominations; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.nominations (id, name, year) FROM stdin;
@@ -17085,7 +17109,7 @@ COPY public.nominations (id, name, year) FROM stdin;
 
 
 --
--- Data for Name: races; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: races; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.races (id, name, short, description) FROM stdin;
@@ -17100,7 +17124,7 @@ COPY public.races (id, name, short, description) FROM stdin;
 
 
 --
--- Data for Name: regions; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: regions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.regions (id, name) FROM stdin;
@@ -17114,7 +17138,7 @@ COPY public.regions (id, name) FROM stdin;
 
 
 --
--- Data for Name: source_links; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: source_links; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.source_links (id, source_id, link) FROM stdin;
@@ -17523,7 +17547,7 @@ COPY public.source_links (id, source_id, link) FROM stdin;
 
 
 --
--- Data for Name: sources; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: sources; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.sources (id, name, domain) FROM stdin;
@@ -17533,7 +17557,7 @@ COPY public.sources (id, name, domain) FROM stdin;
 
 
 --
--- Data for Name: subregions; Type: TABLE DATA; Schema: public; Owner: mithin
+-- Data for Name: subregions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.subregions (id, name, region_id) FROM stdin;
@@ -17566,140 +17590,140 @@ COPY public.subregions (id, name, region_id) FROM stdin;
 
 
 --
--- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: also_known_as_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.also_known_as_id_seq', 3204, true);
 
 
 --
--- Name: alt_countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: alt_countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.alt_countries_id_seq', 789, true);
 
 
 --
--- Name: alt_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: alt_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.alt_ethnicities_id_seq', 81, true);
 
 
 --
--- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: cast_ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.cast_ethnicities_id_seq', 1672, true);
 
 
 --
--- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.cast_ethnicity_source_links_id_seq', 1410, true);
 
 
 --
--- Name: cast_members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: cast_members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.cast_members_id_seq', 1, false);
 
 
 --
--- Name: cast_races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: cast_races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.cast_races_id_seq', 593, true);
 
 
 --
--- Name: ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: ethnicities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.ethnicities_id_seq', 655, true);
 
 
 --
--- Name: genders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: genders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.genders_id_seq', 1, false);
 
 
 --
--- Name: genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.genres_id_seq', 1, false);
 
 
 --
--- Name: media_genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: media_genres_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.media_genres_id_seq', 694, true);
 
 
 --
--- Name: movie_nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: movie_nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.movie_nominations_id_seq', 67, true);
 
 
 --
--- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.movies_id_seq', 1, false);
 
 
 --
--- Name: nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: nominations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.nominations_id_seq', 97, true);
 
 
 --
--- Name: races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: races_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.races_id_seq', 7, true);
 
 
 --
--- Name: regions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: regions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.regions_id_seq', 6, true);
 
 
 --
--- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: source_links_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.source_links_id_seq', 486, true);
 
 
 --
--- Name: sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.sources_id_seq', 5, true);
 
 
 --
--- Name: subregions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mithin
+-- Name: subregions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.subregions_id_seq', 25, true);
 
 
 --
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alembic_version
@@ -17707,7 +17731,7 @@ ALTER TABLE ONLY public.alembic_version
 
 
 --
--- Name: also_known_as also_known_as_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: also_known_as also_known_as_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.also_known_as
@@ -17715,7 +17739,7 @@ ALTER TABLE ONLY public.also_known_as
 
 
 --
--- Name: alt_countries alt_countries_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: alt_countries alt_countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_countries
@@ -17723,7 +17747,7 @@ ALTER TABLE ONLY public.alt_countries
 
 
 --
--- Name: alt_ethnicities alt_ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: alt_ethnicities alt_ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_ethnicities
@@ -17731,7 +17755,7 @@ ALTER TABLE ONLY public.alt_ethnicities
 
 
 --
--- Name: cast_ethnicities cast_ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicities cast_ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicities
@@ -17739,7 +17763,7 @@ ALTER TABLE ONLY public.cast_ethnicities
 
 
 --
--- Name: cast_ethnicity_source_links cast_ethnicity_source_links_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicity_source_links
@@ -17747,7 +17771,7 @@ ALTER TABLE ONLY public.cast_ethnicity_source_links
 
 
 --
--- Name: cast_members cast_members_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_members cast_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_members
@@ -17755,7 +17779,7 @@ ALTER TABLE ONLY public.cast_members
 
 
 --
--- Name: cast_races cast_races_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_races cast_races_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_races
@@ -17763,7 +17787,7 @@ ALTER TABLE ONLY public.cast_races
 
 
 --
--- Name: countries countries_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: countries countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.countries
@@ -17771,7 +17795,7 @@ ALTER TABLE ONLY public.countries
 
 
 --
--- Name: credits credits_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: credits credits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.credits
@@ -17779,7 +17803,7 @@ ALTER TABLE ONLY public.credits
 
 
 --
--- Name: ethnicities ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: ethnicities ethnicities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ethnicities
@@ -17787,7 +17811,7 @@ ALTER TABLE ONLY public.ethnicities
 
 
 --
--- Name: genders genders_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: genders genders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.genders
@@ -17795,7 +17819,7 @@ ALTER TABLE ONLY public.genders
 
 
 --
--- Name: genres genres_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: genres genres_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.genres
@@ -17803,7 +17827,7 @@ ALTER TABLE ONLY public.genres
 
 
 --
--- Name: media_genres media_genres_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: media_genres media_genres_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.media_genres
@@ -17811,7 +17835,7 @@ ALTER TABLE ONLY public.media_genres
 
 
 --
--- Name: movie_nominations movie_nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: movie_nominations movie_nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movie_nominations
@@ -17819,7 +17843,7 @@ ALTER TABLE ONLY public.movie_nominations
 
 
 --
--- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movies
@@ -17827,7 +17851,7 @@ ALTER TABLE ONLY public.movies
 
 
 --
--- Name: nominations nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: nominations nominations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.nominations
@@ -17835,7 +17859,7 @@ ALTER TABLE ONLY public.nominations
 
 
 --
--- Name: races races_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: races races_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.races
@@ -17843,7 +17867,7 @@ ALTER TABLE ONLY public.races
 
 
 --
--- Name: races races_short_key; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: races races_short_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.races
@@ -17851,7 +17875,7 @@ ALTER TABLE ONLY public.races
 
 
 --
--- Name: regions regions_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: regions regions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.regions
@@ -17859,7 +17883,7 @@ ALTER TABLE ONLY public.regions
 
 
 --
--- Name: source_links source_links_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: source_links source_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.source_links
@@ -17867,7 +17891,7 @@ ALTER TABLE ONLY public.source_links
 
 
 --
--- Name: sources sources_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: sources sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sources
@@ -17875,7 +17899,7 @@ ALTER TABLE ONLY public.sources
 
 
 --
--- Name: subregions subregions_pkey; Type: CONSTRAINT; Schema: public; Owner: mithin
+-- Name: subregions subregions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subregions
@@ -17883,7 +17907,7 @@ ALTER TABLE ONLY public.subregions
 
 
 --
--- Name: also_known_as also_known_as_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: also_known_as also_known_as_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.also_known_as
@@ -17891,7 +17915,7 @@ ALTER TABLE ONLY public.also_known_as
 
 
 --
--- Name: alt_countries alt_countries_country_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: alt_countries alt_countries_country_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_countries
@@ -17899,7 +17923,7 @@ ALTER TABLE ONLY public.alt_countries
 
 
 --
--- Name: alt_ethnicities alt_ethnicities_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: alt_ethnicities alt_ethnicities_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alt_ethnicities
@@ -17907,7 +17931,7 @@ ALTER TABLE ONLY public.alt_ethnicities
 
 
 --
--- Name: cast_ethnicities cast_ethnicities_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicities cast_ethnicities_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicities
@@ -17915,7 +17939,7 @@ ALTER TABLE ONLY public.cast_ethnicities
 
 
 --
--- Name: cast_ethnicities cast_ethnicities_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicities cast_ethnicities_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicities
@@ -17923,7 +17947,7 @@ ALTER TABLE ONLY public.cast_ethnicities
 
 
 --
--- Name: cast_ethnicity_source_links cast_ethnicity_source_links_cast_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_cast_ethnicity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicity_source_links
@@ -17931,7 +17955,7 @@ ALTER TABLE ONLY public.cast_ethnicity_source_links
 
 
 --
--- Name: cast_ethnicity_source_links cast_ethnicity_source_links_source_link_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_ethnicity_source_links cast_ethnicity_source_links_source_link_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_ethnicity_source_links
@@ -17939,7 +17963,7 @@ ALTER TABLE ONLY public.cast_ethnicity_source_links
 
 
 --
--- Name: cast_members cast_members_country_of_birth_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_members cast_members_country_of_birth_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_members
@@ -17947,7 +17971,7 @@ ALTER TABLE ONLY public.cast_members
 
 
 --
--- Name: cast_members cast_members_gender_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_members cast_members_gender_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_members
@@ -17955,7 +17979,7 @@ ALTER TABLE ONLY public.cast_members
 
 
 --
--- Name: cast_races cast_races_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_races cast_races_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_races
@@ -17963,7 +17987,7 @@ ALTER TABLE ONLY public.cast_races
 
 
 --
--- Name: cast_races cast_races_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: cast_races cast_races_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cast_races
@@ -17971,7 +17995,7 @@ ALTER TABLE ONLY public.cast_races
 
 
 --
--- Name: countries countries_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: countries countries_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.countries
@@ -17979,7 +18003,7 @@ ALTER TABLE ONLY public.countries
 
 
 --
--- Name: countries countries_subregion_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: countries countries_subregion_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.countries
@@ -17987,7 +18011,7 @@ ALTER TABLE ONLY public.countries
 
 
 --
--- Name: credits credits_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: credits credits_cast_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.credits
@@ -17995,7 +18019,7 @@ ALTER TABLE ONLY public.credits
 
 
 --
--- Name: credits credits_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: credits credits_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.credits
@@ -18003,7 +18027,7 @@ ALTER TABLE ONLY public.credits
 
 
 --
--- Name: ethnicities ethnicities_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: ethnicities ethnicities_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ethnicities
@@ -18011,7 +18035,7 @@ ALTER TABLE ONLY public.ethnicities
 
 
 --
--- Name: ethnicities ethnicities_subregion_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: ethnicities ethnicities_subregion_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ethnicities
@@ -18019,7 +18043,7 @@ ALTER TABLE ONLY public.ethnicities
 
 
 --
--- Name: media_genres media_genres_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: media_genres media_genres_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.media_genres
@@ -18027,7 +18051,7 @@ ALTER TABLE ONLY public.media_genres
 
 
 --
--- Name: media_genres media_genres_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: media_genres media_genres_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.media_genres
@@ -18035,7 +18059,7 @@ ALTER TABLE ONLY public.media_genres
 
 
 --
--- Name: movie_nominations movie_nominations_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: movie_nominations movie_nominations_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movie_nominations
@@ -18043,7 +18067,7 @@ ALTER TABLE ONLY public.movie_nominations
 
 
 --
--- Name: movie_nominations movie_nominations_nomination_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: movie_nominations movie_nominations_nomination_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.movie_nominations
@@ -18051,7 +18075,7 @@ ALTER TABLE ONLY public.movie_nominations
 
 
 --
--- Name: source_links source_links_source_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: source_links source_links_source_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.source_links
@@ -18059,7 +18083,7 @@ ALTER TABLE ONLY public.source_links
 
 
 --
--- Name: subregions subregions_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: mithin
+-- Name: subregions subregions_region_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subregions

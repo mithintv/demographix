@@ -57,7 +57,7 @@ pyOpenSSL==23.1.1
 PySocks==1.7.1
 python-dotenv==1.0.0
 queuelib==1.6.2
-requests==2.30.0
+requests==2.31.0
 requests-file==1.5.1
 rsa==4.9
 service-identity==21.1.0

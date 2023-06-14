@@ -48,7 +48,6 @@ const calculateInterval = (chartHeight, labelCount) => {
 };
 
 const RaceChart = React.memo(({ data, title, colors }) => {
-	console.log(data);
 	const theme = useTheme();
 
 	React.useEffect(() => {

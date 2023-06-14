@@ -234,31 +234,33 @@ const NomMovies = (props) => {
 								flexDirection: "row",
 								width: "100%",
 								overflowX: "scroll",
+								height: 225.9,
 							}}
 						>
 							{movies.map((movie, index) => {
 								const releaseDate = new Date(movie.release_date);
 								return (
-									<Card
-										key={index}
-										elevation={2}
-										sx={{
-											width: 125,
-											mx: 1,
-											backgroundColor: "background.default",
-											flex: "0 0 auto",
-											cursor: "pointer",
-										}}
-									>
-										<Link component={RouterLink} to={`/movies/${movie.id}`}>
-											<CardMedia
-												width={100}
-												component="img"
-												image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
-												alt={`Poster image of ${movie.title} (${releaseDate})`}
-											/>
-										</Link>
-									</Card>
+									<Fade in timeout={500} key={index}>
+										<Card
+											elevation={2}
+											sx={{
+												width: 125,
+												mx: 1,
+												backgroundColor: "background.default",
+												flex: "0 0 auto",
+												cursor: "pointer",
+											}}
+										>
+											<Link component={RouterLink} to={`/movies/${movie.id}`}>
+												<CardMedia
+													width={100}
+													component="img"
+													image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
+													alt={`Poster image of ${movie.title} (${releaseDate})`}
+												/>
+											</Link>
+										</Card>
+									</Fade>
 								);
 							})}
 						</Container>

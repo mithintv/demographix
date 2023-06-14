@@ -357,7 +357,7 @@ def query_movie(keywords):
     else:
         keyword_query = Movie.query.join(Movie.credits).group_by(Movie.id).having(func.count(Movie.credits) > 1).filter(and_(func.lower(Movie.title).like(
             f'{keywords.lower()}%'), Movie.poster_path != None)).order_by(desc(Movie.release_date))
-        if len(keyword_query.all()) < 1:
+        if len(keyword_query.all()) < 5:
             keyword_query = query_api_movie(keywords)
         additional_query = Movie.query.join(Movie.credits).filter(Movie.poster_path != None).group_by(Movie.id).having(func.count(Movie.credits) > 1).order_by(Movie.title.like(f'{keywords[0].lower()}%'))
 

@@ -8,6 +8,7 @@ const {
 	CardMedia,
 	Chip,
 	CircularProgress,
+	Collapse,
 	colors,
 	createTheme,
 	CssBaseline,

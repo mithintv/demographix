@@ -1,5 +1,18 @@
 const MovieCard = (props) => {
 	const { movie } = props;
+	const [content, setContent] = React.useState(movie);
+	const [show, setShow] = React.useState(false);
+
+	React.useEffect(() => {
+		setShow(false);
+		const delay = setTimeout(() => {
+			setContent(movie);
+
+			// Trigger fade-in effect
+			setShow(true);
+			clearTimeout(delay);
+		}, 500);
+	}, [movie]);
 
 	return (
 		<Card
@@ -11,15 +24,15 @@ const MovieCard = (props) => {
 				width: "350px",
 				display: "flex",
 				flexDirection: "column",
-				justifyContent: movie.id ? "start" : "center",
-				alignItems: movie.id ? "start" : "center",
+				justifyContent: content && content.id ? "start" : "center",
+				alignItems: content && content.id ? "start" : "center",
 				flex: "1 0 auto",
 			}}
 		>
-			{movie.id ? (
-				<Fade in timeout={500}>
+			{content.id ? (
+				<Fade in={show}>
 					<Container disableGutters>
-						<Typography variant="h5">{movie.title}</Typography>
+						<Typography variant="h5">{content.title}</Typography>
 						<Container
 							disableGutters
 							sx={{
@@ -31,27 +44,27 @@ const MovieCard = (props) => {
 							}}
 						>
 							<Typography sx={{ paddingRight: 1 }} variant="caption">
-								{new Date(movie.release_date).getFullYear()}
+								{new Date(content.release_date).getFullYear()}
 							</Typography>
 							<Typography variant="caption">
-								{compileRuntime(movie.runtime)}
+								{compileRuntime(content.runtime)}
 							</Typography>
 						</Container>
 						<CardMedia
 							sx={{ my: 2 }}
 							component="img"
 							width={200}
-							image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
-							alt={`Movie poster for ${movie.title}`}
+							image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${content.poster_path}`}
+							alt={`Movie poster for ${content.title}`}
 						/>
 
 						<Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-							{movie.genres.map((genre, i) => {
+							{content.genres.map((genre, i) => {
 								return <Chip key={i} label={genre} />;
 							})}
 						</Stack>
 						<Typography variant="subtitle2" sx={{ my: 1 }}>
-							{movie.overview}
+							{content.overview}
 						</Typography>
 					</Container>
 				</Fade>

@@ -78,11 +78,13 @@ const parseRace = (movieCast) => {
       amount: 0
     },
   ];
+  let counter = 0;
   for (const race in raceData) {
     const update = listRaceData.find(obj => obj.name == race.toString());
     update.amount = raceData[race];
+    counter++;
   }
-  return listRaceData;
+  return counter > 0 ? listRaceData : [];
 };
 
 

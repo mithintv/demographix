@@ -43,7 +43,7 @@ const CustomizedLabel = (props) => {
 
 const calculateInterval = (chartHeight, labelCount) => {
 	// Customize the interval calculation based on your requirements
-	const maxVisibleLabels = Math.floor(chartHeight / 15); // Assuming each label is 30px in height
+	const maxVisibleLabels = Math.floor(chartHeight / 25); // Assuming each label is 30px in height
 	return Math.ceil(labelCount / maxVisibleLabels);
 };
 
@@ -116,7 +116,7 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 								axisLine={axisLineStyle}
 								tick={tickStyle}
 								interval={
-									data.length > 10 ? calculateInterval(350, data.length) : 0
+									data.length > 10 ? calculateInterval(300, data.length) : 0
 								}
 								tickFormatter={formatYAxisLabel}
 							/>

@@ -71,6 +71,7 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 			}}
 		>
 			<ChartLabel label={title} />
+
 			<Box
 				sx={{
 					display: "flex",
@@ -124,6 +125,8 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 								content={<RaceTooltip />}
 							/>
 							<Bar
+								animationDuration={1000} // Duration of the animation in milliseconds
+								animationBegin={500}
 								dataKey="amount"
 								label={<CustomizedLabel total={data.length} />}
 							>

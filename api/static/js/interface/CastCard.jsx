@@ -1,5 +1,17 @@
 const CastCard = React.memo((props) => {
 	const { cast } = props;
+	const [content, setContent] = React.useState(cast);
+	const [show, setShow] = React.useState(false);
+
+	React.useEffect(() => {
+		setShow(false);
+		const delay = setTimeout(() => {
+			setContent(cast);
+			// Trigger fade-in effect
+			setShow(true);
+			clearTimeout(delay);
+		}, 500);
+	}, [cast]);
 
 	return (
 		<Paper
@@ -32,10 +44,11 @@ const CastCard = React.memo((props) => {
 					px: 1,
 					pb: 2,
 					overflowX: "auto",
+					height: 322.4,
 				}}
 			>
-				{cast ? (
-					cast.map((cast, index) => {
+				{content ? (
+					content.map((cast, index) => {
 						let age = "Unknown";
 						if (cast.birthday) {
 							const birthday = new Date(cast.birthday).getFullYear();
@@ -49,11 +62,12 @@ const CastCard = React.memo((props) => {
 								"https://th.bing.com/th/id/OIP.rjbP0DPYm_qmV_cG-S-DUAAAAA?pid=ImgDet&rs=1";
 						}
 						return (
-							<Fade in timeout={500} key={index}>
+							<Fade in={show} key={index}>
 								<Card
 									elevation={2}
 									sx={{
 										width: 125,
+										height: 300,
 										mx: 1,
 										backgroundColor: "background.default",
 										flex: "0 0 auto",

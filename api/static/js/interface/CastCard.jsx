@@ -2,6 +2,7 @@ const CastCard = React.memo((props) => {
 	const { cast } = props;
 	const [content, setContent] = React.useState(cast);
 	const [show, setShow] = React.useState(false);
+	const location = useLocation();
 
 	React.useEffect(() => {
 		setShow(false);
@@ -62,7 +63,7 @@ const CastCard = React.memo((props) => {
 								"https://th.bing.com/th/id/OIP.rjbP0DPYm_qmV_cG-S-DUAAAAA?pid=ImgDet&rs=1";
 						}
 						return (
-							<Fade in={show} key={index}>
+							<Fade in={show} key={index} timeout={500}>
 								<Card
 									elevation={2}
 									sx={{

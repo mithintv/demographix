@@ -1,4 +1,10 @@
-const { BrowserRouter, Route, Link: RouterLink, useHistory } = ReactRouterDOM;
+const {
+	BrowserRouter,
+	Route,
+	Link: RouterLink,
+	useHistory,
+	useLocation,
+} = ReactRouterDOM;
 const {
 	AppBar,
 	Box,

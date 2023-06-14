@@ -13,6 +13,10 @@ const NomMovies = (props) => {
 
 	const data = castData.sort((a, b) => a.id - b.id);
 
+	React.useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
 	// fetch call for data retrieval
 	React.useEffect(() => {
 		const fetchData = async () => {

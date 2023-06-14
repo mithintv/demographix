@@ -164,6 +164,8 @@ const Histogram = React.memo((props) => {
 							dataKey="count"
 							fill={theme.palette.primary.main}
 							label={histogramLabelStyle}
+							animationDuration={1000} // Duration of the animation in milliseconds
+							animationBegin={500}
 						></Bar>
 					</BarChart>
 				) : (

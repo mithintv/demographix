@@ -351,21 +351,20 @@ def query_movie(keywords):
     """Return search query results."""
 
     if keywords == "":
-        query = Movie.query.filter(Movie.poster_path != None).order_by(func.random()).limit(28).all()
-        return query
+        query = Movie.query.join(Movie.credits).filter(Movie.poster_path != None).group_by(Movie.id).having(func.count(Movie.credits) > 1).order_by(func.random()).all()
+        return query[:28]
 
     else:
-        keyword_query = Movie.query.filter(func.lower(Movie.title).like(
-            f'{keywords.lower()}%')).order_by(desc(Movie.release_date))
-        if len(keyword_query.all()) < 10:
+        keyword_query = Movie.query.join(Movie.credits).group_by(Movie.id).having(func.count(Movie.credits) > 1).filter(and_(func.lower(Movie.title).like(
+            f'{keywords.lower()}%'), Movie.poster_path != None)).order_by(desc(Movie.release_date))
+        if len(keyword_query.all()) < 5:
             keyword_query = query_api_movie(keywords)
-        additional_query = Movie.query.filter(Movie.poster_path != None).order_by(Movie.title.like(f'{keywords[0].lower()}%'))
+        additional_query = Movie.query.join(Movie.credits).filter(Movie.poster_path != None).group_by(Movie.id).having(func.count(Movie.credits) > 1).order_by(Movie.title.like(f'{keywords[0].lower()}%'))
 
         combined_query = keyword_query.union_all(additional_query)
-        limited_query = combined_query.limit(28)
-        results = limited_query.all()
+        results = combined_query.all()
 
-        return results
+        return results[:28]
 
 
 def query_movie_credits(movie_obj):

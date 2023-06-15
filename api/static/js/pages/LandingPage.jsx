@@ -1,4 +1,8 @@
 const LandingPage = () => {
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
+
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
@@ -50,26 +54,32 @@ const LandingPage = () => {
 					</Container>
 					<Grid
 						item
+						xs={10}
 						sx={{
 							display: "flex",
-							flexDirection: "row",
-							justifyContent: "space-evenly",
+							flexDirection: sm ? "column" : "row",
+							justifyContent: sm ? "center" : "space-evenly",
+							alignItems: "center",
+							width: "75%",
 						}}
 					>
-						<Link
-							to={`/noms/academy awards/yearly/${new Date().getFullYear()}`}
-							component={RouterLink}
+						<Button
+							sx={{ mb: 2 }}
+							size={sm ? "medium" : "large"}
+							startIcon={
+								<span className="material-symbols-outlined">bar_chart</span>
+							}
+							variant="outlined"
 						>
-							<Button
-								size="large"
-								startIcon={
-									<span className="material-symbols-outlined">bar_chart</span>
-								}
-								variant="outlined"
+							<Link
+								sx={{ textDecoration: "none" }}
+								to={`/noms/academy awards/yearly/${new Date().getFullYear()}`}
+								component={RouterLink}
 							>
 								Visualize Data
-							</Button>
-						</Link>
+							</Link>
+						</Button>
+
 						<SearchPage nav={false} />
 					</Grid>
 				</Container>

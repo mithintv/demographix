@@ -123,6 +123,15 @@ const darkTheme = createTheme({
 		},
 		overline: {
 			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "0.7rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "0.65rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "0.60rem", // for small screens and above
+			},
 		},
 		overline2: {
 			fontSize: "2rem",

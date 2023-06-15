@@ -40,6 +40,7 @@ const {
 	ThemeProvider,
 	Toolbar,
 	Typography,
+	useMediaQuery,
 	useScrollTrigger,
 	useTheme,
 } = MaterialUI;

@@ -22,6 +22,7 @@ const {
 	Divider,
 	Fade,
 	FormControl,
+	Grid,
 	GlobalStyles,
 	InputAdornment,
 	InputLabel,
@@ -89,6 +90,15 @@ const darkTheme = createTheme({
 	typography: {
 		h1: {
 			fontWeight: 700,
+			"@media (max-width:960px)": {
+				fontSize: "4rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "3.5rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "3rem", // for small screens and above
+			},
 		},
 		h2: {
 			fontWeight: 500,
@@ -98,6 +108,15 @@ const darkTheme = createTheme({
 		},
 		h5: {
 			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "1rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "0.925rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "0.85rem", // for small screens and above
+			},
 		},
 		subtitle2: {
 			fontWeight: 400,

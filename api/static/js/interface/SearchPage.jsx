@@ -43,6 +43,7 @@ const SearchPage = ({ nav }) => {
 	return (
 		<React.Fragment>
 			<Button
+				sx={{ my: 1 }}
 				size={sm ? "medium" : "large"}
 				startIcon={<span className="material-symbols-outlined">search</span>}
 				variant={nav ? "text" : "contained"}
@@ -80,12 +81,12 @@ const SearchPage = ({ nav }) => {
 						mt: 5,
 						mx: "auto",
 						// transform: "translate(-50%, -50%)",
-						width: "50%",
+						width: sm ? "85%" : "50%",
 						bgcolor: "background.default",
 						border: "2px solid #000",
 						boxShadow: 24,
 						py: 4,
-						px: 4,
+						px: sm ? 2 : 4,
 					}}
 				>
 					<Box

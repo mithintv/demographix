@@ -64,7 +64,7 @@ const LandingPage = () => {
 						}}
 					>
 						<Button
-							sx={{ mb: 2 }}
+							sx={{ my: 1 }}
 							size={sm ? "medium" : "large"}
 							startIcon={
 								<span className="material-symbols-outlined">bar_chart</span>

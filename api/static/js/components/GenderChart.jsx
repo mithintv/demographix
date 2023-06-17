@@ -107,19 +107,22 @@ const GenderChart = React.memo((props) => {
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width: sm ? "350px" : "550px",
+					width: (xs && "275px") || (sm && "350px") || "550px",
 					height: "350px",
 					flex: "1 0 auto",
 				}}
 			>
 				{data.length > 0 ? (
-					<ResponsiveContainer width={550} height={350}>
-						<PieChart width={550} height={350}>
+					<ResponsiveContainer
+						width={(xs && 275) || (sm && 350) || 550}
+						height={350}
+					>
+						<PieChart width={(xs && 275) || (sm && 350) || 550} height={350}>
 							<Pie
 								data={data}
 								cx="50%"
 								cy="50%"
-								width={550}
+								width={(xs && 275) || (sm && 350) || 550}
 								height={350}
 								startAngle={90}
 								endAngle={-450}

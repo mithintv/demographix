@@ -1,5 +1,7 @@
 const NomMovies = (props) => {
 	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 	const { awardParam, rangeParam, yearParam } = props.match.params;
 
 	const [movies, setMovies] = React.useState([]);
@@ -79,7 +81,7 @@ const NomMovies = (props) => {
 		<Fade in>
 			<Box
 				sx={{
-					width: "100vw",
+					width: "100%",
 					height: "100%",
 					background: backgroundGradient,
 				}}
@@ -112,7 +114,7 @@ const NomMovies = (props) => {
 							}}
 						>
 							<Typography
-								sx={{ lineHeight: 0.75 }}
+								sx={{ lineHeight: 0.75, mt: 1 }}
 								color="primary"
 								variant="overline2"
 							>
@@ -133,7 +135,7 @@ const NomMovies = (props) => {
 								}}
 							>
 								<Button
-									size="large"
+									size={xs ? "small" : "large"}
 									variant="outlined"
 									onClick={handleClickOpen}
 								>

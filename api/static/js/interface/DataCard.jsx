@@ -49,18 +49,11 @@ const DataCard = React.memo((props) => {
 					display: "flex",
 					flexDirection: "row",
 					justifyContent: "space-evenly",
+					flexWrap: "wrap",
 				}}
 			>
 				<GenderChart data={genderData} />
 				<Histogram data={ageData} />
-			</Box>
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "space-evenly",
-				}}
-			>
 				<RaceChart
 					title="ethnicity"
 					data={ethnicityData}

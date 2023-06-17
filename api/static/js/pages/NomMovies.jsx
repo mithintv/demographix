@@ -1,4 +1,5 @@
 const NomMovies = (props) => {
+	const md = useMediaQuery("(max-width:960px)");
 	const { awardParam, rangeParam, yearParam } = props.match.params;
 
 	const [movies, setMovies] = React.useState([]);
@@ -8,6 +9,8 @@ const NomMovies = (props) => {
 	const [award, setAward] = React.useState(awardParam);
 	const [cumYears, setCumYears] = React.useState("");
 	const [year, setYear] = React.useState(yearParam);
+
+	const [open, setOpen] = React.useState(false);
 
 	const history = useHistory();
 
@@ -64,6 +67,14 @@ const NomMovies = (props) => {
 		history.push(`/noms/${award}/${range}/${selectedYear}`);
 	};
 
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	return (
 		<Fade in>
 			<Box
@@ -79,13 +90,13 @@ const NomMovies = (props) => {
 					sx={{
 						pb: 2,
 						pt: 8,
+						px: 2,
 						display: "flex",
 						flexDirection: "column",
 					}}
 				>
 					<Box
 						sx={{
-							pl: 1,
 							mt: 4,
 							display: "flex",
 							flexDirection: "row",
@@ -113,97 +124,212 @@ const NomMovies = (props) => {
 							</Typography>
 						</Box>
 
-						<Box
-							sx={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "end",
-							}}
-						>
-							<FormControl
+						{md ? (
+							<Box
 								sx={{
-									m: 1,
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "end",
 								}}
 							>
-								<InputLabel id="award">Award</InputLabel>
-								<Select
-									labelId="award"
-									id="award"
-									value={award}
-									label="Award"
-									onChange={handleAward}
+								<Button
+									size="large"
+									variant="outlined"
+									onClick={handleClickOpen}
 								>
-									<MenuItem value={"golden globes"}>Golden Globes</MenuItem>
-									<MenuItem value={"bafta"}>BAFTA</MenuItem>
-									<MenuItem value={award}>Academy Awards</MenuItem>
-								</Select>
-							</FormControl>
-							<FormControl
+									Filters
+								</Button>
+								<Dialog open={open} onClose={handleClose}>
+									<DialogTitle>Filters</DialogTitle>
+									<DialogContent sx={{ px: 2 }}>
+										<FormControl
+											sx={{
+												ml: 1,
+												my: 1,
+											}}
+										>
+											<InputLabel id="award">Award</InputLabel>
+											<Select
+												labelId="award"
+												id="award"
+												value={award}
+												label="Award"
+												onChange={handleAward}
+											>
+												<MenuItem value={"golden globes"}>
+													Golden Globes
+												</MenuItem>
+												<MenuItem value={"bafta"}>BAFTA</MenuItem>
+												<MenuItem value={award}>Academy Awards</MenuItem>
+											</Select>
+										</FormControl>
+										<FormControl
+											sx={{
+												ml: 1,
+												my: 1,
+											}}
+										>
+											<InputLabel id="range">Range</InputLabel>
+											<Select
+												labelId="range"
+												id="range"
+												value={range}
+												label="range"
+												onChange={handleRange}
+											>
+												<MenuItem value={"cumulative"}>Cumulative</MenuItem>
+												<MenuItem value={"yearly"}>Yearly</MenuItem>
+											</Select>
+										</FormControl>
+										{range === "cumulative" ? (
+											<FormControl
+												sx={{
+													ml: 1,
+													my: 1,
+													width: "150px",
+												}}
+											>
+												<InputLabel id={"cumulative"}>Cumulative</InputLabel>
+												<Select
+													labelId="cumulative"
+													id="cumulative"
+													value={year}
+													label="cumulative"
+													onChange={handleYear}
+												>
+													<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
+													<MenuItem value={"last 5"}>Last 5 Years</MenuItem>
+													<MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+												</Select>
+											</FormControl>
+										) : (
+											<FormControl
+												sx={{
+													m: 1,
+													width: "100px",
+												}}
+											>
+												<InputLabel id={"year"}>Year</InputLabel>
+												<Select
+													labelId="year"
+													id="year"
+													value={year}
+													label="Year"
+													onChange={handleYear}
+												>
+													<MenuItem value={2023}>2023</MenuItem>
+													<MenuItem value={2022}>2022</MenuItem>
+													<MenuItem value={2021}>2021</MenuItem>
+													<MenuItem value={2020}>2020</MenuItem>
+													<MenuItem value={2019}>2019</MenuItem>
+													<MenuItem value={2018}>2018</MenuItem>
+													<MenuItem value={2017}>2017</MenuItem>
+													<MenuItem value={2016}>2016</MenuItem>
+													<MenuItem value={2015}>2015</MenuItem>
+													<MenuItem value={2014}>2014</MenuItem>
+												</Select>
+											</FormControl>
+										)}
+									</DialogContent>
+								</Dialog>
+							</Box>
+						) : (
+							<Box
 								sx={{
-									m: 1,
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "end",
 								}}
 							>
-								<InputLabel id="range">Range</InputLabel>
-								<Select
-									labelId="range"
-									id="range"
-									value={range}
-									label="range"
-									onChange={handleRange}
-								>
-									<MenuItem value={"cumulative"}>Cumulative</MenuItem>
-									<MenuItem value={"yearly"}>Yearly</MenuItem>
-								</Select>
-							</FormControl>
-							{range === "cumulative" ? (
 								<FormControl
 									sx={{
-										m: 1,
-										width: "150px",
+										ml: 1,
+										my: 1,
 									}}
 								>
-									<InputLabel id={"cumulative"}>Cumulative</InputLabel>
+									<InputLabel id="award">Award</InputLabel>
 									<Select
-										labelId="cumulative"
-										id="cumulative"
-										value={year}
-										label="cumulative"
-										onChange={handleYear}
+										labelId="award"
+										id="award"
+										value={award}
+										label="Award"
+										onChange={handleAward}
 									>
-										<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
-										<MenuItem value={"last 5"}>Last 5 Years</MenuItem>
-										<MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+										<MenuItem value={"golden globes"}>Golden Globes</MenuItem>
+										<MenuItem value={"bafta"}>BAFTA</MenuItem>
+										<MenuItem value={award}>Academy Awards</MenuItem>
 									</Select>
 								</FormControl>
-							) : (
 								<FormControl
 									sx={{
-										m: 1,
-										width: "100px",
+										ml: 1,
+										my: 1,
 									}}
 								>
-									<InputLabel id={"year"}>Year</InputLabel>
+									<InputLabel id="range">Range</InputLabel>
 									<Select
-										labelId="year"
-										id="year"
-										value={year}
-										label="Year"
-										onChange={handleYear}
+										labelId="range"
+										id="range"
+										value={range}
+										label="range"
+										onChange={handleRange}
 									>
-										<MenuItem value={2023}>2023</MenuItem>
-										<MenuItem value={2022}>2022</MenuItem>
-										<MenuItem value={2021}>2021</MenuItem>
-										<MenuItem value={2020}>2020</MenuItem>
-										<MenuItem value={2019}>2019</MenuItem>
-										<MenuItem value={2018}>2018</MenuItem>
-										<MenuItem value={2017}>2017</MenuItem>
-										<MenuItem value={2016}>2016</MenuItem>
-										<MenuItem value={2015}>2015</MenuItem>
-										<MenuItem value={2014}>2014</MenuItem>
+										<MenuItem value={"cumulative"}>Cumulative</MenuItem>
+										<MenuItem value={"yearly"}>Yearly</MenuItem>
 									</Select>
 								</FormControl>
-							)}
-						</Box>
+								{range === "cumulative" ? (
+									<FormControl
+										sx={{
+											ml: 1,
+											my: 1,
+											width: "150px",
+										}}
+									>
+										<InputLabel id={"cumulative"}>Cumulative</InputLabel>
+										<Select
+											labelId="cumulative"
+											id="cumulative"
+											value={year}
+											label="cumulative"
+											onChange={handleYear}
+										>
+											<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
+											<MenuItem value={"last 5"}>Last 5 Years</MenuItem>
+											<MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+										</Select>
+									</FormControl>
+								) : (
+									<FormControl
+										sx={{
+											ml: 1,
+											my: 1,
+											width: "100px",
+										}}
+									>
+										<InputLabel id={"year"}>Year</InputLabel>
+										<Select
+											labelId="year"
+											id="year"
+											value={year}
+											label="Year"
+											onChange={handleYear}
+										>
+											<MenuItem value={2023}>2023</MenuItem>
+											<MenuItem value={2022}>2022</MenuItem>
+											<MenuItem value={2021}>2021</MenuItem>
+											<MenuItem value={2020}>2020</MenuItem>
+											<MenuItem value={2019}>2019</MenuItem>
+											<MenuItem value={2018}>2018</MenuItem>
+											<MenuItem value={2017}>2017</MenuItem>
+											<MenuItem value={2016}>2016</MenuItem>
+											<MenuItem value={2015}>2015</MenuItem>
+											<MenuItem value={2014}>2014</MenuItem>
+										</Select>
+									</FormControl>
+								)}
+							</Box>
+						)}
 					</Box>
 					<DataCard cast={castData} releaseDate={null} />
 					<Paper

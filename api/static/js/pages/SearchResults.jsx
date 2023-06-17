@@ -75,7 +75,7 @@ const SearchResults = ({ clicked, keywords }) => {
 							>
 								<Card>
 									<CardMedia
-										sx={{ width: xs ? 175 : 110 }}
+										sx={{ width: xs ? 200 : 110 }}
 										component="img"
 										image={imgPath}
 										alt={`Movie poster for ${movie.title}`}

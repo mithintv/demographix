@@ -136,7 +136,10 @@ const darkTheme = createTheme({
 				fontSize: "0.65rem", // for small screens and above
 			},
 			"@media (max-width:425px)": {
-				fontSize: "0.60rem", // for small screens and above
+				fontSize: "0.50rem", // for small screens and above
+			},
+			"@media (max-width:375px)": {
+				fontSize: "0.45rem", // for small screens and above
 			},
 		},
 		overline2: {
@@ -147,10 +150,10 @@ const darkTheme = createTheme({
 				fontSize: "1.75rem", // for small screens and above
 			},
 			"@media (max-width:600px)": {
-				fontSize: "1.65rem", // for small screens and above
+				fontSize: "1.50rem", // for small screens and above
 			},
 			"@media (max-width:425px)": {
-				fontSize: "1.6rem", // for small screens and above
+				fontSize: "1.45rem", // for small screens and above
 			},
 		},
 	},

@@ -24,6 +24,7 @@ const {
 	DialogContent,
 	DialogTitle,
 	Divider,
+	Drawer,
 	Fade,
 	FormControl,
 	Grid,

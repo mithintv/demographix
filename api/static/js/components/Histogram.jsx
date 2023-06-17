@@ -63,6 +63,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const Histogram = React.memo((props) => {
+	const sm = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
 	const [histogram, setHistogram] = React.useState([]);
 	let { data } = props;
@@ -109,7 +110,7 @@ const Histogram = React.memo((props) => {
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width: "550px",
+					width: sm ? "350px" : "550px",
 					height: "330px",
 					flex: "1 0 auto",
 				}}
@@ -117,7 +118,7 @@ const Histogram = React.memo((props) => {
 				{data.length > 0 ? (
 					<BarChart
 						style={{ zIndex: 2 }}
-						width={550}
+						width={sm ? 350 : 550}
 						height={300}
 						data={histogram}
 						margin={{

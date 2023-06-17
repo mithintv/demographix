@@ -79,7 +79,7 @@ const NomMovies = (props) => {
 		<Fade in>
 			<Box
 				sx={{
-					width: "100%",
+					width: "100vw",
 					height: "100%",
 					background: backgroundGradient,
 				}}

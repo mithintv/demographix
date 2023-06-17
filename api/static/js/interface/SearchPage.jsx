@@ -82,7 +82,6 @@ const SearchPage = ({ nav }) => {
 					sx={{
 						my: 5,
 						mx: "auto",
-						// transform: "translate(-50%, -50%)",
 						width: md ? "85%" : "50%",
 						bgcolor: "background.default",
 						border: "2px solid #000",

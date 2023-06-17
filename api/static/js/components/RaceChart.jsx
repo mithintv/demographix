@@ -48,6 +48,7 @@ const calculateInterval = (chartHeight, labelCount) => {
 };
 
 const RaceChart = React.memo(({ data, title, colors }) => {
+	const sm = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
 
 	React.useEffect(() => {
@@ -82,10 +83,10 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 				}}
 			>
 				{data.length > 0 ? (
-					<ResponsiveContainer width={550} height={350}>
+					<ResponsiveContainer width={sm ? 350 : 550} height={350}>
 						<BarChart
 							layout="vertical"
-							width={550}
+							width={sm ? 350 : 550}
 							height={350}
 							data={data}
 							margin={{

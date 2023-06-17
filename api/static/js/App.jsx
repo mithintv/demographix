@@ -143,6 +143,15 @@ const darkTheme = createTheme({
 			fontSize: "2rem",
 			fontWeight: 700,
 			textTransform: "uppercase",
+			"@media (max-width:960px)": {
+				fontSize: "1.75rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "1.65rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "1.6rem", // for small screens and above
+			},
 		},
 	},
 });

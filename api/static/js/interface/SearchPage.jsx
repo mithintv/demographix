@@ -1,5 +1,7 @@
 const SearchPage = ({ nav }) => {
+	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
+
 	const [open, setOpen] = React.useState(false);
 	const searchRef = React.useRef(null);
 	const [searchInput, setSearchInput] = React.useState("");
@@ -78,26 +80,25 @@ const SearchPage = ({ nav }) => {
 			>
 				<Paper
 					sx={{
-						mt: 5,
+						my: 5,
 						mx: "auto",
 						// transform: "translate(-50%, -50%)",
-						width: sm ? "85%" : "50%",
+						width: md ? "85%" : "50%",
 						bgcolor: "background.default",
 						border: "2px solid #000",
 						boxShadow: 24,
-						py: 4,
-						px: sm ? 2 : 4,
+						pt: 4,
 					}}
 				>
 					<Box
 						onSubmit={searchHandler}
 						component="form"
 						sx={{
-							py: "0.25rem",
+							pt: "0.25rem",
 							display: "flex",
 							flexDirection: "column",
 							justifyContent: "space-between",
-							mx: 1,
+							mx: 4,
 						}}
 					>
 						<TextField

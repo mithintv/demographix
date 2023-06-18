@@ -63,6 +63,8 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const Histogram = React.memo((props) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
 	const theme = useTheme();
@@ -111,22 +113,29 @@ const Histogram = React.memo((props) => {
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width: (xs && "275px") || (sm && "350px") || "550px",
-					height: "330px",
+					width:
+						(xs && "275px") ||
+						(sm && "350px") ||
+						(md && "550px") ||
+						(lg && "900px") ||
+						"550px",
+					height: "350px",
 					flex: "1 0 auto",
 				}}
 			>
 				{data.length > 0 ? (
 					<BarChart
 						style={{ zIndex: 2 }}
-						width={(xs && 275) || (sm && 350) || 550}
+						width={
+							(xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
+						}
 						height={300}
 						data={histogram}
 						margin={{
 							top: 25,
-							right: 20,
+							right: 22.5,
 							bottom: 10,
-							left: 25,
+							left: (sm && 15) || 25,
 						}}
 					>
 						<XAxis
@@ -155,6 +164,7 @@ const Histogram = React.memo((props) => {
 								position="insideLeft"
 								style={{ textAnchor: "middle" }}
 								offset={2}
+								dx={10}
 							/>
 						</YAxis>
 						<Tooltip

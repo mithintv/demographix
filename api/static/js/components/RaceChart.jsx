@@ -14,6 +14,9 @@ const RaceTooltip = ({ active, payload, label }) => {
 };
 
 const formatYAxisLabel = (label, index) => {
+	if (label === "Hispanic/Latino") {
+		return "HSPN";
+	}
 	if (label === "Middle Eastern/North African") {
 		return "MENA";
 	}
@@ -48,6 +51,8 @@ const calculateInterval = (chartHeight, labelCount) => {
 };
 
 const RaceChart = React.memo(({ data, title, colors }) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
 	const theme = useTheme();
@@ -85,18 +90,22 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 			>
 				{data.length > 0 ? (
 					<ResponsiveContainer
-						width={(xs && 275) || (sm && 350) || 550}
+						width={
+							(xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
+						}
 						height={350}
 					>
 						<BarChart
 							layout="vertical"
-							width={(xs && 275) || (sm && 350) || 550}
+							width={
+								(xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
+							}
 							height={350}
 							data={data}
 							margin={{
 								top: 20,
-								right: 50,
-								left: 100,
+								right: (sm && 20) || 50,
+								left: (title === "race" && sm && 5) || (sm && 30) || 100,
 								bottom: 30,
 							}}
 						>
@@ -109,7 +118,7 @@ const RaceChart = React.memo(({ data, title, colors }) => {
 							>
 								<Label
 									fill={theme.palette.text.secondary}
-									value="Number of Cast Members"
+									value={xs ? "# of Cast Members" : "Number of Cast Members"}
 									offset={-10}
 									position="insideBottom"
 								/>

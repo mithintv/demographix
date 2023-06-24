@@ -115,6 +115,18 @@ const darkTheme = createTheme({
 		h3: {
 			fontWeight: 500,
 		},
+		h4: {
+			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "1.75rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "1.65rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "1.5rem", // for small screens and above
+			},
+		},
 		h5: {
 			fontWeight: 500,
 			"@media (max-width:960px)": {

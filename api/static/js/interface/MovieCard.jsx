@@ -3,7 +3,7 @@ const MovieCard = (props) => {
 	const lg = useMediaQuery("(max-width:1200px)");
 	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:425px)");
+	const xs = useMediaQuery("(max-width:426px)");
 	const { movie } = props;
 	const [content, setContent] = React.useState(movie);
 	const [show, setShow] = React.useState(false);
@@ -25,13 +25,13 @@ const MovieCard = (props) => {
 				mr: 2,
 				mb: 2,
 				py: 3,
-				px: 3,
+				px: 2,
 				width: "100%",
 				display: "flex",
 				flexDirection: "column",
 				justifyContent: content && content.id ? "start" : "center",
 				alignItems: content && content.id ? "start" : "center",
-				flex: "0 0 auto",
+				flex: "1 0 auto",
 			}}
 		>
 			{content.id ? (
@@ -43,16 +43,21 @@ const MovieCard = (props) => {
 							flexDirection: "column",
 						}}
 					>
-						<Box sx={{ display: "flex", flexDirection: "row", mb: 2 }}>
+						<Box sx={{ display: "flex", flexDirection: xs ? "column" : "row" }}>
 							<Box
 								sx={{
 									display: "flex",
 									flexDirection: "column",
+									flex: "1 1 auto",
 								}}
 							>
 								<CardMedia
+									sx={{
+										width: xs ? "100%" : "200px",
+										px: xs ? 2 : 0,
+										mb: xs ? 2 : 0,
+									}}
 									component="img"
-									width={"100%"}
 									image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${content.poster_path}`}
 									alt={`Movie poster for ${content.title}`}
 								/>
@@ -61,10 +66,11 @@ const MovieCard = (props) => {
 								sx={{
 									display: "flex",
 									flexDirection: "column",
+									flex: "0 1 auto",
 								}}
 							>
 								<Typography
-									variant="h5"
+									variant="h4"
 									sx={{
 										mx: 2,
 									}}
@@ -89,7 +95,7 @@ const MovieCard = (props) => {
 									</Typography>
 								</Container>
 								<Stack
-									sx={{ mt: 2, ml: 2 }}
+									sx={{ mt: 1, ml: 2 }}
 									direction="row"
 									spacing={1}
 									useFlexGap
@@ -99,7 +105,7 @@ const MovieCard = (props) => {
 										return <Chip key={i} label={genre} />;
 									})}
 								</Stack>
-								<Typography variant="subtitle2" sx={{ m: 2 }}>
+								<Typography variant="subtitle2" sx={{ mt: 1, mx: 2 }}>
 									{content.overview}
 								</Typography>
 							</Box>

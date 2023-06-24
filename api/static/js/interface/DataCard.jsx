@@ -33,7 +33,7 @@ const DataCard = React.memo((props) => {
 				display: "flex",
 				flexDirection: "column",
 				mb: 2,
-				flex: "3 0 auto",
+				flex: "0 1 auto",
 				// width: (sm && "425px") || (md && "600px") || (lg && "960px") || "960px",
 			}}
 		>

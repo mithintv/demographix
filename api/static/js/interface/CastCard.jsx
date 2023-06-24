@@ -1,4 +1,5 @@
 const CastCard = React.memo((props) => {
+	const theme = useTheme();
 	const { cast } = props;
 	const [content, setContent] = React.useState(cast);
 	const [show, setShow] = React.useState(false);
@@ -15,37 +16,22 @@ const CastCard = React.memo((props) => {
 	}, [cast]);
 
 	return (
-		<Paper
+		<Box
 			elevation={2}
 			sx={{
-				mb: 2,
-				pt: 1,
 				display: "flex",
 				flexDirection: "column",
 				width: "100%",
+				backgroundColor: "transparent",
+				mt: 1,
 			}}
 		>
-			<Typography
-				sx={{
-					mb: 2,
-					pl: 3,
-					width: "100%",
-					borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
-				}}
-				variant="overline"
-				color="primary"
-			>
-				Top Billed Cast
-			</Typography>
 			<Box
 				sx={{
 					position: "relative",
 					display: "flex",
 					flexDirection: "row",
-					px: 1,
-					pb: 2,
 					overflowX: "auto",
-					height: 322.4,
 				}}
 			>
 				{content ? (
@@ -69,7 +55,8 @@ const CastCard = React.memo((props) => {
 									sx={{
 										width: 125,
 										height: 300,
-										mx: 1,
+										mr: 2,
+										mb: 2,
 										backgroundColor: "background.default",
 										flex: "0 0 auto",
 									}}
@@ -109,6 +96,6 @@ const CastCard = React.memo((props) => {
           }}
         /> */}
 			</Box>
-		</Paper>
+		</Box>
 	);
 });

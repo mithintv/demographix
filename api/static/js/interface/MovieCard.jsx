@@ -22,7 +22,6 @@ const MovieCard = (props) => {
 	return (
 		<Card
 			sx={{
-				mr: 2,
 				mb: 2,
 				py: 3,
 				px: 2,
@@ -31,7 +30,7 @@ const MovieCard = (props) => {
 				flexDirection: "column",
 				justifyContent: content && content.id ? "start" : "center",
 				alignItems: content && content.id ? "start" : "center",
-				flex: "1 0 auto",
+				flex: "1 1 auto",
 			}}
 		>
 			{content.id ? (

@@ -1,4 +1,8 @@
 const DataCard = React.memo((props) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 	const { cast, releaseDate } = props;
 	const [ageData, setAgeData] = React.useState([]);
 	const [genderData, setGenderData] = React.useState([]);
@@ -30,6 +34,7 @@ const DataCard = React.memo((props) => {
 				flexDirection: "column",
 				mb: 2,
 				flex: "3 0 auto",
+				// width: (sm && "425px") || (md && "600px") || (lg && "960px") || "960px",
 			}}
 		>
 			<Typography

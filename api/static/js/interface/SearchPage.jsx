@@ -1,6 +1,7 @@
 const SearchPage = ({ nav }) => {
 	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 
 	const [open, setOpen] = React.useState(false);
 	const searchRef = React.useRef(null);
@@ -82,7 +83,7 @@ const SearchPage = ({ nav }) => {
 					sx={{
 						my: 5,
 						mx: "auto",
-						width: md ? "85%" : "50%",
+						width: (sm && "270px") || (md && "460px") || "708px",
 						bgcolor: "background.default",
 						border: "2px solid #000",
 						boxShadow: 24,

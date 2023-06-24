@@ -6,6 +6,9 @@ const {
 	useLocation,
 } = ReactRouterDOM;
 const {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
 	AppBar,
 	Box,
 	Button,
@@ -19,9 +22,15 @@ const {
 	createTheme,
 	CssBaseline,
 	Container,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 	Divider,
+	Drawer,
 	Fade,
 	FormControl,
+	Grid,
 	GlobalStyles,
 	InputAdornment,
 	InputLabel,
@@ -39,6 +48,7 @@ const {
 	ThemeProvider,
 	Toolbar,
 	Typography,
+	useMediaQuery,
 	useScrollTrigger,
 	useTheme,
 } = MaterialUI;
@@ -89,6 +99,15 @@ const darkTheme = createTheme({
 	typography: {
 		h1: {
 			fontWeight: 700,
+			"@media (max-width:960px)": {
+				fontSize: "4rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "3.5rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "3rem", // for small screens and above
+			},
 		},
 		h2: {
 			fontWeight: 500,
@@ -96,19 +115,61 @@ const darkTheme = createTheme({
 		h3: {
 			fontWeight: 500,
 		},
+		h4: {
+			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "1.75rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "1.65rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "1.5rem", // for small screens and above
+			},
+		},
 		h5: {
 			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "1rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "0.925rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "0.85rem", // for small screens and above
+			},
 		},
 		subtitle2: {
 			fontWeight: 400,
 		},
 		overline: {
 			fontWeight: 500,
+			"@media (max-width:960px)": {
+				fontSize: "0.7rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "0.65rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "0.50rem", // for small screens and above
+			},
+			"@media (max-width:375px)": {
+				fontSize: "0.45rem", // for small screens and above
+			},
 		},
 		overline2: {
 			fontSize: "2rem",
 			fontWeight: 700,
 			textTransform: "uppercase",
+			"@media (max-width:960px)": {
+				fontSize: "1.75rem", // for small screens and above
+			},
+			"@media (max-width:600px)": {
+				fontSize: "1.50rem", // for small screens and above
+			},
+			"@media (max-width:425px)": {
+				fontSize: "1.45rem", // for small screens and above
+			},
 		},
 	},
 });

@@ -1,5 +1,7 @@
 const NavBar = () => {
+	const sm = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
+	const [open, setOpen] = React.useState(false);
 	const [navTransparent, setNavTransparent] = React.useState(true);
 
 	const handleScroll = () => {
@@ -16,6 +18,10 @@ const NavBar = () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, []);
+
+	const handleDrawer = () => {
+		setOpen(true);
+	};
 
 	return (
 		<Box>
@@ -37,43 +43,76 @@ const NavBar = () => {
 						py: 2,
 					}}
 				>
-					{/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <span className="material-symbols-outlined">menu</span>
-          </IconButton> */}
-
 					<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
 						<Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
 							Demographix
 						</Typography>
 					</Link>
-					<Box
-						sx={{
-							display: "flex",
-							flexDiection: "row",
-							alignItems: "center",
-						}}
-					>
-						<Link
-							sx={{ textDecoration: "none", mx: 2 }}
-							component={RouterLink}
-							to="/noms/academy awards/yearly/2023"
+					{sm ? (
+						<Box
+							sx={{
+								display: "flex",
+								flexDiection: "row",
+								alignItems: "center",
+							}}
 						>
-							<Button
-								startIcon={
-									<span className="material-symbols-outlined">bar_chart</span>
-								}
+							<Drawer anchor={"top"} open={open} onClose={() => setOpen(false)}>
+								<Link
+									sx={{
+										textDecoration: "none",
+										mt: 2,
+										mx: 2,
+										textAlign: "center",
+									}}
+									component={RouterLink}
+									to="/noms/academy awards/yearly/2023"
+								>
+									<Button
+										startIcon={
+											<span className="material-symbols-outlined">
+												bar_chart
+											</span>
+										}
+									>
+										Cumulative Data
+									</Button>
+								</Link>
+								<SearchPage nav={true} />
+							</Drawer>
+							<IconButton
+								onClick={handleDrawer}
+								size="large"
+								edge="end"
+								color="primary"
+								aria-label="open drawer"
 							>
-								Cumulative Data
-							</Button>
-						</Link>
-						<SearchPage nav={true} />
-					</Box>
+								<span className="material-symbols-outlined">menu</span>
+							</IconButton>
+						</Box>
+					) : (
+						<Box
+							sx={{
+								display: "flex",
+								flexDiection: "row",
+								alignItems: "center",
+							}}
+						>
+							<Link
+								sx={{ textDecoration: "none", mx: 2 }}
+								component={RouterLink}
+								to="/noms/academy awards/yearly/2023"
+							>
+								<Button
+									startIcon={
+										<span className="material-symbols-outlined">bar_chart</span>
+									}
+								>
+									Cumulative Data
+								</Button>
+							</Link>
+							<SearchPage nav={true} />
+						</Box>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>

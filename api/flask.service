@@ -1,0 +1,17 @@
+[Unit]
+Description=Demographix
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Environment="LANG=en_US.UTF-8"
+Environment="LANGUAGE=en_US.UTF-8:"
+WorkingDirectory=/home/ubuntu/demographix/api
+ExecStart=/bin/bash -c "source secrets.sh\
+&& source env/bin/activate\
+&& flask run &>> flask.log"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

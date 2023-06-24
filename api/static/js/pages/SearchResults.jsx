@@ -1,4 +1,8 @@
 const SearchResults = ({ clicked, keywords }) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:485px)");
 	const [results, setResults] = React.useState([]);
 	const theme = useTheme();
 
@@ -36,15 +40,16 @@ const SearchResults = ({ clicked, keywords }) => {
 	return (
 		<Box
 			sx={{
-				boxSizing: "border-box",
-				mx: "auto",
-				minHeight: 760,
+				mx: 4,
+				mb: 4,
 				display: "flex",
 				flexDirection: "row",
 				flexWrap: "wrap",
-				justifyContent: results.length > 0 ? "space-between" : "center",
+				justifyContent: "center",
 				alignContent: results.length > 0 ? "space-between" : "center",
 				zIndex: 3,
+				height: "77.5vh",
+				overflowY: "auto",
 			}}
 		>
 			{results.length > 0 ? (
@@ -60,18 +65,17 @@ const SearchResults = ({ clicked, keywords }) => {
 					return (
 						<Fade key={index} in timeout={index * 50}>
 							<Link
+								sx={{
+									mx: 1,
+									mb: 2,
+								}}
 								component={RouterLink}
 								to={`/movies/${movie.id}`}
 								onClick={clicked}
 							>
-								<Card
-									sx={{
-										m: 1,
-										width: 110,
-									}}
-								>
+								<Card>
 									<CardMedia
-										sx={{ width: 110 }}
+										sx={{ width: (sm && 180) || 110 }}
 										component="img"
 										image={imgPath}
 										alt={`Movie poster for ${movie.title}`}

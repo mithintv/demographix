@@ -1,4 +1,9 @@
 const MovieDetails = (props) => {
+	const theme = useTheme();
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 	const { id } = props.match.params;
 	const [movieDetails, setMovieDetails] = React.useState({
 		"id": null,
@@ -39,32 +44,57 @@ const MovieDetails = (props) => {
 				<NavBar />
 				<Container
 					disableGutters
-					maxWidth="xl"
 					sx={{
 						pb: 2,
 						pt: 10,
 						mx: "auto",
 						display: "flex",
-						flexDirection: "column",
-						flex: "1 1",
+						flexDirection: "row",
+						flexWrap: "wrap",
 					}}
 				>
-					<Container
+					<MovieCard movie={movieDetails} />
+					<Accordion
 						disableGutters
-						maxWidth="xl"
 						sx={{
-							display: "flex",
-							flexDirection: "row",
-							pt: 1,
+							width: "100%",
+							overflowX: "hidden",
+							mb: 2,
 						}}
 					>
-						<MovieCard movie={movieDetails} />
-						<DataCard
-							cast={castDetails}
-							releaseDate={new Date(movieDetails.release_date).getFullYear()}
-						/>
-					</Container>
-					<CastCard cast={castDetails} />
+						<AccordionSummary
+							sx={{ borderBottom: "3px solid rgba(255, 255, 255, 0.05);" }}
+							expandIcon={
+								<IconButton
+									size="large"
+									edge="end"
+									color="primary"
+									aria-label="open drawer"
+								>
+									<span className="material-symbols-outlined">expand_more</span>
+								</IconButton>
+							}
+							aria-controls="panel1a-content"
+							id="panel1a-header"
+						>
+							<Typography
+								sx={{
+									width: "100%",
+								}}
+								variant="overline"
+								color="primary"
+							>
+								Top Billed Cast
+							</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<CastCard cast={castDetails} />
+						</AccordionDetails>
+					</Accordion>
+					<DataCard
+						cast={castDetails}
+						releaseDate={new Date(movieDetails.release_date).getFullYear()}
+					/>
 				</Container>
 				<Footer />
 			</Box>

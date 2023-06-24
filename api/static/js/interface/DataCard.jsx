@@ -1,4 +1,8 @@
 const DataCard = React.memo((props) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 	const { cast, releaseDate } = props;
 	const [ageData, setAgeData] = React.useState([]);
 	const [genderData, setGenderData] = React.useState([]);
@@ -29,7 +33,8 @@ const DataCard = React.memo((props) => {
 				display: "flex",
 				flexDirection: "column",
 				mb: 2,
-				flex: "3 0 auto",
+				flex: "0 1 auto",
+				// width: (sm && "425px") || (md && "600px") || (lg && "960px") || "960px",
 			}}
 		>
 			<Typography
@@ -49,18 +54,11 @@ const DataCard = React.memo((props) => {
 					display: "flex",
 					flexDirection: "row",
 					justifyContent: "space-evenly",
+					flexWrap: "wrap",
 				}}
 			>
 				<GenderChart data={genderData} />
 				<Histogram data={ageData} />
-			</Box>
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "space-evenly",
-				}}
-			>
 				<RaceChart
 					title="ethnicity"
 					data={ethnicityData}

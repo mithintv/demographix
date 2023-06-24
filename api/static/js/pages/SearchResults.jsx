@@ -45,7 +45,7 @@ const SearchResults = ({ clicked, keywords }) => {
 				display: "flex",
 				flexDirection: "row",
 				flexWrap: "wrap",
-				justifyContent: xs ? "center" : "space-between",
+				justifyContent: "center",
 				alignContent: results.length > 0 ? "space-between" : "center",
 				zIndex: 3,
 				height: "77.5vh",
@@ -75,7 +75,7 @@ const SearchResults = ({ clicked, keywords }) => {
 							>
 								<Card>
 									<CardMedia
-										sx={{ width: (xs && 180) || (sm && 95) || 110 }}
+										sx={{ width: (sm && 180) || 110 }}
 										component="img"
 										image={imgPath}
 										alt={`Movie poster for ${movie.title}`}

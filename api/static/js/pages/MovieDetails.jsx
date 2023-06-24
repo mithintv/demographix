@@ -1,4 +1,8 @@
 const MovieDetails = (props) => {
+	const lg = useMediaQuery("(max-width:1200px)");
+	const md = useMediaQuery("(max-width:960px)");
+	const sm = useMediaQuery("(max-width:600px)");
+	const xs = useMediaQuery("(max-width:425px)");
 	const { id } = props.match.params;
 	const [movieDetails, setMovieDetails] = React.useState({
 		"id": null,

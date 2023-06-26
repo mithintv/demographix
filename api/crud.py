@@ -129,6 +129,8 @@ def add_ethnicity_data(new_person):
     else:
         print("No ethnicity information found...")
 
+    print("\n")
+
 
 def add_race_data(new_person):
     print(f"Adding approximate race data...")
@@ -205,6 +207,8 @@ def add_race_data(new_person):
             else:
                 print(f"Adding {new_race.name} as a race...")
                 new_person.races.append(new_race)
+
+        print("\n\n\n")
 
 
 def get_regions():
@@ -553,7 +557,7 @@ def get_nom_movies(year):
 
     nomination = Nomination.query.filter(Nomination.year == year).first()
     movie_noms = MovieNomination.query.filter(MovieNomination.nomination_id == nomination.id).all()
-    if len(movie_noms) == 0:
+    if len(movie_noms) < 9:
         check_nominations(int(year))
         movie_noms = MovieNomination.query.filter(MovieNomination.nomination_id == nomination.id).all()
 

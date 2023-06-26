@@ -1,4 +1,4 @@
-import requests, re, unicodedata
+import os, requests, re, unicodedata
 from datetime import datetime
 from bs4 import BeautifulSoup
 from data.gpt import *
@@ -157,7 +157,7 @@ def wikipedia(person_name, person_bday):
             print("No race/ethnicity information on wiki...")
             return {}
 
-        if result.get("ethnicity", None) != None:
+        if result and result.get("ethnicity", None) != None:
             wiki_source = {
                 "list": result['ethnicity'],
                 "source": response.url
@@ -165,7 +165,7 @@ def wikipedia(person_name, person_bday):
             print(wiki_source)
             return wiki_source
 
-        elif result.get("ethnicities", None) != None:
+        elif result and result.get("ethnicities", None) != None:
             wiki_source = {
                 "list": result['ethnicities'],
                 "source": response.url
@@ -203,8 +203,9 @@ def get_ethnicity(person_obj):
             if results.get('list', None) is not None:
                 return results
 
-        # Try wikipedia.org
-        print(f"Attempting {person_name} on wikipedia.org")
-        results = wikipedia(person_name, birthday)
+        if os.environ['OPEN_AI_KEY']:
+            # Try wikipedia.org
+            print(f"Attempting {person_name} on wikipedia.org")
+            results = wikipedia(person_name, birthday)
 
     return results

@@ -22,7 +22,7 @@ Backend
 - [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v1.4.18
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) v4.12.2
 
-<a id="#dev-env"></a>
+<a id="dev-env"></a>
 ## Development environment [`⇧`](#contents)
 To setup your development environment, first install Python3 and Postgres.
 

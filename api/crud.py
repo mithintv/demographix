@@ -318,15 +318,14 @@ def add_cast_member(person, order):
                     new_person.also_known_as.append(new_aka)
                     print(f"Added alternative name {new_aka.name} for {new_person.name}")
 
-        db.session.add(new_person)
-
     # Add gender data
     if person.get("gender", None) is not None:
         id = person["gender"]
         gender_object = Gender.query.filter(Gender.id == id).one()
         new_person.gender = gender_object
 
-        db.session.commit()
+    db.session.add(new_person)
+    db.session.commit()
 
     # Add country_of_birth data
     if person.get("place_of_birth", None) is not None:

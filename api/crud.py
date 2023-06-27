@@ -4,7 +4,8 @@ import requests
 import os
 import time
 from datetime import datetime
-from sqlalchemy import func, and_, or_, desc, extract, union_all
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import exc, create_engine, func, and_, or_, desc, extract, union_all
 from model import *
 
 from data.nominations import *
@@ -16,43 +17,53 @@ access_token = os.environ['TMDB_ACCESS_TOKEN']
 
 
 def add_new_movie(movie_id):
-    print(f"missing... making api call...\n")
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US"
-    headers = {
-        "accept": "application/json",
-        "Authorization": f"Bearer {access_token}"
-    }
-    response = requests.get(url, headers=headers)
-    movie = response.json()
+    engine = create_engine('postgresql:///demographix')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    try:
+        with session.no_autoflush:
+            print(f"missing... making api call...\n")
+            url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US"
+            headers = {
+                "accept": "application/json",
+                "Authorization": f"Bearer {access_token}"
+            }
+            response = requests.get(url, headers=headers)
+            movie = response.json()
 
-    formatted_date = None
-    print(movie['release_date'])
-    if len(movie['release_date']) > 0:
-        format = "%Y-%m-%d"
-        formatted_date = datetime.strptime(movie['release_date'], format)
-    new_movie = Movie(id=movie["id"],
-                      title=movie["title"],
-                      overview=movie["overview"],
-                      poster_path=movie["poster_path"],
-                      release_date=formatted_date,
-                      imdb_id = movie["imdb_id"],
-                      runtime = movie["runtime"],
-                      budget = movie["budget"],
-                      revenue = movie["revenue"])
-    print(f'Created new movie: {new_movie}')
-    for genre in movie["genres"]:
-        genre_object = Genre.query.filter(Genre.id == genre['id']).one()
-        new_movie.genres.append(genre_object)
+            formatted_date = None
+            print(movie['release_date'])
+            if len(movie['release_date']) > 0:
+                format = "%Y-%m-%d"
+                formatted_date = datetime.strptime(movie['release_date'], format)
+            new_movie = Movie(id=movie["id"],
+                            title=movie["title"],
+                            overview=movie["overview"],
+                            poster_path=movie["poster_path"],
+                            release_date=formatted_date,
+                            imdb_id = movie["imdb_id"],
+                            runtime = movie["runtime"],
+                            budget = movie["budget"],
+                            revenue = movie["revenue"])
+            print(f'Created new movie: {new_movie}')
+            for genre in movie["genres"]:
+                genre_object = Genre.query.filter(Genre.id == genre['id']).one()
+                new_movie.genres.append(genre_object)
 
-    db.session.add(new_movie)
-    db.session.commit()
+            db.session.add(new_movie)
+            db.session.commit()
 
-    # Get cast list and add cast members
-    cast_credit_list = query_api_credits(movie_id)
-    query_api_people(cast_credit_list)
+            # Get cast list and add cast members
+            cast_credit_list = query_api_credits(movie_id)
+            query_api_people(cast_credit_list)
 
-    # Add credits after adding cast members
-    add_credits(cast_credit_list, new_movie)
+            # Add credits after adding cast members
+            add_credits(cast_credit_list, new_movie)
+
+    except exc.IntegrityError as e:
+        session.rollback()
+    finally:
+        session.close()
 
 
 def add_nomination(movie: Movie, year: int, award='Academy Awards'):

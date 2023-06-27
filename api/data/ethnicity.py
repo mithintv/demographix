@@ -203,7 +203,7 @@ def get_ethnicity(person_obj):
             if results.get('list', None) is not None:
                 return results
 
-        if os.environ['OPEN_AI_KEY']:
+        if os.environ.get('OPEN_AI_KEY'):
             # Try wikipedia.org
             print(f"Attempting {person_name} on wikipedia.org")
             results = wikipedia(person_name, birthday)

@@ -318,6 +318,9 @@ def add_cast_member(person, order):
                     new_person.also_known_as.append(new_aka)
                     print(f"Added alternative name {new_aka.name} for {new_person.name}")
 
+        db.session.add(new_person)
+        db.session.commit()
+
     # Add gender data
     if person.get("gender", None) is not None:
         id = person["gender"]
@@ -472,7 +475,6 @@ def query_api_people(credit_list):
             person_details = response.json()
 
             cast_member = add_cast_member(person_details, person['order'])
-            db.session.add(cast_member)
             add_count += 1
 
         else:

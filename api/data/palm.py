@@ -4,11 +4,13 @@ import re
 import pprint
 import google.generativeai as palm
 
+if os.environ.get('PALM_API_KEY', None):
+    palm_api_key = os.environ['PALM_API_KEY']
 
-palm.configure(api_key=os.environ['PALM_API_KEY'])
-models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
-model = models[0].name
-print(f"Using {model}...")
+    palm.configure(api_key=palm_api_key)
+    models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+    model = models[0].name
+    print(f"Using {model}...")
 
 
 def palm_completion(article, verify=True):

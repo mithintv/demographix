@@ -44,6 +44,9 @@ def add_new_movie(movie_id):
         genre_object = Genre.query.filter(Genre.id == genre['id']).one()
         new_movie.genres.append(genre_object)
 
+    db.session.add(new_movie)
+    db.session.commit()
+
     # Get cast list and add cast members
     cast_credit_list = query_api_credits(movie_id)
     query_api_people(cast_credit_list)

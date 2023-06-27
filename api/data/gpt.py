@@ -2,7 +2,9 @@ import os
 import re
 import json
 import openai
-openai.api_key = os.environ['OPEN_AI_KEY']
+
+if os.environ.get('OPEN_AI_KEY', None):
+    openai.api_key = os.environ['OPEN_AI_KEY']
 
 
 def txtcomp(article, verify=True):

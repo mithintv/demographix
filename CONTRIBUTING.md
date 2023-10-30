@@ -1,5 +1,5 @@
 # Contributing
-Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved. Following these guidelines helps to communicate that you respect the time of all of the developers managing and developing this open-source project. 
+Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved. Following these guidelines helps to communicate that you respect the time of all of the developers managing and developing this open-source project.
 
 <a id="contents"></a>
 ## Contents
@@ -16,7 +16,7 @@ Frontend
 - [Material UI](https://mui.com/)
 
 Backend
-- [Python](https://docs.python.org/3/) v3.9
+- [Python](https://docs.python.org/3/) v3.9.4
 - [Flask](https://flask.palletsprojects.com/en/2.3.x/) v2.0.1
 - [PostgreSQL](https://www.postgresql.org/docs/)
 - [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v1.4.18
@@ -26,7 +26,7 @@ Backend
 ## Development environment [`⇧`](#contents)
 To setup your development environment, first install Python3 and Postgres.
 
-For windows users, we recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development. 
+For windows users, we recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
 
 1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
 
@@ -38,7 +38,7 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
    # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/mithintv/demographix
    ```
-   
+
 2. Setup virtual environment
    ```bash
    virtualenv env
@@ -59,7 +59,7 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
    cat > secrets.sh << EOL
    export FLASK_ENV=development
    export FLASK_DEBUG=1
-   
+
    export TMDB_ACCESS_TOKEN=<your-TMDB-access-token>
    export TMDB_API_KEY=<your-TMDB-api-key>
    EOL
@@ -70,12 +70,17 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
    source secrets.sh
    ```
 
-7. Seed database with sample data
+7. Create database
+   ```bash
+   createdb demographix
+   ```
+
+8. Seed database with sample data
    ```bash
    psql -U username -d demographix -f demographix.sql
    ```
-   
-7. Run server
+
+9. Run server
    ```bash
    flask run
    ```
@@ -114,4 +119,3 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
 6. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 Thank you in advance for your contributions!
-

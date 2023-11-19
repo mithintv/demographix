@@ -1,10 +1,15 @@
-../.vscode
+# IDE config files
+.vscode
 
-*.pyc
-__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-*.sh
+# Environments
+secrets.sh
+.env
+.venv
 
+# Logs
 *.log
-
-env/

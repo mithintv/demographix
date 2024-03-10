@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Change Directory
-        run: cd api/
-
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
@@ -29,17 +26,19 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Create and start virtual environment
+        working-directory: ./api
         run: |
           python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
+        working-directory: ./api
         run: poetry install
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip release.zip ./api/* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3

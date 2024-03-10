@@ -20,8 +20,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
-          architecture: x86
-          python-version: '3.9.4'
+          python-version: '3.9'
 
       - name: Install Poetry
         uses: snok/install-poetry@v1

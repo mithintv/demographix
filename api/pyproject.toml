@@ -6,7 +6,7 @@ authors = ["Mithin Thomas <mithingthomas@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.9"
+python = "3.9.18"
 flask = "2.0.1"
 sqlalchemy = "1.4.18"
 beautifulsoup4 = "4.12.2"

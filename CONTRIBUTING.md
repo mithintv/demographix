@@ -49,19 +49,19 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
 2. Setup virtual environment
 
    ```bash
-   virtualenv env
+   virtualenv .venv
    ```
 
 4. Activate virtual environment
 
    ```bash
-   source env/bin/activate
+   source .venv/bin/activate
    ```
 
 4. Install dependencies
 
    ```bash
-   pip3 install -r requirements.txt
+   poetry install
    ```
 
 5. Create sh files for api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.

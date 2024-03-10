@@ -20,6 +20,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
+          architecture: x86
           python-version: '3.9.4'
 
       - name: Install Poetry

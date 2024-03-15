@@ -22,9 +22,6 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-
       - name: Create and start virtual environment
         working-directory: ./api
         run: |
@@ -33,7 +30,7 @@ jobs:
       
       - name: Install dependencies
         working-directory: ./api
-        run: poetry install
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 

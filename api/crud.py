@@ -1,11 +1,10 @@
 """CRUD operations."""
 
-import requests
 import os
-import time
 from datetime import datetime
+import requests
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import exc, create_engine, func, and_, or_, desc, extract, union_all
+from sqlalchemy import exc, create_engine, func, and_, desc
 from model import *
 
 from data.nominations import *

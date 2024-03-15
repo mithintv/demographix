@@ -33,38 +33,34 @@ Backend
 
 To setup your development environment, first install Python3 and Postgres.
 
-For windows users, we recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
+For windows users, I recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
 
-1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+1. Fork/clone the repo, and configure a new branch
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/<repo-name>
+   git clone https://github.com/mithintv/demographix
+
    # Navigate to the newly cloned directory
-   cd <repo-name>/api
-   # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/mithintv/demographix
+   cd demographix
+
+   # Create a new branch to work on
+   git switch -c <branch-name>
    ```
 
-2. Setup virtual environment
+2. Setup and activate virtual environment
 
    ```bash
-   virtualenv .venv
+   python3 -m venv .venv
    ```
 
-4. Activate virtual environment
+3. Install dependencies
 
    ```bash
-   source .venv/bin/activate
+   pip install -r requirements.txt
    ```
 
-4. Install dependencies
-
-   ```bash
-   poetry install
-   ```
-
-5. Create sh files for api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
+4. Create sh files for api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
 
    ```bash
    cat > secrets.sh << EOL
@@ -76,25 +72,25 @@ For windows users, we recommend developing in WSL. Click [here](https://learn.mi
    EOL
    ```
 
-6. Add source files to virtual environment
+5. Add source files to virtual environment
 
    ```bash
    source secrets.sh
    ```
 
-7. Create database
+6. Create database
 
    ```bash
    createdb demographix
    ```
 
-8. Seed database with sample data
+7. Seed database with sample data
 
    ```bash
    psql -U username -d demographix -f demographix.sql
    ```
 
-9. Run server
+8. Run server
 
    ```bash
    flask run

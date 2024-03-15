@@ -64,6 +64,8 @@ const NomMovies = (props) => {
 	};
 
 	const handleYear = (event) => {
+		setMovies([]);
+		setCastData([]);
 		const selectedYear = event.target.value;
 		setYear(selectedYear);
 		history.push(`/noms/${award}/${range}/${selectedYear}`);

@@ -1,5 +1,6 @@
 """Server for demographix app."""
 
+import logging
 from datetime import datetime
 
 import crud
@@ -10,7 +11,10 @@ from model import connect_to_db
 app = Flask(__name__)
 app.secret_key = "demographix_dev"
 
-
+# Enable logging
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s]:%(name)s - %(message)s"
+)
 migrate = Migrate(app, connect_to_db(app))
 
 
@@ -41,7 +45,7 @@ def query():
     api_results = crud.query_api_movie(keywords)
 
     search_results = []
-    print("Search results...")
+    logging.info("Search results...")
     for movie in api_results:
         movie_dict = {
             "id": movie.id,
@@ -51,7 +55,7 @@ def query():
         }
         search_results.append(movie_dict)
 
-        print(f"<Movie id={movie.id} title={movie.title}>")
+        logging.info(f"<Movie id={movie.id} title={movie.title}>")
 
     return jsonify(search_results)
 

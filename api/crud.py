@@ -1,5 +1,6 @@
 """CRUD operations."""
 
+import logging
 import os
 from datetime import datetime
 import requests
@@ -21,7 +22,7 @@ def add_new_movie(movie_id):
     session = Session()
     try:
         with session.no_autoflush:
-            print(f"missing... making api call...\n")
+            logging.info("missing... making api call...\n")
             url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US"
             headers = {
                 "accept": "application/json",
@@ -31,7 +32,7 @@ def add_new_movie(movie_id):
             movie = response.json()
 
             formatted_date = None
-            print(movie['release_date'])
+            logging.info(movie['release_date'])
             if len(movie['release_date']) > 0:
                 format = "%Y-%m-%d"
                 formatted_date = datetime.strptime(movie['release_date'], format)
@@ -44,7 +45,7 @@ def add_new_movie(movie_id):
                             runtime = movie["runtime"],
                             budget = movie["budget"],
                             revenue = movie["revenue"])
-            print(f'Created new movie: {new_movie}')
+            logging.info(f'Created new movie: {new_movie}')
             for genre in movie["genres"]:
                 genre_object = Genre.query.filter(Genre.id == genre['id']).one()
                 new_movie.genres.append(genre_object)
@@ -70,12 +71,12 @@ def add_nomination(movie: Movie, year: int, award='Academy Awards'):
 
     if nomination == None:
         nomination = Nomination(name='Academy Awards', year=year)
-        print(f"Adding {nomination.name} {nomination.year} to db...")
+        logging.info(f"Adding {nomination.name} {nomination.year} to db...")
 
     movie.nominations.append(nomination)
     date_format = '%Y'
 
-    print(f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})")
+    logging.info(f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})")
 
 
 def add_source_data(new_person, ethnicity_object, source):
@@ -87,13 +88,13 @@ def add_source_data(new_person, ethnicity_object, source):
     if original_source == None:
         original_source = Source(name=f"{formatted_source.split('.')[-2].capitalize()}", domain=f"{formatted_source}")
         db.session.add(original_source)
-        print(f"Adding new source: {original_source.name} to db!")
+        logging.info(f"Adding new source: {original_source.name} to db!")
 
     new_source_link = SourceLink.query.filter(SourceLink.link == source).first()
     if new_source_link == None:
         new_source_link = SourceLink(link=source, source_id=original_source.id)
         db.session.add(new_source_link)
-        print(f"Adding new source link: {new_source_link.link} to db!")
+        logging.info(f"Adding new source link: {new_source_link.link} to db!")
 
     cast_ethnicity = CastEthnicity.query.filter(and_(CastEthnicity.cast_member_id == new_person.id, CastEthnicity.ethnicity_id == ethnicity_object.id)).first()
     if cast_ethnicity == None:
@@ -103,13 +104,13 @@ def add_source_data(new_person, ethnicity_object, source):
 
     if new_source_link not in cast_ethnicity.sources:
         cast_ethnicity.sources.append(new_source_link)
-        print(f"Added new ref link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}")
+        logging.info(f"Added new ref link: {new_source_link.link} for {ethnicity_object.name} ethnicity for {new_person.name}")
 
     return cast_ethnicity
 
 
 def add_ethnicity_data(new_person):
-    print(f"Finding ethnicity information about {new_person.name}...")
+    logging.info(f"Finding ethnicity information about {new_person.name}...")
     results = get_ethnicity(new_person)
     if results.get('list', None) != None:
         ethnicity_list = results['list']
@@ -133,22 +134,22 @@ def add_ethnicity_data(new_person):
                 cast_ethnicity = add_source_data(new_person, ethnicity_object, source)
 
                 if ethnicity_object.id in existing_ethnicities:
-                    print(f"Skipping {ethnicity_object.name}... already stored...")
+                    logging.info(f"Skipping {ethnicity_object.name}... already stored...")
                     continue
                 else:
                     new_person.ethnicities.append(cast_ethnicity)
-                    print(
+                    logging.info(
                         f"Adding {cast_ethnicity.ethnicity.name} to {new_person.name}")
     else:
-        print("No ethnicity information found...")
+        logging.info("No ethnicity information found...")
 
-    print("\n")
+    logging.info("\n")
 
 
 def add_race_data(new_person):
-    print(f"Adding approximate race data...")
+    logging.info(f"Adding approximate race data...")
     if len(new_person.ethnicities) == 0:
-        print("Cannot approximate race data without ethnicity data...\n")
+        logging.info("Cannot approximate race data without ethnicity data...\n")
         return
 
     else:
@@ -166,7 +167,7 @@ def add_race_data(new_person):
                     Country.demonym == cast_ethnicity.ethnicity.name).first()
 
             if approx_country != None:
-                print(
+                logging.info(
                     f"{cast_ethnicity.ethnicity.name} is approximately in {approx_country.name}, {approx_country.subregion.name}, {approx_country.region.name}")
 
                 if approx_country.name != 'Guyana':
@@ -197,7 +198,7 @@ def add_race_data(new_person):
                         add_race_ids.add(nhpi.id)
 
             else:
-                print(
+                logging.info(
                     f'Could not associate {cast_ethnicity.ethnicity.name} with a country')
                 if cast_ethnicity.ethnicity.name in ['English', 'Cornish', 'Scottish', 'Welsh', 'Jewish']:
                     white = Race.query.filter(Race.short == 'WHT').one()
@@ -215,19 +216,19 @@ def add_race_data(new_person):
         for race in add_race_ids:
             new_race = Race.query.filter(Race.id == race).one()
             if race in existing_races:
-                print(f"Skipping {new_race.name}... already stored...")
+                logging.info(f"Skipping {new_race.name}... already stored...")
                 continue
             else:
-                print(f"Adding {new_race.name} as a race...")
+                logging.info(f"Adding {new_race.name} as a race...")
                 new_person.races.append(new_race)
 
-        print("\n\n\n")
+        logging.info("\n\n\n")
 
 
 def get_regions():
     """Return all regions and subregions"""
 
-    print(db.session.query(Country.subregion, Country.region).group_by(
+    logging.info(db.session.query(Country.subregion, Country.region).group_by(
         Country.subregion, Country.region).order_by(Country.subregion.asc()).all())
     return db.session.query(Country.subregion, Country.region).group_by(Country.subregion, Country.region).order_by(Country.subregion.asc()).all()
 
@@ -248,7 +249,7 @@ def add_movie_from_search(movie):
                       overview=movie["overview"],
                       poster_path=movie["poster_path"],
                       release_date=formatted_date)
-    print(f'Created new movie: {new_movie}')
+    logging.info(f'Created new movie: {new_movie}')
     for id in movie["genre_ids"]:
         genre_object = Genre.query.filter(Genre.id == id).one()
         new_movie.genres.append(genre_object)
@@ -263,7 +264,7 @@ def update_movie_with_movie_details(movie, movie_details):
     movie.budget = movie_details["budget"]
     movie.revenue = movie_details["revenue"]
 
-    print(f'Updated existing movie: {movie.title}')
+    logging.info(f'Updated existing movie: {movie.title}')
 
 
 def update_cast_member(person_obj, person_order):
@@ -279,7 +280,7 @@ def update_cast_member(person_obj, person_order):
 def add_cast_member(person, order):
     """Add cast member information from api call."""
     if type(person) == str:
-        print(f"Making api call...")
+        logging.info(f"Making api call...")
         url = f"https://api.themoviedb.org/3/search/person?query={person}&api_key={key}&language=en-US"
         response = requests.get(url)
         results = response.json()
@@ -315,7 +316,7 @@ def add_cast_member(person, order):
                 if new_aka == None:
                     new_aka = AlsoKnownAs(name=aka)
                     new_person.also_known_as.append(new_aka)
-                    print(f"Added alternative name {new_aka.name} for {new_person.name}")
+                    logging.info(f"Added alternative name {new_aka.name} for {new_person.name}")
 
     # Add gender data
     if person.get("gender", None) is not None:
@@ -364,7 +365,7 @@ def add_credits(credit_list, curr_movie):
 
     db.session.add_all(new_credits)
     db.session.commit()
-    print(f"Added {len(new_credits)} credits to db!")
+    logging.info(f"Added {len(new_credits)} credits to db!")
 
 
 def query_movie(keywords):
@@ -405,12 +406,12 @@ def query_cast(keywords):
 def query_api_movie(keywords):
     """Return search query results from api."""
 
-    print("Not enough results in db...\nMaking API call...")
+    logging.info("Not enough results in db...\nMaking API call...")
     response = requests.get(
         f'https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}')
     result_list = response.json()
     movies = result_list['results']
-    print(f'Found {len(movies)} movies with query "{keywords}"')
+    logging.info(f'Found {len(movies)} movies with query "{keywords}"')
 
     new_movies = []
     for movie in movies:
@@ -418,11 +419,11 @@ def query_api_movie(keywords):
         if curr_movie is None:
             curr_movie = add_movie_from_search(movie)
             new_movies.append(curr_movie)
-            print(f"Adding new move to db: {curr_movie}...\n")
+            logging.info(f"Adding new move to db: {curr_movie}...\n")
 
     db.session.add_all(new_movies)
     db.session.commit()
-    print(f"Added {len(new_movies)} movies to db!")
+    logging.info(f"Added {len(new_movies)} movies to db!")
 
     query = Movie.query.filter(func.lower(Movie.title).like(
             f'{keywords.lower()}%')).order_by(desc(Movie.release_date))
@@ -438,7 +439,7 @@ def query_api_movie_details(movie_id):
     }
     response = requests.get(url, headers=headers)
     movie_details = response.json()
-    print(f"Retrieved movie details...")
+    logging.info(f"Retrieved movie details...")
     return movie_details
 
 
@@ -448,7 +449,7 @@ def query_api_credits(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={key}&language=en-US"
     response = requests.get(url)
     movie_credits = response.json()
-    print(f"Retrieved credits...\n")
+    logging.info(f"Retrieved credits...\n")
 
     return movie_credits['cast']
 
@@ -467,7 +468,7 @@ def query_api_people(credit_list):
                 CastMember.id == person.cast_member.id).first()
 
         if person_query == None:
-            print(
+            logging.info(
                 f"{person['name']} doesn't exist in database... making api call...")
             url = f"https://api.themoviedb.org/3/person/{person['id']}?api_key={key}"
             response = requests.get(url)
@@ -481,15 +482,15 @@ def query_api_people(credit_list):
             update_count += 1
 
         # if person['order'] < 10:
-        #     print("Sleeping for 5 seconds...\n")
+        #     logging.info("Sleeping for 5 seconds...\n")
         #     time.sleep(5)
 
     db.session.commit()
 
     if add_count > 0:
-        print(f"Added {add_count} cast to db!")
+        logging.info(f"Added {add_count} cast to db!")
     if update_count > 0:
-        print(f"Updated {update_count} cast in db!")
+        logging.info(f"Updated {update_count} cast in db!")
 
 
 def get_movie_cast(movie_id):
@@ -497,7 +498,7 @@ def get_movie_cast(movie_id):
 
     movie = Movie.query.filter(Movie.id == movie_id).one()
     if movie.imdb_id == None:
-        print(f"Movie details are missing...\nMaking api call...\n")
+        logging.info(f"Movie details are missing...\nMaking api call...\n")
 
         # Update movie
         movie_details = query_api_movie_details(movie_id)
@@ -563,7 +564,7 @@ def get_movie_cast(movie_id):
         'revenue': movie.revenue,
         'cast': cast_details
     }
-    print(f"Fetching details about {data['title']}...")
+    logging.info(f"Fetching details about {data['title']}...")
     return data
 
 

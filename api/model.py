@@ -1,5 +1,6 @@
 """Models for movie ratings app."""
 
+import logging
 import os
 
 from flask_sqlalchemy import SQLAlchemy
@@ -380,6 +381,8 @@ class CastEthnicitySourceLink(db.Model):
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):
+    """Connect to database with default settings."""
+
     if os.environ["FLASK_ENV"] == "production":
         db_uri = os.environ["DB_URI"]
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
@@ -389,7 +392,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):
     db.app = flask_app
     db.init_app(flask_app)
 
-    print("Connected to the db!")
     return db
 
 

@@ -36,15 +36,23 @@ jobs:
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./api/* -r
+      # - name: Zip artifact for deployment
+      #   run: zip release.zip ./api/* -r
+
+      # - name: Upload artifact for deployment jobs
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: python-app
+      #     path: |
+      #       release.zip
+      #       !venv/
 
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            release.zip
+            ./api
             !venv/
 
   deploy:
@@ -54,19 +62,33 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: python-app
+    # steps:
+    #   - name: Download artifact from build job
+    #     uses: actions/download-artifact@v3
+    #     with:
+    #       name: python-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+    #   - name: Unzip artifact for deployment
+    #     run: unzip release.zip
 
       
+    #   - name: 'Deploy to Azure Web App'
+    #     uses: azure/webapps-deploy@v2
+    #     id: deploy-to-webapp
+    #     with:
+    #       app-name: 'Demographix'
+    #       slot-name: 'Production'
+    #       publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E70D1B231731493A8BEC5EAAF22E2E25 }}
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: python-app
+          path: .
+
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@85270a1854658d167ab239bce43949edb336fa7c
         with:
           app-name: 'Demographix'
           slot-name: 'Production'

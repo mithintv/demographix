@@ -84,6 +84,7 @@ def add_new_movie(movie_id):
             add_credits(cast_credit_list, new_movie)
 
     except exc.IntegrityError as e:
+        logging.error(e)
         session.rollback()
     finally:
         session.close()
@@ -94,7 +95,7 @@ def add_nomination(movie: Movie, year: int, award="Academy Awards"):
         and_(Nomination.name == award, Nomination.year == year)
     ).first()
 
-    if nomination == None:
+    if nomination is None:
         nomination = Nomination(name="Academy Awards", year=year)
         logging.info(
             "Adding %s %s to db...",
@@ -117,7 +118,7 @@ def add_source_data(new_person, ethnicity_object, source):
         Source.domain.like(f"%{formatted_source}%")
     ).first()
 
-    if original_source == None:
+    if original_source is None:
         original_source = Source(
             name=f"{formatted_source.split('.')[-2].capitalize()}",
             domain=f"{formatted_source}",
@@ -126,7 +127,7 @@ def add_source_data(new_person, ethnicity_object, source):
         logging.info(f"Adding new source: {original_source.name} to db!")
 
     new_source_link = SourceLink.query.filter(SourceLink.link == source).first()
-    if new_source_link == None:
+    if new_source_link is None:
         new_source_link = SourceLink(link=source, source_id=original_source.id)
         db.session.add(new_source_link)
         logging.info(f"Adding new source link: {new_source_link.link} to db!")
@@ -137,7 +138,7 @@ def add_source_data(new_person, ethnicity_object, source):
             CastEthnicity.ethnicity_id == ethnicity_object.id,
         )
     ).first()
-    if cast_ethnicity == None:
+    if cast_ethnicity is None:
         cast_ethnicity = CastEthnicity(
             ethnicity_id=ethnicity_object.id,
             cast_member_id=new_person.id,
@@ -157,7 +158,7 @@ def add_source_data(new_person, ethnicity_object, source):
 def add_ethnicity_data(new_person):
     logging.info(f"Finding ethnicity information about {new_person.name}...")
     results = get_ethnicity(new_person)
-    if results.get("list", None) != None:
+    if results.get("list", None) is not None:
         ethnicity_list = results["list"]
         source = results["source"]
 
@@ -203,7 +204,7 @@ def add_ethnicity_data(new_person):
 
 
 def add_race_data(new_person):
-    logging.info(f"Adding approximate race data...")
+    logging.info("Adding approximate race data...")
     if len(new_person.ethnicities) == 0:
         logging.info("Cannot approximate race data without ethnicity data...\n")
         return
@@ -216,14 +217,14 @@ def add_race_data(new_person):
         add_race_ids = set()
         for cast_ethnicity in new_person.ethnicities:
             # If region is specified in ethnicity, set approx_country to that ethnicity which has region and subregion attributes. Otherwise, query a country object which also has region and subregion attributes
-            if cast_ethnicity.ethnicity.region != None:
+            if cast_ethnicity.ethnicity.region is not None:
                 approx_country = cast_ethnicity.ethnicity
             else:
                 approx_country = Country.query.filter(
                     Country.demonym == cast_ethnicity.ethnicity.name
                 ).first()
 
-            if approx_country != None:
+            if approx_country is not None:
                 logging.info(
                     f"{cast_ethnicity.ethnicity.name} is approximately in {approx_country.name}, {approx_country.subregion.name}, {approx_country.region.name}"
                 )
@@ -371,7 +372,7 @@ def update_movie_with_movie_details(movie, movie_details):
 
 def update_cast_member(person_obj, person_order):
     curr_person = CastMember.query.filter(CastMember.id == person_obj.id).first()
-    if curr_person != None and person_order < 10:
+    if curr_person is not None and person_order < 10:
         # Add/Update ethnicity data
         add_ethnicity_data(curr_person)
 
@@ -381,8 +382,8 @@ def update_cast_member(person_obj, person_order):
 
 def add_cast_member(person, order):
     """Add cast member information from api call."""
-    if type(person) == str:
-        logging.info(f"Making api call...")
+    if isinstance(person) == str:
+        logging.info("Making api call...")
         url = f"https://api.themoviedb.org/3/search/person?query={person}&api_key={key}&language=en-US"
         response = requests.get(url)
         results = response.json()
@@ -392,7 +393,7 @@ def add_cast_member(person, order):
         person = response.json()
 
     new_person = CastMember.query.filter(CastMember.id == person["id"]).first()
-    if new_person == None:
+    if new_person is None:
 
         # Add basic cast member data
         format = "%Y-%m-%d"
@@ -417,7 +418,7 @@ def add_cast_member(person, order):
         if len(person["also_known_as"]) > 0:
             for aka in person["also_known_as"]:
                 new_aka = AlsoKnownAs.query.filter(AlsoKnownAs.name == aka).first()
-                if new_aka == None:
+                if new_aka is None:
                     new_aka = AlsoKnownAs(name=aka)
                     new_person.also_known_as.append(new_aka)
                     logging.info(
@@ -464,7 +465,7 @@ def add_credits(credit_list, curr_movie):
     for cast in credit_list:
         cast_member = CastMember.query.filter(CastMember.id == cast["id"]).one()
         new_credit = Credit.query.filter_by(id=cast["credit_id"]).first()
-        if new_credit == None:
+        if new_credit is None:
             new_credit = Credit(
                 id=cast["credit_id"],
                 movie_id=curr_movie,
@@ -488,10 +489,10 @@ def query_movie(keywords):
     if keywords == "":
         query = (
             Movie.query.join(Movie.credits)
-            .filter(Movie.poster_path != None)
+            .filter(Movie.poster_path is not None)
             .group_by(Movie.id)
-            .having(Movie.credits > 1)
-            .order_by(func.random)
+            .having(func.count(Movie.credits > 1))
+            .order_by(func.random())
             .all()
         )
         return query[:28]
@@ -500,11 +501,11 @@ def query_movie(keywords):
         keyword_query = (
             Movie.query.join(Movie.credits)
             .group_by(Movie.id)
-            .having(Movie.credits > 1)
+            .having(func.count(Movie.credits > 1))
             .filter(
                 and_(
                     func.lower(Movie.title).like(f"{keywords.lower()}%"),
-                    Movie.poster_path != None,
+                    Movie.poster_path is not None,
                 )
             )
             .order_by(desc(Movie.release_date))
@@ -513,9 +514,9 @@ def query_movie(keywords):
             keyword_query = query_api_movie(keywords)
         additional_query = (
             Movie.query.join(Movie.credits)
-            .filter(Movie.poster_path != None)
+            .filter(Movie.poster_path is not None)
             .group_by(Movie.id)
-            .having(Movie.credits > 1)
+            .having(func.count(Movie.credits > 1))
             .order_by(Movie.title.like(f"{keywords[0].lower()}%"))
         )
 
@@ -576,7 +577,7 @@ def query_api_movie_details(movie_id):
     headers = {"accept": "application/json", "Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers)
     movie_details = response.json()
-    logging.info(f"Retrieved movie details...")
+    logging.info("Retrieved movie details...")
     return movie_details
 
 
@@ -586,7 +587,7 @@ def query_api_credits(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={key}&language=en-US"
     response = requests.get(url)
     movie_credits = response.json()
-    logging.info(f"Retrieved credits...\n")
+    logging.info("Retrieved credits...\n")
 
     return movie_credits["cast"]
 
@@ -597,7 +598,7 @@ def query_api_people(credit_list):
     update_count = 0
     add_count = 0
     for person in credit_list:
-        if type(person) == dict:
+        if isinstance(person) == dict:
             person_query = CastMember.query.filter(
                 CastMember.id == person["id"]
             ).first()
@@ -606,7 +607,7 @@ def query_api_people(credit_list):
                 CastMember.id == person.cast_member.id
             ).first()
 
-        if person_query == None:
+        if person_query is None:
             logging.info(
                 f"{person['name']} doesn't exist in database... making api call..."
             )
@@ -614,7 +615,7 @@ def query_api_people(credit_list):
             response = requests.get(url)
             person_details = response.json()
 
-            cast_member = add_cast_member(person_details, person["order"])
+            add_cast_member(person_details, person["order"])
             add_count += 1
 
         else:
@@ -637,8 +638,8 @@ def get_movie_cast(movie_id):
     """Return specific movie with credits and cast member details."""
 
     movie = Movie.query.filter(Movie.id == movie_id).one()
-    if movie.imdb_id == None:
-        logging.info(f"Movie details are missing...\nMaking api call...\n")
+    if movie.imdb_id is None:
+        logging.info("Movie details are missing...\nMaking api call...\n")
 
         # Update movie
         movie_details = query_api_movie_details(movie_id)

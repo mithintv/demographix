@@ -1,7 +1,7 @@
 """Server for demographix app."""
 
+import datetime
 import logging
-from datetime import datetime
 
 import crud
 from flask import Flask, jsonify, render_template, request
@@ -13,7 +13,9 @@ app.secret_key = "demographix_dev"
 
 # Enable logging
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s [%(levelname)s]:%(name)s - %(message)s"
+    level=logging.INFO,
+    format="[%(asctime)s.%(msecs)03d %(name)s:%(levelname)s] - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 migrate = Migrate(app, connect_to_db(app))
 
@@ -68,7 +70,7 @@ def nom(year):
     if len(summary) > 1:
         _, years = summary
         movies_data = []
-        current_year = datetime.now().year
+        current_year = 2023
         for i in range(int(years)):
             movie_data = crud.get_nom_movies(int(current_year) - i)
             movies_data.extend(movie_data)

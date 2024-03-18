@@ -73,7 +73,7 @@ const LandingPage = () => {
 						>
 							<Link
 								sx={{ textDecoration: "none" }}
-								to={`/noms/academy awards/yearly/${new Date().getFullYear()}`}
+								to={`/noms/academy awards/yearly/${2023}`}
 								component={RouterLink}
 							>
 								Visualize Data

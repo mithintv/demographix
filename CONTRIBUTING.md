@@ -31,11 +31,11 @@ Backend
 
 ## Development environment [`⇧`](#contents)
 
-To setup your development environment, first install Python3 and Postgres.
+To setup your development environment, install Python3, Postgres and [direnv](https://direnv.net/).
 
 For windows users, I recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
 
-1. Fork/clone the repo, and configure a new branch
+1. Clone the repo
 
    ```bash
    # Clone your fork of the repo into the current directory
@@ -43,27 +43,12 @@ For windows users, I recommend developing in WSL. Click [here](https://learn.mic
 
    # Navigate to the newly cloned directory
    cd demographix
-
-   # Create a new branch to work on
-   git switch -c <branch-name>
    ```
 
-2. Setup and activate virtual environment
+2. Create sh files for environment variables namely api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
 
    ```bash
-   python3 -m venv .venv
-   ```
-
-3. Install dependencies
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create sh files for api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
-
-   ```bash
-   cat > secrets.sh << EOL
+   cat > api/secrets.sh << EOL
    export FLASK_ENV=development
    export FLASK_DEBUG=1
 
@@ -72,30 +57,32 @@ For windows users, I recommend developing in WSL. Click [here](https://learn.mic
    EOL
    ```
 
-5. Add source files to virtual environment
-
-   ```bash
-   source secrets.sh
-   ```
-
-6. Create database
+3. Create local database and seed it with sample data
 
    ```bash
    createdb demographix
+   psql -U <username> -d demographix -f demographix.sql
    ```
 
-7. Seed database with sample data
+4. Setup and activate virtual environment
 
    ```bash
-   psql -U username -d demographix -f demographix.sql
+   python3 -m venv api/.venv
    ```
 
-8. Run server
+5. Activate environment, configure variables, and install dependencies. Changing the directory into `/api` should launch direnv via `.envrc` and activate the virtual environment and configure the environment variables.
+
+   ```bash
+   cd api/
+   pip install -r requirements.txt
+   ```
+
+6. Run server
 
    ```bash
    flask run
    ```
-   You now have a fully running local copy of demographix running on http://localhost:5000
+   You now have a fully running local copy of demographix running on http://localhost:5000. In the future, you should be able to just navigate to `/api` and run `flask run`.
 
 <a id="pull-requests"></a>
 
@@ -111,7 +98,7 @@ For windows users, I recommend developing in WSL. Click [here](https://learn.mic
 2. Create a new topic branch (off the develop branch) to contain your feature, change, or fix:
 
    ```bash
-   git checkout -b <topic-branch-name>
+   git switch -c <topic-branch-name>
    ```
 
 3. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.

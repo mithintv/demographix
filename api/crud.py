@@ -491,17 +491,17 @@ def query_movie(keywords):
             Movie.query.join(Movie.credits)
             .filter(Movie.poster_path is not None)
             .group_by(Movie.id)
-            .having(func.count(Movie.credits > 1))
+            .having(func.count(Movie.credits) > 1)
             .order_by(func.random())
             .all()
         )
-        return query[:28]
+        return query[:30]
 
     else:
         keyword_query = (
             Movie.query.join(Movie.credits)
             .group_by(Movie.id)
-            .having(func.count(Movie.credits > 1))
+            .having(func.count(Movie.credits) > 1)
             .filter(
                 and_(
                     func.lower(Movie.title).like(f"{keywords.lower()}%"),
@@ -516,7 +516,7 @@ def query_movie(keywords):
             Movie.query.join(Movie.credits)
             .filter(Movie.poster_path is not None)
             .group_by(Movie.id)
-            .having(func.count(Movie.credits > 1))
+            .having(func.count(Movie.credits) > 1)
             .order_by(Movie.title.like(f"{keywords[0].lower()}%"))
         )
 

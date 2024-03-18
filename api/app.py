@@ -70,7 +70,7 @@ def nom(year):
     if len(summary) > 1:
         _, years = summary
         movies_data = []
-        current_year = 2023
+        current_year = year
         for i in range(int(years)):
             movie_data = crud.get_nom_movies(int(current_year) - i)
             movies_data.extend(movie_data)

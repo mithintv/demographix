@@ -1,34 +1,38 @@
+import json
 import os
 import re
-import json
+import time
+
 import openai
 
-if os.environ.get('OPEN_AI_KEY', None):
-    openai.api_key = os.environ['OPEN_AI_KEY']
+client = openai.OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPEN_AI_KEY"),
+)
 
 
 def txtcomp(article, verify=True):
-
     prompt = f"""Based on the following information: "{article}", Return a list of all of the ethnicities of this person in a JSON object under a key called "ethnicity"."""
     if verify:
-        prompt =f"""Return a boolean JSON object with key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the following text: {article}"""
+        prompt = f"""Return a boolean JSON object with key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the following text: {article}"""
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
+            # response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a chatbot"},
                 {"role": "user", "content": prompt},
-            ]
+            ],
         )
 
-        result = ''
+        result = ""
         for choice in response.choices:
             result += choice.message.content
 
         print(result)
 
-        pattern = re.compile(r'{(.*?)}', re.DOTALL)
+        pattern = re.compile(r"{(.*?)}", re.DOTALL)
         match = pattern.search(result)
 
         if match:
@@ -36,17 +40,17 @@ def txtcomp(article, verify=True):
             data = json.loads(block)
 
             if verify == False:
-                for ethnicity in data['ethnicity']:
+                for ethnicity in data["ethnicity"]:
                     if "-" in ethnicity:
-                        data['ethnicity'].extend(ethnicity.split("-"))
+                        data["ethnicity"].extend(ethnicity.split("-"))
 
             return data
         else:
             txtcomp(article)
-    except openai.error.RateLimitError:
+    except openai.RateLimitError:
         print("Reached rate limit... trying again...")
+        time.sleep(5)
         txtcomp(article)
-
 
 
 # if __name__ == '__main__':

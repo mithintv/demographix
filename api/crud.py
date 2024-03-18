@@ -230,7 +230,6 @@ def add_race_data(new_person):
                 )
 
                 if approx_country.name != "Guyana":
-
                     if approx_country.region.name == "Europe":
                         white = Race.query.filter(Race.short == "WHT").one()
                         add_race_ids.add(white.id)
@@ -382,7 +381,7 @@ def update_cast_member(person_obj, person_order):
 
 def add_cast_member(person, order):
     """Add cast member information from api call."""
-    if isinstance(person) == str:
+    if isinstance(person, str):
         logging.info("Making api call...")
         url = f"https://api.themoviedb.org/3/search/person?query={person}&api_key={key}&language=en-US"
         response = requests.get(url)
@@ -394,7 +393,6 @@ def add_cast_member(person, order):
 
     new_person = CastMember.query.filter(CastMember.id == person["id"]).first()
     if new_person is None:
-
         # Add basic cast member data
         format = "%Y-%m-%d"
         formatted_bday = None
@@ -598,7 +596,7 @@ def query_api_people(credit_list):
     update_count = 0
     add_count = 0
     for person in credit_list:
-        if isinstance(person) == dict:
+        if isinstance(person, dict):
             person_query = CastMember.query.filter(
                 CastMember.id == person["id"]
             ).first()
@@ -716,6 +714,14 @@ def get_nom_movies(year):
     """Return nominated movies and cast demographgics for a given year"""
 
     nomination = Nomination.query.filter(Nomination.year == year).first()
+    if nomination is None:
+        nomination = Nomination(name="Academy Awards", year=year)
+        logging.info(
+            "Adding %s %s to db...",
+            nomination.name,
+            nomination.year,
+        )
+
     movie_noms = MovieNomination.query.filter(
         MovieNomination.nomination_id == nomination.id
     ).all()

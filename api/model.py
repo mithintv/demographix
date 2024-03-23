@@ -4,6 +4,7 @@ import logging
 import os
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 
 db = SQLAlchemy()
 
@@ -130,6 +131,12 @@ class MovieNomination(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.id"))
     nomination_id = db.Column(db.Integer, db.ForeignKey("nominations.id"))
+
+    __table_args__ = (
+        UniqueConstraint(
+            "movie_id", "nomination_id", name="unique_movie_id_nomination_id"
+        ),
+    )
 
     def __repr__(self):
         return f"<MovieNomination id={self.id} movie_id={self.movie_id} nomination_id={self.nomination_id}>"

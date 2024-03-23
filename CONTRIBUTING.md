@@ -61,7 +61,7 @@ EOF
 
 ```bash
 createdb demographix
-psql -U <username> -d demographix -f api/demographix.sql
+psql -d demographix -f api/demographix.sql
 ```
 
 4. Setup and activate virtual environment

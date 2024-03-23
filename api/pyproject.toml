@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = ""
+authors = ["Mithin Thomas <mithingthomas@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9.18"
+requests = "^2.31.0"
+Flask = "^3.0.2"
+Flask-Migrate = "^4.0.7"
+SQLAlchemy = "^2.0.28"
+g4f = {extras = ["openai"], version = "^0.2.6.2"}
+google-generativeai = "^0.4.1"
+bs4 = "^0.0.2"
+psycopg2 = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

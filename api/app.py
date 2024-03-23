@@ -4,6 +4,7 @@ import datetime
 import logging
 
 import crud
+from data.gpt import txtcomp
 from flask import Flask, jsonify, render_template, request
 from flask_migrate import Migrate
 from model import connect_to_db
@@ -85,6 +86,14 @@ def movie(movie_id):
 
     movie_data = crud.get_movie_cast(movie_id)
     return jsonify(movie_data)
+
+
+@app.route("/test/openai", methods=["POST"])
+def openai():
+    data = request.get_json()
+    article = data["article"]
+    result = txtcomp(article, verify=False)
+    return jsonify(result)
 
 
 @app.route("/", defaults={"path": ""})

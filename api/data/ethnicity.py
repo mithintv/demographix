@@ -1,5 +1,9 @@
-import os, requests, re, unicodedata
+import os
+import re
+import unicodedata
 from datetime import datetime
+
+import requests
 from bs4 import BeautifulSoup
 from data.gpt import *
 from data.palm import *
@@ -7,8 +11,9 @@ from model import AlsoKnownAs
 
 
 def strip_accents(text):
-    return ''.join(c for c in unicodedata.normalize('NFD', text)
-                  if unicodedata.category(c) != 'Mn')
+    return "".join(
+        c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn"
+    )
 
 
 def parse_ethnicelebs(txt):
@@ -70,7 +75,7 @@ def ethnicelebs(given_name):
 
             return {
                 "list": parse_ethnicelebs(ethnicity_description),
-                "source": response.url
+                "source": response.url,
             }
 
         else:
@@ -101,9 +106,8 @@ def wikipedia(person_name, person_bday):
     print(response, response.url)
     soup = BeautifulSoup(response.text, features="html.parser")
     if response.status_code == 200:
-
         # Check if if it's the correct page
-        birthday_span = soup.find('span', class_='bday')
+        birthday_span = soup.find("span", class_="bday")
         if birthday_span == None:
             print("Can't verify birthday... aborting...")
             return {}
@@ -115,31 +119,37 @@ def wikipedia(person_name, person_bday):
         else:
             print("Birthdays match!")
 
-        early_life = soup.find(id='Early_life')
-        personal_life = soup.find(id='Personal_life')
+        early_life = soup.find(id="Early_life")
+        personal_life = soup.find(id="Personal_life")
 
-        if early_life == None:
-            early_life = soup.find(id='Early_life_and_education')
+        if early_life is None:
+            early_life = soup.find(id="Early_life_and_education")
 
-        if early_life == None and personal_life == None:
+        if early_life is None and personal_life is None:
             print("No ethnicity information on wikipedia...")
             return {}
 
         paras = []
-        if early_life != None:
+        if early_life is not None:
+            prev_siblings = early_life.find_parent().findPreviousSiblings()
+            for element in prev_siblings:
+                print(element)
+                if element.name == "p":
+                    break
+                paras.append(element)
+
             siblings = early_life.find_parent().find_next_siblings()
             for element in siblings:
-                if element.name == 'h2':
+                if element.name == "h2":
                     break
                 paras.append(element)
 
         if personal_life != None:
             siblings = personal_life.find_parent().find_next_siblings()
             for element in siblings:
-                if element.name == 'h2':
+                if element.name == "h2":
                     break
                 paras.append(element)
-
 
         wiki_text = ""
         for sentence in paras:
@@ -147,30 +157,24 @@ def wikipedia(person_name, person_bday):
 
         print(wiki_text)
 
-        verify_result = txtcomp(wiki_text, person_name)
+        verify_result = txtcomp(wiki_text)
         # verify_result = palm_completion(wiki_text, person_name)
 
         print(verify_result)
 
-        if verify_result['mentioned'] == True:
+        if verify_result["mentioned"] is True:
             result = txtcomp(wiki_text, verify=False)
         else:
             print("No race/ethnicity information on wiki...")
             return {}
 
         if result and result.get("ethnicity", None) != None:
-            wiki_source = {
-                "list": result['ethnicity'],
-                "source": response.url
-            }
+            wiki_source = {"list": result["ethnicity"], "source": response.url}
             print(wiki_source)
             return wiki_source
 
         elif result and result.get("ethnicities", None) != None:
-            wiki_source = {
-                "list": result['ethnicities'],
-                "source": response.url
-            }
+            wiki_source = {"list": result["ethnicities"], "source": response.url}
             print(wiki_source)
             return wiki_source
 
@@ -185,7 +189,7 @@ def wikipedia(person_name, person_bday):
 def get_ethnicity(person_obj):
     """Return list of ethnicities for a given person."""
 
-    date_format = '%Y-%m-%d'
+    date_format = "%Y-%m-%d"
     birthday = ""
 
     person_name = person_obj.name
@@ -195,16 +199,16 @@ def get_ethnicity(person_obj):
 
     # Try ethnicelebs.com
     results = ethnicelebs(person_name)
-    if results.get('list', None) is None:
+    if results.get("list", None) is None:
         for alt_name in alt_names:
             if type(alt_name) == AlsoKnownAs:
                 results = ethnicelebs(alt_name.name)
             else:
                 results = ethnicelebs(alt_name)
-            if results.get('list', None) is not None:
+            if results.get("list", None) is not None:
                 return results
 
-        if os.environ.get('OPEN_AI_KEY'):
+        if os.environ.get("OPEN_AI_KEY"):
             # Try wikipedia.org
             print(f"Attempting {person_name} on wikipedia.org")
             results = wikipedia(person_name, birthday)

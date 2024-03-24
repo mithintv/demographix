@@ -21,17 +21,16 @@ Frontend
 
 Backend
 
-- [Python](https://docs.python.org/3/) v3.9.4
-- [Flask](https://flask.palletsprojects.com/en/2.3.x/) v2.0.1
-- [PostgreSQL](https://www.postgresql.org/docs/)
-- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v1.4.18
-- [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) v4.12.2
+- [Python](https://docs.python.org/3/) v3.9.18
+- [Flask](https://flask.palletsprojects.com/en/2.3.x/) v3.0.2
+- [PostgreSQL](https://www.postgresql.org/docs/) v14.11
+- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v2.0.28
 
 <a id="dev-env"></a>
 
 ## Development environment [`⇧`](#contents)
 
-To setup your development environment, install Python3, Postgres and [direnv](https://direnv.net/).
+To setup your development environment, install Python3, Postgres, [direnv](https://direnv.net/) and [poetry](https://python-poetry.org/).
 
 For windows users, I recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
 
@@ -64,17 +63,17 @@ createdb demographix
 psql -d demographix -f api/demographix.sql
 ```
 
-4. Setup and activate virtual environment
-
-```bash
-python3 -m venv api/.venv
-```
-
-5. Activate environment, configure variables, and install dependencies. Changing the directory into `/api` should launch direnv via `.envrc` and activate the virtual environment and configure the environment variables.
+4. Setup and activate virtual environment. `poetry shell` will create a new virtualenv and activate it.
 
 ```bash
 cd api/
-pip install -r requirements.txt
+poetry shell
+```
+
+5. Install dependencies, and configure secrets/environment variables. Navigate out of `/api` and back in to source environment variables.
+```bash
+poetry install
+cd ../ && cd api
 ```
 
 6. Run server

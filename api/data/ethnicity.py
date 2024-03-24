@@ -5,7 +5,7 @@ from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
-from data.gpt import *
+from data.gpt import txtcomp
 from data.palm import *
 from model import AlsoKnownAs
 
@@ -79,7 +79,7 @@ def ethnicelebs(given_name):
             }
 
         else:
-            print(f"Page was loaded but no ethnicity information on ethnicelebs.com")
+            print("Page was loaded but no ethnicity information on ethnicelebs.com")
             return {}
 
     else:
@@ -119,41 +119,38 @@ def wikipedia(person_name, person_bday):
         else:
             print("Birthdays match!")
 
-        early_life = soup.find(id="Early_life")
-        personal_life = soup.find(id="Personal_life")
+        # early_life = soup.find(id="Early_life")
+        # personal_life = soup.find(id="Personal_life")
 
-        if early_life is None:
-            early_life = soup.find(id="Early_life_and_education")
+        # if early_life is None:
+        #     early_life = soup.find(id="Early_life_and_education")
 
-        if early_life is None and personal_life is None:
-            print("No ethnicity information on wikipedia...")
-            return {}
+        # if early_life is None and personal_life is None:
+        #     print("No ethnicity information on wikipedia...")
+        #     return {}
 
         paras = []
-        if early_life is not None:
-            prev_siblings = early_life.find_parent().findPreviousSiblings()
-            for element in prev_siblings:
-                print(element)
-                if element.name == "p":
-                    break
-                paras.append(element)
-
-            siblings = early_life.find_parent().find_next_siblings()
-            for element in siblings:
-                if element.name == "h2":
-                    break
-                paras.append(element)
-
-        if personal_life != None:
-            siblings = personal_life.find_parent().find_next_siblings()
-            for element in siblings:
-                if element.name == "h2":
-                    break
-                paras.append(element)
-
         wiki_text = ""
-        for sentence in paras:
-            wiki_text += sentence.get_text()
+        content = soup.select("div.mw-parser-output p")
+        for child in content:
+            wiki_text += child.text
+
+        # if early_life is not None:
+        #     siblings = early_life.find_parent().find_next_siblings()
+        #     for element in siblings:
+        #         if element.name == "h2":
+        #             break
+        #         paras.append(element)
+
+        # if personal_life != None:
+        #     siblings = personal_life.find_parent().find_next_siblings()
+        #     for element in siblings:
+        #         if element.name == "h2":
+        #             break
+        #         paras.append(element)
+
+        # for sentence in paras:
+        #     wiki_text += sentence.get_text()
 
         print(wiki_text)
 
@@ -162,7 +159,7 @@ def wikipedia(person_name, person_bday):
 
         print(verify_result)
 
-        if verify_result["mentioned"] is True:
+        if verify_result.get("mentioned") is True:
             result = txtcomp(wiki_text, verify=False)
         else:
             print("No race/ethnicity information on wiki...")

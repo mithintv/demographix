@@ -457,20 +457,20 @@ def seed_credits(file_path="data/credits.json"):
     print(f"Added {len(credits_in_db)} credits to db!")
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 #     os.system("dropdb -f demographix")
 #     os.system("createdb demographix")
 
 #     with app.app.app_context():
         # db.create_all()
 
-        # seed_regions()
-        # seed_subregions()
-        # seed_countries()
-        # seed_ethnicities()
-        # seed_races()
-        # seed_genders()
-        # seed_genres()
+        seed_regions()
+        seed_subregions()
+        seed_countries()
+        seed_ethnicities()
+        seed_races()
+        seed_genders()
+        seed_genres()
         # seed_movies()
         # seed_cast_members()
         # seed_credits()

@@ -15,11 +15,11 @@ client = Client()
 def txtcomp(article, verify=True):
     prompt = f"""Based on the following information: "{article}", return a JSON object with a list under a key called "ethnicity" that lists all of the ethnicities of this person. Do not provide anything that is not in JSON."""
     if verify:
-        prompt = f"""Based on the following text: {article}, return a boolean JSON object with the key "mentioned" that states whether there is any mention of race, ethnicity, heritage or background in the text. Do not provide anything that is not in JSON."""
+        prompt = f"""Based on the following text: {article}, return a boolean JSON object with the key "mentioned" that states whether there is any mention of race, ethnicity, heritage, nationality, citizenship, background or where they are from for the given person in the text. Do not provide anything that is not in JSON."""
 
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a chatbot"},
                 {"role": "user", "content": prompt},

@@ -552,7 +552,17 @@ def query_movie(keywords):
         query = (
             Movie.query.join(Movie.credits)
             .filter(Movie.poster_path is not None)
-            .group_by(Movie.id)
+            .group_by(
+                Movie.id,
+                Movie.imdb_id,
+                Movie.title,
+                Movie.overview,
+                Movie.runtime,
+                Movie.poster_path,
+                Movie.release_date,
+                Movie.budget,
+                Movie.revenue,
+            )
             .having(func.count(Movie.credits) > 1)
             .order_by(func.random())
             .all()
@@ -562,7 +572,17 @@ def query_movie(keywords):
     else:
         keyword_query = (
             Movie.query.join(Movie.credits)
-            .group_by(Movie.id)
+            .group_by(
+                Movie.id,
+                Movie.imdb_id,
+                Movie.title,
+                Movie.overview,
+                Movie.runtime,
+                Movie.poster_path,
+                Movie.release_date,
+                Movie.budget,
+                Movie.revenue,
+            )
             .having(func.count(Movie.credits) > 1)
             .filter(
                 and_(
@@ -607,7 +627,7 @@ def query_cast(keywords):
 def query_api_movie(keywords):
     """Return search query results from api."""
 
-    logging.info("Not enough results in db...\nMaking API call...")
+    logging.info("Not enough results in db... making API call...")
     response = requests.get(
         f"https://api.themoviedb.org/3/search/movie?api_key={key}&query={keywords}"
     )

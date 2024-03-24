@@ -13,9 +13,9 @@ client = Client()
 
 
 def txtcomp(article, verify=True):
-    prompt = f"""Based on the following information: "{article}", return a JSON object with a list under a key called "ethnicity" that lists all of the ethnicities of this person. Do not provide anything that is not in JSON."""
+    prompt = f"""Do not provide anything that is not in JSON. Return a JSON object with a list under a key called "ethnicity" that lists all of the ethnicities of the person based on the following article: {article}."""
     if verify:
-        prompt = f"""Based on the following text: {article}, return a boolean JSON object with the key "mentioned" that states whether there is any mention of race, ethnicity, heritage, nationality, citizenship, background or where they are from for the given person in the text. Do not provide anything that is not in JSON."""
+        prompt = f"""Do not provide anything that is not in JSON. Return a boolean JSON object with the key "mentioned" that states whether there is any mention of race, ethnicity, heritage, nationality, citizenship or background for the given person based on the following article: {article}."""
 
     try:
         response = client.chat.completions.create(

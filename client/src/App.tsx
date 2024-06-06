@@ -73,33 +73,6 @@ import { Outlet } from "react-router-dom";
 // 	Treemap,
 // } = window.Recharts;
 
-// const backgroundGradient =
-// 	"radial-gradient(ellipse at center, #151036 50%, #100b2a 100%)";
-
-// const axisLineStyle = {
-// 	stroke: darkTheme.palette.text.secondary,
-// };
-// const tickStyle = {
-// 	fill: darkTheme.palette.text.secondary,
-// 	y: -10,
-// };
-// const cursorColor = {
-// 	fill: darkTheme.palette.text.disabled,
-// };
-// const histogramLabelStyle = {
-// 	fill: darkTheme.palette.text.secondary,
-// 	position: "top",
-// };
-// const barChartLabelStyle = {
-// 	fill: darkTheme.palette.text.secondary,
-// 	position: "right",
-// 	fontSize: "0.75em",
-// };
-// const barChartLabelStyle2 = {
-// 	fill: darkTheme.palette.text.secondary,
-// 	position: "right",
-// 	fontSize: "0",
-// };
 
 // const globalStyles = (
 // 	<GlobalStyles

@@ -12,10 +12,14 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CastCard from "../components/CastCard";
+import CastDataCard from "../components/CastDataCard";
 import MovieCard from "../components/MovieCard";
 import Footer from "../layout/Footer";
 import NavBar from "../layout/NavBar";
+import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
+import { backgroundGradient } from "../utils/theme";
 
 export default function MovieDetails() {
   const theme = useTheme();
@@ -37,7 +41,7 @@ export default function MovieDetails() {
     revenue: null,
     cast: [],
   });
-  const [castDetails, setCastDetails] = useState([]);
+  const [castDetails, setCastDetails] = useState<Cast[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,7 +62,7 @@ export default function MovieDetails() {
     <Fade in>
       <Box
         sx={{
-          background: theme.palette.background.default,
+          background: backgroundGradient,
           height: "100%",
         }}
       >
@@ -109,13 +113,13 @@ export default function MovieDetails() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {/* <CastCard cast={castDetails} /> */}
+              <CastCard cast={castDetails} />
             </AccordionDetails>
           </Accordion>
-          {/* <DataCard
+          <CastDataCard
             cast={castDetails}
             releaseDate={new Date(movieDetails.release_date).getFullYear()}
-          /> */}
+          />
         </Container>
         <Footer />
       </Box>

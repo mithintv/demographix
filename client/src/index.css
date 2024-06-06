@@ -9,7 +9,7 @@
 }
 
 html {
-  overflow-y: scroll;
+  height: 100%;
 }
 
 body {
@@ -17,7 +17,7 @@ body {
   margin: 0;
 }
 
-#app {
+#root {
   height: 100%;
 }
 

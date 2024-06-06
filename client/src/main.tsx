@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import LandingPage from "./pages/LandingPage.tsx";
+import MovieDetails from "./pages/MovieDetails.tsx";
 import { NomMovies } from "./pages/NomMovies.tsx";
 import ErrorPage from "./routes/ErrorPage.tsx";
 
@@ -111,6 +112,7 @@ const darkTheme = createTheme({
   },
 });
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -121,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: "noms/",
         element: <NomMovies />,
+      },
+      {
+        path: "movies/:id",
+        element: <MovieDetails />,
       },
     ],
   },

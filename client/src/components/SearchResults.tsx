@@ -10,13 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-
-type Movie = {
-  id: string;
-  title: string;
-  poster_path: string;
-  release_date: string;
-};
+import { Movie } from "../types/Movie";
 
 export default function SearchResults({
   clicked,
@@ -80,8 +74,6 @@ export default function SearchResults({
     >
       {results.length > 0 ? (
         results.map((movie, index) => {
-          const releaseDate = new Date(movie.release_date);
-
           let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`;
           if (movie.poster_path == null) {
             imgPath =
@@ -96,7 +88,7 @@ export default function SearchResults({
                   mb: 2,
                 }}
                 component={RouterLink}
-                to={`/movies/${movie.id}`}
+                to={`movies/${movie.id}`}
               >
                 <Card>
                   <CardMedia

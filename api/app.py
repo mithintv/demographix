@@ -63,7 +63,7 @@ def query():
     return jsonify(search_results)
 
 
-@app.route("/api/nom/<year>")
+@app.route("/nom/<year>")
 def nom(year):
     """Return demographics of oscar nominated movies for a given year in json"""
 
@@ -80,10 +80,11 @@ def nom(year):
     return jsonify(movies_data)
 
 
-@app.route("/api/movies/<movie_id>")
+@app.route("/movies/<movie_id>")
 def movie(movie_id):
     """Return movie and cast details in json."""
 
+    logging.info(movie_id)
     movie_data = crud.get_movie_cast(movie_id)
     return jsonify(movie_data)
 
@@ -100,8 +101,8 @@ def openai():
 @app.route("/<path:path>")
 def catch_all(path):
     """Catch all route."""
-
-    return render_template("page.html")
+    logging.info(path)
+    return
 
 
 if __name__ == "__main__":

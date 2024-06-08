@@ -1,13 +1,13 @@
 """Script to seed database."""
 
+import argparse
 import json
 import os
+import sys
 import time
 from datetime import datetime
 
-import app as app
-from data.ethnicity import get_ethnicity
-from model import (
+from api.model import (
     AltCountry,
     AltEthnicity,
     CastMember,
@@ -20,9 +20,10 @@ from model import (
     Race,
     Region,
     SubRegion,
-    connect_to_db,
     db,
 )
+
+from api.services.ethnicity import get_ethnicity
 
 
 def seed_regions():
@@ -42,7 +43,7 @@ def seed_regions():
 def seed_subregions(file_path="data/regions.json"):
     """Seed subregion table with subregion information."""
 
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
         subregion_list = []
@@ -62,7 +63,7 @@ def seed_countries(file_path="data/countries.json"):
     """Seed countries table with country information."""
 
     countries_list = []
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
         for country in data:
             if country.get("demonyms", None) is None:
@@ -101,7 +102,7 @@ def seed_countries(file_path="data/countries.json"):
 def seed_ethnicities(file_path="data/ethnicities.json"):
     """Seed ethnicities table with ethnicity information."""
 
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
         ethnicities_list = []
@@ -115,7 +116,8 @@ def seed_ethnicities(file_path="data/ethnicities.json"):
                 "Colorado",
                 "Connecticut",
                 "Delaware",
-                "District of Columbia" "Florida",
+                "District of Columbia",
+                "Florida",
                 "Georgia",
                 "Hawaii",
                 "Idaho",
@@ -189,7 +191,7 @@ def seed_ethnicities(file_path="data/ethnicities.json"):
 def seed_races(file_path="data/race.json"):
     """Seed race table with race information from the US census."""
 
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
         race_list = []
@@ -210,8 +212,8 @@ def seed_genders():
 
     gender_list = ["Unknown", "Female", "Male", "Non-Binary"]
     genders_in_db = []
-    for i in range(len(gender_list)):
-        new_gender = Gender(id=i, name=gender_list[i])
+    for i, gender in enumerate(gender_list):
+        new_gender = Gender(id=i, name=gender)
         genders_in_db.append(new_gender)
 
     db.session.add_all(genders_in_db)
@@ -222,7 +224,7 @@ def seed_genders():
 def seed_genres(file_path="data/genres.json"):
     """Seed genres table in database."""
 
-    with open(file_path) as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         genre_list = json.loads(file.read())
 
     genres_in_db = []
@@ -238,14 +240,13 @@ def seed_genres(file_path="data/genres.json"):
 def seed_movies(file_path="data/movie_details.json"):
     """Seed movies table in database."""
 
-    with open(file_path) as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         movie_data = json.loads(file.read())
 
     movies_in_db = []
 
     for movie in movie_data:
-        format = "%Y-%m-%d"
-        formatted_date = datetime.strptime(movie["release_date"], format)
+        formatted_date = datetime.strptime(movie["release_date"], "%Y-%m-%d")
         new_movie = Movie(
             id=movie["id"],
             imdb_id=movie["imdb_id"],
@@ -259,8 +260,7 @@ def seed_movies(file_path="data/movie_details.json"):
         )
         movies_in_db.append(new_movie)
         for genre in movie["genres"]:
-            id = genre["id"]
-            genre_object = Genre.query.filter(Genre.id == id).one()
+            genre_object = Genre.query.filter(Genre.id == genre["id"]).one()
             new_movie.genres.append(genre_object)
 
     db.session.add_all(movies_in_db)
@@ -271,19 +271,19 @@ def seed_movies(file_path="data/movie_details.json"):
 def seed_cast_members(file_path="data/persons.json"):
     """Seed cast_members table in database."""
 
-    with open(file_path) as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         person_data = json.loads(file.read())
 
     persons_in_db = []
     for person in person_data:
-        format = "%Y-%m-%d"
+        date_format = "%Y-%m-%d"
         formatted_bday = None
         if person["birthday"] is not None:
-            formatted_bday = datetime.strptime(person["birthday"], format)
+            formatted_bday = datetime.strptime(person["birthday"], date_format)
 
         formatted_dday = None
         if person["deathday"] is not None:
-            formatted_dday = datetime.strptime(person["deathday"], format)
+            formatted_dday = datetime.strptime(person["deathday"], date_format)
 
         new_person = CastMember(
             id=person["id"],
@@ -296,8 +296,7 @@ def seed_cast_members(file_path="data/persons.json"):
         persons_in_db.append(new_person)
 
         # Add gender data
-        id = person["gender"]
-        gender_object = Gender.query.filter(Gender.id == id).one()
+        gender_object = Gender.query.filter(Gender.id == person["gender"]).one()
         new_person.gender = gender_object
 
         # Add country_of_birth data
@@ -354,7 +353,12 @@ def seed_cast_members(file_path="data/persons.json"):
 
                 if approx_country is not None:
                     print(
-                        f"{approx_country.name} {approx_country.region.name} {approx_country.subregion.name}"
+                        str.format(
+                            "{} {} {}",
+                            approx_country.name,
+                            approx_country.region.name,
+                            approx_country.subregion.name,
+                        )
                     )
 
                     if approx_country.region.name == "Europe":
@@ -432,7 +436,7 @@ def seed_cast_members(file_path="data/persons.json"):
 def seed_credits(file_path="data/credits.json"):
     """Seed credits table in database."""
 
-    with open(file_path) as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         credits_data = json.loads(file.read())
 
     credits_in_db = []
@@ -457,20 +461,73 @@ def seed_credits(file_path="data/credits.json"):
     print(f"Added {len(credits_in_db)} credits to db!")
 
 
+def drop_database():
+    """Drop current database."""
+    os.system("dropdb -f demographix")
+
+
+def create_database():
+    """Create database and tables."""
+    os.system("createdb demographix")
+    db.create_all()
+
+
+def seed_all():
+    """Seed all tables."""
+    seed_regions()
+    seed_subregions()
+    seed_countries()
+    seed_ethnicities()
+    seed_races()
+    seed_genders()
+    seed_genres()
+    seed_movies()
+    seed_cast_members()
+    seed_credits()
+
+
 if __name__ == "__main__":
-#     os.system("dropdb -f demographix")
-#     os.system("createdb demographix")
+    parser = argparse.ArgumentParser(
+        prog="Seed",
+        description="Seed app with basic data.",
+    )
+    parser.add_argument(
+        "-s",
+        "--seed",
+        action="store_true",
+        help="Seed the database with basic data.",
+    )
+    parser.add_argument(
+        "-d",
+        "--drop",
+        action="store_true",
+        help="Drop the current database.",
+    )
+    parser.add_argument(
+        "-c",
+        "--create",
+        action="store_true",
+        help="Create the database and tables.",
+    )
+    parser.add_argument(
+        "-r",
+        "--reseed",
+        action="store_true",
+        help="Drop database, re-create it, and re-seed it.",
+    )
+    args = parser.parse_args()
+    if len(sys.argv) <= 1:
+        parser.print_help()
 
-#     with app.app.app_context():
-        # db.create_all()
-
-        seed_regions()
-        seed_subregions()
-        seed_countries()
-        seed_ethnicities()
-        seed_races()
-        seed_genders()
-        seed_genres()
-        # seed_movies()
-        # seed_cast_members()
-        # seed_credits()
+    if args.drop:
+        print("Dropping database and re-creating!")
+        # drop_database()
+        # create_database()
+    if args.seed:
+        print("Seeding database!")
+        # seed_all()
+    if args.reseed:
+        print("Recreating and seeding database!")
+        # drop_database()
+        # create_database()
+        # seed_all()

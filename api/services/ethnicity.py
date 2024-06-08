@@ -12,6 +12,8 @@ from api.model import AlsoKnownAs
 
 
 def strip_accents(text):
+    """Strip accents from given text."""
+    logging.info("stripping accents from %s", text)
     return "".join(
         c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn"
     )
@@ -66,6 +68,7 @@ def ethnicelebs(given_name):
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
+        timeout=15
     )
     soup = BeautifulSoup(response.text, features="html.parser")
 
@@ -103,65 +106,65 @@ def wikipedia(person_name, person_bday) -> dict:
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
+        timeout=15
     )
-    logging.info(f"response: {response} response_url: {response.url}")
+    logging.info("response: %s response_url: %s", response, response.url)
     soup = BeautifulSoup(response.text, features="html.parser")
-    if response.status_code == 200:
-        # Check if if it's the correct page
-        birthday_span = soup.find("span", class_="bday")
-        if birthday_span is None:
-            logging.info("Can't verify birthday... aborting...")
-            return {}
 
-        birthday_text = birthday_span.get_text()
-        if birthday_text != person_bday:
-            logging.info("Birthdays don't match... aborting...")
-            return {}
-        else:
-            logging.info("Birthdays match!")
-
-        paras = []
-        wiki_text = ""
-        content = soup.select("div.mw-parser-output p")
-        for child in content:
-            wiki_text += child.text
-
-        logging.info(f"Wikipedia - {wiki_text}")
-
-        verify_result = txtcomp(wiki_text)
-        # verify_result = palm_completion(wiki_text, person_name)
-
-        if verify_result.get("mentioned") is True:
-            result = txtcomp(wiki_text, verify=False)
-        else:
-            logging.info("No race/ethnicity information on wiki...")
-            return {}
-
-        if result and result.get("ethnicity", None) is not None:
-            wiki_source = {"list": result["ethnicity"], "source": response.url}
-            logging.info(wiki_source)
-            return wiki_source
-        elif result and result.get("ethnicities", None) is not None:
-            wiki_source = {"list": result["ethnicities"], "source": response.url}
-            logging.info(wiki_source)
-            return wiki_source
-        else:
-            logging.info("No luck parsing wiki...")
-            return {}
-    else:
+    if response.status_code != 200:
         logging.info("Wiki page doesn't exist...")
+        return {}
+
+    birthday_span = soup.find("span", class_="bday")
+    if birthday_span is None:
+        logging.info("Can't verify birthday... aborting...")
+        return {}
+
+    birthday_text = birthday_span.get_text()
+    if birthday_text != person_bday:
+        logging.info("Birthdays don't match... aborting...")
+        return {}
+    logging.info("Birthdays match!")
+
+    paras = []
+    wiki_text = ""
+    content = soup.select("div.mw-parser-output p")
+    for child in content:
+        wiki_text += child.text
+
+    logging.info(f"Wikipedia - {wiki_text}")
+
+    verify_result = txtcomp(wiki_text)
+    # verify_result = palm_completion(wiki_text, person_name)
+
+    if verify_result.get("mentioned") is True:
+        result = txtcomp(wiki_text, verify=False)
+    else:
+        logging.info("No race/ethnicity information on wiki...")
+        return {}
+
+    if result and result.get("ethnicity", None) is not None:
+        wiki_source = {"list": result["ethnicity"], "source": response.url}
+        logging.info(wiki_source)
+        return wiki_source
+    elif result and result.get("ethnicities", None) is not None:
+        wiki_source = {"list": result["ethnicities"], "source": response.url}
+        logging.info(wiki_source)
+        return wiki_source
+    else:
+        logging.info("No luck parsing wiki...")
         return {}
 
 
 def get_ethnicity(person_obj):
-    """Return list of ethnicities for a given person."""
+    """Return list of ethnicities for a given person via ethnicelebs.com and wikipedia."""
 
     date_format = "%Y-%m-%d"
     birthday = ""
 
     person_name = person_obj.name
     alt_names = person_obj.also_known_as
-    if person_obj.birthday != None:
+    if person_obj.birthday is not None:
         birthday = person_obj.birthday.strftime(date_format)
 
     # Try ethnicelebs.com

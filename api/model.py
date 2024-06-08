@@ -140,7 +140,16 @@ class MovieNomination(db.Model):
     )
 
     def __repr__(self):
-        return f"<MovieNomination id={self.id} movie_id={self.movie_id} nomination_id={self.nomination_id}>"
+        return str.format(
+            "<MovieNomination id={} movie_id={} nomination_id={}>",
+            self.id,
+            self.movie_id,
+            self.nomination_id,
+        )
+
+    def to_dict(self):
+        """Convert the MovieNomination class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Genre(db.Model):
@@ -316,7 +325,11 @@ class CastEthnicity(db.Model):
     )
 
     def __repr__(self):
-        return f"<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>"
+        return str.format(
+            "<CastEthnicity ethnicity_id={} cast_member_id={}>",
+            self.ethnicity_id,
+            self.cast_member_id,
+        )
 
 
 class Race(db.Model):
@@ -393,4 +406,10 @@ class CastEthnicitySourceLink(db.Model):
     cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
 
     def __repr__(self):
-        return f"<CastEthnicitySourceLink id={self.id} source_link_id={self.source_link_id} link={self.link} cast_ethnicity_id={self.cast_ethnicity_id}>"
+        return str.format(
+            "<CastEthnicitySourceLink id={} source_link_id={} link={} cast_ethnicity_id={}>",
+            self.id,
+            self.source_link_id,
+            self.link,
+            self.cast_ethnicity_id,
+        )

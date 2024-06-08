@@ -40,6 +40,7 @@ logging.basicConfig(
 
 @app.route("/test/openai", methods=["POST"])
 def openai():
+    """Retreive Open AI API result with given passage as json body."""
     data = request.get_json()
     article = data["article"]
     result = txtcomp(article, verify=False)

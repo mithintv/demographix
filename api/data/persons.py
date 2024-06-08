@@ -5,7 +5,7 @@ import json
 from model import db, CastMember, AlsoKnownAs
 from app import app
 from crud import *
-from data.ethnicity import *
+from api.services.ethnicity import *
 
 key = os.environ['TMDB_API_KEY']
 

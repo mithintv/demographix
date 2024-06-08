@@ -24,6 +24,7 @@ platformdirs = "^4.2.0"
 aiohttp-socks = "^0.8.4"
 browser-cookie3 = "^0.19.1"
 
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

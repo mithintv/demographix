@@ -1,7 +1,4 @@
-"""Models for movie ratings app."""
-
-import logging
-import os
+"""Models for demographix app."""
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
@@ -105,6 +102,10 @@ class Movie(db.Model):
             f"<Movie id={self.id} title={self.title} release_date={self.release_date}>"
         )
 
+    def to_dict(self):
+        """Convert the Movie class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 class Nomination(db.Model):
     """A nomination."""
@@ -154,6 +155,10 @@ class Genre(db.Model):
 
     def __repr__(self):
         return f"<Genre id={self.id} name={self.name}>"
+
+    def to_dict(self):
+        """Convert the Genre class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class MediaGenre(db.Model):
@@ -220,6 +225,10 @@ class CastMember(db.Model):
 
     def __repr__(self):
         return f"<Cast id={self.id} name={self.name}>"
+
+    def to_dict(self):
+        """Convert the CastMember class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class AlsoKnownAs(db.Model):
@@ -385,24 +394,3 @@ class CastEthnicitySourceLink(db.Model):
 
     def __repr__(self):
         return f"<CastEthnicitySourceLink id={self.id} source_link_id={self.source_link_id} link={self.link} cast_ethnicity_id={self.cast_ethnicity_id}>"
-
-
-def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):
-    """Connect to database with default settings."""
-
-    if os.environ["FLASK_ENV"] == "production":
-        db_uri = os.environ["DB_URI"]
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
-    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    db.app = flask_app
-    db.init_app(flask_app)
-
-    return db
-
-
-if __name__ == "__main__":
-    from app import app
-
-    connect_to_db(app)

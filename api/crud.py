@@ -5,9 +5,12 @@ import os
 from datetime import datetime
 
 import requests
-from data.ethnicity import get_ethnicity
-from data.nominations import find_nominations
-from model import (
+from sqlalchemy import and_, create_engine, desc, exc, extract, func
+from sqlalchemy.orm import sessionmaker
+
+from api.data.ethnicity import get_ethnicity
+from api.data.nominations import query_imdb_event_nominations
+from api.model import (
     AlsoKnownAs,
     AltCountry,
     AltEthnicity,
@@ -24,76 +27,12 @@ from model import (
     Race,
     Source,
     SourceLink,
-    connect_to_db,
     db,
 )
-from sqlalchemy import and_, create_engine, desc, exc, extract, func
-from sqlalchemy.orm import sessionmaker
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]
 
-
-def check_nominations(year: int) -> None:
-    nominees = find_nominations(year)
-    for nominee in nominees[0]["nominations"]:
-        title = nominee["primary"]
-        print(f"Checking if {title} ({year - 1}) is in db...", end=" ")
-        query = Movie.query.filter(
-            and_(
-                func.lower(Movie.title) == title.lower(),
-                extract("year", Movie.release_date) == year - 1,
-            )
-        ).first()
-
-        if query == None:
-            print(f"missing...\nChecking if {title} ({year}) is in db...", end=" ")
-            query = Movie.query.filter(
-                and_(
-                    func.lower(Movie.title) == title.lower(),
-                    extract("year", Movie.release_date) == year,
-                )
-            ).first()
-
-        if query == None:
-            url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year - 1}&page=1"
-            headers = {
-                "accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            }
-            response = requests.get(url, headers=headers)
-            results = response.json()
-
-            if not results["results"]:
-                url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year}&page=1"
-                headers = {
-                    "accept": "application/json",
-                    "Authorization": f"Bearer {access_token}",
-                }
-                response = requests.get(url, headers=headers)
-                results = response.json()
-            movie_id = results["results"][0]["id"]
-            add_new_movie(movie_id=movie_id)
-
-            query = Movie.query.filter(
-                and_(
-                    Movie.title == title,
-                    extract("year", Movie.release_date) == year - 1,
-                )
-            ).first()
-            if query == None:
-                query = Movie.query.filter(
-                    and_(
-                        Movie.title == title,
-                        extract("year", Movie.release_date) == year,
-                    )
-                ).first()
-        else:
-            print("found!")
-
-        add_nomination(query, year)
-
-    db.session.commit()
 
 
 def add_new_movie(movie_id):
@@ -615,15 +554,6 @@ def query_movie_credits(movie_obj):
     return query
 
 
-def query_cast(keywords):
-    """Return search query results for a cast member."""
-
-    query = CastMember.query.filter(
-        func.lower(CastMember.name).like(f"%{keywords.lower()}%")
-    ).all()
-    return query
-
-
 def query_api_movie(keywords):
     """Return search query results from api."""
 
@@ -716,115 +646,7 @@ def query_api_people(credit_list):
         logging.info(f"Updated {update_count} cast in db!")
 
 
-def get_movie_cast(movie_id):
-    """Return specific movie with credits and cast member details."""
+# if __name__ == "__main__":
+#     from app import app
 
-    movie = Movie.query.filter(Movie.id == movie_id).one()
-    if movie.imdb_id is None:
-        logging.info("Movie details are missing...\nMaking api call...\n")
-
-        # Update movie
-        movie_details = query_api_movie_details(movie_id)
-        update_movie_with_movie_details(movie, movie_details)
-
-        # Get cast list and add cast members
-        cast_credit_list = query_api_credits(movie_id)
-        query_api_people(cast_credit_list)
-
-        # Add credits after adding cast members
-        add_credits(cast_credit_list, movie)
-
-    cast_list = (
-        db.session.query(CastMember, Gender, Country, Credit)
-        .join(Credit, Credit.cast_member_id == CastMember.id, isouter=True)
-        .join(Gender, Gender.id == CastMember.gender_id, isouter=True)
-        .join(Country, Country.id == CastMember.country_of_birth_id, isouter=True)
-        .join(Movie, Movie.id == Credit.movie_id, isouter=True)
-        .filter(Movie.id == movie_id)
-        .filter(Credit.order < 15)
-        .order_by(Credit.order)
-        .all()
-    )
-
-    cast_details = []
-
-    for cast in cast_list:
-        cast_member = CastMember.query.filter(CastMember.id == cast.CastMember.id).one()
-
-        ethnicities = []
-        for cast_ethnicity in cast_member.ethnicities:
-            ethnicities.append(
-                {
-                    "name": cast_ethnicity.ethnicity.name,
-                    "sources": [source.link for source in cast_ethnicity.sources],
-                }
-            )
-
-        races = [race.name for race in cast_member.races]
-
-        new_cast = {
-            "id": cast.CastMember.id,
-            "name": cast.CastMember.name,
-            "birthday": cast.CastMember.birthday,
-            "gender": cast.Gender.name,
-            "ethnicity": ethnicities,
-            "race": races,
-            "country_of_birth": cast.Country.id if cast.Country else None,
-            "character": cast.Credit.character,
-            "order": cast.Credit.order,
-            "profile_path": cast.CastMember.profile_path,
-        }
-        cast_details.append(new_cast)
-
-    genre_list = [genre.name for genre in movie.genres]
-
-    data = {
-        "id": movie.id,
-        "title": movie.title,
-        "genres": genre_list,
-        "overview": movie.overview,
-        "runtime": movie.runtime,
-        "poster_path": movie.poster_path,
-        "release_date": movie.release_date,
-        "budget": movie.budget,
-        "revenue": movie.revenue,
-        "cast": cast_details,
-    }
-    logging.info(f"Fetching details about {data['title']}...")
-    return data
-
-
-def get_nom_movies(year):
-    """Return nominated movies and cast demographgics for a given year"""
-
-    nomination = Nomination.query.filter(Nomination.year == year).first()
-    if nomination is None:
-        nomination = Nomination(name="Academy Awards", year=year)
-        logging.info(
-            "Adding %s %s to db...",
-            nomination.name,
-            nomination.year,
-        )
-
-    movie_noms = MovieNomination.query.filter(
-        MovieNomination.nomination_id == nomination.id
-    ).all()
-    if len(movie_noms) < 5:
-        check_nominations(int(year))
-        movie_noms = MovieNomination.query.filter(
-            MovieNomination.nomination_id == nomination.id
-        ).all()
-        logging.info(len(movie_noms))
-
-    all_movie_data = []
-    for movie_nom in movie_noms:
-        movie_data = get_movie_cast(movie_nom.movie_id)
-        all_movie_data.append(movie_data)
-
-    return all_movie_data
-
-
-if __name__ == "__main__":
-    from app import app
-
-    connect_to_db(app)
+#     connect_to_db(app)

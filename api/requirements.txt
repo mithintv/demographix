@@ -48,7 +48,7 @@ soupsieve==2.5
 SQLAlchemy==2.0.28
 tqdm==4.66.2
 typing_extensions==4.10.0
-urllib3==2.2.1
+urllib3==2.2.2
 virtualenv==20.25.1
 Werkzeug==3.0.1
 zipp==3.18.1

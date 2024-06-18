@@ -11,6 +11,8 @@ import {
   parseRace,
 } from "../utils/parse";
 import Histogram from "../data/Histogram";
+import GenderChart from "../data/GenderChart";
+import RaceChart from "../data/RaceChart";
 
 const CastDataCard = memo(
   ({ cast, releaseDate }: { cast: Cast[]; releaseDate: number }) => {
@@ -71,9 +73,9 @@ const CastDataCard = memo(
             flexWrap: "wrap",
           }}
         >
-          {/* <GenderChart data={genderData} /> */}
+          <GenderChart data={genderData} />
           <Histogram data={ageData} />
-          {/* <RaceChart
+          <RaceChart
             title="ethnicity"
             data={ethnicityData}
             colors={["#FFBB28"]}
@@ -89,7 +91,7 @@ const CastDataCard = memo(
               "#FFBB28",
               "#FF8042",
             ]}
-          /> */}
+          />
         </Box>
       </Paper>
     );

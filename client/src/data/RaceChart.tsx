@@ -1,5 +1,9 @@
 import { Box, CircularProgress, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useEffect } from "react";
+import { axisLineStyle, barChartLabelStyle, barChartLabelStyle2, tickStyle } from "../utils/theme";
+import * as d3 from "d3";
+import ChartLabel from "./ChartLabel";
+import { Bar, BarChart, Cell, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const RaceTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -139,7 +143,7 @@ const RaceChart = memo(({ data, title, colors }) => {
               />
               <Tooltip
                 viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
-                content={<RaceTooltip />}
+                content={<RaceTooltip active={undefined} payload={undefined} label={undefined} />}
               />
               <Bar
                 animationDuration={1000} // Duration of the animation in milliseconds

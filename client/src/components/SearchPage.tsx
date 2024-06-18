@@ -131,7 +131,7 @@ export default function SearchPage({ nav }: { nav: boolean }) {
               variant="standard"
             />
           </Box>
-          <SearchResults clicked={handleClose} keywords={searchInput} />
+          <SearchResults clicked={open} keywords={searchInput} />
         </Paper>
       </Modal>
     </>

@@ -1,4 +1,8 @@
-import { useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, Fade, Paper, Typography, useMediaQuery } from "@mui/material";
+import { memo } from "react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { GenderData } from "../utils/parse";
+import ChartLabel from "./ChartLabel";
 
 const GenderTooltip = ({ active, payload, label }) => {
 	if (active && payload && payload.length) {
@@ -80,76 +84,78 @@ const CustomLabel = (props) => {
 	);
 };
 
-const GenderChart = React.memo((props) => {
-	const md = useMediaQuery("(max-width:960px)");
-	const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:425px)");
-	const { data } = props;
+const GenderChart = memo(({data}: {data: GenderData[]}) => {
+		const md = useMediaQuery("(max-width:960px)");
+		const sm = useMediaQuery("(max-width:600px)");
+		const xs = useMediaQuery("(max-width:425px)");
 
-	const COLORS = ["#0088FE", "#B63E76", "#FFBB28", "#FF8042"];
+		const COLORS = ["#0088FE", "#B63E76", "#FFBB28", "#FF8042"];
 
-	return (
-		<Paper
-			elevation={2}
-			sx={{
-				p: 0,
-				m: 2,
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "space-between",
-				alignItems: "center",
-				backgroundColor: "background.default",
-				flex: "1 0 auto",
-			}}
-		>
-			<ChartLabel label={"Gender Ratio"} />
-			<Box
+		return (
+			<Paper
+				elevation={2}
 				sx={{
+					p: 0,
+					m: 2,
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "space-between",
 					alignItems: "center",
-					width: (xs && "275px") || (sm && "350px") || "550px",
-					height: "350px",
+					backgroundColor: "background.default",
 					flex: "1 0 auto",
 				}}
 			>
-				{data.length > 0 ? (
-					<ResponsiveContainer
-						width={(xs && 275) || (sm && 350) || 550}
-						height={350}
-					>
-						<PieChart width={(xs && 275) || (sm && 350) || 550} height={350}>
-							<Pie
-								data={data}
-								cx="50%"
-								cy="50%"
-								width={(xs && 275) || (sm && 350) || 550}
-								height={350}
-								startAngle={90}
-								endAngle={-450}
-								innerRadius={sm ? 35 : 55}
-								outerRadius={sm ? 55 : 90}
-								stroke="none"
-								fill="#8884d8"
-								nameKey="name"
-								dataKey="amount"
-								label={<CustomLabel />}
-							>
-								{data.map((entry, index) => (
-									<Cell
-										key={`cell-${index}`}
-										fill={COLORS[index % COLORS.length]}
-									/>
-								))}
-							</Pie>
-							<Tooltip style={{ zIndex: 9999 }} content={<GenderTooltip />} />
-						</PieChart>
-					</ResponsiveContainer>
-				) : (
-					<CircularProgress size={100} thickness={10} />
-				)}
-			</Box>
-		</Paper>
-	);
+				<ChartLabel label={"Gender Ratio"} />
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "center",
+						alignItems: "center",
+						width: (xs && "275px") || (sm && "350px") || "550px",
+						height: "350px",
+						flex: "1 0 auto",
+					}}
+				>
+					{data.length > 0 ? (
+						<ResponsiveContainer
+							width={(xs && 275) || (sm && 350) || 550}
+							height={350}
+						>
+							<PieChart width={(xs && 275) || (sm && 350) || 550} height={350}>
+								<Pie
+									data={data}
+									cx="50%"
+									cy="50%"
+									width={(xs && 275) || (sm && 350) || 550}
+									height={350}
+									startAngle={90}
+									endAngle={-450}
+									innerRadius={sm ? 35 : 55}
+									outerRadius={sm ? 55 : 90}
+									stroke="none"
+									fill="#8884d8"
+									nameKey="name"
+									dataKey="amount"
+									label={<CustomLabel />}
+								>
+									{data.map((entry, index) => (
+										<Cell
+											key={`cell-${index}`}
+											fill={COLORS[index % COLORS.length]}
+										/>
+									))}
+								</Pie>
+								<Tooltip style={{ zIndex: 9999 }} content={<GenderTooltip active={undefined} payload={undefined} label={undefined} />} />
+							</PieChart>
+						</ResponsiveContainer>
+					) : (
+						<CircularProgress size={100} thickness={10} />
+					)}
+				</Box>
+			</Paper>
+		);
+	;
 });
+
+export default GenderChart;

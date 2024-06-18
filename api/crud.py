@@ -285,8 +285,8 @@ def query_movie(keywords):
                 Movie.budget,
                 Movie.revenue,
             )
-            .having((Movie.credits) > 1)
-            .order_by(func.random)
+            .having(func.count(Movie.credits) > 1)
+            .order_by(func.random())
             .all()
         )
         return query[:30]
@@ -305,7 +305,7 @@ def query_movie(keywords):
                 Movie.budget,
                 Movie.revenue,
             )
-            .having((Movie.credits) > 1)
+            .having(func.count(Movie.credits) > 1)
             .filter(
                 and_(
                     func.lower(Movie.title).like(f"{keywords.lower()}%"),

@@ -11,8 +11,13 @@ export type AgeData = {
   amount: number,
 }
 
-export const parseGenders = (movieCast : Cast[]) => {
-  const listGenderData : GenderData[] = [
+export type ChartData = {
+  name: string,
+  amount: number,
+}
+
+export const parseGenders = (movieCast: Cast[]) => {
+  const listGenderData: GenderData[] = [
     { name: 'Male', amount: 0 },
     { name: 'Female', amount: 0 },
     { name: 'Non-Binary', amount: 0 }
@@ -57,9 +62,9 @@ export const parseAges = (movieCast: Cast[], releaseDate: number) => {
 };
 
 
-export const parseRace = (movieCast) => {
+export const parseRace = (movieCast: Cast[]) => {
   if (movieCast.length === 0) return [];
-  const raceData = {};
+  const raceData: { [key: string]: number } = {};
   const filtered = movieCast.filter((cast) => cast.race.length !== 0);
   filtered.forEach((cast) => {
     cast.race.forEach((race) => {
@@ -68,7 +73,7 @@ export const parseRace = (movieCast) => {
         : 1;
     });
   });
-  const listRaceData = [
+  const listRaceData: ChartData[] = [
     {
       name: "White",
       amount: 0
@@ -97,26 +102,25 @@ export const parseRace = (movieCast) => {
   let counter = 0;
   for (const race in raceData) {
     const update = listRaceData.find(obj => obj.name == race.toString());
-    update.amount = raceData[race];
+    update!.amount = raceData[race];
     counter++;
   }
   return counter > 0 ? listRaceData : [];
 };
 
 
-export const parseEthnicity = (movieCast) => {
+export const parseEthnicity = (movieCast: Cast[]) => {
   if (movieCast.length === 0) return [];
-  const ethnicityData = {};
+  const ethnicityData: { [key: string]: number } = {};
   const filtered = movieCast.filter((cast) => cast.ethnicity.length !== 0);
   filtered.forEach((cast) => {
-    cast.ethnicity.forEach((ethnicity) => {
-      ;
-      ethnicityData[ethnicity.name] = ethnicityData[ethnicity.name]
-        ? (ethnicityData[ethnicity.name] += 1)
+    cast.ethnicity.forEach((ethnicity: string) => {
+      ethnicityData[ethnicity] = ethnicityData[ethnicity]
+        ? (ethnicityData[ethnicity] += 1)
         : 1;
     });
   });
-  const listEthnicityData = [];
+  const listEthnicityData: ChartData[] = [];
   for (const ethnicity in ethnicityData) {
 
     listEthnicityData.push({
@@ -128,10 +132,9 @@ export const parseEthnicity = (movieCast) => {
 };
 
 
-export const parseCountryOfBirth = (movieCast) => {
-  const listCOBData = [];
+export const parseCountryOfBirth = (movieCast: Cast[]) => {
+  const listCOBData: ChartData[] = [];
   movieCast.forEach((cast) => {
-    const new_entry = {};
     if (cast.country_of_birth !== null) {
       //   const entry = listCOBData.find(entry => entry.name == 'Unknown');
       //   if (!entry) {
@@ -142,10 +145,12 @@ export const parseCountryOfBirth = (movieCast) => {
       //     entry.amount += 1;
       //   }
       // } else {
-      const entry = listCOBData.find(entry => entry.name == cast.country_of_birth);
+      const entry = listCOBData.find(e => e.name == cast.country_of_birth);
       if (!entry) {
-        new_entry.name = cast.country_of_birth;
-        new_entry.amount = 1;
+        const new_entry: ChartData = {
+          name: cast.country_of_birth,
+          amount: 1
+        }
         listCOBData.push(new_entry);
       } else {
         entry.amount += 1;

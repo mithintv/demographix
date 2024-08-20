@@ -13,7 +13,7 @@ import SearchResults from "./SearchResults";
 export default function SearchPage({ nav }: { nav: boolean }) {
   const md = useMediaQuery("(max-width:960px)");
   const sm = useMediaQuery("(max-width:600px)");
-  const xs = useMediaQuery("(max-width:425px)");
+  // const xs = useMediaQuery("(max-width:425px)");
 
   const [open, setOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);

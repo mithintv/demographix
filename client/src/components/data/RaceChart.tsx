@@ -18,16 +18,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartData } from "../utils/parse";
+import { CustomizedTooltip } from "../../types/Chart";
+import { ChartData } from "../../utils/parse";
 import {
   axisLineStyle,
   barChartLabelStyle,
   barChartLabelStyle2,
   tickStyle,
-} from "../utils/theme";
+} from "../../utils/theme";
 import ChartLabel from "./ChartLabel";
 
-const RaceTooltip = ({ active, payload, label }) => {
+const RaceTooltip = ({ active, payload }: CustomizedTooltip) => {
   if (active && payload && payload.length) {
     const name = payload[0].payload.name;
     const count = payload[0].value;
@@ -42,7 +43,10 @@ const RaceTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const formatYAxisLabel = (label, index) => {
+const formatYAxisLabel = (
+  label: string
+  // index: number
+) => {
   if (label === "Hispanic/Latino") {
     return "HSPN";
   }
@@ -55,8 +59,23 @@ const formatYAxisLabel = (label, index) => {
   return label;
 };
 
-const CustomizedLabel = (props) => {
-  const { x, width, y, height, value, index, total } = props;
+const CustomizedLabel = ({
+  x,
+  width,
+  y,
+  height,
+  value,
+  index,
+  total,
+}: {
+  x: number;
+  width: number;
+  y: number;
+  height: number;
+  value: number;
+  index: number;
+  total: number;
+}) => {
   if ((index % 2 === 0 && total > 10) || total < 10) {
     return (
       <g>
@@ -70,10 +89,10 @@ const CustomizedLabel = (props) => {
       </g>
     );
   }
-  return null;
+  return <></>;
 };
 
-const calculateInterval = (chartHeight, labelCount) => {
+const calculateInterval = (chartHeight: number, labelCount: number) => {
   // Customize the interval calculation based on your requirements
   const maxVisibleLabels = Math.floor(chartHeight / 25); // Assuming each label is 30px in height
   return Math.ceil(labelCount / maxVisibleLabels);
@@ -178,23 +197,22 @@ const RaceChart = memo(
                 />
                 <Tooltip
                   viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
-                  content={
-                    <RaceTooltip
-                      active={undefined}
-                      payload={undefined}
-                      label={undefined}
-                    />
-                  }
+                  content={<RaceTooltip />}
                 />
                 <Bar
                   animationDuration={1000} // Duration of the animation in milliseconds
                   animationBegin={500}
                   dataKey="amount"
-                  label={<CustomizedLabel total={data.length} />}
+                  label={CustomizedLabel}
                 >
                   {data.map((entry, index) => {
                     if (colors.length === 1) {
-                      return <Cell key={`cell-${index}`} fill={colors[0]} />;
+                      return (
+                        <Cell
+                          key={`cell-${entry.name}-${index}`}
+                          fill={colors[0]}
+                        />
+                      );
                     }
                     return <Cell key={`cell-${index}`} fill={colors[index]} />;
                   })}

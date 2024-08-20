@@ -23,27 +23,13 @@ export default function Footer() {
         }}
       >
         <Link href="https://mithin.com">
-          <i
-            className="fa-solid fa-code"
-            style={{
-              color: "rgba(255, 255, 255, 0.7)",
-              "&:hover": {
-                color: "#fff",
-              },
-            }}
-          ></i>
+          <i className="fa-solid fa-code footer-icons" />
         </Link>
         <Link href="https://linkedin.com/in/mithintv">
-          <i
-            className="fa-brands fa-linkedin"
-            style={{ color: "rgba(255, 255, 255, 0.7)" }}
-          ></i>
+          <i className="fa-brands fa-linkedin footer-icons"></i>
         </Link>
         <Link href="https://github.com/mithintv">
-          <i
-            className="fa-brands fa-github"
-            style={{ color: "rgba(255, 255, 255, 0.7)" }}
-          ></i>
+          <i className="fa-brands fa-github footer-icons"></i>
         </Link>
       </Box>
     </Box>

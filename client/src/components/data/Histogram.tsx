@@ -9,14 +9,16 @@ import {
 import * as d3 from "d3";
 import { memo, useEffect, useState } from "react";
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from "recharts";
-import { CastHistogramDto } from "../types/Cast";
-import { AgeData } from "../utils/parse";
+
+import { CastHistogramDto } from "../../types/Cast";
+import { Payload } from "../../types/Chart";
+import { AgeData } from "../../utils/parse";
 import {
   axisLineStyle,
   cursorColor,
   histogramLabelStyle,
   tickStyle,
-} from "../utils/theme";
+} from "../../utils/theme";
 import ChartLabel from "./ChartLabel";
 
 export type HistogramData = {
@@ -25,11 +27,19 @@ export type HistogramData = {
   cast: CastHistogramDto[];
 };
 
-export const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
+export const CustomTooltip = ({
+  active,
+  payload,
+  // label,
+}: {
+  active: boolean | null;
+  payload: Payload[] | null;
+  label: string | null;
+}) => {
+  if (active && payload !== null && payload.length) {
     const ageGroup = payload[0].payload.ageGroup;
     const count = payload[0].value;
-    const cast = payload[0].payload.cast || [];
+    // const cast = payload[0].payload.cast || [];
     return (
       <Paper sx={{ px: 2, py: 2, display: "flex", flexDirection: "column" }}>
         <Typography
@@ -194,8 +204,8 @@ const Histogram = memo(({ data }: { data: AgeData[] }) => {
               />
             </YAxis>
             <Tooltip
-              style={{ zIndex: 9999 }}
-              content={<CustomTooltip />}
+              wrapperStyle={{ zIndex: 9999 }}
+              content={<CustomTooltip active={null} payload={null} label={null} />}
               cursor={cursorColor}
             />
             <Bar

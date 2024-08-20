@@ -20,13 +20,14 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CastDataCard from "../components/CastDataCard";
-import Footer from "../layout/Footer";
-import NavBar from "../layout/NavBar";
-import { backgroundGradient } from "../utils/theme";
+import Footer from "../components/layout/Footer";
+import NavBar from "../components/layout/NavBar";
 import { Movie } from "../types/Movie";
+import { backgroundGradient } from "../utils/theme";
+import { Cast } from "../types/Cast";
 
 const compileCast = (movies: Movie[]) => {
-  const allMoviesCast: string[] = [];
+  const allMoviesCast: Cast[] = [];
   movies.forEach((movie) => {
     allMoviesCast.push(...movie.cast);
   });
@@ -35,12 +36,12 @@ const compileCast = (movies: Movie[]) => {
 
 export const Visualizer = () => {
   const md = useMediaQuery("(max-width:960px)");
-  const sm = useMediaQuery("(max-width:600px)");
+  // const sm = useMediaQuery("(max-width:600px)");
   const xs = useMediaQuery("(max-width:425px)");
   const { awardParam, rangeParam, yearParam } = useParams();
 
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [castData, setCastData] = useState<string[]>([]);
+  const [castData, setCastData] = useState<Cast[]>([]);
 
   const [range, setRange] = useState(rangeParam);
   const [award, setAward] = useState(awardParam);
@@ -70,10 +71,11 @@ export const Visualizer = () => {
 
   // useEffect for displaying title with cumulative years above data card
   useEffect(() => {
-    if (range === "cumulative") {
-      const years = year?.toString().split(" ") || [];
+    if (range === "cumulative" && year !== undefined) {
+      const years = year.toString().split(" ");
+      const splitYear = Number.parseInt(years[1]);
       const current_year = new Date().getFullYear();
-      const string = `${current_year - years[1] + 1} - ${current_year}`;
+      const string = `${current_year - splitYear + 1} - ${current_year}`;
       setCumYears(string);
     }
   }, [year, range]);
@@ -370,7 +372,7 @@ export const Visualizer = () => {
               </Box>
             )}
           </Box>
-          <CastDataCard cast={castData} releaseDate={null} />
+          <CastDataCard cast={castData} />
           <Paper
             sx={{
               display: "flex",

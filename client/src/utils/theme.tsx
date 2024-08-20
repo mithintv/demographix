@@ -1,4 +1,6 @@
 import { createTheme } from "@mui/material";
+import { CSSProperties } from "react";
+import { ImplicitLabelType } from "recharts/types/component/Label";
 
 // Create a theme instance.
 export const darkTheme = createTheme({
@@ -116,17 +118,17 @@ export const tickStyle = {
 export const cursorColor = {
   fill: darkTheme.palette.text.disabled,
 };
-export const histogramLabelStyle = {
+export const histogramLabelStyle: ImplicitLabelType = {
   fill: darkTheme.palette.text.secondary,
   position: "top",
 };
-export const barChartLabelStyle = {
+export const barChartLabelStyle: CSSProperties = {
   fill: darkTheme.palette.text.secondary,
-  position: "right",
+  // position: "righ",
   fontSize: "0.75em",
 };
-export const barChartLabelStyle2 = {
+export const barChartLabelStyle2: CSSProperties = {
   fill: darkTheme.palette.text.secondary,
-  position: "right",
+  // position: "right",
   fontSize: "0",
 };

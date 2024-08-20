@@ -12,7 +12,7 @@ import {
 import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import SearchPage from "../components/SearchPage";
-import Footer from "../layout/Footer";
+import Footer from "../components/layout/Footer";
 
 export default function Index() {
   const theme = useTheme();

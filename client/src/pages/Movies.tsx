@@ -7,26 +7,24 @@ import {
   Fade,
   IconButton,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CastCard from "../components/CastCard";
 import CastDataCard from "../components/CastDataCard";
+import Footer from "../components/layout/Footer";
+import NavBar from "../components/layout/NavBar";
 import MovieCard from "../components/MovieCard";
-import Footer from "../layout/Footer";
-import NavBar from "../layout/NavBar";
 import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
 
 export default function Movies() {
-  const theme = useTheme();
-  const lg = useMediaQuery("(max-width:1200px)");
-  const md = useMediaQuery("(max-width:960px)");
-  const sm = useMediaQuery("(max-width:600px)");
-  const xs = useMediaQuery("(max-width:425px)");
+  // const theme = useTheme();
+  // const lg = useMediaQuery("(max-width:1200px)");
+  // const md = useMediaQuery("(max-width:960px)");
+  // const sm = useMediaQuery("(max-width:600px)");
+  // const xs = useMediaQuery("(max-width:425px)");
   const { id } = useParams();
   // const { id } = props.match.params;
   const [movieDetails, setMovieDetails] = useState<Movie>({

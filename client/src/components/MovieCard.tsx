@@ -9,18 +9,16 @@ import {
   Stack,
   Typography,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Movie } from "../types/Movie";
 
-export default function MovieCard(props) {
-  const theme = useTheme();
-  const lg = useMediaQuery("(max-width:1200px)");
-  const md = useMediaQuery("(max-width:960px)");
-  const sm = useMediaQuery("(max-width:600px)");
+export default function MovieCard({ movie }: { movie: Movie }) {
+  // const theme = useTheme();
+  // const lg = useMediaQuery("(max-width:1200px)");
+  // const md = useMediaQuery("(max-width:960px)");
+  // const sm = useMediaQuery("(max-width:600px)");
   const xs = useMediaQuery("(max-width:426px)");
-  const { movie } = props;
   const [content, setContent] = useState<Movie>(movie);
   const [show, setShow] = useState(false);
 

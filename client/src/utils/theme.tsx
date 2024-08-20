@@ -68,6 +68,20 @@ export const darkTheme = createTheme({
         fontSize: "0.85rem", // for small screens and above
       },
     },
+    subtitle1: {
+      fontSize: "2rem",
+      fontWeight: 700,
+      textTransform: "uppercase",
+      "@media (max-width:960px)": {
+        fontSize: "1.75rem", // for small screens and above
+      },
+      "@media (max-width:600px)": {
+        fontSize: "1.50rem", // for small screens and above
+      },
+      "@media (max-width:425px)": {
+        fontSize: "1.45rem", // for small screens and above
+      },
+    },
     subtitle2: {
       fontWeight: 400,
     },
@@ -86,20 +100,6 @@ export const darkTheme = createTheme({
         fontSize: "0.45rem", // for small screens and above
       },
     },
-    // overline2: {
-    // 	fontSize: "2rem",
-    // 	fontWeight: 700,
-    // 	textTransform: "uppercase",
-    // 	"@media (max-width:960px)": {
-    // 		fontSize: "1.75rem", // for small screens and above
-    // 	},
-    // 	"@media (max-width:600px)": {
-    // 		fontSize: "1.50rem", // for small screens and above
-    // 	},
-    // 	"@media (max-width:425px)": {
-    // 		fontSize: "1.45rem", // for small screens and above
-    // 	},
-    // },
   },
 });
 

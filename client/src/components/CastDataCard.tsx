@@ -1,30 +1,31 @@
-import { Box, Paper, Typography, useMediaQuery } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
+import GenderChart from "../data/GenderChart";
+import Histogram from "../data/Histogram";
+import RaceChart from "../data/RaceChart";
 import { Cast } from "../types/Cast";
 import {
-	AgeData,
-	GenderData,
+  AgeData,
+  ChartData,
+  GenderData,
   parseAges,
   parseCountryOfBirth,
   parseEthnicity,
   parseGenders,
   parseRace,
 } from "../utils/parse";
-import Histogram from "../data/Histogram";
-import GenderChart from "../data/GenderChart";
-import RaceChart from "../data/RaceChart";
 
 const CastDataCard = memo(
   ({ cast, releaseDate }: { cast: Cast[]; releaseDate: number }) => {
-    const lg = useMediaQuery("(max-width:1200px)");
-    const md = useMediaQuery("(max-width:960px)");
-    const sm = useMediaQuery("(max-width:600px)");
-    const xs = useMediaQuery("(max-width:425px)");
+    // const lg = useMediaQuery("(max-width:1200px)");
+    // const md = useMediaQuery("(max-width:960px)");
+    // const sm = useMediaQuery("(max-width:600px)");
+    // const xs = useMediaQuery("(max-width:425px)");
     const [ageData, setAgeData] = useState<AgeData[]>([]);
     const [genderData, setGenderData] = useState<GenderData[]>([]);
-    const [raceData, setRaceData] = useState([]);
-    const [ethnicityData, setEthnicityData] = useState([]);
-    const [cobData, setCOBData] = useState();
+    const [raceData, setRaceData] = useState<ChartData[]>([]);
+    const [ethnicityData, setEthnicityData] = useState<ChartData[]>([]);
+    const [cobData, setCOBData] = useState<ChartData[]>();
 
     useEffect(() => {
       const listAgeData = parseAges(cast, releaseDate);

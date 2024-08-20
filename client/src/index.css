@@ -50,6 +50,10 @@ i {
   margin: 0 5px;
 }
 
-i:hover {
-  color: #fff !important;
+.footer-icons {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-icons:hover {
+  color: #fff;
 }

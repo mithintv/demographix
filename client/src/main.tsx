@@ -5,10 +5,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import LandingPage from "./pages/Index.tsx";
-import MovieDetails from "./pages/Movies.tsx";
 import { Visualizer } from "./pages/Visualizer.tsx";
-import ErrorPage from "./routes/ErrorPage.tsx";
+import ErrorPage from "./pages/Error.tsx";
 import { darkTheme } from "./utils/theme.tsx";
+import Movies from "./pages/Movies.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "movies/:id",
-        element: <MovieDetails />,
+        element: <Movies />,
       },
     ],
   },

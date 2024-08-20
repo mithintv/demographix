@@ -1,22 +1,22 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
-import GenderChart from "../data/GenderChart";
-import Histogram from "../data/Histogram";
-import RaceChart from "../data/RaceChart";
 import { Cast } from "../types/Cast";
 import {
   AgeData,
   ChartData,
   GenderData,
   parseAges,
-  parseCountryOfBirth,
+  // parseCountryOfBirth,
   parseEthnicity,
   parseGenders,
   parseRace,
 } from "../utils/parse";
+import GenderChart from "./data/GenderChart";
+import Histogram from "./data/Histogram";
+import RaceChart from "./data/RaceChart";
 
 const CastDataCard = memo(
-  ({ cast, releaseDate }: { cast: Cast[]; releaseDate: number }) => {
+  ({ cast, releaseDate }: { cast: Cast[]; releaseDate?: number }) => {
     // const lg = useMediaQuery("(max-width:1200px)");
     // const md = useMediaQuery("(max-width:960px)");
     // const sm = useMediaQuery("(max-width:600px)");
@@ -25,7 +25,7 @@ const CastDataCard = memo(
     const [genderData, setGenderData] = useState<GenderData[]>([]);
     const [raceData, setRaceData] = useState<ChartData[]>([]);
     const [ethnicityData, setEthnicityData] = useState<ChartData[]>([]);
-    const [cobData, setCOBData] = useState<ChartData[]>();
+    // const [cobData, setCOBData] = useState<ChartData[]>();
 
     useEffect(() => {
       const listAgeData = parseAges(cast, releaseDate);
@@ -40,8 +40,8 @@ const CastDataCard = memo(
       const listEthnicityData = parseEthnicity(cast);
       setEthnicityData(listEthnicityData);
 
-      const listCOBData = parseCountryOfBirth(cast);
-      setCOBData(listCOBData);
+      // const listCOBData = parseCountryOfBirth(cast);
+      // setCOBData(listCOBData);
     }, [cast, releaseDate]);
 
     return (

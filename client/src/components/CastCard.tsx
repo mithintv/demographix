@@ -5,18 +5,18 @@ import {
   CircularProgress,
   Container,
   Fade,
+  Paper,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { Cast } from "../types/Cast";
 
-const CastCard = ({ cast }: { cast: Cast[] }) => {
-  const theme = useTheme();
+const CastCard = memo(({ cast }: { cast: Cast[] }) => {
+  // const theme = useTheme();
   const [content, setContent] = useState<Cast[]>(cast);
   const [show, setShow] = useState(false);
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     setShow(false);
@@ -32,7 +32,7 @@ const CastCard = ({ cast }: { cast: Cast[] }) => {
   }, [cast]);
 
   return (
-    <Box
+    <Paper
       elevation={2}
       sx={{
         display: "flex",
@@ -52,11 +52,11 @@ const CastCard = ({ cast }: { cast: Cast[] }) => {
       >
         {content ? (
           content.map((cast, index) => {
-            let age = "Unknown";
+            // let age = "Unknown";
             if (cast.birthday) {
-              const birthday = new Date(cast.birthday).getFullYear();
-              const currYear = new Date().getFullYear();
-              age = currYear - birthday;
+              // const birthday = new Date(cast.birthday).getFullYear();
+              // const currYear = new Date().getFullYear();
+              // age = currYear - birthday;
             }
 
             let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${cast.profile_path}`;
@@ -112,8 +112,8 @@ const CastCard = ({ cast }: { cast: Cast[] }) => {
           }}
         /> */}
       </Box>
-    </Box>
+    </Paper>
   );
-};
+});
 
-export default memo(CastCard);
+export default CastCard;

@@ -41,12 +41,12 @@ export const parseGenders = (movieCast: Cast[]) => {
   return removeEmpty;
 };
 
-export const parseAges = (movieCast: Cast[], releaseDate: number) => {
+export const parseAges = (movieCast: Cast[], releaseDate?: number) => {
   const listAgeData: AgeData[] = [];
   const filteredBdays = movieCast.filter((cast) => cast.birthday !== null);
   filteredBdays.forEach((cast) => {
     const birthday = new Date(cast.birthday!).getFullYear();
-    if (releaseDate === null) {
+    if (releaseDate === undefined) {
       releaseDate = new Date().getFullYear();
     }
     const age = releaseDate - birthday;

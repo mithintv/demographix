@@ -6,25 +6,24 @@ import {
   Fade,
   Link,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Movie } from "../types/Movie";
 
 export default function SearchResults({
-  clicked,
+  // clicked,
   keywords,
 }: {
   clicked: boolean;
   keywords: string;
 }) {
-  const lg = useMediaQuery("(max-width:1200px)");
-  const md = useMediaQuery("(max-width:960px)");
+  // const lg = useMediaQuery("(max-width:1200px)");
+  // const md = useMediaQuery("(max-width:960px)");
   const sm = useMediaQuery("(max-width:600px)");
-  const xs = useMediaQuery("(max-width:485px)");
+  // const xs = useMediaQuery("(max-width:485px)");
   const [results, setResults] = useState<Movie[]>([]);
-  const theme = useTheme();
+  // const theme = useTheme();
 
   useEffect(() => {
     const fetchSearch = async (query: string) => {
@@ -45,7 +44,7 @@ export default function SearchResults({
         console.log(err);
       }
     };
-    let timeout: number | undefined;
+    let timeout: NodeJS.Timeout;
     if (keywords.length === 0) {
       fetchSearch(keywords);
     } else {

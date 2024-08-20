@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import SearchPage from "../components/SearchPage";
+import SearchPage from "../SearchPage";
 
 export default function NavBar() {
   const sm = useMediaQuery("(max-width:600px)");
@@ -116,7 +116,7 @@ export default function NavBar() {
               <Link
                 sx={{ textDecoration: "none", mx: 2 }}
                 component={RouterLink}
-                to="/noms/academy awards/yearly/2023"
+                to="/visualizer/academy awards/yearly/2023"
               >
                 <Button
                   startIcon={

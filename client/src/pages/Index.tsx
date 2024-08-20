@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import Footer from "../layout/Footer";
 import SearchPage from "../components/SearchPage";
+import Footer from "../layout/Footer";
 
-export default function LandingPage() {
+export default function Index() {
   const theme = useTheme();
   // const md = useMediaQuery("(max-width:960px)");
   const sm = useMediaQuery("(max-width:600px)");
@@ -80,22 +80,22 @@ export default function LandingPage() {
               width: "75%",
             }}
           >
-            <Button
-              sx={{ my: 1 }}
-              size={sm ? "medium" : "large"}
-              startIcon={
-                <span className="material-symbols-outlined">bar_chart</span>
-              }
-              variant="outlined"
+            <Link
+              sx={{ textDecoration: "none" }}
+              to={`visualizer/academy awards/yearly/${2023}`}
+              component={RouterLink}
             >
-              <Link
-                sx={{ textDecoration: "none" }}
-                to={`/noms/academy awards/yearly/${2023}`}
-                component={RouterLink}
+              <Button
+                sx={{ my: 1 }}
+                size={sm ? "medium" : "large"}
+                startIcon={
+                  <span className="material-symbols-outlined">bar_chart</span>
+                }
+                variant="outlined"
               >
                 Visualize Data
-              </Link>
-            </Button>
+              </Button>
+            </Link>
 
             <SearchPage nav={false} />
           </Grid>

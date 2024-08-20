@@ -1,8 +1,35 @@
-import { useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Fade,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  SelectChangeEvent,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import CastDataCard from "../components/CastDataCard";
+import Footer from "../layout/Footer";
+import NavBar from "../layout/NavBar";
+import { backgroundGradient } from "../utils/theme";
 
 type Movie = {
-  cast: string;
+  id: string;
+  title: string;
+  release_date: string;
+  cast: string[];
+  poster_path: string;
 };
 
 const compileCast = (movies: Movie[]) => {
@@ -13,13 +40,13 @@ const compileCast = (movies: Movie[]) => {
   return allMoviesCast;
 };
 
-export const NomMovies = (props) => {
+export const Visualizer = () => {
   const md = useMediaQuery("(max-width:960px)");
-  // const sm = useMediaQuery("(max-width:600px)");
+  const sm = useMediaQuery("(max-width:600px)");
   const xs = useMediaQuery("(max-width:425px)");
-  const { awardParam, rangeParam, yearParam } = props.match.params;
+  const { awardParam, rangeParam, yearParam } = useParams();
 
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [castData, setCastData] = useState<string[]>([]);
 
   const [range, setRange] = useState(rangeParam);
@@ -29,7 +56,7 @@ export const NomMovies = (props) => {
 
   const [open, setOpen] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,7 +78,7 @@ export const NomMovies = (props) => {
   // useEffect for displaying title with cumulative years above data card
   useEffect(() => {
     if (range === "cumulative") {
-      const years = year.toString().split(" ");
+      const years = year?.toString().split(" ") || [];
       const current_year = new Date().getFullYear();
       const string = `${current_year - years[1] + 1} - ${current_year}`;
       setCumYears(string);
@@ -59,31 +86,31 @@ export const NomMovies = (props) => {
   }, [year, range]);
 
   // functions that handle filter onChange events
-  const handleAward = (event) => {
+  const handleAward = (event: SelectChangeEvent) => {
     const selectedAward = event.target.value;
     setAward(selectedAward);
-    history.push(`/noms/${selectedAward}/${range}/${year}`);
+    navigate(`/noms/${selectedAward}/${range}/${year}`);
   };
 
-  const handleRange = (event) => {
+  const handleRange = (event: SelectChangeEvent) => {
     const selectedRange = event.target.value;
     setRange(selectedRange);
     let selectedYear = "last 3";
     if (selectedRange === "cumulative") {
       setYear(selectedYear);
     } else {
-      selectedYear = new Date().getFullYear();
+      selectedYear = new Date().getFullYear().toString();
       setYear(selectedYear);
     }
-    history.push(`/noms/${award}/${selectedRange}/${selectedYear}`);
+    navigate(`/noms/${award}/${selectedRange}/${selectedYear}`);
   };
 
-  const handleYear = (event) => {
+  const handleYear = (event: SelectChangeEvent) => {
     setMovies([]);
     setCastData([]);
     const selectedYear = event.target.value;
     setYear(selectedYear);
-    history.push(`/noms/${award}/${range}/${selectedYear}`);
+    navigate(`/noms/${award}/${range}/${selectedYear}`);
   };
 
   const handleClickOpen = () => {
@@ -133,7 +160,7 @@ export const NomMovies = (props) => {
               <Typography
                 sx={{ lineHeight: 0.75, mt: 1 }}
                 color="primary"
-                variant="overline2"
+                variant="subtitle1"
               >
                 Top Billed Cast
               </Typography>
@@ -350,7 +377,7 @@ export const NomMovies = (props) => {
               </Box>
             )}
           </Box>
-          <DataCard cast={castData} releaseDate={null} />
+          <CastDataCard cast={castData} releaseDate={null} />
           <Paper
             sx={{
               display: "flex",
@@ -396,7 +423,7 @@ export const NomMovies = (props) => {
                         cursor: "pointer",
                       }}
                     >
-                      <Link component={RouterLink} to={`/movies/${movie.id}`}>
+                      <Link to={`/movies/${movie.id}`}>
                         <CardMedia
                           width={100}
                           component="img"

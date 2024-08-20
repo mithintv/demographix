@@ -21,7 +21,7 @@ import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
 
-export default function MovieDetails() {
+export default function Movies() {
   const theme = useTheme();
   const lg = useMediaQuery("(max-width:1200px)");
   const md = useMediaQuery("(max-width:960px)");

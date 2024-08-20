@@ -23,14 +23,7 @@ import CastDataCard from "../components/CastDataCard";
 import Footer from "../layout/Footer";
 import NavBar from "../layout/NavBar";
 import { backgroundGradient } from "../utils/theme";
-
-type Movie = {
-  id: string;
-  title: string;
-  release_date: string;
-  cast: string[];
-  poster_path: string;
-};
+import { Movie } from "../types/Movie";
 
 const compileCast = (movies: Movie[]) => {
   const allMoviesCast: string[] = [];

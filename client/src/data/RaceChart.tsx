@@ -1,9 +1,31 @@
-import { Box, CircularProgress, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect } from "react";
-import { axisLineStyle, barChartLabelStyle, barChartLabelStyle2, tickStyle } from "../utils/theme";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import * as d3 from "d3";
+import { memo, useEffect } from "react";
+import {
+  Bar,
+  BarChart,
+  Cell,
+  Label,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { ChartData } from "../utils/parse";
+import {
+  axisLineStyle,
+  barChartLabelStyle,
+  barChartLabelStyle2,
+  tickStyle,
+} from "../utils/theme";
 import ChartLabel from "./ChartLabel";
-import { Bar, BarChart, Cell, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const RaceTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -57,115 +79,135 @@ const calculateInterval = (chartHeight, labelCount) => {
   return Math.ceil(labelCount / maxVisibleLabels);
 };
 
-const RaceChart = memo(({ data, title, colors }) => {
-  const lg = useMediaQuery("(max-width:1200px)");
-  const md = useMediaQuery("(max-width:960px)");
-  const sm = useMediaQuery("(max-width:600px)");
-  const xs = useMediaQuery("(max-width:425px)");
-  const theme = useTheme();
+const RaceChart = memo(
+  ({
+    data,
+    title,
+    colors,
+  }: {
+    data: ChartData[];
+    title: string;
+    colors: string[];
+  }) => {
+    const lg = useMediaQuery("(max-width:1200px)");
+    const md = useMediaQuery("(max-width:960px)");
+    const sm = useMediaQuery("(max-width:600px)");
+    const xs = useMediaQuery("(max-width:425px)");
+    const theme = useTheme();
 
-  useEffect(() => {
-    if (data.length > 10) {
-      data = data.sort((a, b) => d3.descending(a.amount, b.amount));
-    }
-  }, [data]);
+    useEffect(() => {
+      if (data.length > 10) {
+        data = data.sort((a, b) => d3.descending(a.amount, b.amount));
+      }
+    }, [data]);
 
-  return (
-    <Paper
-      elevation={2}
-      sx={{
-        p: 0,
-        m: 2,
-        mt: 1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        backgroundColor: "background.default",
-        flexGrow: 1,
-      }}
-    >
-      <ChartLabel label={title} />
-
-      <Box
+    return (
+      <Paper
+        elevation={2}
         sx={{
+          p: 0,
+          m: 2,
+          mt: 1,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "350px",
+          justifyContent: "space-between",
+          backgroundColor: "background.default",
+          flexGrow: 1,
         }}
       >
-        {data.length > 0 ? (
-          <ResponsiveContainer
-            width={
-              (xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
-            }
-            height={350}
-          >
-            <BarChart
-              layout="vertical"
+        <ChartLabel label={title} />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "350px",
+          }}
+        >
+          {data.length > 0 ? (
+            <ResponsiveContainer
               width={
                 (xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
               }
               height={350}
-              data={data}
-              margin={{
-                top: 20,
-                right: (sm && 20) || 50,
-                left: (title === "race" && sm && 5) || (sm && 30) || 100,
-                bottom: 30,
-              }}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
-              <XAxis
-                type="number"
-                tickLine={axisLineStyle}
-                axisLine={axisLineStyle}
-                tick={tickStyle}
-              >
-                <Label
-                  fill={theme.palette.text.secondary}
-                  value={xs ? "# of Cast Members" : "Number of Cast Members"}
-                  offset={-10}
-                  position="insideBottom"
-                />
-              </XAxis>
-              <YAxis
-                type="category"
-                dataKey="name"
-                tickLine={axisLineStyle}
-                axisLine={axisLineStyle}
-                tick={tickStyle}
-                interval={
-                  data.length > 10 ? calculateInterval(300, data.length) : 0
+              <BarChart
+                layout="vertical"
+                width={
+                  (xs && 275) ||
+                  (sm && 350) ||
+                  (md && 550) ||
+                  (lg && 900) ||
+                  550
                 }
-                tickFormatter={formatYAxisLabel}
-              />
-              <Tooltip
-                viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
-                content={<RaceTooltip active={undefined} payload={undefined} label={undefined} />}
-              />
-              <Bar
-                animationDuration={1000} // Duration of the animation in milliseconds
-                animationBegin={500}
-                dataKey="amount"
-                label={<CustomizedLabel total={data.length} />}
+                height={350}
+                data={data}
+                margin={{
+                  top: 20,
+                  right: (sm && 20) || 50,
+                  left: (title === "race" && sm && 5) || (sm && 30) || 100,
+                  bottom: 30,
+                }}
               >
-                {data.map((entry, index) => {
-                  if (colors.length === 1) {
-                    return <Cell key={`cell-${index}`} fill={colors[0]} />;
+                {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                <XAxis
+                  type="number"
+                  tickLine={axisLineStyle}
+                  axisLine={axisLineStyle}
+                  tick={tickStyle}
+                >
+                  <Label
+                    fill={theme.palette.text.secondary}
+                    value={xs ? "# of Cast Members" : "Number of Cast Members"}
+                    offset={-10}
+                    position="insideBottom"
+                  />
+                </XAxis>
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  tickLine={axisLineStyle}
+                  axisLine={axisLineStyle}
+                  tick={tickStyle}
+                  interval={
+                    data.length > 10 ? calculateInterval(300, data.length) : 0
                   }
-                  return <Cell key={`cell-${index}`} fill={colors[index]} />;
-                })}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        ) : (
-          <CircularProgress size={100} thickness={10} />
-        )}
-      </Box>
-    </Paper>
-  );
-});
+                  tickFormatter={formatYAxisLabel}
+                />
+                <Tooltip
+                  viewBox={{ x: 0, y: 0, width: 400, height: 400 }}
+                  content={
+                    <RaceTooltip
+                      active={undefined}
+                      payload={undefined}
+                      label={undefined}
+                    />
+                  }
+                />
+                <Bar
+                  animationDuration={1000} // Duration of the animation in milliseconds
+                  animationBegin={500}
+                  dataKey="amount"
+                  label={<CustomizedLabel total={data.length} />}
+                >
+                  {data.map((entry, index) => {
+                    if (colors.length === 1) {
+                      return <Cell key={`cell-${index}`} fill={colors[0]} />;
+                    }
+                    return <Cell key={`cell-${index}`} fill={colors[index]} />;
+                  })}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <CircularProgress size={100} thickness={10} />
+          )}
+        </Box>
+      </Paper>
+    );
+  }
+);
 
 export default RaceChart;

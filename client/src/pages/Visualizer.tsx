@@ -22,9 +22,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import CastDataCard from "../components/CastDataCard";
 import Footer from "../components/layout/Footer";
 import NavBar from "../components/layout/NavBar";
+import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
-import { Cast } from "../types/Cast";
 
 const compileCast = (movies: Movie[]) => {
   const allMoviesCast: Cast[] = [];
@@ -61,6 +61,7 @@ export const Visualizer = () => {
     const fetchData = async () => {
       const response = await fetch(`/api/nom/${year}`);
       const movieList = await response.json();
+      console.log(movieList);
       setMovies(movieList);
 
       const castList = compileCast(movieList);

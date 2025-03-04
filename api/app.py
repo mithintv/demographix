@@ -37,7 +37,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
-
 @app.route("/test/openai", methods=["POST"])
 def openai():
     """Retreive Open AI API result with given passage as json body."""
@@ -45,13 +44,6 @@ def openai():
     article = data["article"]
     result = txtcomp(article, verify=False)
     return jsonify(result)
-
-
-@app.route("/<path>")
-def catch_all(path):
-    """Catch all route."""
-    logging.error(path)
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")

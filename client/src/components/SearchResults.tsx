@@ -87,7 +87,7 @@ export default function SearchResults({
                   mb: 2,
                 }}
                 component={RouterLink}
-                to={`movies/${movie.id}`}
+                to={`/movies/${movie.id}`}
               >
                 <Card>
                   <CardMedia

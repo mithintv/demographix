@@ -81,7 +81,7 @@ export default function NavBar() {
                     textAlign: "center",
                   }}
                   component={RouterLink}
-                  to="/noms/academy awards/yearly/2023"
+                  to="/visualizer/academy-awards/yearly/2023"
                 >
                   <Button
                     startIcon={
@@ -116,7 +116,7 @@ export default function NavBar() {
               <Link
                 sx={{ textDecoration: "none", mx: 2 }}
                 component={RouterLink}
-                to="/visualizer/academy awards/yearly/2023"
+                to="/visualizer/academy-awards/yearly/2023"
               >
                 <Button
                   startIcon={

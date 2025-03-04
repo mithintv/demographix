@@ -19,7 +19,6 @@ import {
   YAxis,
 } from "recharts";
 import { CustomizedTooltip } from "../../types/Chart";
-import { ChartData } from "../../utils/parse";
 import {
   axisLineStyle,
   barChartLabelStyle,
@@ -27,6 +26,7 @@ import {
   tickStyle,
 } from "../../utils/theme";
 import ChartLabel from "./ChartLabel";
+import { ChartData } from "../../types/ChartData";
 
 const RaceTooltip = ({ active, payload }: CustomizedTooltip) => {
   if (active && payload && payload.length) {

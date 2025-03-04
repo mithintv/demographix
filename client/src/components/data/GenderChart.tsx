@@ -9,7 +9,7 @@ import {
 import { memo } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { CustomizedPieChartLabel, CustomizedTooltip } from "../../types/Chart";
-import { GenderData } from "../../utils/parse";
+import { ChartData } from "../../types/ChartData";
 import ChartLabel from "./ChartLabel";
 
 const GenderTooltip = ({ active, payload }: CustomizedTooltip) => {
@@ -47,8 +47,8 @@ CustomizedPieChartLabel) => {
   const sy = cy + (outerRadius + 10) * sin;
   const mx = cx + (outerRadius + 30) * cos;
   const my = cy + (outerRadius + 30) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 10;
-  const ey = my;
+  const ex = mx + (cos >= 0 ? 1 : -1) + percent * 5;
+  const ey = my + (sin >= 0 ? 1 : -1) + percent * 5;
   const textAnchor = cos >= 0 ? "start" : "end";
 
   return (
@@ -79,8 +79,8 @@ CustomizedPieChartLabel) => {
         />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
         <text
-          x={ex + (cos >= 0 ? 1 : -1) * 8}
-          y={ey + (sin >= 0 ? 1 : -1)}
+          x={ex + (cos >= 0 ? 1 : -1) * 5}
+          y={ey + (sin >= 0 ? 1 : -1) + 2.5}
           textAnchor={textAnchor}
           fill="#fff"
         >
@@ -91,7 +91,7 @@ CustomizedPieChartLabel) => {
   );
 };
 
-const GenderChart = memo(({ data }: { data: GenderData[] }) => {
+const GenderChart = memo(({ data }: { data: ChartData[] }) => {
   // const md = useMediaQuery("(max-width:960px)");
   const sm = useMediaQuery("(max-width:600px)");
   const xs = useMediaQuery("(max-width:425px)");

@@ -12,7 +12,7 @@ import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from "recharts";
 
 import { CastHistogramDto } from "../../types/Cast";
 import { Payload } from "../../types/Chart";
-import { AgeData } from "../../utils/parse";
+import { ChartData } from "../../types/ChartData";
 import {
   axisLineStyle,
   cursorColor,
@@ -30,8 +30,8 @@ export type HistogramData = {
 export const CustomTooltip = ({
   active,
   payload,
-  // label,
-}: {
+}: // label,
+{
   active: boolean | null;
   payload: Payload[] | null;
   label: string | null;
@@ -99,7 +99,7 @@ export const CustomTooltip = ({
   return null;
 };
 
-const Histogram = memo(({ data }: { data: AgeData[] }) => {
+const Histogram = memo(({ data }: { data: ChartData[] }) => {
   const lg = useMediaQuery("(max-width:1200px)");
   const md = useMediaQuery("(max-width:960px)");
   const sm = useMediaQuery("(max-width:600px)");
@@ -120,7 +120,7 @@ const Histogram = memo(({ data }: { data: AgeData[] }) => {
         histogramData[ageGroupIndex].count++;
         histogramData[ageGroupIndex].cast.push({
           name: item.name,
-          profile_path: item.profile_path,
+          profile_path: item.profile_path!,
         });
       }
     });
@@ -205,7 +205,9 @@ const Histogram = memo(({ data }: { data: AgeData[] }) => {
             </YAxis>
             <Tooltip
               wrapperStyle={{ zIndex: 9999 }}
-              content={<CustomTooltip active={null} payload={null} label={null} />}
+              content={
+                <CustomTooltip active={null} payload={null} label={null} />
+              }
               cursor={cursorColor}
             />
             <Bar

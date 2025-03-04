@@ -1,10 +1,8 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { Cast } from "../types/Cast";
+import { ChartData } from "../types/ChartData";
 import {
-  AgeData,
-  ChartData,
-  GenderData,
   parseAges,
   // parseCountryOfBirth,
   parseEthnicity,
@@ -21,8 +19,8 @@ const CastDataCard = memo(
     // const md = useMediaQuery("(max-width:960px)");
     // const sm = useMediaQuery("(max-width:600px)");
     // const xs = useMediaQuery("(max-width:425px)");
-    const [ageData, setAgeData] = useState<AgeData[]>([]);
-    const [genderData, setGenderData] = useState<GenderData[]>([]);
+    const [ageData, setAgeData] = useState<ChartData[]>([]);
+    const [genderData, setGenderData] = useState<ChartData[]>([]);
     const [raceData, setRaceData] = useState<ChartData[]>([]);
     const [ethnicityData, setEthnicityData] = useState<ChartData[]>([]);
     // const [cobData, setCOBData] = useState<ChartData[]>();

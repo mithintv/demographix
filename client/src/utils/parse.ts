@@ -1,55 +1,35 @@
 import { Cast } from "../types/Cast";
+import { ChartData } from "../types/ChartData";
 
-export type GenderData = {
-  name: string;
-  amount: number;
-};
-
-export type AgeData = {
-  name: string;
-  profile_path: string;
-  amount: number;
-};
-
-export type ChartData = {
-  name: string;
-  amount: number;
-};
-
-export const parseGenders = (movieCast: Cast[]) => {
-  const listGenderData: GenderData[] = [
-    { name: "Male", amount: 0 },
-    { name: "Female", amount: 0 },
-    { name: "Non-Binary", amount: 0 },
-  ];
-  const filtered = movieCast.filter((cast) => cast.gender !== "Unknown");
-  filtered.forEach((cast) => {
-    const new_entry: GenderData = {
-      name: "",
-      amount: 0,
-    };
-    const entry = listGenderData.find((entry) => entry.name == cast.gender);
-    if (!entry) {
-      new_entry.name = cast.gender;
-      new_entry.amount = 1;
-      listGenderData.push(new_entry);
+/**
+ * Parses gender data from a list of cast members.
+ * @param {Cast[]} movieCast - Array of Cast.
+ * @returns {ChartData[]} Array of ChartData.
+ */
+export const parseGenders = (movieCast: Cast[]): ChartData[] => {
+  return movieCast.reduce((acc, cast) => {
+    const el = acc.find((x) => x.name == cast.gender);
+    if (el) {
+      el.amount += 1;
     } else {
-      entry.amount += 1;
+      acc.push({
+        name: cast.gender,
+        amount: 1,
+      });
     }
-  });
-  const removeEmpty = listGenderData.filter((label) => label.amount !== 0);
-  return removeEmpty;
+    return acc;
+  }, [] as ChartData[]);
 };
 
 /**
  * Parses age data from a list of cast members.
  * @param {Cast[]} movieCast - Array of Cast.
- * @returns {AgeData[]} Array of AgeData.
+ * @returns {ChartData[]} Array of ChartData.
  */
 export const parseAges = (
   movieCast: Cast[],
   releaseDate?: number
-): AgeData[] => {
+): ChartData[] => {
   if (movieCast.length === 0) return [];
   return movieCast
     .filter((cast) => cast.birthday !== null)
@@ -66,15 +46,13 @@ export const parseAges = (
     });
 };
 
-export const parseRace = (movieCast: Cast[]) => {
+/**
+ * Parses race data from a list of cast members.
+ * @param {Cast[]} movieCast - Array of Cast.
+ * @returns {ChartData[]} Array of ChartData.
+ */
+export const parseRace = (movieCast: Cast[]): ChartData[] => {
   if (movieCast.length === 0) return [];
-  const raceData: { [key: string]: number } = {};
-  const filtered = movieCast.filter((cast) => cast.race.length !== 0);
-  filtered.forEach((cast) => {
-    cast.race.forEach((race) => {
-      raceData[race] = raceData[race] ? (raceData[race] += 1) : 1;
-    });
-  });
   const listRaceData: ChartData[] = [
     {
       name: "White",
@@ -101,13 +79,18 @@ export const parseRace = (movieCast: Cast[]) => {
       amount: 0,
     },
   ];
-  let counter = 0;
-  for (const race in raceData) {
-    const update = listRaceData.find((obj) => obj.name == race.toString());
-    update!.amount = raceData[race];
-    counter++;
-  }
-  return counter > 0 ? listRaceData : [];
+
+  return movieCast
+    .filter((cast) => cast.race.length !== 0)
+    .flatMap((cast) => [...cast.race])
+    .reduce((acc, race) => {
+      const el = acc.find((x) => x.name === race);
+      if (el) {
+        el.amount += 1;
+      }
+
+      return listRaceData;
+    }, listRaceData);
 };
 
 /**

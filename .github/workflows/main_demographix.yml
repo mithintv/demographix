@@ -36,14 +36,18 @@ jobs:
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
+      - name: Create directory structure
+        run: |
+          mkdir -p container/api
+          cp -R api/* container/api/
+          
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          working-directory: ../
           path: |
-            ./api
-            !./api/venv
+            container
+            !container/venv
 
   deploy:
     runs-on: ubuntu-latest

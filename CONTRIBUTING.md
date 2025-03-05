@@ -21,68 +21,67 @@ Frontend
 
 Backend
 
-- [Python](https://docs.python.org/3/) v3.9.4
-- [Flask](https://flask.palletsprojects.com/en/2.3.x/) v2.0.1
-- [PostgreSQL](https://www.postgresql.org/docs/)
-- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v1.4.18
-- [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) v4.12.2
+- [Python](https://docs.python.org/3/) v3.9.18
+- [Flask](https://flask.palletsprojects.com/en/2.3.x/) v3.0.2
+- [PostgreSQL](https://www.postgresql.org/docs/) v14.11
+- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v2.0.28
 
 <a id="dev-env"></a>
 
 ## Development environment [`⇧`](#contents)
 
-To setup your development environment, install Python3, Postgres and [direnv](https://direnv.net/).
+To setup your development environment, install Python3, Postgres, [direnv](https://direnv.net/) and [poetry](https://python-poetry.org/).
 
 For windows users, I recommend developing in WSL. Click [here](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) to view the instructions on setting up WSL 2 for development.
 
 1. Clone the repo
 
-   ```bash
-   # Clone your fork of the repo into the current directory
-   git clone https://github.com/mithintv/demographix
+```bash
+# Clone your fork of the repo into the current directory
+git clone https://github.com/mithintv/demographix
 
-   # Navigate to the newly cloned directory
-   cd demographix
-   ```
+# Navigate to the newly cloned directory
+cd demographix
+```
 
 2. Create sh files for environment variables namely api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
 
-   ```bash
-   cat > api/secrets.sh << EOL
-   export FLASK_ENV=development
-   export FLASK_DEBUG=1
+```bash
+cat <<EOF > api/secrets.sh
+export FLASK_ENV=development
+export FLASK_DEBUG=1
 
-   export TMDB_ACCESS_TOKEN=<your-TMDB-access-token>
-   export TMDB_API_KEY=<your-TMDB-api-key>
-   EOL
-   ```
+export TMDB_ACCESS_TOKEN=<your-TMDB-access-token>
+export TMDB_API_KEY=<your-TMDB-api-key>
+EOF
+```
 
 3. Create local database and seed it with sample data
 
-   ```bash
-   createdb demographix
-   psql -U <username> -d demographix -f demographix.sql
-   ```
+```bash
+createdb demographix
+psql -d demographix -f api/demographix.sql
+```
 
-4. Setup and activate virtual environment
+4. Setup and activate virtual environment. `poetry shell` will create a new virtualenv and activate it.
 
-   ```bash
-   python3 -m venv api/.venv
-   ```
+```bash
+cd api/
+poetry shell
+```
 
-5. Activate environment, configure variables, and install dependencies. Changing the directory into `/api` should launch direnv via `.envrc` and activate the virtual environment and configure the environment variables.
-
-   ```bash
-   cd api/
-   pip install -r requirements.txt
-   ```
+5. Install dependencies, and configure secrets/environment variables. Navigate out of `/api` and back in to source environment variables.
+```bash
+poetry install
+cd ../ && cd api
+```
 
 6. Run server
 
-   ```bash
-   flask run
-   ```
-   You now have a fully running local copy of demographix running on http://localhost:5000. In the future, you should be able to just navigate to `/api` and run `flask run`.
+```bash
+flask run
+```
+You now have a fully running local copy of demographix running on http://localhost:5000. In the future, you should be able to just navigate to `/api` and run `flask run`.
 
 <a id="pull-requests"></a>
 
@@ -90,30 +89,30 @@ For windows users, I recommend developing in WSL. Click [here](https://learn.mic
 
 1. Get the latest changes from upstream develop branch:
 
-   ```bash
-   git checkout develop
-   git pull upstream develop
-   ```
+```bash
+git checkout develop
+git pull upstream develop
+```
 
 2. Create a new topic branch (off the develop branch) to contain your feature, change, or fix:
 
-   ```bash
-   git switch -c <topic-branch-name>
-   ```
+```bash
+git switch -c <topic-branch-name>
+```
 
 3. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
 
 4. Locally rebase the upstream development branch into your topic branch:
 
-   ```bash
-   git pull --rebase upstream develop
-   ```
+```bash
+git pull --rebase upstream develop
+```
 
 5. Push your topic branch up to your fork:
 
-   ```bash
-   git push origin <topic-branch-name>
-   ```
+```bash
+git push origin <topic-branch-name>
+```
 
 6. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 

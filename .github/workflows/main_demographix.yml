@@ -47,7 +47,7 @@ jobs:
           name: python-app
           path: |
             container
-            !container/venv
+            !container/api/venv
 
   deploy:
     runs-on: ubuntu-latest

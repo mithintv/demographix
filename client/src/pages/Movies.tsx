@@ -18,6 +18,7 @@ import MovieCard from "../components/MovieCard";
 import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
+import { API_HOSTNAME } from "@/utils/constants";
 
 export default function Movies() {
 	// const theme = useTheme();
@@ -47,7 +48,7 @@ export default function Movies() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await fetch(`/api/movies/${id}`);
+			const response = await fetch(`${API_HOSTNAME}/movies/${id}`);
 			const movieData = await response.json();
 			console.log(movieData);
 			setMovieDetails(movieData);

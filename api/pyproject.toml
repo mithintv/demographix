@@ -17,6 +17,7 @@ google-generativeai = "^0.4.1"
 psycopg2 = "^2.9.9"
 beautifulsoup4 = "^4.12.3"
 gunicorn = "^23.0.0"
+flask-cors = "^5.0.1"
 
 
 [tool.poetry.group.g4f.dependencies]

@@ -25,6 +25,7 @@ import NavBar from "../components/layout/NavBar";
 import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
+import { API_HOSTNAME } from "@/utils/constants";
 
 const compileCast = (movies: Movie[]) => {
 	const allMoviesCast: Cast[] = [];
@@ -59,7 +60,7 @@ export const Visualizer = () => {
 	// fetch call for data retrieval
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await fetch(`/api/nom/${year}`);
+			const response = await fetch(`${API_HOSTNAME}/nom/${year}`);
 			const movieList = await response.json();
 			console.log(movieList);
 			setMovies(movieList);

@@ -13,6 +13,10 @@ run-reload_venv() {
     poetry env use python
 }
 
+run-req-export() {
+    poetry export -f requirements.txt --output requirements.txt
+}
+
 show-help() {
     items=()
     while IFS='' read -r line; do items+=("$line"); done < \

@@ -41,8 +41,8 @@ jobs:
         with:
           name: python-app
           path: |
-            ../api/**
-            !**/venv
+            api/
+            !api/venv
 
   deploy:
     runs-on: ubuntu-latest

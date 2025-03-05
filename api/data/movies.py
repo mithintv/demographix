@@ -1,9 +1,5 @@
-import json
 import logging
 import os
-
-import credits
-import requests
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]

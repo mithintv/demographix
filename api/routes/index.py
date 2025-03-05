@@ -1,4 +1,5 @@
 import logging
+
 from flask import Blueprint, jsonify, make_response, request
 
 from api import crud

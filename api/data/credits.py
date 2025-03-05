@@ -1,11 +1,9 @@
-import requests
-import os
 import json
+import os
 
-from app import app
-from model import db, CastMember
 import crud
-
+import requests
+from model import CastMember, db
 
 key = os.environ['TMDB_API_KEY']
 

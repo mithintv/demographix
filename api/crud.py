@@ -5,12 +5,11 @@ import os
 from datetime import datetime
 
 import requests
+from data.cast import add_ethnicity_data, add_race_data, update_cast_member
+from model import (AlsoKnownAs, AltCountry, CastMember, Country, Credit,
+                   Gender, Genre, Movie, Nomination, db)
 from sqlalchemy import and_, create_engine, desc, exc, func
 from sqlalchemy.orm import sessionmaker
-
-from api.data.cast import add_ethnicity_data, add_race_data, update_cast_member
-from api.model import (AlsoKnownAs, AltCountry, CastMember, Country, Credit,
-                       Gender, Genre, Movie, Nomination, db)
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]

@@ -3,12 +3,11 @@
 import logging
 import os
 
+from data.gpt import txtcomp
 from flask import Flask, jsonify, request
 from flask_migrate import Migrate
-
-from api.data.gpt import txtcomp
-from api.model import db
-from api.routes import index, movies, nominations
+from model import db
+from routes import index, movies, nominations
 
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = "demographix_dev"

@@ -1,8 +1,7 @@
 import logging
 
+from data.cast import get_movie_cast
 from flask import Blueprint, jsonify
-
-from api.data.cast import get_movie_cast
 
 bp = Blueprint("movies", __name__, url_prefix="/movies")
 

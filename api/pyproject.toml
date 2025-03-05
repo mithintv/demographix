@@ -12,7 +12,7 @@ requests = "^2.31.0"
 Flask = "^3.0.2"
 Flask-Migrate = "^4.0.7"
 SQLAlchemy = "^2.0.28"
-g4f = {extras = ["openai"], version = "^0.2.6.2"}
+g4f = { extras = ["openai"], version = "^0.2.6.2" }
 google-generativeai = "^0.4.1"
 psycopg2 = "^2.9.9"
 beautifulsoup4 = "^4.12.3"

@@ -1,12 +1,22 @@
 import logging
+import os
 
 import crud
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, jsonify, make_response, redirect, request
 
 bp = Blueprint("index", __name__, url_prefix="/")
 
+
+@bp.route("/", methods=["GET"])
+def get_index():
+    client_hostname = "http://localhost:5173"
+    if os.environ["FLASK_ENV"] == "production":
+        client_hostname = os.environ["CLIENT_HOSTNAME"]
+    return redirect(client_hostname)
+
+
 @bp.route("/", methods=["POST"])
-def query():
+def post_index():
     """Return search results from database in json."""
 
     data = request.get_json()
@@ -26,8 +36,8 @@ def query():
     return jsonify(search_results)
 
 
-@bp.route('/', defaults={'path': ''}, methods=["GET", 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
-@bp.route("/<path:path>", methods=["GET", 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
+@bp.route("", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
+@bp.route("/<path:path>", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
 def catch_all(path):
     """Catch all route."""
     logging.error(path)

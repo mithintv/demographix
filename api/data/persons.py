@@ -1,10 +1,11 @@
 
-import os
-import requests
 import json
-from model import db, CastMember, AlsoKnownAs
-from app import app
+import os
+
+import requests
 from crud import *
+from model import AlsoKnownAs, CastMember, db
+
 from api.services.ethnicity import *
 
 key = os.environ['TMDB_API_KEY']

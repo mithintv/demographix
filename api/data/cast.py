@@ -2,20 +2,9 @@ import logging
 
 from sqlalchemy import and_, func
 
-from api.model import (
-    AltEthnicity,
-    CastEthnicity,
-    CastMember,
-    Country,
-    Credit,
-    Ethnicity,
-    Gender,
-    Movie,
-    Race,
-    Source,
-    SourceLink,
-    db,
-)
+from api.model import (AltEthnicity, CastEthnicity, CastMember, Country,
+                       Credit, Ethnicity, Gender, Movie, Race, Source,
+                       SourceLink, db)
 from api.services.ethnicity import get_ethnicity
 
 

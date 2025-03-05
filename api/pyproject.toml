@@ -16,6 +16,7 @@ g4f = {extras = ["openai"], version = "^0.2.6.2"}
 google-generativeai = "^0.4.1"
 psycopg2 = "^2.9.9"
 beautifulsoup4 = "^4.12.3"
+gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.g4f.dependencies]

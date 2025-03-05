@@ -1,7 +1,7 @@
-import os
 import json
+import os
 import re
-import pprint
+
 import google.generativeai as palm
 
 if os.environ.get('PALM_API_KEY', None):

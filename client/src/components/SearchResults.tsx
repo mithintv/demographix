@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Movie } from "../types/Movie";
+import { API_HOSTNAME } from "@/utils/constants";
 
 export default function SearchResults({
   // clicked,
@@ -37,7 +38,7 @@ export default function SearchResults({
             search: query,
           }),
         };
-        const response = await fetch("/api", options);
+        const response = await fetch(`${API_HOSTNAME}`, options);
         const json = await response.json();
         setResults(json);
       } catch (err) {

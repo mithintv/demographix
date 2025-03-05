@@ -5,11 +5,17 @@ import os
 
 from data.gpt import txtcomp
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from flask_migrate import Migrate
 from model import db
 from routes import index, movies, nominations
 
 app = Flask(__name__, instance_relative_config=True)
+
+origins = ["http://localhost:5173", "http://localhost:4173"]
+if os.environ["FLASK_ENV"] == "production":
+    origins = [os.environ["CLIENT_HOSTNAME"]]
+CORS(app, origins=origins)
 app.secret_key = "demographix_dev"
 
 # Register prefixed route handlers

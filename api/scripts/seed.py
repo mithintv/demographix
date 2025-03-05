@@ -7,23 +7,10 @@ import sys
 import time
 from datetime import datetime
 
-from api.model import (
-    AltCountry,
-    AltEthnicity,
-    CastMember,
-    Country,
-    Credit,
-    Ethnicity,
-    Gender,
-    Genre,
-    Movie,
-    Race,
-    Region,
-    SubRegion,
-    db,
-)
-
-from api.services.ethnicity import get_ethnicity
+from model import (AltCountry, AltEthnicity, CastMember, Country, Credit,
+                   Ethnicity, Gender, Genre, Movie, Race, Region, SubRegion,
+                   db)
+from services.ethnicity import get_ethnicity
 
 
 def seed_regions():

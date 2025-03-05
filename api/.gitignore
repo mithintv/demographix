@@ -8,7 +8,7 @@ __pycache__/
 
 # Environments/Environment Variables
 .venv/
-secrets.sh
+.secrets.sh
 .env
 
 # Logs

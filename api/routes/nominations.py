@@ -1,6 +1,5 @@
+from data.nominations import get_nom_movies, query_imdb_event_nominations
 from flask import Blueprint, jsonify
-
-from api.data.nominations import get_nom_movies, query_imdb_event_nominations
 
 bp = Blueprint("nominations", __name__, url_prefix="/nom")
 

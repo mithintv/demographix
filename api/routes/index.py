@@ -1,8 +1,7 @@
 import logging
 
+import crud
 from flask import Blueprint, jsonify, make_response, request
-
-from api import crud
 
 bp = Blueprint("index", __name__, url_prefix="/")
 

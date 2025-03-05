@@ -1,14 +1,22 @@
-import os, requests, re, unicodedata
+import logging
+import os
+import re
+import unicodedata
 from datetime import datetime
+
+import requests
 from bs4 import BeautifulSoup
-from data.gpt import *
-from data.palm import *
-from model import AlsoKnownAs
+
+from api.data.gpt import txtcomp
+from api.model import AlsoKnownAs
 
 
 def strip_accents(text):
-    return ''.join(c for c in unicodedata.normalize('NFD', text)
-                  if unicodedata.category(c) != 'Mn')
+    """Strip accents from given text."""
+    logging.info("stripping accents from %s", text)
+    return "".join(
+        c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn"
+    )
 
 
 def parse_ethnicelebs(txt):
@@ -60,6 +68,7 @@ def ethnicelebs(given_name):
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
+        timeout=15
     )
     soup = BeautifulSoup(response.text, features="html.parser")
 
@@ -70,11 +79,11 @@ def ethnicelebs(given_name):
 
             return {
                 "list": parse_ethnicelebs(ethnicity_description),
-                "source": response.url
+                "source": response.url,
             }
 
         else:
-            print(f"Page was loaded but no ethnicity information on ethnicelebs.com")
+            print("Page was loaded but no ethnicity information on ethnicelebs.com")
             return {}
 
     else:
@@ -87,7 +96,7 @@ def ethnicelebs(given_name):
         return {}
 
 
-def wikipedia(person_name, person_bday):
+def wikipedia(person_name, person_bday) -> dict:
     """Given cast name, use wikipedia.org to return early life prompt for PaLM."""
 
     url = f"https://wikipedia.org/wiki/{person_name}"
@@ -97,114 +106,79 @@ def wikipedia(person_name, person_bday):
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
+        timeout=15
     )
-    print(response, response.url)
+    logging.info("response: %s response_url: %s", response, response.url)
     soup = BeautifulSoup(response.text, features="html.parser")
-    if response.status_code == 200:
 
-        # Check if if it's the correct page
-        birthday_span = soup.find('span', class_='bday')
-        if birthday_span == None:
-            print("Can't verify birthday... aborting...")
-            return {}
+    if response.status_code != 200:
+        logging.info("Wiki page doesn't exist...")
+        return {}
 
-        birthday_text = birthday_span.get_text()
-        if birthday_text != person_bday:
-            print("Birthdays don't match... aborting...")
-            return {}
-        else:
-            print("Birthdays match!")
+    birthday_span = soup.find("span", class_="bday")
+    if birthday_span is None:
+        logging.info("Can't verify birthday... aborting...")
+        return {}
 
-        early_life = soup.find(id='Early_life')
-        personal_life = soup.find(id='Personal_life')
+    birthday_text = birthday_span.get_text()
+    if birthday_text != person_bday:
+        logging.info("Birthdays don't match... aborting...")
+        return {}
+    logging.info("Birthdays match!")
 
-        if early_life == None:
-            early_life = soup.find(id='Early_life_and_education')
+    paras = []
+    wiki_text = ""
+    content = soup.select("div.mw-parser-output p")
+    for child in content:
+        wiki_text += child.text
 
-        if early_life == None and personal_life == None:
-            print("No ethnicity information on wikipedia...")
-            return {}
+    logging.info(f"Wikipedia - {wiki_text}")
 
-        paras = []
-        if early_life != None:
-            siblings = early_life.find_parent().find_next_siblings()
-            for element in siblings:
-                if element.name == 'h2':
-                    break
-                paras.append(element)
+    verify_result = txtcomp(wiki_text)
+    # verify_result = palm_completion(wiki_text, person_name)
 
-        if personal_life != None:
-            siblings = personal_life.find_parent().find_next_siblings()
-            for element in siblings:
-                if element.name == 'h2':
-                    break
-                paras.append(element)
-
-
-        wiki_text = ""
-        for sentence in paras:
-            wiki_text += sentence.get_text()
-
-        print(wiki_text)
-
-        verify_result = txtcomp(wiki_text, person_name)
-        # verify_result = palm_completion(wiki_text, person_name)
-
-        print(verify_result)
-
-        if verify_result['mentioned'] == True:
-            result = txtcomp(wiki_text, verify=False)
-        else:
-            print("No race/ethnicity information on wiki...")
-            return {}
-
-        if result and result.get("ethnicity", None) != None:
-            wiki_source = {
-                "list": result['ethnicity'],
-                "source": response.url
-            }
-            print(wiki_source)
-            return wiki_source
-
-        elif result and result.get("ethnicities", None) != None:
-            wiki_source = {
-                "list": result['ethnicities'],
-                "source": response.url
-            }
-            print(wiki_source)
-            return wiki_source
-
-        else:
-            print("No luck parsing wiki...")
-            return {}
+    if verify_result.get("mentioned") is True:
+        result = txtcomp(wiki_text, verify=False)
     else:
-        print("Wiki page doesn't exist...")
+        logging.info("No race/ethnicity information on wiki...")
+        return {}
+
+    if result and result.get("ethnicity", None) is not None:
+        wiki_source = {"list": result["ethnicity"], "source": response.url}
+        logging.info(wiki_source)
+        return wiki_source
+    elif result and result.get("ethnicities", None) is not None:
+        wiki_source = {"list": result["ethnicities"], "source": response.url}
+        logging.info(wiki_source)
+        return wiki_source
+    else:
+        logging.info("No luck parsing wiki...")
         return {}
 
 
 def get_ethnicity(person_obj):
-    """Return list of ethnicities for a given person."""
+    """Return list of ethnicities for a given person via ethnicelebs.com and wikipedia."""
 
-    date_format = '%Y-%m-%d'
+    date_format = "%Y-%m-%d"
     birthday = ""
 
     person_name = person_obj.name
     alt_names = person_obj.also_known_as
-    if person_obj.birthday != None:
+    if person_obj.birthday is not None:
         birthday = person_obj.birthday.strftime(date_format)
 
     # Try ethnicelebs.com
     results = ethnicelebs(person_name)
-    if results.get('list', None) is None:
+    if results.get("list", None) is None:
         for alt_name in alt_names:
             if type(alt_name) == AlsoKnownAs:
                 results = ethnicelebs(alt_name.name)
             else:
                 results = ethnicelebs(alt_name)
-            if results.get('list', None) is not None:
+            if results.get("list", None) is not None:
                 return results
 
-        if os.environ.get('OPEN_AI_KEY'):
+        if os.environ.get("OPEN_AI_KEY"):
             # Try wikipedia.org
             print(f"Attempting {person_name} on wikipedia.org")
             results = wikipedia(person_name, birthday)

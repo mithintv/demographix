@@ -1,9 +1,7 @@
-"""Models for movie ratings app."""
-
-import logging
-import os
+"""Models for demographix app."""
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 
 db = SQLAlchemy()
 
@@ -104,6 +102,10 @@ class Movie(db.Model):
             f"<Movie id={self.id} title={self.title} release_date={self.release_date}>"
         )
 
+    def to_dict(self):
+        """Convert the Movie class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 class Nomination(db.Model):
     """A nomination."""
@@ -131,8 +133,23 @@ class MovieNomination(db.Model):
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.id"))
     nomination_id = db.Column(db.Integer, db.ForeignKey("nominations.id"))
 
+    __table_args__ = (
+        UniqueConstraint(
+            "movie_id", "nomination_id", name="unique_movie_id_nomination_id"
+        ),
+    )
+
     def __repr__(self):
-        return f"<MovieNomination id={self.id} movie_id={self.movie_id} nomination_id={self.nomination_id}>"
+        return str.format(
+            "<MovieNomination id={} movie_id={} nomination_id={}>",
+            self.id,
+            self.movie_id,
+            self.nomination_id,
+        )
+
+    def to_dict(self):
+        """Convert the MovieNomination class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Genre(db.Model):
@@ -147,6 +164,10 @@ class Genre(db.Model):
 
     def __repr__(self):
         return f"<Genre id={self.id} name={self.name}>"
+
+    def to_dict(self):
+        """Convert the Genre class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class MediaGenre(db.Model):
@@ -213,6 +234,10 @@ class CastMember(db.Model):
 
     def __repr__(self):
         return f"<Cast id={self.id} name={self.name}>"
+
+    def to_dict(self):
+        """Convert the CastMember class to a dictionary."""
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class AlsoKnownAs(db.Model):
@@ -300,7 +325,11 @@ class CastEthnicity(db.Model):
     )
 
     def __repr__(self):
-        return f"<CastEthnicity ethnicity_id={self.ethnicity_id} cast_member_id={self.cast_member_id}>"
+        return str.format(
+            "<CastEthnicity ethnicity_id={} cast_member_id={}>",
+            self.ethnicity_id,
+            self.cast_member_id,
+        )
 
 
 class Race(db.Model):
@@ -377,25 +406,10 @@ class CastEthnicitySourceLink(db.Model):
     cast_ethnicity_id = db.Column(db.Integer, db.ForeignKey("cast_ethnicities.id"))
 
     def __repr__(self):
-        return f"<CastEthnicitySourceLink id={self.id} source_link_id={self.source_link_id} link={self.link} cast_ethnicity_id={self.cast_ethnicity_id}>"
-
-
-def connect_to_db(flask_app, db_uri="postgresql:///demographix", echo=False):
-    """Connect to database with default settings."""
-
-    if os.environ["FLASK_ENV"] == "production":
-        db_uri = os.environ["DB_URI"]
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
-    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    db.app = flask_app
-    db.init_app(flask_app)
-
-    return db
-
-
-if __name__ == "__main__":
-    from app import app
-
-    connect_to_db(app)
+        return str.format(
+            "<CastEthnicitySourceLink id={} source_link_id={} link={} cast_ethnicity_id={}>",
+            self.id,
+            self.source_link_id,
+            self.link,
+            self.cast_ethnicity_id,
+        )

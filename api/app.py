@@ -1,15 +1,34 @@
 """Server for demographix app."""
 
-import datetime
 import logging
+import os
 
-import crud
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, request
 from flask_migrate import Migrate
-from model import connect_to_db
 
-app = Flask(__name__)
+from api.data.gpt import txtcomp
+from api.model import db
+from api.routes import index, movies, nominations
+
+app = Flask(__name__, instance_relative_config=True)
 app.secret_key = "demographix_dev"
+
+# Register prefixed route handlers
+app.register_blueprint(index.bp)
+app.register_blueprint(movies.bp)
+app.register_blueprint(nominations.bp)
+
+# Configure db w/ flask session
+DB_URI = "postgresql:///demographix"
+if os.environ["FLASK_ENV"] == "production":
+    DB_URI = os.environ["DB_URI"]
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+app.config["SQLALCHEMY_RECORD_QUERIES"] = True
+app.config["SQLALCHEMY_ECHO"] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db.init_app(app)
+migrate = Migrate(app, db)
 
 # Enable logging
 logging.basicConfig(
@@ -17,83 +36,14 @@ logging.basicConfig(
     format="[%(asctime)s.%(msecs)03d %(name)s:%(levelname)s] - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-migrate = Migrate(app, connect_to_db(app))
 
-
-@app.route("/", methods=["POST"])
-def query():
-    """Return search results from database in json."""
-
+@app.route("/test/openai", methods=["POST"])
+def openai():
+    """Retreive Open AI API result with given passage as json body."""
     data = request.get_json()
-    keywords = data["search"]
-    query_data = crud.query_movie(keywords)
-
-    search_results = []
-    for movie in query_data:
-        movie_dict = {
-            "id": movie.id,
-            "title": movie.title,
-            "release_date": movie.release_date,
-            "poster_path": movie.poster_path,
-        }
-        search_results.append(movie_dict)
-
-    return jsonify(search_results)
-    """Return search results from api in json. Currently set to run if 'search' button is pressed"""
-
-    data = request.get_json()
-    keywords = data["search"]
-
-    api_results = crud.query_api_movie(keywords)
-
-    search_results = []
-    logging.info("Search results...")
-    for movie in api_results:
-        movie_dict = {
-            "id": movie.id,
-            "title": movie.title,
-            "release_date": movie.release_date,
-            "poster_path": movie.poster_path,
-        }
-        search_results.append(movie_dict)
-
-        logging.info(f"<Movie id={movie.id} title={movie.title}>")
-
-    return jsonify(search_results)
-
-
-@app.route("/api/nom/<year>")
-def nom(year):
-    """Return demographics of oscar nominated movies for a given year in json"""
-
-    summary = year.split(" ")
-    if len(summary) > 1:
-        _, years = summary
-        movies_data = []
-        current_year = 2023
-        for i in range(int(years)):
-            movie_data = crud.get_nom_movies(int(current_year) - i)
-            movies_data.extend(movie_data)
-    else:
-        movies_data = crud.get_nom_movies(year)
-    return jsonify(movies_data)
-
-
-@app.route("/api/movies/<movie_id>")
-def movie(movie_id):
-    """Return movie and cast details in json."""
-
-    movie_data = crud.get_movie_cast(movie_id)
-    return jsonify(movie_data)
-
-
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def catch_all(path):
-    """Catch all route."""
-
-    return render_template("page.html")
-
+    article = data["article"]
+    result = txtcomp(article, verify=False)
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")

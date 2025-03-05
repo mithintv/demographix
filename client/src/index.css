@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+html {
+  /* background: radial-gradient(ellipse at center, #151036 50%, #100b2a 100%); */
+  background: #100b2a;
+}
+
+body {
+  margin: 0;
+}
+
+tspan,
+text {
+  margin: 0;
+  font-weight: 500;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 0.75rem;
+  line-height: 2.66;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  display: inline;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.recharts-tooltip {
+  z-index: 9999;
+}
+
+.recharts-wrapper {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+i {
+  font-size: 1.5em;
+  margin: 0 5px;
+}
+
+.footer-icons {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-icons:hover {
+  color: #fff;
+}

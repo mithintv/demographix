@@ -13,8 +13,7 @@ import { useParams } from "react-router-dom";
 import CastCard from "../components/CastCard";
 import CastDataCard from "../components/CastDataCard";
 import Footer from "../components/layout/Footer";
-import NavBar from "../components/layout/NavBar";
-import MovieCard from "../components/MovieCard";
+import MovieDetails from "../components/MovieDetails";
 import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
@@ -65,7 +64,6 @@ export default function Movies() {
 					height: "100%",
 				}}
 			>
-				<NavBar />
 				<Container
 					disableGutters
 					sx={{
@@ -78,7 +76,7 @@ export default function Movies() {
 						flexWrap: "wrap",
 					}}
 				>
-					<MovieCard movie={movieDetails} />
+					<MovieDetails movie={movieDetails} />
 					<Accordion
 						disableGutters
 						sx={{

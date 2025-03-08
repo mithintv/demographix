@@ -1,8 +1,6 @@
 import {
 	Box,
 	Button,
-	Card,
-	CardMedia,
 	Container,
 	Dialog,
 	DialogContent,
@@ -18,16 +16,21 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CastDataCard from "../components/CastDataCard";
 import Footer from "../components/layout/Footer";
-import NavBar from "../components/layout/NavBar";
 import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
 import { API_HOSTNAME } from "@/utils/constants";
+import { useQuery } from "@tanstack/react-query";
+import { MovieCard } from "./visualizer/movie-card";
+import { HorizontalCardList } from "@/components/ui/horizontal-card-list";
 
-const compileCast = (movies: Movie[]) => {
+const compileCast = (movies: Movie[] | undefined) => {
+	if (!movies) {
+		return [];
+	}
 	const allMoviesCast: Cast[] = [];
 	movies.forEach((movie) => {
 		allMoviesCast.push(...movie.cast);
@@ -40,9 +43,6 @@ export const Visualizer = () => {
 	// const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
 	const { awardParam, rangeParam, yearParam } = useParams();
-
-	const [movies, setMovies] = useState<Movie[]>([]);
-	const [castData, setCastData] = useState<Cast[]>([]);
 
 	const [range, setRange] = useState(rangeParam);
 	const [award, setAward] = useState(awardParam);
@@ -58,18 +58,13 @@ export const Visualizer = () => {
 	}, []);
 
 	// fetch call for data retrieval
-	useEffect(() => {
-		const fetchData = async () => {
+	const { data: movies } = useQuery({
+		queryKey: ["visualizer", year],
+		queryFn: async (): Promise<Movie[]> => {
 			const response = await fetch(`${API_HOSTNAME}/nom/${year}`);
-			const movieList = await response.json();
-			console.log(movieList);
-			setMovies(movieList);
-
-			const castList = compileCast(movieList);
-			setCastData(castList);
-		};
-		fetchData();
-	}, [award, year]);
+			return await response.json();
+		},
+	});
 
 	// useEffect for displaying title with cumulative years above data card
 	useEffect(() => {
@@ -103,8 +98,6 @@ export const Visualizer = () => {
 	};
 
 	const handleYear = (event: SelectChangeEvent) => {
-		setMovies([]);
-		setCastData([]);
 		const selectedYear = event.target.value;
 		setYear(selectedYear);
 		navigate(`/visualizer/${award}/${range}/${selectedYear}`);
@@ -127,7 +120,6 @@ export const Visualizer = () => {
 					background: backgroundGradient,
 				}}
 			>
-				<NavBar />
 				<Container
 					disableGutters
 					sx={{
@@ -376,66 +368,12 @@ export const Visualizer = () => {
 							</Box>
 						)}
 					</Box>
-					<CastDataCard cast={castData} />
-					<Paper
-						sx={{
-							display: "flex",
-							flexDirection: "column",
-							mb: 2,
-						}}
-					>
-						<Typography
-							sx={{
-								mt: 1,
-								pl: 2,
-								width: "100%",
-								borderBottom: "3px solid rgba(255, 255, 255, 0.05);",
-							}}
-							variant="overline"
-							color="primary"
-						>
-							Nominations
-						</Typography>
-						<Container
-							disableGutters
-							sx={{
-								px: 1,
-								py: 2,
-								display: "flex",
-								flexDirection: "row",
-								width: "100%",
-								overflowX: "scroll",
-								height: 225.9,
-							}}
-						>
-							{movies.map((movie, index) => {
-								const releaseDate = new Date(movie.release_date);
-								return (
-									<Fade in timeout={500} key={index}>
-										<Card
-											elevation={2}
-											sx={{
-												width: 125,
-												mx: 1,
-												backgroundColor: "background.default",
-												flex: "0 0 auto",
-												cursor: "pointer",
-											}}
-										>
-											<Link to={`/movies/${movie.id}`}>
-												<CardMedia
-													width={100}
-													component="img"
-													image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
-													alt={`Poster image of ${movie.title} (${releaseDate})`}
-												/>
-											</Link>
-										</Card>
-									</Fade>
-								);
-							})}
-						</Container>
-					</Paper>
+					<CastDataCard cast={compileCast(movies)} />
+					<HorizontalCardList
+						cardList={movies?.map((movie, index) => {
+							return <MovieCard movie={movie} key={index} />;
+						})}
+					/>
 				</Container>
 				<Footer />
 			</Box>

@@ -4,10 +4,10 @@ import logging
 import os
 
 from data.gpt import txtcomp
+from data.model import db
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
-from model import db
 from routes import index, movies, nominations
 
 app = Flask(__name__, instance_relative_config=True)
@@ -23,7 +23,6 @@ app.register_blueprint(index.bp)
 app.register_blueprint(movies.bp)
 app.register_blueprint(nominations.bp)
 
-# Configure db w/ flask session
 DB_URI = "postgresql:///demographix"
 if os.environ["FLASK_ENV"] == "production":
     DB_URI = os.environ["DB_URI"]

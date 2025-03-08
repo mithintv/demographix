@@ -6,7 +6,7 @@ from datetime import datetime
 
 import requests
 from data.cast import add_ethnicity_data, add_race_data, update_cast_member
-from model import (AlsoKnownAs, AltCountry, CastMember, Country, Credit,
+from data.model import (AlsoKnownAs, AltCountry, CastMember, Country, Credit,
                    Gender, Genre, Movie, Nomination, db)
 from sqlalchemy import and_, create_engine, desc, exc, func
 from sqlalchemy.orm import sessionmaker
@@ -121,25 +121,6 @@ def get_movies():
     """Return all movies."""
 
     return Movie.query.all()
-
-
-def add_movie_from_search(movie):
-    formatted_date = None
-    if len(movie["release_date"]) > 0:
-        date_format = "%Y-%m-%d"
-        formatted_date = datetime.strptime(movie["release_date"], date_format)
-    new_movie = Movie(
-        id=movie["id"],
-        title=movie["title"],
-        overview=movie["overview"],
-        poster_path=movie["poster_path"],
-        release_date=formatted_date,
-    )
-    logging.info("Created new movie: %s", new_movie)
-    for genre_id in movie["genre_ids"]:
-        genre_object = Genre.query.filter(Genre.id == genre_id).one()
-        new_movie.genres.append(genre_object)
-    return new_movie
 
 
 def add_cast_member(person, order):
@@ -257,107 +238,10 @@ def add_credits(credit_list, curr_movie):
     logging.info("Added %s credits to db!", len(new_credits))
 
 
-def query_movie(keywords):
-    """Return search query results."""
-    if keywords == "":
-        query = (
-            Movie.query.join(Movie.credits)
-            .filter(Movie.poster_path is not None)
-            .group_by(
-                Movie.id,
-                Movie.imdb_id,
-                Movie.title,
-                Movie.overview,
-                Movie.runtime,
-                Movie.poster_path,
-                Movie.release_date,
-                Movie.budget,
-                Movie.revenue,
-            )
-            .having(func.count(Movie.credits) > 1)
-            .order_by(func.random())
-            .all()
-        )
-        return query[:30]
-
-    else:
-        keyword_query = (
-            Movie.query.join(Movie.credits)
-            .group_by(
-                Movie.id,
-                Movie.imdb_id,
-                Movie.title,
-                Movie.overview,
-                Movie.runtime,
-                Movie.poster_path,
-                Movie.release_date,
-                Movie.budget,
-                Movie.revenue,
-            )
-            .having(func.count(Movie.credits) > 1)
-            .filter(
-                and_(
-                    func.lower(Movie.title).like(f"{keywords.lower()}%"),
-                    Movie.poster_path is not None,
-                )
-            )
-            .order_by(desc(Movie.release_date))
-        )
-        if len(keyword_query.all()) < 5:
-            keyword_query = query_api_movie(keywords)
-        additional_query = (
-            Movie.query.join(Movie.credits)
-            .filter(Movie.poster_path is not None)
-            .group_by(Movie.id)
-            .having((Movie.credits) > 1)
-            .order_by(Movie.title.like(f"{keywords[0].lower()}%"))
-        )
-
-        combined_query = keyword_query.union_all(additional_query)
-        results = combined_query.all()
-
-        return results[:28]
-
-
 def query_movie_credits(movie_obj):
     """Return search query results."""
 
     query = Credit.query.filter(Credit.movie == movie_obj).all()
-    return query
-
-
-def query_api_movie(keywords):
-    """Return search query results from api."""
-
-    logging.info("Not enough results in db... making API call...")
-    response = requests.get(
-        str.format(
-            "https://api.themoviedb.org/3/search/movie?api_key={}&query={}",
-            key,
-            keywords,
-        ),
-        timeout=15,
-    )
-    result_list = response.json()
-    movies = result_list["results"]
-    logging.info('Found %s movies with query "%s"', len(movies), keywords)
-
-    new_movies = []
-    for movie in movies:
-        curr_movie = Movie.query.filter(Movie.id == movie["id"]).first()
-        if curr_movie is None:
-            curr_movie = add_movie_from_search(movie)
-            new_movies.append(curr_movie)
-            logging.info("Adding new move to db: %s...\n", curr_movie)
-
-    db.session.add_all(new_movies)
-    db.session.commit()
-    logging.info("Added %s movies to db!", len(new_movies))
-
-    query = Movie.query.filter(
-        func.lower(Movie.title).like(f"{keywords.lower()}%")
-    ).order_by(desc(Movie.release_date))
-
     return query
 
 

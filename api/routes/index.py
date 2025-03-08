@@ -1,7 +1,8 @@
 import logging
 import os
 
-import crud
+from data.model import db
+from data.movie_repository import MovieRepository
 from flask import Blueprint, jsonify, make_response, redirect, request
 
 bp = Blueprint("index", __name__, url_prefix="/")
@@ -21,7 +22,9 @@ def post_index():
 
     data = request.get_json()
     keywords = data["search"]
-    query_data = crud.query_movie(keywords)
+
+    repo = MovieRepository(db.session)
+    query_data = repo.query_movie(keywords)
 
     search_results = []
     for movie in query_data:

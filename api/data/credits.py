@@ -3,7 +3,7 @@ import os
 
 import crud
 import requests
-from model import CastMember, db
+from api.data.model import CastMember, db
 
 key = os.environ['TMDB_API_KEY']
 

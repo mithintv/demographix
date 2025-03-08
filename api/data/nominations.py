@@ -7,7 +7,7 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 from data.cast import get_movie_cast
-from model import Movie, MovieNomination, Nomination, db
+from data.model import Movie, MovieNomination, Nomination, db
 from sqlalchemy import and_, extract, func
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]

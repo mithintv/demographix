@@ -14,7 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 import SearchPage from "../components/SearchPage";
 import Footer from "../components/layout/Footer";
 
-export default function Index() {
+export const LandingPage = () => {
 	const theme = useTheme();
 	// const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
@@ -114,4 +114,4 @@ export default function Index() {
 			</Box>
 		</Fade>
 	);
-}
+};

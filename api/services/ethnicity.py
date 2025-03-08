@@ -7,7 +7,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from data.gpt import txtcomp
-from model import AlsoKnownAs
+from data.model import AlsoKnownAs
 
 
 def strip_accents(text):
@@ -67,7 +67,7 @@ def ethnicelebs(given_name):
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
-        timeout=15
+        timeout=15,
     )
     soup = BeautifulSoup(response.text, features="html.parser")
 
@@ -105,7 +105,7 @@ def wikipedia(person_name, person_bday) -> dict:
             "Content-Type": "text/html",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         },
-        timeout=15
+        timeout=15,
     )
     logging.info("response: %s response_url: %s", response, response.url)
     soup = BeautifulSoup(response.text, features="html.parser")

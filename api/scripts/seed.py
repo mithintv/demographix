@@ -7,7 +7,7 @@ import sys
 import time
 from datetime import datetime
 
-from model import (AltCountry, AltEthnicity, CastMember, Country, Credit,
+from api.data.model import (AltCountry, AltEthnicity, CastMember, Country, Credit,
                    Ethnicity, Gender, Genre, Movie, Race, Region, SubRegion,
                    db)
 from services.ethnicity import get_ethnicity

@@ -1,7 +1,19 @@
 import logging
 
-from model import (AltEthnicity, CastEthnicity, CastMember, Country, Credit,
-                   Ethnicity, Gender, Movie, Race, Source, SourceLink, db)
+from data.model import (
+    AltEthnicity,
+    CastEthnicity,
+    CastMember,
+    Country,
+    Credit,
+    Ethnicity,
+    Gender,
+    Movie,
+    Race,
+    Source,
+    SourceLink,
+    db,
+)
 from services.ethnicity import get_ethnicity
 from sqlalchemy import and_, func
 
@@ -68,9 +80,9 @@ def get_movie_cast(movie_id):
             "gender": cast.gender.name,
             "ethnicity": ethnicities,
             "race": races,
-            "country_of_birth": cast.country_of_birth.id
-            if cast.country_of_birth
-            else None,
+            "country_of_birth": (
+                cast.country_of_birth.id if cast.country_of_birth else None
+            ),
             "character": cast.credits[0].character,
             "order": cast.credits[0].order,
             "profile_path": cast.profile_path,

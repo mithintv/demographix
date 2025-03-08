@@ -9,7 +9,6 @@ import {
 	FormControl,
 	InputLabel,
 	MenuItem,
-	Paper,
 	Select,
 	SelectChangeEvent,
 	Typography,

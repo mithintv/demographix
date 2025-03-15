@@ -118,7 +118,7 @@ def get_nom_movies(event: str, year: int) -> List:
     """Return nominated movies and cast demographics for a given year from database. Returns an empty List if nomination year and event combination does not exist in the database."""
 
     nomination = Nomination.query.filter(
-        Nomination.year == year and Nomination.name == event
+        Nomination.year == year and Nomination.name == event.replace("-", " ")
     ).first()
     if nomination is None:
         return []

@@ -1,23 +1,28 @@
+from datetime import datetime
+
 from data.nominations import get_nom_movies, query_imdb_event_nominations
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 bp = Blueprint("nominations", __name__, url_prefix="/nom")
 
 
-@bp.route("/<year>")
-def nom(year):
+@bp.route("/query")
+def nom():
     """Return demographics of oscar nominated movies for a given year in json."""
 
-    summary = year.split(" ")
-    if len(summary) > 1:
-        _, years = summary
-        movies_data = []
-        current_year = year
+    awardQuery = request.args.get("award")
+    rangeQuery = request.args.get("range")
+    yearQuery = request.args.get("year")
+
+    movies_data = []
+    if rangeQuery == "cumulative":
+        years = yearQuery.split("-")[1]
+        current_year = datetime.now().year
         for i in range(int(years)):
-            movie_data = get_nom_movies("Academy Awards", int(current_year) - i)
+            movie_data = get_nom_movies(awardQuery, int(current_year) - i)
             movies_data.extend(movie_data)
     else:
-        movies_data = get_nom_movies("Academy Awards", year)
+        movies_data = get_nom_movies(awardQuery, yearQuery)
     return jsonify(movies_data)
 
 

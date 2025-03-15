@@ -9,7 +9,7 @@ import ErrorPage from "./pages/Error.tsx";
 import { darkTheme } from "./utils/theme.tsx";
 import Movies from "./pages/Movies.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Visualizer } from "./pages/Visualizer.tsx";
+import { VisualizerPage } from "./pages/visualizer/visualizer-page.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 			{ index: true, element: <LandingPage /> },
 			{
 				path: "visualizer/:awardParam/:rangeParam/:yearParam",
-				element: <Visualizer />,
+				element: <VisualizerPage />,
 			},
 			{
 				path: "movies/:id",

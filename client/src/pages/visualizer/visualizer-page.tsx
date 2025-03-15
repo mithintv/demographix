@@ -1,7 +1,6 @@
 import {
 	Box,
 	Button,
-	Container,
 	Dialog,
 	DialogContent,
 	DialogTitle,
@@ -16,15 +15,15 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CastDataCard from "../components/CastDataCard";
-import Footer from "../components/layout/Footer";
-import { Cast } from "../types/Cast";
-import { Movie } from "../types/Movie";
-import { backgroundGradient } from "../utils/theme";
+import CastDataCard from "../../components/CastDataCard";
+import Footer from "../../components/layout/Footer";
+import { Cast } from "../../types/Cast";
+import { Movie } from "../../types/Movie";
+import { backgroundGradient } from "../../utils/theme";
 import { API_HOSTNAME } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-import { MovieCard } from "./visualizer/movie-card";
-import { HorizontalCardList } from "@/components/ui/horizontal-card-list";
+import { MovieCard } from "./movie-card";
+import { CardList } from "@/components/ui/card-list/card-list";
 
 const compileCast = (movies: Movie[] | undefined) => {
 	if (!movies) {
@@ -37,7 +36,7 @@ const compileCast = (movies: Movie[] | undefined) => {
 	return allMoviesCast;
 };
 
-export const Visualizer = () => {
+export const VisualizerPage = () => {
 	const md = useMediaQuery("(max-width:960px)");
 	// const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
@@ -60,9 +59,13 @@ export const Visualizer = () => {
 	const { data: movies } = useQuery({
 		queryKey: ["visualizer", year],
 		queryFn: async (): Promise<Movie[]> => {
-			const response = await fetch(`${API_HOSTNAME}/nom/${year}`);
+			const response = await fetch(
+				`${API_HOSTNAME}/nom/query?award=${award}&range=${range}&year=${year}`
+			);
 			return await response.json();
 		},
+		retry: false,
+		refetchOnWindowFocus: false,
 	});
 
 	// useEffect for displaying title with cumulative years above data card
@@ -86,7 +89,7 @@ export const Visualizer = () => {
 	const handleRange = (event: SelectChangeEvent) => {
 		const selectedRange = event.target.value;
 		setRange(selectedRange);
-		let selectedYear = "last 3";
+		let selectedYear = "last-3";
 		if (selectedRange === "cumulative") {
 			setYear(selectedYear);
 		} else {
@@ -98,6 +101,7 @@ export const Visualizer = () => {
 
 	const handleYear = (event: SelectChangeEvent) => {
 		const selectedYear = event.target.value;
+		console.log(selectedYear);
 		setYear(selectedYear);
 		navigate(`/visualizer/${award}/${range}/${selectedYear}`);
 	};
@@ -119,16 +123,7 @@ export const Visualizer = () => {
 					background: backgroundGradient,
 				}}
 			>
-				<Container
-					disableGutters
-					sx={{
-						pb: 2,
-						pt: 8,
-						px: 2,
-						display: "flex",
-						flexDirection: "column",
-					}}
-				>
+				<div className="flex flex-col max-w-7xl ml-auto mr-auto pb-2 pt-20 px-2">
 					<Box
 						sx={{
 							mt: 4,
@@ -233,9 +228,9 @@ export const Visualizer = () => {
 													label="cumulative"
 													onChange={handleYear}
 												>
-													<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
-													<MenuItem value={"last 5"}>Last 5 Years</MenuItem>
-													<MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+													<MenuItem value={"last-3"}>Last 3 Years</MenuItem>
+													<MenuItem value={"last-5"}>Last 5 Years</MenuItem>
+													<MenuItem value={"last-10"}>Last 10 Years</MenuItem>
 												</Select>
 											</FormControl>
 										) : (
@@ -330,9 +325,9 @@ export const Visualizer = () => {
 											label="cumulative"
 											onChange={handleYear}
 										>
-											<MenuItem value={"last 3"}>Last 3 Years</MenuItem>
-											<MenuItem value={"last 5"}>Last 5 Years</MenuItem>
-											<MenuItem value={"last 10"}>Last 10 Years</MenuItem>
+											<MenuItem value={"last-3"}>Last 3 Years</MenuItem>
+											<MenuItem value={"last-5"}>Last 5 Years</MenuItem>
+											<MenuItem value={"last-10"}>Last 10 Years</MenuItem>
 										</Select>
 									</FormControl>
 								) : (
@@ -367,13 +362,14 @@ export const Visualizer = () => {
 							</Box>
 						)}
 					</Box>
+
 					<CastDataCard cast={compileCast(movies)} />
-					<HorizontalCardList
+					<CardList
 						cardList={movies?.map((movie, index) => {
 							return <MovieCard movie={movie} key={index} />;
 						})}
 					/>
-				</Container>
+				</div>
 				<Footer />
 			</Box>
 		</Fade>

@@ -8,16 +8,17 @@ import {
 	IconButton,
 	Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CastCard from "../components/CastCard";
 import CastDataCard from "../components/CastDataCard";
 import Footer from "../components/layout/Footer";
 import MovieDetails from "../components/MovieDetails";
-import { Cast } from "../types/Cast";
 import { Movie } from "../types/Movie";
 import { backgroundGradient } from "../utils/theme";
 import { API_HOSTNAME } from "@/utils/constants";
+import { useQuery } from "@tanstack/react-query";
+import { CardList } from "@/components/ui/card-list/card-list";
 
 export default function Movies() {
 	// const theme = useTheme();
@@ -27,33 +28,19 @@ export default function Movies() {
 	// const xs = useMediaQuery("(max-width:425px)");
 	const { id } = useParams();
 	// const { id } = props.match.params;
-	const [movieDetails, setMovieDetails] = useState<Movie>({
-		id: null,
-		title: null,
-		genres: [],
-		overview: "",
-		runtime: 0,
-		poster_path: "",
-		release_date: "",
-		budget: "",
-		revenue: null,
-		cast: [],
+
+	const { data: movieDetails, isFetching } = useQuery({
+		queryKey: ["movie", id],
+		queryFn: async (): Promise<Movie> => {
+			const response = await fetch(`${API_HOSTNAME}/movies/${id}`);
+			return await response.json();
+		},
+		retry: false,
+		refetchOnWindowFocus: false,
 	});
-	const [castDetails, setCastDetails] = useState<Cast[]>([]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, []);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const response = await fetch(`${API_HOSTNAME}/movies/${id}`);
-			const movieData = await response.json();
-			console.log(movieData);
-			setMovieDetails(movieData);
-			setCastDetails(movieData.cast);
-		};
-		fetchData();
 	}, []);
 
 	return (
@@ -76,7 +63,7 @@ export default function Movies() {
 						flexWrap: "wrap",
 					}}
 				>
-					<MovieDetails movie={movieDetails} />
+					<MovieDetails movie={movieDetails} isLoading={isFetching} />
 					<Accordion
 						disableGutters
 						sx={{
@@ -111,12 +98,12 @@ export default function Movies() {
 							</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<CastCard cast={castDetails} />
+							<CastCard cast={movieDetails?.cast} />
 						</AccordionDetails>
 					</Accordion>
 					<CastDataCard
-						cast={castDetails}
-						releaseDate={new Date(movieDetails.release_date).getFullYear()}
+						cast={movieDetails?.cast}
+						releaseDate={new Date(movieDetails?.release_date).getFullYear()}
 					/>
 				</Container>
 				<Footer />

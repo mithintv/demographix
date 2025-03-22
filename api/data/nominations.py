@@ -13,6 +13,12 @@ from sqlalchemy import and_, extract, func
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
 
 
+def query_imdb_and_add_nomination(event: str, year: int):
+    nominees = query_imdb_event_nominations(event, year)
+    logging.info(json.dumps(nominees, indent=2))
+    add_nominations(nominees[0]["nominations"], int(year))
+
+
 def query_imdb_event_nominations(event: str, year: int):
     """Query nominations for a given event and year from IMDB."""
 
@@ -30,76 +36,72 @@ def query_imdb_event_nominations(event: str, year: int):
         timeout=15,
     )
     soup = BeautifulSoup(response.text, features="html.parser")
-    scripts = soup.find_all("script")
+    parent_sections = soup.find_all(
+        lambda tag: tag.name == "section"
+        and filter_by_attribute_starting_with(tag, "data-testid", "Best")
+    )
 
-    # Setup dictionary to scrape data
-    data: dict = {}
-    for script in scripts:
-        for line in script:
-            if "IMDbReactWidgets.NomineesWidget.push" in line:
-                jsons = re.findall(r"{.*}", line)
-                if jsons:
-                    data = json.loads(jsons[1])
-    categories = data["nomineesWidgetModel"]["eventEditionSummary"]["awards"][0][
-        "categories"
-    ]
+    if parent_sections is None:
+        print("<section data-testid='Best...'> not found!")
+        return
 
     # Fill nominee data
     nominees = [
         {
-            "category": award["categoryName"],
+            "category": "Best Motion Picture",
             "nominations": [
                 {
-                    "notes": nomination["notes"],
-                    "won": nomination["isWinner"],
-                    "primary": [
-                        primary["name"] for primary in nomination["primaryNominees"]
-                    ][0],
-                    # 'secondary': [secondary['name'] for secondary in nomination['secondaryNominees']]
+                    # "notes": nomination["notes"],
+                    "won": nomination.find("div", class_="ipc-signpost__text")
+                    is not None,
+                    "primary": nomination.find("h3", class_="ipc-title__text").get_text(
+                        strip=True
+                    ),
                 }
-                for nomination in award["nominations"]
+                for nomination in section.find("ul").find_all("li")
             ],
         }
-        for award in categories
-        if "Best Motion Picture" in award["categoryName"]
+        for section in parent_sections
+        if section.get("data-testid") == "BestMotionPictureoftheYear"
     ]
+
     return nominees
 
 
-def make_nominations():
-    nominations = []
-    for year in range(1929, 2023):
-        nomination = Nomination(name="Academy Awards", year=year)
-        nominations.append(nomination)
-        print(f"Adding {nomination.name} {nomination.year} to db...")
-    db.session.add_all(nominations)
-    db.session.commit()
+def filter_by_attribute_starting_with(tag, attribute, prefix):
+    """Filter elements based on an attribute starting with a specific string"""
+    attr_value = tag.get(attribute)
+    return attr_value and attr_value.startswith(prefix)
 
 
-def add_nominations_json(year, award="Academy Awards"):
-    with open(f"data/{year}.json", "r") as file:
-        data = json.load(file)
+def add_nominations(nominees, year: int, award="Academy Awards"):
 
-        # Get best picture nominations only
-        for nomination in data[0]["nominations"]:
-            movie = Movie.query.filter(
-                and_(
-                    Movie.title == nomination["primary"][0],
-                    extract("year", Movie.release_date) == year - 1,
-                )
-            ).first()
-            nomination = Nomination.query.filter(
-                and_(Nomination.name == award, Nomination.year == year)
-            ).first()
-            if movie is not None:
-                movie.nominations.append(nomination)
+    # Get best picture nominations only
+    for nomination in nominees:
+        movie = Movie.query.filter(
+            and_(
+                Movie.title == nomination["primary"],
+                extract("year", Movie.release_date) == year - 1,
+            )
+        ).first()
+        # if movie is None:
 
-                date_format = "%Y"
-                print(
-                    f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})"
-                )
 
-        db.session.commit()
+        nomination = Nomination.query.filter(
+            and_(Nomination.name == award, Nomination.year == year)
+        ).first()
+        # if nomination is None:
+
+
+        if movie is not None and nomination is not None:
+            # movie.nominations.append(nomination)
+
+            date_format = "%Y"
+            logging.info(
+                f"Adding {nomination.name} {nomination.year} nomination for {movie.title} ({movie.release_date.strftime(date_format)})"
+            )
+
+    # db.session.commit()
 
 
 def create_nomination(event, year) -> None:

@@ -1,6 +1,10 @@
 from datetime import datetime
 
-from data.nominations import get_nom_movies, query_imdb_event_nominations
+from data.nominations import (
+    get_nom_movies,
+    query_imdb_and_add_nomination,
+    query_imdb_event_nominations,
+)
 from flask import Blueprint, jsonify, request
 
 bp = Blueprint("nominations", __name__, url_prefix="/nom")
@@ -26,8 +30,15 @@ def nom():
     return jsonify(movies_data)
 
 
-@bp.route("/imdb/<event>/<year>")
+@bp.route("/imdb/<event>/<year>", methods=["GET"])
 def query_nominations(event: str, year: int):
     """Route to query nominations for a given event and year from IMDB."""
     results = query_imdb_event_nominations(event, year)
+    return jsonify(results)
+
+
+@bp.route("/imdb/<event>/<year>", methods=["POST"])
+def query_and_add_nominations(event: str, year: int):
+    """Query nominations for a given event and year from IMDB and create nominations from them."""
+    results = query_imdb_and_add_nomination(event, int(year))
     return jsonify(results)

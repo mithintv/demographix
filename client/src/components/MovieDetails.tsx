@@ -13,13 +13,19 @@ import {
 import { useEffect, useState } from "react";
 import { Movie } from "../types/Movie";
 
-export default function MovieDetails({ movie }: { movie: Movie }) {
+export default function MovieDetails({
+	movie,
+	isLoading,
+}: {
+	movie: Movie | undefined;
+	isLoading: boolean;
+}) {
 	// const theme = useTheme();
 	// const lg = useMediaQuery("(max-width:1200px)");
 	// const md = useMediaQuery("(max-width:960px)");
 	// const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:426px)");
-	const [content, setContent] = useState<Movie>(movie);
+	const [content, setContent] = useState<Movie | undefined>(movie);
 	const [show, setShow] = useState(false);
 
 	const compileRuntime = (minutes: number) => {
@@ -53,7 +59,9 @@ export default function MovieDetails({ movie }: { movie: Movie }) {
 				flex: "1 1 auto",
 			}}
 		>
-			{content.id ? (
+			{isLoading || !content ? (
+				<CircularProgress size={100} thickness={10} />
+			) : (
 				<Fade in={show}>
 					<Container
 						disableGutters
@@ -131,8 +139,6 @@ export default function MovieDetails({ movie }: { movie: Movie }) {
 						</Box>
 					</Container>
 				</Fade>
-			) : (
-				<CircularProgress size={100} thickness={10} />
 			)}
 		</Card>
 	);

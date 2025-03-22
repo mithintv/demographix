@@ -102,8 +102,12 @@ export default function Movies() {
 						</AccordionDetails>
 					</Accordion>
 					<CastDataCard
-						cast={movieDetails?.cast}
-						releaseDate={new Date(movieDetails?.release_date).getFullYear()}
+						cast={movieDetails?.cast ?? []}
+						releaseDate={
+							movieDetails?.release_date
+								? new Date(movieDetails?.release_date).getFullYear()
+								: undefined
+						}
 					/>
 				</Container>
 				<Footer />

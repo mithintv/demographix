@@ -3,11 +3,9 @@ import os
 
 from data.movie_repository import MovieRepository
 from flask import Blueprint, jsonify, make_response, redirect, request
-from services.movie_service import MovieService
+from services.movie_service import movie_service
 
 bp = Blueprint("index", __name__, url_prefix="/")
-
-movie_service = MovieService()
 
 
 @bp.route("/", methods=["GET"])
@@ -24,9 +22,8 @@ def post_index():
 
     data = request.get_json()
 
-    searchText = data["search"]
-    movies = movie_service.search_movie(searchText=searchText)
-    logging.info(movies)
+    search_text = data["search"]
+    movies = movie_service.search_movie(search_text)
 
     search_results = []
     for movie in movies:

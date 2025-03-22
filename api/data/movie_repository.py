@@ -1,134 +1,90 @@
 import logging
-import os
 from datetime import datetime
+from typing import Optional, TypedDict
 
-import requests
-from data.model import Genre, Movie
-from sqlalchemy import and_, desc, func, select
+from data.model import Genre, Movie, db
+from sqlalchemy import desc, func
+from sqlalchemy.orm import Session
+
+
+class CreateMovie(TypedDict):
+    id: int
+    title: str
+    overview: str
+    poster_path: str
+    release_date: Optional[str]
+    genre_ids: Optional[list[int]]
 
 
 class MovieRepository:
-    def __init__(self, db_session):
-        self.db_session = db_session
+    def __init__(self, db_session: Session = db.session):
+        self.db = db_session
 
-    def query_movie(self, keywords):
-        """Return search query results."""
+    def create_movie(
+        self,
+        movie_data: CreateMovie,
+    ):
+        """Create a new movie in the database."""
+        formatted_date = None
+        if len(movie_data["release_date"]) > 0:
+            formatted_date = datetime.strptime(movie["release_date"], "%Y-%m-%d")
 
-        if keywords == "":
-            query = (
-                self.db_session.query(Movie)
-                .join(Movie.credits)
-                .filter(Movie.poster_path is not None)
-                .group_by(
-                    Movie.id,
-                    Movie.imdb_id,
-                    Movie.title,
-                    Movie.overview,
-                    Movie.runtime,
-                    Movie.poster_path,
-                    Movie.release_date,
-                    Movie.budget,
-                    Movie.revenue,
-                )
-                .having(func.count(Movie.credits) > 1)
-                .order_by(func.random())
-                .all()
-            )
-            return query[:30]
-
-        else:
-            keyword_query = (
-                self.db_session.query(Movie)
-                .join(Movie.credits)
-                .group_by(
-                    Movie.id,
-                    Movie.imdb_id,
-                    Movie.title,
-                    Movie.overview,
-                    Movie.runtime,
-                    Movie.poster_path,
-                    Movie.release_date,
-                    Movie.budget,
-                    Movie.revenue,
-                )
-                .having(func.count(Movie.credits) > 1)
-                .filter(
-                    and_(
-                        func.lower(Movie.title).like(f"{keywords.lower()}%"),
-                        Movie.poster_path is not None,
-                    )
-                )
-                .order_by(desc(Movie.release_date))
-            )
-            if len(keyword_query.all()) < 5:
-                logging.info("Not enough results in db... making API call...")
-                keyword_query = self.query_api_movie(keywords)
-            additional_query = (
-                self.db_session.query(Movie)
-                .join(Movie.credits)
-                .filter(Movie.poster_path is not None)
-                .group_by(Movie.id)
-                .having(func.count(Movie.credits) > 1)
-                .order_by(Movie.title.like(f"{keywords[0].lower()}%"))
-            )
-
-            combined_query = keyword_query.union_all(additional_query)
-            results = combined_query.all()
-            self.db_session.close()
-
-            return results[:28]
-
-    def query_api_movie(self, keywords):
-        """Return search query results from api."""
-
-        response = requests.get(
-            str.format(
-                "https://api.themoviedb.org/3/search/movie?api_key={}&query={}",
-                os.environ["TMDB_API_KEY"],
-                keywords,
-            ),
-            timeout=15,
+        movie = Movie(
+            id=movie_data["id"],
+            title=movie_data["title"],
+            overview=movie_data["overview"],
+            poster_path=movie_data["poster_path"],
+            release_date=formatted_date,
         )
-        result_list = response.json()
-        movies = result_list["results"]
-        logging.info('Found %s movies with query "%s"', len(movies), keywords)
+        self.db_session.add(movie)
 
-        new_movies = []
-        for movie in movies:
-            curr_movie = (
-                self.db_session.query(Movie).filter(Movie.id == movie["id"]).first()
+        for genre_id in movie_data["genre_ids"]:
+            genre_object = (
+                self.db_session.query(Genre).filter(Genre.id == genre_id).one()
             )
-            if curr_movie is None:
-                if len(movie["release_date"]) > 0:
-                    date_format = "%Y-%m-%d"
-                    formatted_date = datetime.strptime(
-                        movie["release_date"], date_format
-                    )
-                curr_movie = Movie(
-                    id=movie["id"],
-                    title=movie["title"],
-                    overview=movie["overview"],
-                    poster_path=movie["poster_path"],
-                    release_date=formatted_date,
-                )
-                self.db_session.add(curr_movie)
-
-                for genre_id in movie["genre_ids"]:
-                    genre_object = (
-                        self.db_session.query(Genre).filter(Genre.id == genre_id).one()
-                    )
-                    curr_movie.genres.append(genre_object)
-
-                logging.info("Adding new move to db: %s", curr_movie)
+            movie.genres.append(genre_object)
 
         self.db_session.commit()
-        if len(new_movies) > 0:
-            logging.info("Added %s movies to db!", len(new_movies))
+        logging.info("Adding new move to db: %s", movie)
+
+        return movie
+
+    def get_movie_by_id(self, movie_id):
+        return Movie.query.filter(Movie.id == movie_id).first()
+
+    def query_movie(
+        self,
+        search_text,
+        options={"include_wo_poster": False},
+    ):
+        """Return search query results."""
 
         query = (
-            self.db_session.query(Movie)
-            .filter(func.lower(Movie.title).like(f"{keywords.lower()}%"))
-            .order_by(desc(Movie.release_date))
+            self.db.query(Movie)
+            .join(Movie.credits)
+            .group_by(
+                Movie.id,
+                Movie.imdb_id,
+                Movie.title,
+                Movie.overview,
+                Movie.runtime,
+                Movie.poster_path,
+                Movie.release_date,
+                Movie.budget,
+                Movie.revenue,
+            )
         )
 
-        return query
+        if options.get("include_wo_poster") is False:
+            query = query.filter(Movie.poster_path is not None)
+
+        if len(search_text) > 0:
+            query = query.filter(
+                func.lower(Movie.title).like(f"{search_text.lower()}%")
+            )
+
+        return (
+            query.having(func.count(Movie.credits) > 1)
+            .order_by(desc(Movie.release_date))
+            .all()
+        )

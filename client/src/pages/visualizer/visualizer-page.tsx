@@ -25,6 +25,15 @@ import { useQuery } from "@tanstack/react-query";
 import { MovieCard } from "./movie-card";
 import { CardList } from "@/components/ui/card-list/card-list";
 
+const getSelectableYears = () => {
+	const currYear = new Date().getFullYear();
+	const allYears = [];
+	for (let i = currYear; i >= 1950; i--) {
+		allYears.push(i);
+	}
+	return allYears;
+};
+
 const compileCast = (movies: Movie[] | undefined) => {
 	if (!movies) {
 		return [];
@@ -248,16 +257,13 @@ export const VisualizerPage = () => {
 													label="Year"
 													onChange={handleYear}
 												>
-													<MenuItem value={2023}>2023</MenuItem>
-													<MenuItem value={2022}>2022</MenuItem>
-													<MenuItem value={2021}>2021</MenuItem>
-													<MenuItem value={2020}>2020</MenuItem>
-													<MenuItem value={2019}>2019</MenuItem>
-													<MenuItem value={2018}>2018</MenuItem>
-													<MenuItem value={2017}>2017</MenuItem>
-													<MenuItem value={2016}>2016</MenuItem>
-													<MenuItem value={2015}>2015</MenuItem>
-													<MenuItem value={2014}>2014</MenuItem>
+													{getSelectableYears().map((x, i) => {
+														return (
+															<MenuItem key={i} value={x}>
+																{x}
+															</MenuItem>
+														);
+													})}
 												</Select>
 											</FormControl>
 										)}
@@ -346,16 +352,13 @@ export const VisualizerPage = () => {
 											label="Year"
 											onChange={handleYear}
 										>
-											<MenuItem value={2023}>2023</MenuItem>
-											<MenuItem value={2022}>2022</MenuItem>
-											<MenuItem value={2021}>2021</MenuItem>
-											<MenuItem value={2020}>2020</MenuItem>
-											<MenuItem value={2019}>2019</MenuItem>
-											<MenuItem value={2018}>2018</MenuItem>
-											<MenuItem value={2017}>2017</MenuItem>
-											<MenuItem value={2016}>2016</MenuItem>
-											<MenuItem value={2015}>2015</MenuItem>
-											<MenuItem value={2014}>2014</MenuItem>
+											{getSelectableYears().map((x, i) => {
+												return (
+													<MenuItem key={i} value={x}>
+														{x}
+													</MenuItem>
+												);
+											})}
 										</Select>
 									</FormControl>
 								)}

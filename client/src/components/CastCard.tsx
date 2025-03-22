@@ -12,18 +12,20 @@ import { memo, useEffect, useState } from "react";
 // import { useLocation } from "react-router-dom";
 import { Cast } from "../types/Cast";
 
-const CastCard = memo(({ cast }: { cast: Cast[] }) => {
+const CastCard = memo(({ cast }: { cast: Cast[] | undefined }) => {
 	// const theme = useTheme();
-	const [content, setContent] = useState<Cast[]>(cast);
+	const [content, setContent] = useState<Cast[] | undefined>(cast);
 	const [show, setShow] = useState(false);
 	// const location = useLocation();
 
 	useEffect(() => {
 		setShow(false);
 		const delay = setTimeout(() => {
-			setContent(cast);
-			// Trigger fade-in effect
-			setShow(true);
+			if (cast) {
+				setContent(cast);
+				// Trigger fade-in effect
+				setShow(true);
+			}
 		}, 500);
 
 		return () => {

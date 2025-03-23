@@ -2,9 +2,10 @@ import logging
 import os
 
 from flask import Blueprint, jsonify, make_response, redirect, request
-from services.movie_service import movie_service
 
-bp = Blueprint("index", __name__, url_prefix="/")
+from api.services.movie_service import movie_service
+
+bp: Blueprint = Blueprint("index", __name__, url_prefix="/")
 
 
 @bp.route("/", methods=["GET"])

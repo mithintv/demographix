@@ -7,7 +7,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from data.gpt import txtcomp
-from data.model import AlsoKnownAs
+from api.data.model import AlsoKnownAs
 
 
 def strip_accents(text):

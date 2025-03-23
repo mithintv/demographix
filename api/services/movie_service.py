@@ -1,14 +1,12 @@
-"""Services to retrieve movie data from The Movie Database (TMDB)."""
-
-import json
 import logging
 import os
 from datetime import datetime
 from typing import Optional, TypedDict
 
 import requests
-from data.model import CastMember, Country, Credit, Gender, Genre, Movie, db
 from sqlalchemy import desc, func
+
+from api.data.model import CastMember, Country, Credit, Gender, Genre, Movie, db
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]
@@ -24,6 +22,8 @@ class CreateMovieDict(TypedDict):
 
 
 class MovieService:
+    """Service to retrieve movie data from database."""
+
     def __init__(self):
         self.db = db.session
 
@@ -33,8 +33,9 @@ class MovieService:
     ):
         """Create a new movie in the database."""
         formatted_date = None
-        if len(movie_data["release_date"]) > 0:
-            formatted_date = datetime.strptime(movie_data["release_date"], "%Y-%m-%d")
+        release_date = movie_data.get("release_date")
+        if release_date is not None and len(release_date) > 0:
+            formatted_date = datetime.strptime(release_date, "%Y-%m-%d")
 
         movie = Movie(
             id=movie_data["id"],
@@ -45,7 +46,8 @@ class MovieService:
         )
         self.db.add(movie)
 
-        for genre_id in movie_data["genre_ids"]:
+        genre_ids = movie_data.get("genre_ids") or []
+        for genre_id in genre_ids:
             genre_object = Genre.query.filter(Genre.id == genre_id).one()
             movie.genres.append(genre_object)
 

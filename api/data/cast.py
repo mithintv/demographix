@@ -1,6 +1,9 @@
 import logging
 
-from data.model import (
+from services.ethnicity import get_ethnicity
+from sqlalchemy import and_, func
+
+from api.data.model import (
     AltEthnicity,
     CastEthnicity,
     CastMember,
@@ -14,8 +17,6 @@ from data.model import (
     SourceLink,
     db,
 )
-from services.ethnicity import get_ethnicity
-from sqlalchemy import and_, func
 
 
 def query_cast(keywords):

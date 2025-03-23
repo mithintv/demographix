@@ -3,12 +3,13 @@
 import logging
 import os
 
-from data.gpt import txtcomp
-from data.model import db
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
-from routes import index, movies, nominations
+
+from api.data.gpt import txtcomp
+from api.data.model import db
+from api.routes import index, movies, nominations
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -32,7 +33,7 @@ app.config["SQLALCHEMY_ECHO"] = False
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
-migrate = Migrate(app, db)
+Migrate(app, db)
 
 # Enable logging
 logging.basicConfig(

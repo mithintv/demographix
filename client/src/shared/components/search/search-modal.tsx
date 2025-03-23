@@ -7,18 +7,19 @@ import {
 	TextField,
 	useMediaQuery,
 } from "@mui/material";
-import { ChangeEvent, useRef, useState } from "react";
-import SearchResults from "./SearchResults";
-import { API_HOSTNAME } from "@/utils/constants";
+import { useRef, useState } from "react";
+import { SearchResults } from "./search-results";
+import { useDebounce } from "@/shared/hooks/useDebounce";
 
-export default function SearchPage({ nav }: { nav: boolean }) {
+export const SearchModal = ({ nav }: { nav: boolean }) => {
 	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	// const xs = useMediaQuery("(max-width:425px)");
 
 	const [open, setOpen] = useState(false);
 	const searchRef = useRef<HTMLInputElement>(null);
-	const [searchInput, setSearchInput] = useState("");
+	const [searchInput, setSearchInput] = useState<string>("");
+	const { debouncedValue: debouncedSearch } = useDebounce(searchInput, 300);
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => {
@@ -29,31 +30,6 @@ export default function SearchPage({ nav }: { nav: boolean }) {
 	const searchInputHandler = async () => {
 		if (searchRef.current) {
 			setSearchInput(searchRef.current.value);
-		}
-	};
-
-	const searchHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		if (searchRef.current) {
-			const keyword = searchRef.current.value;
-			console.log(keyword);
-
-			try {
-				const options = {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						search: keyword,
-					}),
-				};
-				const response = await fetch(`${API_HOSTNAME}/search`, options);
-				const json = await response.json();
-				console.log(json);
-			} catch (err) {
-				console.log(err);
-			}
 		}
 	};
 
@@ -105,7 +81,6 @@ export default function SearchPage({ nav }: { nav: boolean }) {
 					}}
 				>
 					<Box
-						onSubmit={searchHandler}
 						component="form"
 						sx={{
 							pt: "0.25rem",
@@ -132,9 +107,9 @@ export default function SearchPage({ nav }: { nav: boolean }) {
 							variant="standard"
 						/>
 					</Box>
-					<SearchResults setOpen={setOpen} searchText={searchInput} />
+					<SearchResults setOpen={setOpen} searchText={debouncedSearch} />
 				</Paper>
 			</Modal>
 		</>
 	);
-}
+};

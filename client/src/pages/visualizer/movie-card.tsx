@@ -1,4 +1,4 @@
-import { Movie } from "@/types/Movie";
+import { Movie } from "@/shared/types/Movie";
 import { getYear } from "date-fns";
 import { Link } from "react-router-dom";
 

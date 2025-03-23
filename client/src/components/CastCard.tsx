@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 // import { useLocation } from "react-router-dom";
-import { Cast } from "../types/Cast";
+import { Cast } from "../shared/types/Cast";
 
 const CastCard = memo(({ cast }: { cast: Cast[] | undefined }) => {
 	// const theme = useTheme();

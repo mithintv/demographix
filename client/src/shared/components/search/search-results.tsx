@@ -7,30 +7,25 @@ import {
 	Link,
 	useMediaQuery,
 } from "@mui/material";
-import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Movie } from "../types/Movie";
-import { API_HOSTNAME } from "@/utils/constants";
+import { Movie } from "@/shared/types/Movie";
+import { API_HOSTNAME } from "@/shared/utils/constants";
 import { useQuery } from "@tanstack/react-query";
 
-export default function SearchResults({
+export const SearchResults = ({
 	setOpen,
 	searchText,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	searchText: string;
-}) {
+}) => {
 	// const lg = useMediaQuery("(max-width:1200px)");
 	// const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	// const xs = useMediaQuery("(max-width:485px)");
 	// const theme = useTheme();
 
-	const {
-		data: results,
-		refetch,
-		isFetching,
-	} = useQuery({
+	const { data: results, isFetching } = useQuery({
 		queryKey: ["search-movies", searchText],
 		queryFn: async (): Promise<Movie[]> => {
 			const response = await fetch(`${API_HOSTNAME}`, {
@@ -47,20 +42,6 @@ export default function SearchResults({
 		retry: false,
 		refetchOnWindowFocus: false,
 	});
-
-	useEffect(() => {
-		let timeout: NodeJS.Timeout;
-		if (searchText.length === 0) {
-			refetch();
-		} else {
-			timeout = setTimeout(async () => {
-				refetch();
-			}, 1000);
-		}
-		return () => {
-			clearTimeout(timeout);
-		};
-	}, [refetch, searchText]);
 
 	return (
 		<Box
@@ -79,7 +60,7 @@ export default function SearchResults({
 			}}
 		>
 			{!isFetching ? (
-				results.map((movie, index) => {
+				results?.map((movie, index) => {
 					let imgPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`;
 					if (movie.poster_path == null) {
 						imgPath =
@@ -94,7 +75,7 @@ export default function SearchResults({
 									mb: 2,
 								}}
 								component={RouterLink}
-								to={`/movies/${movie.id}`}
+								to={`/movie/${movie.id}`}
 								onClick={() => setOpen(false)}
 							>
 								<Card>
@@ -114,4 +95,4 @@ export default function SearchResults({
 			)}
 		</Box>
 	);
-}
+};

@@ -3,74 +3,67 @@
 import json
 import logging
 import os
+from datetime import datetime
+from typing import Optional, TypedDict
 
 import requests
-from data.model import CastMember, Country, Credit, Gender, Movie
-from data.movie_repository import MovieRepository
-from sqlalchemy import func
+from data.model import CastMember, Country, Credit, Gender, Genre, Movie, db
+from sqlalchemy import desc, func
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]
 
 
+class CreateMovieDict(TypedDict):
+    id: int
+    title: str
+    overview: str
+    poster_path: str
+    release_date: Optional[str]
+    genre_ids: Optional[list[int]]
+
+
 class MovieService:
     def __init__(self):
-        self.movie_repo = MovieRepository()
+        self.db = db.session
 
-    def search_movie(self, search_text):
-        """Return search query results from db."""
+    def create_movie(
+        self,
+        movie_data: CreateMovieDict,
+    ):
+        """Create a new movie in the database."""
+        formatted_date = None
+        if len(movie_data["release_date"]) > 0:
+            formatted_date = datetime.strptime(movie_data["release_date"], "%Y-%m-%d")
 
-        searchResults = self.movie_repo.query_movie(search_text)
-
-        if len(searchResults) < 5:
-            logging.info("Not enough results in db... making API call...")
-
-            additional_query = (
-                self.movie_repo.query(Movie)
-                .join(Movie.credits)
-                .where(Movie.poster_path is not None)
-                .where(func.count(Movie.credits) > 1)
-                .order_by(Movie.title.like(f"{search_text[0].lower()}%"))
-            )
-            searchResults = searchResults.union_all(additional_query)
-
-        return searchResults[:28]
-
-    def search_and_add_movie(self, search_text) -> list[Movie]:
-        """Return search query results from api."""
-
-        response = requests.get(
-            str.format(
-                "https://api.themoviedb.org/3/search/movie?api_key={}&query={}",
-                os.environ["TMDB_API_KEY"],
-                search_text,
-            ),
-            timeout=15,
+        movie = Movie(
+            id=movie_data["id"],
+            title=movie_data["title"],
+            overview=movie_data["overview"],
+            poster_path=movie_data["poster_path"],
+            release_date=formatted_date,
         )
-        result_list = response.json()
-        movies = result_list["results"]
-        logging.info('Found %s movies with query "%s"', len(movies), search_text)
+        self.db.add(movie)
 
-        # Add movies to db if they don't already exist
-        new_movies = []
-        for movie in movies:
-            curr_movie = self.movie_repo.get_movie_by_id(movie["id"])
-            if curr_movie is None:
-                curr_movie = self.create_movie(movie)
-                new_movies.append(curr_movie)
+        for genre_id in movie_data["genre_ids"]:
+            genre_object = Genre.query.filter(Genre.id == genre_id).one()
+            movie.genres.append(genre_object)
 
-        if len(new_movies) > 0:
-            logging.info("Added %s movies to db!", len(new_movies))
+        self.db.commit()
+        logging.info("Adding new move to db: %s", movie)
 
-        return movies
+        return movie
 
-    def get_movie_and_cast(self, movie_id: str):
+    def get_movie_by_id(self, movie_id):
+        return Movie.query.filter(Movie.id == movie_id).first()
+
+    def get_movie_and_cast_by_id(self, movie_id: str):
         """Return specific movie with credits and cast member details."""
 
-        movie = Movie.query.filter(Movie.id == movie_id).first()
+        movie: Movie = Movie.query.filter(Movie.id == movie_id).first()
         if movie is None:
             logging.warning("Movie details are missing for %s", movie_id)
-            return {}
+            return None
             # logging.info("Movie details are missing...\nMaking api call...\n")
 
             # # Update movie
@@ -84,7 +77,11 @@ class MovieService:
             # # Add credits after adding cast members
             # add_credits(cast_credit_list, movie)
 
-        logging.info("Fetching details about %s...", movie.title)
+        logging.info(
+            "Fetching details about %s (%s)...",
+            movie.title,
+            movie.release_date.year,
+        )
 
         cast_list: list[CastMember] = (
             CastMember.query.join(
@@ -134,48 +131,106 @@ class MovieService:
 
         return movie_dict
 
+    def search_movie(self, search_text):
+        """Return search query results from db."""
 
-def get_movie_details(movie_id):
-    """Get movie details from TMDB via a movie_id."""
-    response = requests.get(
-        url=f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US",
-        headers={
-            "accept": "application/json",
-            "Authorization": f"Bearer {access_token}",
-        },
-        timeout=15,
-    )
-    movie_details = response.json()
-    return movie_details
+        search_results = self._query_movie(search_text)
+        if len(search_results.all()) < 20:
+            logging.info("Not enough results in db... making 'ends_with' query...")
+            additional_query = self._query_movie(
+                search_text, {"include_wo_poster": False, "include_ends_with": True}
+            )
+            search_results = search_results.union_all(additional_query)
 
+        if len(search_results.all()) < 20:
+            logging.info("Not enough results in db... making API call...")
+            new_movies = self.search_tmdb_and_add(search_text)
+            return new_movies[:20]
 
-def get_movie_by_query(search_list=None):
-    """Get movie details for a predefined list of search queries and dump the result into 'movies.json'."""
-    if search_list is None:
-        search_list = [
-            "The Power of the Dog",
-            "Belfast",
-            "Coda",
-            "Dune",
-            "King Richard",
-            "Licorice Pizza",
-            "Nightmare Alley",
-            "The Tragedy of Macbeth",
-            "West Side Story",
-        ]
+        return (search_results.all())[:20]
 
-    movie_list = []
-    for search in search_list:
+    def search_tmdb_and_add(self, search_text) -> list[Movie]:
+        """Return search query results from api."""
+
         response = requests.get(
-            f"https://api.themoviedb.org/3/search/movie?api_key={key}&query={search}",
+            str.format(
+                "https://api.themoviedb.org/3/search/movie?api_key={}&query={}",
+                os.environ["TMDB_API_KEY"],
+                search_text,
+            ),
             timeout=15,
         )
-        parsed = response.json()
-        movie = parsed["results"][0]
-        movie_list.append(movie)
+        result_list = response.json()
+        movies = result_list["results"]
+        logging.info('Found %s movies with query "%s"', len(movies), search_text)
 
-    with open("movies.json", "w", encoding="utf-8") as file:
-        json.dump(movie_list, file)
+        # Add movies to db if they don't already exist
+        result = []
+        new_movies = []
+        for movie in movies:
+            curr_movie = self.get_movie_by_id(movie["id"])
+            if curr_movie is None:
+                curr_movie = self.create_movie(movie)
+                new_movies.append(curr_movie)
+            result.append(curr_movie)
+
+        if len(new_movies) > 0:
+            logging.info("Added %s movies to db!", len(new_movies))
+
+        return result
+
+    def get_tmdb_movie_by_id(self, movie_id):
+        """Get movie details from TMDB via a movie_id."""
+        response = requests.get(
+            url=f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US",
+            headers={
+                "accept": "application/json",
+                "Authorization": f"Bearer {access_token}",
+            },
+            timeout=15,
+        )
+        movie_details = response.json()
+        return movie_details
+
+    def _query_movie(
+        self,
+        search_text,
+        options={"include_wo_poster": False, "include_ends_with": False},
+    ):
+        """Return search query results."""
+
+        query = Movie.query.join(Movie.credits, isouter=True)
+
+        if options.get("include_wo_poster") is False:
+            query = query.filter(Movie.poster_path != None)
+
+        if len(search_text) > 0:
+            if options.get("include_ends_with") is True:
+                query = query.filter(
+                    func.lower(Movie.title).like(f"%{search_text.lower()}%")
+                )
+            else:
+                query = query.filter(
+                    func.lower(Movie.title).like(f"{search_text.lower()}%")
+                )
+            query = query.order_by(desc(Movie.release_date))
+        else:
+            query = query.order_by(func.random())
+
+        query = query.group_by(
+            Movie.id,
+            Movie.imdb_id,
+            Movie.title,
+            Movie.overview,
+            Movie.runtime,
+            Movie.poster_path,
+            Movie.release_date,
+            Movie.budget,
+            Movie.revenue,
+        )
+
+        logging.info("Found %s movies!", query.count())
+        return query
 
 
 movie_service = MovieService()

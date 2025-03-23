@@ -18,6 +18,11 @@ psycopg2 = "^2.9.9"
 beautifulsoup4 = "^4.12.3"
 gunicorn = "^23.0.0"
 flask-cors = "^5.0.1"
+types-requests = "^2.32.0.20250306"
+types-flask-migrate = "^4.1.0.20250112"
+types-flask-cors = "^5.0.0.20240902"
+sqlalchemy-stubs = "^0.4"
+mypy = "^1.15.0"
 
 
 [tool.poetry.group.g4f.dependencies]

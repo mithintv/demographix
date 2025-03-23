@@ -10,17 +10,16 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CastCard from "../components/CastCard";
-import CastDataCard from "../components/CastDataCard";
-import Footer from "../components/layout/Footer";
-import MovieDetails from "../components/MovieDetails";
-import { Movie } from "../types/Movie";
-import { backgroundGradient } from "../utils/theme";
-import { API_HOSTNAME } from "@/utils/constants";
+import CastCard from "../../components/CastCard";
+import CastDataCard from "../../components/CastDataCard";
+import Footer from "../../components/layout/Footer";
+import MovieDetails from "../../components/MovieDetails";
+import { Movie } from "../../shared/types/Movie";
+import { backgroundGradient } from "@/shared/utils/theme";
+import { API_HOSTNAME } from "@/shared/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-import { CardList } from "@/components/ui/card-list/card-list";
 
-export default function Movies() {
+export const MoviePage = () => {
 	// const theme = useTheme();
 	// const lg = useMediaQuery("(max-width:1200px)");
 	// const md = useMediaQuery("(max-width:960px)");
@@ -114,4 +113,4 @@ export default function Movies() {
 			</Box>
 		</Fade>
 	);
-}
+};

@@ -1,7 +1,6 @@
 import logging
 import os
 
-from data.movie_repository import MovieRepository
 from flask import Blueprint, jsonify, make_response, redirect, request
 from services.movie_service import movie_service
 

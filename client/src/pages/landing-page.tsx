@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import SearchPage from "../components/SearchPage";
+import { SearchModal } from "../shared/components/search/search-modal";
 import Footer from "../components/layout/Footer";
 
 export const LandingPage = () => {
@@ -97,7 +97,7 @@ export const LandingPage = () => {
 							</Button>
 						</Link>
 
-						<SearchPage nav={false} />
+						<SearchModal nav={false} />
 					</Grid>
 				</Container>
 				<Container

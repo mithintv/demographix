@@ -6,8 +6,10 @@ from typing import List
 
 import requests
 from bs4 import BeautifulSoup
-from api.data.model import Movie, MovieNomination, Nomination, db
 from sqlalchemy import and_, extract, func
+
+from api.data.model import Movie, MovieNomination, Nomination, db
+from api.services.movie_service import MovieService
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
 
@@ -85,12 +87,10 @@ def add_nominations(nominees, year: int, award="Academy Awards"):
         ).first()
         # if movie is None:
 
-
         nomination = Nomination.query.filter(
             and_(Nomination.name == award, Nomination.year == year)
         ).first()
         # if nomination is None:
-
 
         if movie is not None and nomination is not None:
             # movie.nominations.append(nomination)
@@ -113,35 +113,6 @@ def create_nomination(event, year) -> None:
     )
     db.session.add(nomination)
     db.session.commit()
-
-
-def get_nom_movies(event: str, year: int) -> List:
-    """Return nominated movies and cast demographics for a given year from database. Returns an empty List if nomination year and event combination does not exist in the database."""
-
-    nomination = Nomination.query.filter(
-        Nomination.year == year and Nomination.name == event.replace("-", " ")
-    ).first()
-    if nomination is None:
-        return []
-
-    movie_noms = MovieNomination.query.filter(
-        MovieNomination.nomination_id == nomination.id
-    ).all()
-
-    # Check if there are movies to add if less than 5 nominees
-    # if len(movie_noms) < 5:
-    #     check_nominations(int(year))
-    #     movie_noms = MovieNomination.query.filter(
-    #         MovieNomination.nomination_id == nomination.id
-    #     ).all()
-    #     logging.info(len(movie_noms))
-
-    all_movie_data = []
-    for movie_nom in movie_noms:
-        movie_data = get_movie_cast(movie_nom.movie_id)
-        all_movie_data.append(movie_data)
-
-    return all_movie_data
 
 
 def check_nominations(year: int) -> None:

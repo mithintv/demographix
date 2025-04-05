@@ -59,7 +59,7 @@ class MovieService:
     def get_movie_by_id(self, movie_id):
         return Movie.query.filter(Movie.id == movie_id).first()
 
-    def get_movie_and_cast_by_id(self, movie_id: str):
+    def get_movie_and_cast_by_id(self, movie_id: int):
         """Return specific movie with credits and cast member details."""
 
         movie: Movie = Movie.query.filter(Movie.id == movie_id).first()

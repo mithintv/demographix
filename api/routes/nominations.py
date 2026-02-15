@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from data.nominations import query_imdb_and_add_nomination, query_imdb_event_nominations
+from api.data.nominations import query_imdb_and_add_nomination, query_imdb_event_nominations
 from flask import Blueprint, jsonify, request
 
 from api.services.movie_nomination_service import movie_nomination_service

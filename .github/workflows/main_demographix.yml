@@ -40,6 +40,12 @@ jobs:
         run: |
           mkdir -p deploy
           cp -r ./api deploy/api
+
+          # Put Poetry files at deployment root so Azure/Oryx can detect them
+          cp ./api/requirements.txt deploy/requirements.txt
+          cp ./api/pyproject.toml deploy/pyproject.toml
+          cp ./api/poetry.lock deploy/poetry.lock
+
           rm -rf deploy/api/venv
 
       - name: Upload artifact for deployment jobs

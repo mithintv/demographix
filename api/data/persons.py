@@ -3,9 +3,9 @@ import json
 import os
 
 import requests
-from crud import *
+from api.crud import *
 from api.data.model import AlsoKnownAs, CastMember, db
-from services.ethnicity import *
+from api.services.ethnicity import *
 
 key = os.environ['TMDB_API_KEY']
 

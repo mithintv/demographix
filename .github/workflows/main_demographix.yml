@@ -36,13 +36,17 @@ jobs:
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
+      - name: Prepare deployment artifact
+        run: |
+          mkdir -p deploy
+          cp -r ./api deploy/api
+          rm -rf deploy/api/venv
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            ./api
-            !./api/venv
+          path: deploy
 
   deploy:
     runs-on: ubuntu-latest

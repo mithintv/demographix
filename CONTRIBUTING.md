@@ -21,7 +21,7 @@ Frontend
 
 Backend
 
-- [Python](https://docs.python.org/3/) v3.9.18
+- [Python](https://docs.python.org/3/) v3.10
 - [Flask](https://flask.palletsprojects.com/en/2.3.x/) v3.0.2
 - [PostgreSQL](https://www.postgresql.org/docs/) v14.11
 - [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v2.0.28

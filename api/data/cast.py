@@ -1,6 +1,6 @@
 import logging
 
-from services.ethnicity import get_ethnicity
+from api.services.ethnicity import get_ethnicity
 from sqlalchemy import and_, func
 
 from api.data.model import (

@@ -10,7 +10,7 @@ from datetime import datetime
 from api.data.model import (AltCountry, AltEthnicity, CastMember, Country, Credit,
                    Ethnicity, Gender, Genre, Movie, Race, Region, SubRegion,
                    db)
-from services.ethnicity import get_ethnicity
+from api.services.ethnicity import get_ethnicity
 
 
 def seed_regions():

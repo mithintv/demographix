@@ -1,6 +1,6 @@
 import unittest
 
-from services.ethnicity import parse_ethnicelebs
+from api.services.ethnicity import parse_ethnicelebs
 
 
 class TestEthniCelebs(unittest.TestCase):

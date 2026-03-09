@@ -26,6 +26,7 @@
 html {
   /* background: radial-gradient(ellipse at center, #151036 50%, #100b2a 100%); */
   background: #100b2a;
+  overflow-y: scroll;
 }
 
 body {

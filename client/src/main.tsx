@@ -10,6 +10,9 @@ import { MoviePage } from "./pages/movie/movie-page.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { VisualizerPage } from "./pages/visualizer/visualizer-page.tsx";
 import NavBar from "./components/layout/NavBar.tsx";
+import { AdminPage } from "./pages/admin/admin-page.tsx";
+import { AdminCastPage } from "./pages/admin/admin-cast-page.tsx";
+import { AdminNominationsPage } from "./pages/admin/nominations/admin-nominations-page.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -33,6 +36,19 @@ const router = createBrowserRouter([
 			},
 		],
 	},
+	...(import.meta.env.DEV
+		? [
+				{
+					path: "/admin",
+					element: <Outlet />,
+					children: [
+						{ index: true, element: <AdminPage /> },
+						{ path: "cast", element: <AdminCastPage /> },
+						{ path: "nominations", element: <AdminNominationsPage /> },
+					],
+				},
+			]
+		: []),
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -42,5 +58,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 				<RouterProvider router={router} />
 			</QueryClientProvider>
 		</ThemeProvider>
-	</React.StrictMode>
+	</React.StrictMode>,
 );

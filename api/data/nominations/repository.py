@@ -1,17 +1,54 @@
 import json
 import logging
 import os
-import re
-from typing import List
 
 import requests
 from bs4 import BeautifulSoup
-from sqlalchemy import and_, extract, func
+from sqlalchemy import and_, extract, func, select
 
-from api.data.model import Movie, MovieNomination, Nomination, db
+from api.data.model import Movie, db
+from api.data.nominations.dto import NominationDTO, NominationMovieDTO
+from api.data.nominations.model import MovieNomination, Nomination
 from api.services.movie_service import MovieService
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
+
+
+def query_nominations(search: str) -> list[NominationDTO]:
+    stmt = select(Nomination)
+    if search:
+        stmt = stmt.where(Nomination.name.ilike(f"%{search}%"))
+    nominations = db.session.scalars(
+        stmt.order_by(Nomination.name, Nomination.year.desc())
+    ).all()
+
+    results: list[NominationDTO] = []
+    for nom in nominations:
+        movies = (
+            db.session.query(Movie)
+            .join(MovieNomination, Movie.id == MovieNomination.movie_id)
+            .filter(MovieNomination.nomination_id == nom.id)
+            .order_by(Movie.title)
+            .all()
+        )
+        nomination_movies: list[NominationMovieDTO] = [
+            NominationMovieDTO(
+                id=m.id,
+                title=m.title,
+                release_date=m.release_date.isoformat() if m.release_date else None,
+                has_cast=len(m.credits) > 0,
+            )
+            for m in movies
+        ]
+        results.append(
+            NominationDTO(
+                id=nom.id,
+                name=nom.name,
+                year=nom.year,
+                movies=nomination_movies,
+            )
+        )
+    return results
 
 
 def query_imdb_and_add_nomination(event: str, year: int):
@@ -75,7 +112,7 @@ def filter_by_attribute_starting_with(tag, attribute, prefix):
     return attr_value and attr_value.startswith(prefix)
 
 
-def add_nominations(nominees, year: int, award="Academy Awards"):
+def create_movie_nomination(nominees, year: int, award="Academy Awards"):
 
     # Get best picture nominations only
     for nomination in nominees:
@@ -103,13 +140,20 @@ def add_nominations(nominees, year: int, award="Academy Awards"):
     # db.session.commit()
 
 
-def create_nomination(event, year) -> None:
+def create_nomination(name: str, year) -> None:
     """Create nomination entry for a given event and year in the database."""
-    nomination = Nomination(name=event, year=year)
+    existing_nom = Nomination.query.filter(
+        Nomination.year == year and Nomination.name == name.strip().lower()
+    ).first()
+    if existing_nom is not None:
+        logging.error("%s %s already exists", name, year)
+        return
+
+    nomination = Nomination(name=name, year=year)
     logging.info(
         "Adding %s %s to db...",
-        nomination.name,
-        nomination.year,
+        name,
+        year,
     )
     db.session.add(nomination)
     db.session.commit()
@@ -136,12 +180,11 @@ def check_nominations(year: int) -> None:
                     extract("year", Movie.release_date) == year,
                 )
             ).first()
-
-        if query is None:
+        elif query is None:
             url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year - 1}&page=1"
             headers = {
                 "accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
+                "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
             }
             response = requests.get(url, headers=headers)
             results = response.json()
@@ -150,12 +193,12 @@ def check_nominations(year: int) -> None:
                 url = f"https://api.themoviedb.org/3/search/movie?query={title}&language=en-US&primary_release_year={year}&page=1"
                 headers = {
                     "accept": "application/json",
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
                 }
                 response = requests.get(url, headers=headers)
                 results = response.json()
             movie_id = results["results"][0]["id"]
-            add_new_movie(movie_id=movie_id)
+            create_movie(movie_id=movie_id)
 
             query = Movie.query.filter(
                 and_(
@@ -171,8 +214,7 @@ def check_nominations(year: int) -> None:
                     )
                 ).first()
         else:
-            print("found!")
+            print("found! skipping...")
 
-        add_nomination(query, year)
-
+        create_movie_nomination(query, year)
     db.session.commit()

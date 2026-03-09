@@ -18,9 +18,9 @@ from api.data.model import (
     Gender,
     Genre,
     Movie,
-    Nomination,
     db,
 )
+from api.data.nominations.model import Nomination
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]

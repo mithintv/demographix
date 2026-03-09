@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 
 from api.data.gpt import txtcomp
 from api.data.model import db
-from api.routes import index, movies, nominations
+from api.routes import admin, index, movies, nominations
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -23,6 +23,8 @@ app.secret_key = "demographix_dev"
 app.register_blueprint(index.bp)
 app.register_blueprint(movies.bp)
 app.register_blueprint(nominations.bp)
+if os.environ.get("FLASK_ENV") != "production":
+    app.register_blueprint(admin.bp)
 
 DB_URI = "postgresql:///demographix"
 if os.environ["FLASK_ENV"] == "production":

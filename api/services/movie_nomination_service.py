@@ -1,5 +1,5 @@
 from api.data.model import db
-from api.data.nominations.model import MovieNomination, Nomination
+from api.data.nominations.nomination_model import MovieNomination, Nomination
 from api.services.movie_service import movie_service
 
 

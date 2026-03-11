@@ -185,13 +185,6 @@ export const AdminNominationsPage = () => {
 												size="small"
 												label={`${nom.movies.length} movie${nom.movies.length !== 1 ? "s" : ""}`}
 											/>
-											{nom.movies.some((m) => !m.has_cast) && (
-												<Chip
-													size="small"
-													color="warning"
-													label="missing cast"
-												/>
-											)}
 											<Tooltip title="Delete nomination and all its movie links">
 												<IconButton
 													size="small"
@@ -243,13 +236,6 @@ export const AdminNominationsPage = () => {
 																</Typography>
 															)}
 														</Typography>
-														{!movie.has_cast && (
-															<Chip
-																size="small"
-																color="warning"
-																label="no cast"
-															/>
-														)}
 														<Tooltip title="Remove from nomination">
 															<IconButton
 																size="small"

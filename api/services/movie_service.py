@@ -6,19 +6,7 @@ from typing import Optional, TypedDict
 import requests
 from sqlalchemy import desc, func
 
-from api.data.model import CastMember, Country, Credit, Gender, Genre, Movie, db
-
-key = os.environ["TMDB_API_KEY"]
-access_token = os.environ["TMDB_ACCESS_TOKEN"]
-
-
-class CreateMovieDict(TypedDict):
-    id: int
-    title: str
-    overview: str
-    poster_path: str
-    release_date: Optional[str]
-    genre_ids: Optional[list[int]]
+from api.data.model import CastMember, Country, Credit, Gender, Genre, db
 
 
 class MovieService:
@@ -26,35 +14,6 @@ class MovieService:
 
     def __init__(self):
         self.db = db.session
-
-    def create_movie(
-        self,
-        movie_data: CreateMovieDict,
-    ):
-        """Create a new movie in the database."""
-        formatted_date = None
-        release_date = movie_data.get("release_date")
-        if release_date is not None and len(release_date) > 0:
-            formatted_date = datetime.strptime(release_date, "%Y-%m-%d")
-
-        movie = Movie(
-            id=movie_data["id"],
-            title=movie_data["title"],
-            overview=movie_data["overview"],
-            poster_path=movie_data["poster_path"],
-            release_date=formatted_date,
-        )
-        self.db.add(movie)
-
-        genre_ids = movie_data.get("genre_ids") or []
-        for genre_id in genre_ids:
-            genre_object = Genre.query.filter(Genre.id == genre_id).one()
-            movie.genres.append(genre_object)
-
-        self.db.commit()
-        logging.info("Adding new move to db: %s", movie)
-
-        return movie
 
     def get_movie_by_id(self, movie_id):
         return Movie.query.filter(Movie.id == movie_id).first()
@@ -151,7 +110,7 @@ class MovieService:
 
         return (search_results.all())[:20]
 
-    def search_tmdb_and_add(self, search_text) -> list[Movie]:
+    def search_tmdb_and_add(self, search_text):
         """Return search query results from api."""
 
         response = requests.get(
@@ -180,19 +139,6 @@ class MovieService:
             logging.info("Added %s movies to db!", len(new_movies))
 
         return result
-
-    def get_tmdb_movie_by_id(self, movie_id):
-        """Get movie details from TMDB via a movie_id."""
-        response = requests.get(
-            url=f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US",
-            headers={
-                "accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-            timeout=15,
-        )
-        movie_details = response.json()
-        return movie_details
 
     def _query_movie(
         self,

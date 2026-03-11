@@ -74,39 +74,6 @@ class AltCountry(db.Model):
         return f"<AltCountry id={self.id} country_id={self.country_id}> alt_name={self.alt_name}"
 
 
-class Movie(db.Model):
-    """A movie."""
-
-    __tablename__ = "movies"
-
-    id = db.Column(db.Integer, primary_key=True)
-    imdb_id = db.Column(db.String(15))
-    title = db.Column(db.String(255))
-    overview = db.Column(db.String())
-    runtime = db.Column(db.Integer)
-    poster_path = db.Column(db.String())
-    release_date = db.Column(db.DateTime)
-    budget = db.Column(db.BigInteger)
-    revenue = db.Column(db.BigInteger)
-
-    genres = db.relationship(
-        "Genre", secondary="media_genres", uselist=True, back_populates="movies"
-    )
-    credits = db.relationship("Credit", back_populates="movie")
-    nominations = db.relationship(
-        "Nomination", secondary="movie_nominations", back_populates="movies"
-    )
-
-    def __repr__(self):
-        return (
-            f"<Movie id={self.id} title={self.title} release_date={self.release_date}>"
-        )
-
-    def to_dict(self):
-        """Convert the Movie class to a dictionary."""
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-
 class Genre(db.Model):
     """A genre."""
 

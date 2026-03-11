@@ -22,6 +22,7 @@ types-requests = "^2.32.0.20250306"
 types-flask-migrate = "^4.1.0.20250112"
 types-flask-cors = "^5.0.0.20240902"
 mypy = "^1.15.0"
+pydantic = "^2.12.5"
 
 
 [tool.poetry.group.g4f.dependencies]

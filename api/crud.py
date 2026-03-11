@@ -20,7 +20,7 @@ from api.data.model import (
     Movie,
     db,
 )
-from api.data.nominations.model import Nomination
+from api.data.nominations.nomination_model import Nomination
 
 key = os.environ["TMDB_API_KEY"]
 access_token = os.environ["TMDB_ACCESS_TOKEN"]

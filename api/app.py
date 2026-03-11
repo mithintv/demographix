@@ -6,6 +6,7 @@ import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
+from werkzeug.exceptions import HTTPException
 
 from api.data.gpt import txtcomp
 from api.data.model import db
@@ -52,6 +53,13 @@ def openai():
     article = data["article"]
     result = txtcomp(article, verify=False)
     return jsonify(result)
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(e):
+    """Return JSON for all HTTP errors (e.g. 400, 404, 422)."""
+    logging.getLogger(__name__).error("%s %s: %s", e.code, e.name, e.description)
+    return jsonify({"error": e.name}), e.code
 
 
 if __name__ == "__main__":

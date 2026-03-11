@@ -3,30 +3,18 @@ from datetime import datetime
 
 from sqlalchemy import func, select
 
-from api.data.model import Genre, db
+from api.data.genres.genre_model import Genre
+from api.data.genres.genre_repository import create_genre, get_genre_by_id
+from api.data.model import db
 from api.data.movies.movie_dto import CreateMovieRequest, MovieDto
 from api.data.movies.movie_model import Movie
 from api.data.nominations.nomination_dto import NominationDto
+from api.services.tmdb.tmdb_service import get_tmdb_genres
 
 
-def query_movie_by_id(id: int):
-    """Query movie by id"""
+def get_movie_by_id(id: int):
+    """Get movie by id"""
     movie = db.session.scalars(select(Movie).where(Movie.id == id)).one_or_none()
-    if movie is None:
-        return None
-
-    logging.info("Movie: %s found!", movie)
-    return MovieDto.from_model(movie)
-
-
-def query_movie_by_title_and_year(title: str, year: int):
-    """Query movie by title and year"""
-    logging.info("Querying Movie: %s (%s)", title, year)
-    movie = db.session.scalars(
-        select(Movie)
-        .where(func.lower(Movie.title) == title.lower())
-        .where(func.extract("year", Movie.release_date) == year)
-    ).one_or_none()
     if movie is None:
         return None
 
@@ -36,7 +24,7 @@ def query_movie_by_title_and_year(title: str, year: int):
 
 def create_movie(data: CreateMovieRequest):
     """Create a new movie in the database."""
-    existing_movie = query_movie_by_id(data.id)
+    existing_movie = get_movie_by_id(data.id)
     if existing_movie is not None:
         logging.warning("Movie: %s already exists!", existing_movie)
         return existing_movie
@@ -56,14 +44,23 @@ def create_movie(data: CreateMovieRequest):
         budget=data.budget,
         revenue=data.revenue,
     )
+    db.session.add(movie)
+
     genre_ids = data.genre_ids or []
     for genre_id in genre_ids:
-        genre_object = db.session.scalars(
-            select(Genre).where(Genre.id == genre_id)
-        ).one()
-        movie.genres.append(genre_object)
+        genre_object = get_genre_by_id(genre_id)
+        if genre_object is None:
+            genre_list = get_tmdb_genres()
+            tmdb_genre = next(
+                (g for g in genre_list["genres"] if g["id"] == genre_id), None
+            )
+            if tmdb_genre is not None:
+                genre_object = create_genre(
+                    tmdb_genre["id"], tmdb_genre["name"], delay_commit=True
+                )
+        if genre_object is not None:
+            movie.genres.append(genre_object)
 
     logging.info("Adding Movie: %s", movie)
-    db.session.add(movie)
     db.session.commit()
     return MovieDto.from_model(movie)

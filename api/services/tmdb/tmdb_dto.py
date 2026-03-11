@@ -1,20 +1,13 @@
-import os
 from typing import TypedDict
-
-import requests
-
-TMDB_API_KEY = os.environ["TMDB_API_KEY"]
-TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
-TMDB_HOSTNAME = "https://api.themoviedb.org"
-TMDB_HEADERS = {
-    "accept": "application/json",
-    "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
-}
 
 
 class TmdbGenre(TypedDict):
     id: int
     name: str
+
+
+class TmdbGenreList(TypedDict):
+    genres: list[TmdbGenre]
 
 
 class TmdbProductionCompany(TypedDict):
@@ -88,24 +81,9 @@ class TmdbSearchResponse(TypedDict):
     total_results: int
 
 
-def get_tmdb_movie_by_id(movie_id: int):
-    """Get movie details from TMDB via a movie_id."""
-    url = f"{TMDB_HOSTNAME}/3/movie/{movie_id}"
-    response = requests.get(url, headers=TMDB_HEADERS, params={"language": "en-US"})
-    return TmdbMovieDetails(response.json())
-
-
-def search_tmdb_by_title(title: str, year: int, page: int = 1) -> TmdbSearchResponse:
-    """Search TMBD by movie title"""
-    url = f"{TMDB_HOSTNAME}/3/search/movie"
-    response = requests.get(
-        url,
-        headers=TMDB_HEADERS,
-        params={
-            "language": "en-US",
-            "query": title,
-            "primary_release_year": year,
-            "page": page,
-        },
-    )
-    return TmdbSearchResponse(response.json())
+class TmdbFindResponse(TypedDict):
+    movie_results: list[TmdbMovie]
+    person_results: list
+    tv_results: list
+    tv_episode_results: list
+    tv_season_results: list

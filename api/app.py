@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from werkzeug.exceptions import HTTPException
 
+import api.data  # noqa: F401 - ensures all models are registered
 from api.data.gpt import txtcomp
 from api.data.model import db
 from api.routes import admin, index, movies, nominations
@@ -18,7 +19,7 @@ origins = ["http://localhost:5173", "http://localhost:4173"]
 if os.environ["FLASK_ENV"] == "production":
     origins = [os.environ["CLIENT_HOSTNAME"]]
 CORS(app, origins=origins)
-app.secret_key = "demographix_dev"
+app.secret_key = os.environ["APP_SECRET_KEY"]
 
 # Register prefixed route handlers
 app.register_blueprint(index.bp)

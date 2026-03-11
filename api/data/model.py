@@ -74,24 +74,6 @@ class AltCountry(db.Model):
         return f"<AltCountry id={self.id} country_id={self.country_id}> alt_name={self.alt_name}"
 
 
-class Genre(db.Model):
-    """A genre."""
-
-    __tablename__ = "genres"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15))
-
-    movies = db.relationship("Movie", secondary="media_genres", back_populates="genres")
-
-    def __repr__(self):
-        return f"<Genre id={self.id} name={self.name}>"
-
-    def to_dict(self):
-        """Convert the Genre class to a dictionary."""
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-
 class MediaGenre(db.Model):
     """An association table for different media and their genres."""
 
@@ -104,25 +86,6 @@ class MediaGenre(db.Model):
     def __repr__(self):
         return f"<MediaGenre genre_id={self.genre_id} movie_id={self.movie_id}>"
 
-
-class Credit(db.Model):
-    """A credit."""
-
-    __tablename__ = "credits"
-
-    id = db.Column(db.String(), primary_key=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey("movies.id"), nullable=False)
-    character = db.Column(db.String(75))
-    order = db.Column(db.Integer)
-    cast_member_id = db.Column(
-        db.Integer, db.ForeignKey("cast_members.id"), nullable=False
-    )
-
-    movie = db.relationship("Movie", uselist=False, back_populates="credits")
-    cast_member = db.relationship("CastMember", uselist=False, back_populates="credits")
-
-    def __repr__(self):
-        return f"<Credit id={self.id} character={self.character}>"
 
 
 class CastMember(db.Model):

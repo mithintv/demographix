@@ -1,9 +1,17 @@
+from __future__ import annotations
+
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import BigInteger, DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.data.model import db
+
+if TYPE_CHECKING:
+    from api.data.credits.credit_model import Credit
+    from api.data.genres.genre_model import Genre
+    from api.data.nominations.nomination_model import Nomination
 
 
 class Movie(db.Model):
@@ -21,11 +29,11 @@ class Movie(db.Model):
     budget: Mapped[int] = mapped_column(BigInteger)
     revenue: Mapped[int] = mapped_column(BigInteger)
 
-    genres: Mapped[list] = relationship(
-        "Genre", secondary="media_genres", uselist=True, back_populates="movies"
+    genres: Mapped[list[Genre]] = relationship(
+        "Genre", secondary="media_genres", back_populates="movies"
     )
-    credits: Mapped[list] = relationship("Credit", back_populates="movie")
-    nominations: Mapped[list] = relationship(
+    credits: Mapped[list[Credit]] = relationship("Credit", back_populates="movie")
+    nominations: Mapped[list[Nomination]] = relationship(
         "Nomination", secondary="movie_nominations", back_populates="movies"
     )
 

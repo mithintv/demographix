@@ -1,7 +1,6 @@
 import {
 	Autocomplete,
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -11,12 +10,6 @@ import {
 import { useState } from "react";
 
 import { API_HOSTNAME } from "@/shared/utils/constants";
-
-interface MovieOption {
-	id: number;
-	title: string;
-	release_date: string | null;
-}
 
 export const AdminCreateNominationDialog = ({
 	open,
@@ -31,26 +24,7 @@ export const AdminCreateNominationDialog = ({
 }) => {
 	const [newName, setNewName] = useState("");
 	const [newYear, setNewYear] = useState<number | "">(new Date().getFullYear());
-	const [selectedMovies, setSelectedMovies] = useState<MovieOption[]>([]);
-	const [movieSearch, setMovieSearch] = useState("");
-	const [movieOptions, setMovieOptions] = useState<MovieOption[]>([]);
-	const [movieLoading, setMovieLoading] = useState(false);
 	const [creating, setCreating] = useState(false);
-
-	const handleMovieSearch = async (search: string) => {
-		setMovieSearch(search);
-		if (!search.trim()) {
-			setMovieOptions([]);
-			return;
-		}
-		setMovieLoading(true);
-		const res = await fetch(
-			`${API_HOSTNAME}/admin/movies?search=${encodeURIComponent(search)}`,
-		);
-		const movies: MovieOption[] = await res.json();
-		setMovieOptions(movies);
-		setMovieLoading(false);
-	};
 
 	const handleCreate = async () => {
 		if (!newName.trim() || !newYear) return;
@@ -60,19 +34,10 @@ export const AdminCreateNominationDialog = ({
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name: newName.trim(), year: newYear }),
 		});
-		const nom = await res.json();
-		for (const movie of selectedMovies) {
-			await fetch(`${API_HOSTNAME}/admin/nominations/${nom.id}/movies`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ movie_id: movie.id }),
-			});
-		}
+		await res.json();
 		setCreating(false);
 		setNewName("");
 		setNewYear(new Date().getFullYear());
-		setSelectedMovies([]);
-		setMovieOptions([]);
 		onClose();
 		onCreated();
 	};
@@ -80,8 +45,6 @@ export const AdminCreateNominationDialog = ({
 	const handleClose = () => {
 		setNewName("");
 		setNewYear(new Date().getFullYear());
-		setSelectedMovies([]);
-		setMovieOptions([]);
 		onClose();
 	};
 
@@ -114,38 +77,6 @@ export const AdminCreateNominationDialog = ({
 						setNewYear(e.target.value ? parseInt(e.target.value) : "")
 					}
 					inputProps={{ min: 1900, max: 2100 }}
-				/>
-				<Autocomplete
-					multiple
-					options={movieOptions}
-					value={selectedMovies}
-					onChange={(_, val) => setSelectedMovies(val)}
-					inputValue={movieSearch}
-					onInputChange={(_, val) => handleMovieSearch(val)}
-					getOptionLabel={(opt) =>
-						opt.release_date
-							? `${opt.title} (${new Date(opt.release_date).getFullYear()})`
-							: opt.title
-					}
-					isOptionEqualToValue={(opt, val) => opt.id === val.id}
-					loading={movieLoading}
-					filterOptions={(x) => x}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							label="Movies"
-							placeholder="Search movies..."
-							InputProps={{
-								...params.InputProps,
-								endAdornment: (
-									<>
-										{movieLoading && <CircularProgress size={16} />}
-										{params.InputProps.endAdornment}
-									</>
-								),
-							}}
-						/>
-					)}
 				/>
 			</DialogContent>
 			<DialogActions>

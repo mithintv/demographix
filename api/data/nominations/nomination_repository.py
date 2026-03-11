@@ -26,8 +26,8 @@ def search_nominations(search: str | None):
     if search:
         stmt = stmt.where(Nomination.name.like(f"%{search}%"))
     nominations = db.session.scalars(
-        stmt.join(MovieNomination, MovieNomination.nomination_id == Nomination.id)
-        .join(Movie, Movie.id == MovieNomination.movie_id)
+        stmt.outerjoin(MovieNomination, MovieNomination.nomination_id == Nomination.id)
+        .outerjoin(Movie, Movie.id == MovieNomination.movie_id)
         .distinct()
         .order_by(Nomination.name, Nomination.year.desc())
     ).all()

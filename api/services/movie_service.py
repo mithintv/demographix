@@ -6,7 +6,7 @@ from typing import Optional, TypedDict
 import requests
 from sqlalchemy import desc, func
 
-from api.data.model import CastMember, Country, Credit, Gender, Genre, db
+from api.data.model import CastMember, Country, Gender, db
 
 
 class MovieService:

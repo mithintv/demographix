@@ -7,7 +7,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from api.data.movies.movie_model import Movie
-from api.services.tmdb_service import TmdbMovieDetails
+from api.services.tmdb.tmdb_service import TmdbMovieDetails
 
 
 @dataclass

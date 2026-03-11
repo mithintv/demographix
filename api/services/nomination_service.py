@@ -6,13 +6,16 @@ from bs4 import BeautifulSoup
 
 from api.data.model import db
 from api.data.movies.movie_dto import CreateMovieRequest
-from api.data.movies.movie_repository import create_movie, query_movie_by_title_and_year
+from api.data.movies.movie_repository import create_movie
 from api.data.nominations.nomination_dto import ImdbCategory
 from api.data.nominations.nomination_repository import (
     create_movie_nomination,
     get_nomination_by_name_and_year,
 )
-from api.services.tmdb_service import get_tmdb_movie_by_id, search_tmdb_by_title
+from api.services.tmdb.tmdb_service import (
+    find_tmdb_movie_by_imdb_id,
+    get_tmdb_movie_by_id,
+)
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
 
@@ -52,12 +55,17 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
         ul = section.find("ul")
         items = ul.find_all("li") if ul else []
         nominations = []
+
         for item in items:
-            h3 = item.find("h3", class_="ipc-title__text")
+            a = item.find("a", class_="ipc-title-link-wrapper")
+            href = str(a.get("href", "")) if a else ""
+            imdb_id = (
+                href.split("/title/")[-1].split("/")[0] if "/title/" in href else None
+            )
             nominations.append(
                 {
                     "won": item.find("div", class_="ipc-signpost__text") is not None,
-                    "primary": h3.get_text(strip=True) if h3 else None,
+                    "primary": imdb_id,
                 }
             )
         nominees.append({"category": "Best Motion Picture", "nominations": nominations})
@@ -77,21 +85,16 @@ def check_nominations(
 
     nominees = scrape_imdb_event_nominations(name, year)
     for nominee in nominees[0]["nominations"]:
-        title = nominee["primary"]
-        if title is None:
+        imdb_id = nominee["primary"]
+        if imdb_id is None:
             continue
 
-        movie = query_movie_by_title_and_year(title, year - 1)
-        if movie is None:
-            movie = query_movie_by_title_and_year(title, year)
+        results = find_tmdb_movie_by_imdb_id(imdb_id)
+        if not results["movie_results"]:
+            logging.warning("No TMDB result for IMDB ID %s", imdb_id)
+            continue
 
-        if movie is None:
-            results = search_tmdb_by_title(title, year - 1)
-            if results["total_results"] == 0:
-                results = search_tmdb_by_title(title, year)
-
-            movie_id = results["results"][0]["id"]
-            tmdb_movie = get_tmdb_movie_by_id(movie_id=movie_id)
-            movie = create_movie(CreateMovieRequest.from_tmdb(tmdb_movie))
+        tmdb_movie = get_tmdb_movie_by_id(movie_id=results["movie_results"][0]["id"])
+        movie = create_movie(CreateMovieRequest.from_tmdb(tmdb_movie))
 
         create_movie_nomination(movie, nomination)

@@ -33,6 +33,15 @@ def get_nomination_by_name_and_year(name: str, year: int):
     return nomination
 
 
+def get_movie_nominations_by_nomination_id(nomination_id: int):
+    movie_nominations = db.session.scalars(
+        select(MovieNomination)
+        .join(Movie, Movie.id == MovieNomination.movie_id)
+        .where(MovieNomination.nomination_id == nomination_id)
+    ).all()
+    return movie_nominations
+
+
 def create_nomination(name: str, year: int):
     """Create new nomination by nomination name and nomination year"""
     existing_nom = db.session.scalars(

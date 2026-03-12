@@ -11,7 +11,7 @@ from werkzeug.exceptions import HTTPException
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.gpt import txtcomp
 from api.data.model import db
-from api.routes import admin, index, movies, nominations
+from api.routes import admin, demographics, index, movies
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -24,7 +24,7 @@ app.secret_key = os.environ["APP_SECRET_KEY"]
 # Register prefixed route handlers
 app.register_blueprint(index.bp)
 app.register_blueprint(movies.bp)
-app.register_blueprint(nominations.bp)
+app.register_blueprint(demographics.bp)
 if os.environ.get("FLASK_ENV") != "production":
     app.register_blueprint(admin.bp)
 

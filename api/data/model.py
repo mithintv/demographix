@@ -86,44 +86,6 @@ class MediaGenre(db.Model):
         return f"<MediaGenre genre_id={self.genre_id} movie_id={self.movie_id}>"
 
 
-
-class CastMember(db.Model):
-    """A cast member."""
-
-    __tablename__ = "cast_members"
-
-    id = db.Column(db.Integer, primary_key=True)
-    imdb_id = db.Column(db.String(15))
-    name = db.Column(db.String(50), nullable=False)
-    gender_id = db.Column(db.Integer, db.ForeignKey("genders.id"), nullable=False)
-    birthday = db.Column(db.DateTime)
-    deathday = db.Column(db.DateTime)
-    biography = db.Column(db.String())
-    country_of_birth_id = db.Column(db.String(3), db.ForeignKey("countries.id"))
-    profile_path = db.Column(db.String(35))
-
-    also_known_as = db.relationship(
-        "AlsoKnownAs", uselist=True, back_populates="cast_member"
-    )
-    gender = db.relationship("Gender", back_populates="cast_member")
-    country_of_birth = db.relationship("Country", back_populates="births")
-    credits = db.relationship("Credit", back_populates="cast_member")
-    ethnicities = db.relationship(
-        "CastEthnicity", uselist=True, back_populates="cast_member"
-    )
-    races = db.relationship(
-        "Race", secondary="cast_races", uselist=True, back_populates="cast"
-    )
-    # nationalities = db.relationship("Nationality", back_populates="cast")
-
-    def __repr__(self):
-        return f"<Cast id={self.id} name={self.name}>"
-
-    def to_dict(self):
-        """Convert the CastMember class to a dictionary."""
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-
 class AlsoKnownAs(db.Model):
     """Alternative names for cast members."""
 
@@ -190,30 +152,6 @@ class AltEthnicity(db.Model):
             f"<AltEthnicity ethnicity_id={self.ethnicity_id} alt_name={self.alt_name}>"
         )
 
-
-class CastEthnicity(db.Model):
-    """An association table to link cast members and their ethnicities."""
-
-    __tablename__ = "cast_ethnicities"
-
-    id = db.Column(db.Integer, primary_key=True)
-    ethnicity_id = db.Column(db.Integer, db.ForeignKey("ethnicities.id"))
-    cast_member_id = db.Column(db.Integer, db.ForeignKey("cast_members.id"))
-
-    cast_member = db.relationship("CastMember", back_populates="ethnicities")
-    ethnicity = db.relationship("Ethnicity", back_populates="cast_ethnicity")
-    sources = db.relationship(
-        "SourceLink",
-        secondary="cast_ethnicity_source_links",
-        back_populates="cast_ethnicities",
-    )
-
-    def __repr__(self):
-        return str.format(
-            "<CastEthnicity ethnicity_id={} cast_member_id={}>",
-            self.ethnicity_id,
-            self.cast_member_id,
-        )
 
 
 class Race(db.Model):

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import BigInteger, DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.data.base import db
+from api.data.model import db
 
 if TYPE_CHECKING:
     from api.data.credits.credit_model import Credit
@@ -64,7 +64,7 @@ class Movie(db.Model):
             f"<Movie id={self.id} title={self.title} release_date={self.release_date}>"
         )
 
-    def to_dict(self) -> dict:
+    def to_dict(self):
         return {
             "id": self.id,
             "imdb_id": self.imdb_id,

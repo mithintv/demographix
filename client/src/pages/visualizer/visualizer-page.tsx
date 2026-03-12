@@ -69,7 +69,7 @@ export const VisualizerPage = () => {
 		queryKey: ["visualizer", year],
 		queryFn: async (): Promise<Movie[]> => {
 			const response = await fetch(
-				`${API_HOSTNAME}/nom/query?award=${award}&range=${range}&year=${year}`
+				`${API_HOSTNAME}/demographics?award=${award}&range=${range}&year=${year}`,
 			);
 			return await response.json();
 		},

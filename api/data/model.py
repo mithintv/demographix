@@ -1,9 +1,8 @@
 """Models for demographix app."""
 
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 
-db = SQLAlchemy()
+from api.data.base import db  # noqa: F401
 
 
 class Region(db.Model):

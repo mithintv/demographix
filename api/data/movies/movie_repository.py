@@ -1,25 +1,20 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import select
 
-from api.data.genres.genre_model import Genre
+from api.data.base import db
 from api.data.genres.genre_repository import create_genre, get_genre_by_id
-from api.data.model import db
 from api.data.movies.movie_dto import CreateMovieRequest, MovieDto
 from api.data.movies.movie_model import Movie
-from api.data.nominations.nomination_dto import NominationDto
-from api.services.tmdb.tmdb_service import get_tmdb_genres
 
 
 def get_movie_by_id(id: int):
     """Get movie by id"""
     movie = db.session.scalars(select(Movie).where(Movie.id == id)).one_or_none()
-    if movie is None:
-        return None
-
-    logging.info("Movie: %s found!", movie)
-    return MovieDto.from_model(movie)
+    if movie is not None:
+        logging.info("Movie: %s found!", movie)
+    return movie
 
 
 def create_movie(data: CreateMovieRequest):
@@ -44,23 +39,14 @@ def create_movie(data: CreateMovieRequest):
         budget=data.budget,
         revenue=data.revenue,
     )
+    logging.info("Adding Movie: %s", movie)
     db.session.add(movie)
 
-    genre_ids = data.genre_ids or []
-    for genre_id in genre_ids:
-        genre_object = get_genre_by_id(genre_id)
+    for genre in data.genres:
+        genre_object = get_genre_by_id(genre.id)
         if genre_object is None:
-            genre_list = get_tmdb_genres()
-            tmdb_genre = next(
-                (g for g in genre_list["genres"] if g["id"] == genre_id), None
-            )
-            if tmdb_genre is not None:
-                genre_object = create_genre(
-                    tmdb_genre["id"], tmdb_genre["name"], delay_commit=True
-                )
-        if genre_object is not None:
-            movie.genres.append(genre_object)
-
-    logging.info("Adding Movie: %s", movie)
+            genre_object = create_genre(genre.id, genre.name, delay_commit=True)
+        movie.genres.append(genre_object)
     db.session.commit()
-    return MovieDto.from_model(movie)
+
+    return movie

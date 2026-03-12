@@ -8,10 +8,11 @@ from pydantic import ValidationError
 from api.data.nominations.nomination_dto import (
     CheckNominationRequest,
     CreateNominationRequest,
+    NominationDto,
 )
 from api.data.nominations.nomination_repository import (
     create_nomination,
-    search_nominations,
+    query_nominations,
 )
 from api.services.nomination_service import check_nominations
 
@@ -24,7 +25,8 @@ def get_nominations():
     search = request.args.get("search", None)
     if search is not None:
         search = search.strip()
-    results = search_nominations(search)
+    nominations = query_nominations(search)
+    results = [NominationDto.from_model(nom) for nom in nominations]
     return jsonify({"nominations": results, "total": len(results)})
 
 

@@ -42,6 +42,7 @@ interface NominationsResponse {
 export const AdminNominationsPage = () => {
 	const [selectedAward, setSelectedAward] = useState<string | null>(null);
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [checkingId, setCheckingId] = useState<number | null>(null);
 	const queryClient = useQueryClient();
 
 	const { data, isFetching } = useQuery<NominationsResponse>({
@@ -76,6 +77,17 @@ export const AdminNominationsPage = () => {
 		await fetch(`${API_HOSTNAME}/admin/nominations/${nominationId}`, {
 			method: "DELETE",
 		});
+		invalidate();
+	};
+
+	const handleCheckNomination = async (nom: Nomination) => {
+		setCheckingId(nom.id);
+		await fetch(`${API_HOSTNAME}/admin/nominations/check`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name: nom.name.toLowerCase(), year: nom.year }),
+		});
+		setCheckingId(null);
 		invalidate();
 	};
 
@@ -185,6 +197,23 @@ export const AdminNominationsPage = () => {
 												size="small"
 												label={`${nom.movies.length} movie${nom.movies.length !== 1 ? "s" : ""}`}
 											/>
+											<Tooltip title="Run nomination check">
+												<IconButton
+													size="small"
+													color="primary"
+													disabled={checkingId === nom.id}
+													onClick={(e) => {
+														e.stopPropagation();
+														handleCheckNomination(nom);
+													}}
+												>
+													<span className="material-symbols-outlined">
+														{checkingId === nom.id
+															? "hourglass_empty"
+															: "search_check"}
+													</span>
+												</IconButton>
+											</Tooltip>
 											<Tooltip title="Delete nomination and all its movie links">
 												<IconButton
 													size="small"

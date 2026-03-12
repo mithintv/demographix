@@ -6,7 +6,9 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from api.data.genres.genre_dto import GenreDto
 from api.data.movies.movie_model import Movie
+from api.services.tmdb.tmdb_dto import TmdbGenre
 from api.services.tmdb.tmdb_service import TmdbMovieDetails
 
 
@@ -36,7 +38,7 @@ class CreateMovieRequest(BaseModel):
     release_date: Optional[str]
     budget: int
     revenue: int
-    genre_ids: Optional[list[int]]
+    genres: list[GenreDto]
 
     @classmethod
     def from_tmdb(cls, data: TmdbMovieDetails) -> CreateMovieRequest:
@@ -50,5 +52,5 @@ class CreateMovieRequest(BaseModel):
             release_date=data["release_date"],
             budget=data["budget"],
             revenue=data["revenue"],
-            genre_ids=[g["id"] for g in data["genres"]],
+            genres=[GenreDto(id=g["id"], name=g["name"]) for g in data["genres"] if g["id"]]
         )

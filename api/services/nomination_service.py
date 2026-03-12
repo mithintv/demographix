@@ -77,8 +77,8 @@ def check_nominations(
     year: int,
 ) -> None:
     """Check if there are nominated movies to add by first scraping IMDB for a given event and year and then adding it to the database if it doesn't already exist."""
-    logging.info("Checking %s %s for movies", name, year)
 
+    logging.info("Checking %s %s for movies", name, year)
     nomination = get_nomination_by_name_and_year(name, year)
     if nomination is None:
         raise Exception("Nomination: %s %s doesn't exist!", nomination, year)
@@ -96,5 +96,4 @@ def check_nominations(
 
         tmdb_movie = get_tmdb_movie_by_id(movie_id=results["movie_results"][0]["id"])
         movie = create_movie(CreateMovieRequest.from_tmdb(tmdb_movie))
-
         create_movie_nomination(movie, nomination)

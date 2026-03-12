@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.data.model import db
+from api.data.base import db
 
 if TYPE_CHECKING:
     from api.data.movies.movie_model import Movie

@@ -5,7 +5,7 @@ from __future__ import annotations
 from sqlalchemy import Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.data.model import db
+from api.data.base import db
 from api.data.movies.movie_model import Movie
 
 

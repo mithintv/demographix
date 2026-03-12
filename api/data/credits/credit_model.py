@@ -1,4 +1,4 @@
-from api.data.model import db
+from api.data.base import db
 
 
 class Credit(db.Model):

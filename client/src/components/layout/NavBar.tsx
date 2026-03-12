@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { SearchModal } from "../../shared/components/search/search-modal";
+
+import { SearchModal } from "../../shared/ui/search/search-modal";
 
 export default function NavBar() {
 	const sm = useMediaQuery("(max-width:600px)");

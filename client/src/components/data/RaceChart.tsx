@@ -18,15 +18,17 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+
+import ChartLabel from "./ChartLabel";
+
 import { CustomizedTooltip } from "@/shared/types/Chart";
+import { ChartData } from "@/shared/types/ChartData";
 import {
 	axisLineStyle,
 	barChartLabelStyle,
 	barChartLabelStyle2,
 	tickStyle,
 } from "@/shared/utils/theme";
-import ChartLabel from "./ChartLabel";
-import { ChartData } from "@/shared/types/ChartData";
 
 const RaceTooltip = ({ active, payload }: CustomizedTooltip) => {
 	if (active && payload && payload.length) {
@@ -44,7 +46,7 @@ const RaceTooltip = ({ active, payload }: CustomizedTooltip) => {
 };
 
 const formatYAxisLabel = (
-	label: string
+	label: string,
 	// index: number
 ) => {
 	if (label === "Hispanic/Latino") {
@@ -225,7 +227,7 @@ const RaceChart = memo(
 				</Box>
 			</Paper>
 		);
-	}
+	},
 );
 
 export default RaceChart;

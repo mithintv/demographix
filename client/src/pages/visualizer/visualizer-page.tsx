@@ -13,17 +13,19 @@ import {
 	Typography,
 	useMediaQuery,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CastDataCard from "../../components/CastDataCard";
-import Footer from "../../components/layout/Footer";
-import { Cast } from "../../shared/types/Cast";
-import { Movie } from "../../shared/types/Movie";
+
+import { MovieCard } from "./movie-card";
+
+import CastDataCard from "@/components/CastDataCard";
+import Footer from "@/components/layout/Footer";
+import { CardList } from "@/shared/ui/card-list/card-list";
+import { Cast } from "@/shared/types/Cast";
+import { Movie } from "@/shared/types/Movie";
 import { backgroundGradient } from "@/shared/utils/theme";
 import { API_HOSTNAME } from "@/shared/utils/constants";
-import { useQuery } from "@tanstack/react-query";
-import { MovieCard } from "./movie-card";
-import { CardList } from "@/components/ui/card-list/card-list";
 
 const getSelectableYears = () => {
 	const currYear = new Date().getFullYear();

@@ -11,6 +11,7 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+
 import { Movie } from "../shared/types/Movie";
 
 export default function MovieDetails({

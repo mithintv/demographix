@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { SearchModal } from "../shared/components/search/search-modal";
+
 import Footer from "../components/layout/Footer";
+import { SearchModal } from "../shared/ui/search/search-modal";
 
 export const LandingPage = () => {
 	const theme = useTheme();

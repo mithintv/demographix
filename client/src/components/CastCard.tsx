@@ -9,6 +9,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
+
 // import { useLocation } from "react-router-dom";
 import { Cast } from "../shared/types/Cast";
 

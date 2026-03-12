@@ -10,6 +10,8 @@ import * as d3 from "d3";
 import { memo, useEffect, useState } from "react";
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from "recharts";
 
+import ChartLabel from "./ChartLabel";
+
 import { CastHistogramDto } from "@/shared/types/Cast";
 import { Payload } from "@/shared/types/Chart";
 import { ChartData } from "@/shared/types/ChartData";
@@ -19,7 +21,6 @@ import {
 	histogramLabelStyle,
 	tickStyle,
 } from "@/shared/utils/theme";
-import ChartLabel from "./ChartLabel";
 
 export type HistogramData = {
 	ageGroup: string;

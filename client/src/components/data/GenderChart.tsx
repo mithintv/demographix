@@ -8,11 +8,13 @@ import {
 } from "@mui/material";
 import { memo } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
 import {
 	CustomizedPieChartLabel,
 	CustomizedTooltip,
 } from "../../shared/types/Chart";
 import { ChartData } from "../../shared/types/ChartData";
+
 import ChartLabel from "./ChartLabel";
 
 const GenderTooltip = ({ active, payload }: CustomizedTooltip) => {

@@ -8,16 +8,18 @@ import {
 	IconButton,
 	Typography,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import CastCard from "../../components/CastCard";
 import CastDataCard from "../../components/CastDataCard";
-import Footer from "../../components/layout/Footer";
 import MovieDetails from "../../components/MovieDetails";
+import Footer from "../../components/layout/Footer";
 import { Movie } from "../../shared/types/Movie";
-import { backgroundGradient } from "@/shared/utils/theme";
+
 import { API_HOSTNAME } from "@/shared/utils/constants";
-import { useQuery } from "@tanstack/react-query";
+import { backgroundGradient } from "@/shared/utils/theme";
 
 export const MoviePage = () => {
 	// const theme = useTheme();

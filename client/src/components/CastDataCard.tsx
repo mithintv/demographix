@@ -1,7 +1,13 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
+
 import { Cast } from "../shared/types/Cast";
 import { ChartData } from "../shared/types/ChartData";
+
+import GenderChart from "./data/GenderChart";
+import Histogram from "./data/Histogram";
+import RaceChart from "./data/RaceChart";
+
 import {
 	parseAges,
 	// parseCountryOfBirth,
@@ -9,9 +15,6 @@ import {
 	parseGenders,
 	parseRace,
 } from "@/shared/utils/parse";
-import GenderChart from "./data/GenderChart";
-import Histogram from "./data/Histogram";
-import RaceChart from "./data/RaceChart";
 
 const CastDataCard = memo(
 	({ cast, releaseDate }: { cast: Cast[]; releaseDate?: number }) => {
@@ -94,7 +97,7 @@ const CastDataCard = memo(
 				</Box>
 			</Paper>
 		);
-	}
+	},
 );
 
 export default CastDataCard;

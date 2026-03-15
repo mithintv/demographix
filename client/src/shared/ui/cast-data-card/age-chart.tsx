@@ -8,7 +8,15 @@ import {
 } from "@mui/material";
 import * as d3 from "d3";
 import { memo, useEffect, useState } from "react";
-import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from "recharts";
+import {
+	Bar,
+	BarChart,
+	Label,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 import ChartLabel from "./chart-label";
 
@@ -143,82 +151,84 @@ export const AgeChart = memo(({ data }: { data: ChartData[] | undefined }) => {
 				flex: "1 0 auto",
 			}}
 		>
-			<ChartLabel label={"Age Distribution"} />
+			<ChartLabel label={"Age"} />
 			<Box
 				sx={{
 					display: "flex",
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width:
-						(xs && "275px") ||
-						(sm && "350px") ||
-						(md && "515px") ||
-						(lg && "900px") ||
-						"550px",
-					height: "350px",
+					minHeight: "350px",
 					flex: "1 0 auto",
+					width: (xs && "275px") || (sm && "350px") || "515px",
 				}}
 			>
 				{data && data.length > 0 ? (
-					<BarChart
-						style={{ zIndex: 2 }}
+					<ResponsiveContainer
 						width={
-							(xs && 275) || (sm && 350) || (md && 515) || (lg && 900) || 550
+							(xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515
 						}
-						height={300}
-						data={histogram}
-						margin={{
-							top: 25,
-							right: 22.5,
-							bottom: 10,
-							left: (sm && 15) || 25,
-						}}
+						height={350}
 					>
-						<XAxis
-							dataKey="ageGroup"
-							tickLine={axisLineStyle}
-							axisLine={axisLineStyle}
-							tick={tickStyle}
-						/>
-						<YAxis
-							tickLine={axisLineStyle}
-							axisLine={axisLineStyle}
-							tick={tickStyle}
-							dataKey="count"
-							// label={{
-							//   value: "Number of Cast Members",
-							//   angle: -90,
-							//   position: "insideLeft",
-							//   fill: theme.palette.text.secondary,
-							//   offset: 20,
-							// }}
-						>
-							<Label
-								angle={-90}
-								fill={theme.palette.text.secondary}
-								value="Number of Cast Members"
-								position="insideLeft"
-								style={{ textAnchor: "middle" }}
-								offset={2}
-								dx={10}
-							/>
-						</YAxis>
-						<Tooltip
-							wrapperStyle={{ zIndex: 9999 }}
-							content={
-								<CustomTooltip active={null} payload={null} label={null} />
+						<BarChart
+							style={{ zIndex: 2 }}
+							width={
+								(xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515
 							}
-							cursor={cursorColor}
-						/>
-						<Bar
-							dataKey="count"
-							fill={theme.palette.primary.main}
-							label={histogramLabelStyle}
-							animationDuration={1000} // Duration of the animation in milliseconds
-							animationBegin={500}
-						></Bar>
-					</BarChart>
+							height={300}
+							data={histogram}
+							margin={{
+								top: 25,
+								right: 22.5,
+								bottom: 10,
+								left: (sm && 15) || 25,
+							}}
+						>
+							<XAxis
+								dataKey="ageGroup"
+								tickLine={axisLineStyle}
+								axisLine={axisLineStyle}
+								tick={tickStyle}
+							/>
+							<YAxis
+								tickLine={axisLineStyle}
+								axisLine={axisLineStyle}
+								tick={tickStyle}
+								dataKey="count"
+								// label={{
+								//   value: "Number of Cast Members",
+								//   angle: -90,
+								//   position: "insideLeft",
+								//   fill: theme.palette.text.secondary,
+								//   offset: 20,
+								// }}
+							>
+								<Label
+									angle={-90}
+									fill={theme.palette.text.secondary}
+									value="Number of Cast Members"
+									position="insideLeft"
+									style={{ textAnchor: "middle" }}
+									offset={2}
+									dx={10}
+								/>
+							</YAxis>
+							<Tooltip
+								wrapperStyle={{ zIndex: 9999 }}
+								content={
+									<CustomTooltip active={null} payload={null} label={null} />
+								}
+								cursor={cursorColor}
+							/>
+							<Bar
+								dataKey="count"
+								fill={theme.palette.primary.main}
+								label={histogramLabelStyle}
+								animationDuration={1000} // Duration of the animation in milliseconds
+								animationBegin={500}
+							></Bar>
+						</BarChart>
+					</ResponsiveContainer>
 				) : data && data.length === 0 ? (
 					<Typography variant="overline" color="textSecondary">
 						No data found

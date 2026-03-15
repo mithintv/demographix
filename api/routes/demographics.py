@@ -11,7 +11,7 @@ bp = Blueprint("demographics", __name__, url_prefix="/demographics")
 def get_demographics():
     """Return movie demographics for a given nomination year."""
 
-    awardQuery = request.args.get("award") or "academy awards"
+    eventQuery = request.args.get("event") or "academy awards"
     rangeQuery = request.args.get("range") or "yearly"
     yearQuery = request.args.get("year") or str(datetime.now().year)
 
@@ -21,11 +21,11 @@ def get_demographics():
         current_year = datetime.now().year
         for i in range(int(years)):
             movie_data = get_movie_cast_demographics_by_nomination(
-                awardQuery, int(current_year) - i
+                eventQuery, int(current_year) - i
             )
             movies_data.extend(movie_data)
     else:
         movies_data = get_movie_cast_demographics_by_nomination(
-            awardQuery, int(yearQuery)
+            eventQuery, int(yearQuery)
         )
     return jsonify(movies_data)

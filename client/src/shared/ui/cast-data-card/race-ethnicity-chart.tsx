@@ -128,16 +128,15 @@ const RaceChart = memo(
 				sx={{
 					p: 0,
 					m: 2,
-					mt: 1,
 					display: "flex",
 					flexDirection: "column",
 					justifyContent: "space-between",
+					alignItems: "center",
 					backgroundColor: "background.default",
 					flexGrow: 1,
 				}}
 			>
 				<ChartLabel label={title} />
-
 				<Box
 					sx={{
 						display: "flex",
@@ -145,12 +144,14 @@ const RaceChart = memo(
 						justifyContent: "center",
 						alignItems: "center",
 						minHeight: "350px",
+						flex: "1 0 auto",
+						width: (xs && "275px") || (sm && "350px") || "515px",
 					}}
 				>
 					{data && data.length > 0 ? (
 						<ResponsiveContainer
 							width={
-								(xs && 275) || (sm && 350) || (md && 515) || (lg && 900) || 550
+								(xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515
 							}
 							height={350}
 						>
@@ -160,7 +161,7 @@ const RaceChart = memo(
 									(xs && 275) ||
 									(sm && 350) ||
 									(md && 515) ||
-									(lg && 900) ||
+									(lg && 875) ||
 									550
 								}
 								height={350}

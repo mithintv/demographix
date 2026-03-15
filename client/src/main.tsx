@@ -10,9 +10,9 @@ import { AdminPage } from "./pages/admin/admin-page.tsx";
 import { AdminNominationsPage } from "./pages/admin/nominations/admin-nominations-page.tsx";
 import { ErrorPage } from "./pages/error-page.tsx";
 import { LandingPage } from "./pages/landing-page.tsx";
-import { MoviePage } from "./pages/movie/movie-page.tsx";
+import { MoviePage } from "./pages/movies/movie-page.tsx";
 import { VisualizerPage } from "./pages/visualizer/visualizer-page.tsx";
-import NavBar from "./shared/layout/nav-bar.tsx";
+import { NavBar } from "./shared/layout/nav-bar.tsx";
 
 import { darkTheme } from "@/shared/utils/theme.tsx";
 
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 		children: [
 			{ index: true, element: <LandingPage /> },
 			{
-				path: "visualizer/:awardParam/:rangeParam/:yearParam",
+				path: "visualizer",
 				element: <VisualizerPage />,
 			},
 			{

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { MovieCard } from "./movie-card";
 
@@ -24,7 +24,7 @@ import { Cast } from "@/shared/types/Cast";
 import { Movie } from "@/shared/types/Movie";
 import { CardList } from "@/shared/ui/card-list/card-list";
 import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
-import { API_HOSTNAME } from "@/shared/utils/constants";
+import { getDemographicsEndpoint } from "@/shared/utils/constants";
 import { backgroundGradient } from "@/shared/utils/theme";
 
 const getSelectableYears = () => {
@@ -50,39 +50,27 @@ const compileCast = (movies: Movie[] | undefined) => {
 export const VisualizerPage = () => {
 	const md = useMediaQuery("(max-width:960px)");
 	// const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:425px)");
-	const { awardParam, rangeParam, yearParam } = useParams();
+	// const xs = useMediaQuery("(max-width:425px)");
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	const [range, setRange] = useState(rangeParam);
-	const [award, setAward] = useState(awardParam);
+	const [event, setEvent] = useState(
+		searchParams.get("event") ?? "academy-awards",
+	);
+	const [range, setRange] = useState(searchParams.get("range") ?? "yearly");
+	const [year, setYear] = useState(
+		searchParams.get("year") ?? new Date().getFullYear().toString(),
+	);
 	const [cumYears, setCumYears] = useState("");
-	const [year, setYear] = useState(yearParam);
-
 	const [open, setOpen] = useState(false);
-
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, []);
+		setSearchParams({ event, range, year });
+	}, [setSearchParams, event, range, year]);
 
-	// fetch call for data retrieval
-	const { data: movies } = useQuery({
-		queryKey: ["visualizer", year],
-		queryFn: async (): Promise<Movie[]> => {
-			const response = await fetch(
-				`${API_HOSTNAME}/demographics?award=${award}&range=${range}&year=${year}`,
-			);
-			return await response.json();
-		},
-		retry: false,
-		refetchOnWindowFocus: false,
-	});
-
-	// useEffect for displaying title with cumulative years above data card
 	useEffect(() => {
 		if (range === "cumulative" && year !== undefined) {
-			const years = year.toString().split(" ");
+			const years = year.toString().split("-");
 			const splitYear = Number.parseInt(years[1]);
 			const current_year = new Date().getFullYear();
 			const string = `${current_year - splitYear + 1} - ${current_year}`;
@@ -90,15 +78,27 @@ export const VisualizerPage = () => {
 		}
 	}, [year, range]);
 
-	// functions that handle filter onChange events
-	const handleAward = (event: SelectChangeEvent) => {
-		const selectedAward = event.target.value;
-		setAward(selectedAward);
-		navigate(`/visualizer/${selectedAward}/${range}/${year}`);
+	// fetch call for data retrieval
+	const { data: movies, error } = useQuery({
+		queryKey: ["visualizer", event, range, year],
+		queryFn: async (): Promise<Movie[]> => {
+			const url = getDemographicsEndpoint(event, range, year);
+			const response = await fetch(url);
+			return await response.json();
+		},
+		retry: false,
+		refetchOnWindowFocus: false,
+	});
+	if (error) console.error(error);
+
+	const handleEvent = (e: SelectChangeEvent) => {
+		const selectedEvent = e.target.value;
+		setEvent(selectedEvent);
+		setSearchParams({ event: selectedEvent });
 	};
 
-	const handleRange = (event: SelectChangeEvent) => {
-		const selectedRange = event.target.value;
+	const handleRange = (e: SelectChangeEvent) => {
+		const selectedRange = e.target.value;
 		setRange(selectedRange);
 		let selectedYear = "last-3";
 		if (selectedRange === "cumulative") {
@@ -107,22 +107,15 @@ export const VisualizerPage = () => {
 			selectedYear = new Date().getFullYear().toString();
 			setYear(selectedYear);
 		}
-		navigate(`/visualizer/${award}/${selectedRange}/${selectedYear}`);
+		setSearchParams({
+			range: selectedRange,
+		});
 	};
 
-	const handleYear = (event: SelectChangeEvent) => {
-		const selectedYear = event.target.value;
-		console.log(selectedYear);
+	const handleYear = (e: SelectChangeEvent) => {
+		const selectedYear = e.target.value;
 		setYear(selectedYear);
-		navigate(`/visualizer/${award}/${range}/${selectedYear}`);
-	};
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
+		setSearchParams({ year: selectedYear });
 	};
 
 	return (
@@ -174,13 +167,14 @@ export const VisualizerPage = () => {
 								}}
 							>
 								<Button
-									size={xs ? "small" : "large"}
+									sx={{ my: 1.86 }}
+									size={"large"}
 									variant="outlined"
-									onClick={handleClickOpen}
+									onClick={() => setOpen(true)}
 								>
 									Filters
 								</Button>
-								<Dialog open={open} onClose={handleClose}>
+								<Dialog open={open} onClose={() => setOpen(false)}>
 									<DialogTitle>Filters</DialogTitle>
 									<DialogContent sx={{ px: 2 }}>
 										<FormControl
@@ -189,13 +183,13 @@ export const VisualizerPage = () => {
 												my: 1,
 											}}
 										>
-											<InputLabel id="award">Award</InputLabel>
+											<InputLabel id="event">Event</InputLabel>
 											<Select
-												labelId="award"
-												id="award"
-												value={award}
-												label="Award"
-												onChange={handleAward}
+												labelId="event"
+												id="event"
+												value={event}
+												label="Event"
+												onChange={handleEvent}
 											>
 												<MenuItem value={"golden-globes"}>
 													Golden Globes
@@ -285,15 +279,16 @@ export const VisualizerPage = () => {
 									sx={{
 										ml: 1,
 										my: 1,
+										width: 200,
 									}}
 								>
-									<InputLabel id="award">Award</InputLabel>
+									<InputLabel id="event">Event</InputLabel>
 									<Select
-										labelId="award"
-										id="award"
-										value={award}
-										label="Award"
-										onChange={handleAward}
+										labelId="event"
+										id="event"
+										value={event}
+										label="Event"
+										onChange={handleEvent}
 									>
 										<MenuItem value={"golden-globes"}>Golden Globes</MenuItem>
 										<MenuItem value={"bafta"}>BAFTA</MenuItem>
@@ -304,6 +299,7 @@ export const VisualizerPage = () => {
 									sx={{
 										ml: 1,
 										my: 1,
+										width: 150,
 									}}
 								>
 									<InputLabel id="range">Range</InputLabel>
@@ -318,59 +314,57 @@ export const VisualizerPage = () => {
 										<MenuItem value={"yearly"}>Yearly</MenuItem>
 									</Select>
 								</FormControl>
-								{range === "cumulative" ? (
-									<FormControl
-										sx={{
-											ml: 1,
-											my: 1,
-											width: "150px",
-										}}
-									>
-										<InputLabel id={"cumulative"}>Cumulative</InputLabel>
-										<Select
-											labelId="cumulative"
-											id="cumulative"
-											value={year}
-											label="cumulative"
-											onChange={handleYear}
-										>
-											<MenuItem value={"last-3"}>Last 3 Years</MenuItem>
-											<MenuItem value={"last-5"}>Last 5 Years</MenuItem>
-											<MenuItem value={"last-10"}>Last 10 Years</MenuItem>
-										</Select>
-									</FormControl>
-								) : (
-									<FormControl
-										sx={{
-											ml: 1,
-											my: 1,
-											width: "100px",
-										}}
-									>
-										<InputLabel id={"year"}>Year</InputLabel>
-										<Select
-											labelId="year"
-											id="year"
-											value={year}
-											label="Year"
-											onChange={handleYear}
-										>
-											{getSelectableYears().map((x, i) => {
-												return (
-													<MenuItem key={i} value={x}>
-														{x}
-													</MenuItem>
-												);
-											})}
-										</Select>
-									</FormControl>
-								)}
+								<FormControl
+									sx={{
+										ml: 1,
+										my: 1,
+										width: 150,
+									}}
+								>
+									{range === "cumulative" ? (
+										<>
+											<InputLabel id={"cumulative"}>Cumulative</InputLabel>
+											<Select
+												labelId="cumulative"
+												id="cumulative"
+												value={year}
+												label="cumulative"
+												onChange={handleYear}
+											>
+												<MenuItem value={"last-3"}>Last 3 Years</MenuItem>
+												<MenuItem value={"last-5"}>Last 5 Years</MenuItem>
+												<MenuItem value={"last-10"}>Last 10 Years</MenuItem>
+											</Select>
+										</>
+									) : (
+										<>
+											<InputLabel id={"year"}>Year</InputLabel>
+											<Select
+												labelId="year"
+												id="year"
+												value={year}
+												label="Year"
+												onChange={handleYear}
+											>
+												{getSelectableYears().map((x, i) => {
+													return (
+														<MenuItem key={i} value={x}>
+															{x}
+														</MenuItem>
+													);
+												})}
+											</Select>
+										</>
+									)}
+								</FormControl>
 							</Box>
 						)}
 					</Box>
 
 					<CastDataCard cast={compileCast(movies)} />
 					<CardList
+						accordion={false}
+						heading="Nominations"
 						cardList={movies?.map((movie, index) => {
 							return <MovieCard movie={movie} key={index} />;
 						})}

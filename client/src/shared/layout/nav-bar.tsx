@@ -15,7 +15,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { SearchModal } from "../ui/search/search-modal";
 
-export default function NavBar() {
+export const NavBar = () => {
 	const md = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
@@ -57,6 +57,7 @@ export default function NavBar() {
 					sx={{
 						display: "flex",
 						justifyContent: "space-between",
+						py: 2,
 						px: 3,
 					}}
 				>
@@ -75,6 +76,7 @@ export default function NavBar() {
 								display: "flex",
 								flexDiection: "row",
 								alignItems: "center",
+								height: 58,
 							}}
 						>
 							<Drawer anchor={"top"} open={open} onClose={() => setOpen(false)}>
@@ -86,7 +88,7 @@ export default function NavBar() {
 										textAlign: "center",
 									}}
 									component={RouterLink}
-									to="/visualizer/academy-awards/yearly/2023"
+									to={`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`}
 								>
 									<Button
 										startIcon={
@@ -121,7 +123,7 @@ export default function NavBar() {
 							<Link
 								sx={{ textDecoration: "none", mx: 2 }}
 								component={RouterLink}
-								to="/visualizer/academy-awards/yearly/2023"
+								to={`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`}
 							>
 								<Button
 									startIcon={
@@ -138,4 +140,4 @@ export default function NavBar() {
 			</AppBar>
 		</Box>
 	);
-}
+};

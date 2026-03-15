@@ -117,16 +117,16 @@ const GenderChart = memo(({ data }: { data: ChartData[] | undefined }) => {
 				flex: "1 0 auto",
 			}}
 		>
-			<ChartLabel label={"Gender Ratio"} />
+			<ChartLabel label={"Gender"} />
 			<Box
 				sx={{
 					display: "flex",
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width: (xs && "275px") || (sm && "350px") || "515px",
-					height: "350px",
+					minHeight: "350px",
 					flex: "1 0 auto",
+					width: (xs && "275px") || (sm && "350px") || "515px",
 				}}
 			>
 				{data && data.length > 0 ? (

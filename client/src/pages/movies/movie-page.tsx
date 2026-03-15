@@ -1,22 +1,14 @@
-import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Box,
-	Container,
-	Fade,
-	IconButton,
-	Typography,
-} from "@mui/material";
+import { Box, Container, Fade } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import CastCard from "../../components/CastCard";
-import MovieDetails from "../../components/MovieDetails";
 import Footer from "../../shared/layout/footer";
 import { Movie } from "../../shared/types/Movie";
 
+import { CastCard } from "@/pages/movies/cast-card";
+import { MovieDetails } from "@/pages/movies/movie-details";
+import { CardList } from "@/shared/ui/card-list/card-list";
 import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
 import { API_HOSTNAME } from "@/shared/utils/constants";
 import { backgroundGradient } from "@/shared/utils/theme";
@@ -56,7 +48,7 @@ export const MoviePage = () => {
 					disableGutters
 					sx={{
 						pb: 2,
-						pt: 10,
+						pt: 12,
 						px: 2,
 						mx: "auto",
 						display: "flex",
@@ -65,43 +57,13 @@ export const MoviePage = () => {
 					}}
 				>
 					<MovieDetails movie={movieDetails} isLoading={isFetching} />
-					<Accordion
-						disableGutters
-						sx={{
-							width: "100%",
-							overflowX: "hidden",
-							mb: 2,
-						}}
-					>
-						<AccordionSummary
-							sx={{ borderBottom: "3px solid rgba(255, 255, 255, 0.05);" }}
-							expandIcon={
-								<IconButton
-									size="large"
-									edge="end"
-									color="primary"
-									aria-label="open drawer"
-								>
-									<span className="material-symbols-outlined">expand_more</span>
-								</IconButton>
-							}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography
-								sx={{
-									width: "100%",
-								}}
-								variant="overline"
-								color="primary"
-							>
-								Top Billed Cast
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<CastCard cast={movieDetails?.cast} />
-						</AccordionDetails>
-					</Accordion>
+					<CardList
+						accordion={true}
+						heading="Top Billed Cast"
+						cardList={movieDetails?.cast.map((cast, index) => {
+							return <CastCard cast={cast} key={index} />;
+						})}
+					/>
 					<CastDataCard
 						cast={movieDetails?.cast ?? []}
 						releaseDate={

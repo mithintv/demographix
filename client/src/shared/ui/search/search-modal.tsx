@@ -38,7 +38,7 @@ export const SearchModal = ({ nav }: { nav: boolean }) => {
 	return (
 		<>
 			<Button
-				sx={{ my: 1, pr: 0 }}
+				sx={{ my: 1, mr: -1 }}
 				size={sm ? "medium" : "large"}
 				startIcon={<span className="material-symbols-outlined">search</span>}
 				variant={nav ? "text" : "contained"}

@@ -12,15 +12,15 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { Movie } from "../shared/types/Movie";
+import { Movie } from "../../shared/types/Movie";
 
-export default function MovieDetails({
+export const MovieDetails = ({
 	movie,
 	isLoading,
 }: {
 	movie: Movie | undefined;
 	isLoading: boolean;
-}) {
+}) => {
 	// const theme = useTheme();
 	// const lg = useMediaQuery("(max-width:1200px)");
 	// const md = useMediaQuery("(max-width:960px)");
@@ -49,6 +49,7 @@ export default function MovieDetails({
 	return (
 		<Card
 			sx={{
+				mx: 2,
 				mb: 2,
 				py: 3,
 				px: 2,
@@ -143,4 +144,4 @@ export default function MovieDetails({
 			)}
 		</Card>
 	);
-}
+};

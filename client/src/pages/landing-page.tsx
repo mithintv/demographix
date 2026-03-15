@@ -83,7 +83,7 @@ export const LandingPage = () => {
 					>
 						<Link
 							sx={{ textDecoration: "none" }}
-							to={`/visualizer/academy-awards/yearly/${new Date().getFullYear()}`}
+							to={`/visualizer`}
 							component={RouterLink}
 						>
 							<Button

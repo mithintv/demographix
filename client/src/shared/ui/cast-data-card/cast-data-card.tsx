@@ -1,12 +1,12 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 
-import { Cast } from "../shared/types/Cast";
-import { ChartData } from "../shared/types/ChartData";
+import { Cast } from "../../types/Cast";
+import { ChartData } from "../../types/ChartData";
 
-import GenderChart from "./data/GenderChart";
-import Histogram from "./data/Histogram";
-import RaceChart from "./data/RaceChart";
+import { AgeChart } from "./age-chart";
+import GenderChart from "./gender-chart";
+import RaceEthnicityChart from "./race-ethnicity-chart";
 
 import {
 	parseAges,
@@ -16,16 +16,24 @@ import {
 	parseRace,
 } from "@/shared/utils/parse";
 
-const CastDataCard = memo(
-	({ cast, releaseDate }: { cast: Cast[]; releaseDate?: number }) => {
+export const CastDataCard = memo(
+	({
+		cast,
+		releaseDate,
+	}: {
+		cast: Cast[] | undefined;
+		releaseDate?: number;
+	}) => {
 		// const lg = useMediaQuery("(max-width:1200px)");
 		// const md = useMediaQuery("(max-width:960px)");
 		// const sm = useMediaQuery("(max-width:600px)");
 		// const xs = useMediaQuery("(max-width:425px)");
-		const [ageData, setAgeData] = useState<ChartData[]>([]);
-		const [genderData, setGenderData] = useState<ChartData[]>([]);
-		const [raceData, setRaceData] = useState<ChartData[]>([]);
-		const [ethnicityData, setEthnicityData] = useState<ChartData[]>([]);
+		const [ageData, setAgeData] = useState<ChartData[] | undefined>();
+		const [genderData, setGenderData] = useState<ChartData[] | undefined>();
+		const [raceData, setRaceData] = useState<ChartData[] | undefined>();
+		const [ethnicityData, setEthnicityData] = useState<
+			ChartData[] | undefined
+		>();
 		// const [cobData, setCOBData] = useState<ChartData[]>();
 
 		useEffect(() => {
@@ -49,9 +57,10 @@ const CastDataCard = memo(
 			<Paper
 				sx={{
 					display: "flex",
+					flex: "0 1 auto",
 					flexDirection: "column",
 					mb: 2,
-					flex: "0 1 auto",
+					mx: 2,
 					// width: (sm && "425px") || (md && "600px") || (lg && "960px") || "960px",
 				}}
 			>
@@ -76,13 +85,13 @@ const CastDataCard = memo(
 					}}
 				>
 					<GenderChart data={genderData} />
-					<Histogram data={ageData} />
-					<RaceChart
+					<AgeChart data={ageData} />
+					<RaceEthnicityChart
 						title="ethnicity"
 						data={ethnicityData}
 						colors={["#FFBB28"]}
 					/>
-					<RaceChart
+					<RaceEthnicityChart
 						title="race"
 						data={raceData}
 						colors={[
@@ -99,5 +108,3 @@ const CastDataCard = memo(
 		);
 	},
 );
-
-export default CastDataCard;

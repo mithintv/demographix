@@ -12,7 +12,7 @@ import {
 import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-import Footer from "../components/layout/Footer";
+import Footer from "../shared/layout/footer";
 import { SearchModal } from "../shared/ui/search/search-modal";
 
 export const LandingPage = () => {
@@ -83,7 +83,7 @@ export const LandingPage = () => {
 					>
 						<Link
 							sx={{ textDecoration: "none" }}
-							to={`/visualizer/academy-awards/yearly/${2023}`}
+							to={`/visualizer/academy-awards/yearly/${new Date().getFullYear()}`}
 							component={RouterLink}
 						>
 							<Button

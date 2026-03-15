@@ -8,7 +8,9 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import { useRef, useState } from "react";
+
 import { SearchResults } from "./search-results";
+
 import { useDebounce } from "@/shared/hooks/useDebounce";
 
 export const SearchModal = ({ nav }: { nav: boolean }) => {
@@ -36,7 +38,7 @@ export const SearchModal = ({ nav }: { nav: boolean }) => {
 	return (
 		<>
 			<Button
-				sx={{ my: 1 }}
+				sx={{ my: 1, pr: 0 }}
 				size={sm ? "medium" : "large"}
 				startIcon={<span className="material-symbols-outlined">search</span>}
 				variant={nav ? "text" : "contained"}

@@ -19,7 +19,7 @@ import {
 	YAxis,
 } from "recharts";
 
-import ChartLabel from "./ChartLabel";
+import ChartLabel from "./chart-label";
 
 import { CustomizedTooltip } from "@/shared/types/Chart";
 import { ChartData } from "@/shared/types/ChartData";
@@ -106,7 +106,7 @@ const RaceChart = memo(
 		title,
 		colors,
 	}: {
-		data: ChartData[];
+		data: ChartData[] | undefined;
 		title: string;
 		colors: string[];
 	}) => {
@@ -117,7 +117,7 @@ const RaceChart = memo(
 		const theme = useTheme();
 
 		useEffect(() => {
-			if (data.length > 10) {
+			if (data && data?.length > 10) {
 				data = data.sort((a, b) => d3.descending(a.amount, b.amount));
 			}
 		}, [data]);
@@ -147,10 +147,10 @@ const RaceChart = memo(
 						minHeight: "350px",
 					}}
 				>
-					{data.length > 0 ? (
+					{data && data.length > 0 ? (
 						<ResponsiveContainer
 							width={
-								(xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
+								(xs && 275) || (sm && 350) || (md && 515) || (lg && 900) || 550
 							}
 							height={350}
 						>
@@ -159,7 +159,7 @@ const RaceChart = memo(
 								width={
 									(xs && 275) ||
 									(sm && 350) ||
-									(md && 550) ||
+									(md && 515) ||
 									(lg && 900) ||
 									550
 								}
@@ -221,6 +221,10 @@ const RaceChart = memo(
 								</Bar>
 							</BarChart>
 						</ResponsiveContainer>
+					) : data && data.length === 0 ? (
+						<Typography variant="overline" color="textSecondary">
+							No data found
+						</Typography>
 					) : (
 						<CircularProgress size={100} thickness={10} />
 					)}

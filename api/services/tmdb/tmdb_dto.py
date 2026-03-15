@@ -87,3 +87,46 @@ class TmdbFindResponse(TypedDict):
     tv_results: list
     tv_episode_results: list
     tv_season_results: list
+
+
+class TmdbCredit(TypedDict):
+    """Credit entry from TMDB movie credits.
+
+    - `id`: person_id in TMDB.
+    - `credit_id`: unique identifier for the credit itself.
+    """
+
+    adult: bool
+    gender: int
+    id: int
+    known_for_department: str
+    name: str
+    original_name: str
+    popularity: float
+    profile_path: str | None
+    cast_id: int
+    character: str
+    credit_id: str
+    order: int
+
+
+class TmdbMovieCredits(TypedDict):
+    id: int
+    cast: list[TmdbCredit]
+
+
+class TmdbPersonDetails(TypedDict):
+    adult: bool
+    also_known_as: list[str]
+    biography: str
+    birthday: str
+    deathday: str
+    gender: int
+    homepage: str
+    id: int
+    imdb_id: str
+    known_for_department: str
+    name: str
+    place_of_birth: str
+    popularity: float
+    profile_path: str

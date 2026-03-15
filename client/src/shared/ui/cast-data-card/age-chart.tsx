@@ -10,7 +10,7 @@ import * as d3 from "d3";
 import { memo, useEffect, useState } from "react";
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from "recharts";
 
-import ChartLabel from "./ChartLabel";
+import ChartLabel from "./chart-label";
 
 import { CastHistogramDto } from "@/shared/types/Cast";
 import { Payload } from "@/shared/types/Chart";
@@ -100,13 +100,13 @@ export const CustomTooltip = ({
 	return null;
 };
 
-const Histogram = memo(({ data }: { data: ChartData[] }) => {
+export const AgeChart = memo(({ data }: { data: ChartData[] | undefined }) => {
 	const lg = useMediaQuery("(max-width:1200px)");
 	const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
 	const theme = useTheme();
-	const [histogram, setHistogram] = useState<HistogramData[]>([]);
+	const [histogram, setHistogram] = useState<HistogramData[]>();
 
 	useEffect(() => {
 		const histogramData: HistogramData[] = d3.range(0, 10).map((i) => ({
@@ -115,7 +115,7 @@ const Histogram = memo(({ data }: { data: ChartData[] }) => {
 			cast: [],
 		}));
 
-		data.forEach((item) => {
+		data?.forEach((item) => {
 			const ageGroupIndex = Math.floor(item.amount / 10);
 			if (ageGroupIndex >= 0 && ageGroupIndex < histogramData.length) {
 				histogramData[ageGroupIndex].count++;
@@ -153,18 +153,18 @@ const Histogram = memo(({ data }: { data: ChartData[] }) => {
 					width:
 						(xs && "275px") ||
 						(sm && "350px") ||
-						(md && "550px") ||
+						(md && "515px") ||
 						(lg && "900px") ||
 						"550px",
 					height: "350px",
 					flex: "1 0 auto",
 				}}
 			>
-				{data.length > 0 ? (
+				{data && data.length > 0 ? (
 					<BarChart
 						style={{ zIndex: 2 }}
 						width={
-							(xs && 275) || (sm && 350) || (md && 550) || (lg && 900) || 550
+							(xs && 275) || (sm && 350) || (md && 515) || (lg && 900) || 550
 						}
 						height={300}
 						data={histogram}
@@ -219,6 +219,10 @@ const Histogram = memo(({ data }: { data: ChartData[] }) => {
 							animationBegin={500}
 						></Bar>
 					</BarChart>
+				) : data && data.length === 0 ? (
+					<Typography variant="overline" color="textSecondary">
+						No data found
+					</Typography>
 				) : (
 					<CircularProgress size={100} thickness={10} />
 				)}
@@ -226,5 +230,3 @@ const Histogram = memo(({ data }: { data: ChartData[] }) => {
 		</Paper>
 	);
 });
-
-export default Histogram;

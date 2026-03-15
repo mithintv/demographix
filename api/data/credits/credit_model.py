@@ -34,5 +34,19 @@ class Credit(db.Model):
         "CastMember", uselist=False, back_populates="credits"
     )
 
+    def __init__(
+        self,
+        id: str,
+        movie_id: int,
+        character: str,
+        order: int,
+        cast_member_id: int,
+    ):
+        self.id = id
+        self.movie_id = movie_id
+        self.character = character
+        self.order = order
+        self.cast_member_id = cast_member_id
+
     def __repr__(self):
         return f"<Credit id={self.id} character={self.character}>"

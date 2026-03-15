@@ -13,10 +13,10 @@ import {
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-import { SearchModal } from "../../shared/ui/search/search-modal";
+import { SearchModal } from "../ui/search/search-modal";
 
 export default function NavBar() {
-	const sm = useMediaQuery("(max-width:600px)");
+	const md = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 	const [navTransparent, setNavTransparent] = useState(true);
@@ -57,15 +57,19 @@ export default function NavBar() {
 					sx={{
 						display: "flex",
 						justifyContent: "space-between",
-						py: 2,
+						px: 3,
 					}}
 				>
 					<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
-						<Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
+						<Typography
+							component="div"
+							variant="h6"
+							sx={{ pl: 0, flexGrow: 1 }}
+						>
 							Demographix
 						</Typography>
 					</Link>
-					{sm ? (
+					{md ? (
 						<Box
 							sx={{
 								display: "flex",

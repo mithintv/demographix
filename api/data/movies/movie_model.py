@@ -60,9 +60,7 @@ class Movie(db.Model):
         self.revenue = revenue
 
     def __repr__(self):
-        return (
-            f"<Movie id={self.id} title={self.title} release_date={self.release_date}>"
-        )
+        return f"<Movie id={self.id} title={self.title} release_date={self.release_date.strftime('%Y') if self.release_date is not None else None}>"
 
     def to_dict(self):
         return {
@@ -77,4 +75,6 @@ class Movie(db.Model):
             ),
             "budget": self.budget,
             "revenue": self.revenue,
+            "genres": [],
+            "cast": [],
         }

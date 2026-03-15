@@ -1,30 +1,69 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import select
+from sqlalchemy import desc, func, select
 
 from api.data.base import db
+from api.data.cast_members.cast_member_dto import CastEthnicityDto, CastMemberCreditDto
 from api.data.cast_members.cast_member_model import CastMember
 from api.data.credits.credit_model import Credit
 from api.data.genres.genre_repository import create_genre, get_genre_by_id
 from api.data.model import Country, Gender
-from api.data.movies.movie_dto import CreateMovieRequest, MovieDto
+from api.data.movies.movie_dto import CreateMovieRequest, MovieDetailsDto
 from api.data.movies.movie_model import Movie
 
 
-def get_movie_by_id(id: int):
-    """Get movie by id"""
+def query_movies(
+    query_text: str | None,
+    options={"include_wo_poster": False, "include_ends_with": False},
+):
+    """Return search query results."""
+
+    query = Movie.query.join(Movie.credits, isouter=True)
+
+    if options.get("include_wo_poster") is False:
+        query = query.filter(Movie.poster_path != None)
+
+    if query_text and len(query_text) > 0:
+        if options.get("include_ends_with") is True:
+            query = query.filter(
+                func.lower(Movie.title).like(f"%{query_text.lower()}%")
+            )
+        else:
+            query = query.filter(func.lower(Movie.title).like(f"{query_text.lower()}%"))
+        query = query.order_by(desc(Movie.release_date))
+    else:
+        query = query.order_by(func.random())
+
+    query = query.group_by(
+        Movie.id,
+        Movie.imdb_id,
+        Movie.title,
+        Movie.overview,
+        Movie.runtime,
+        Movie.poster_path,
+        Movie.release_date,
+        Movie.budget,
+        Movie.revenue,
+    )
+
+    logging.info("Query: %s found %s movies", query.count(), query)
+    return query
+
+
+def find_movie_by_id(id: int):
+    """Find movie by id"""
     movie = db.session.scalars(select(Movie).where(Movie.id == id)).one_or_none()
     if movie is not None:
-        logging.info("Movie: %s found!", movie)
+        logging.info("%s found!", movie)
     return movie
 
 
 def create_movie(data: CreateMovieRequest):
     """Create a new movie in the database."""
-    existing_movie = get_movie_by_id(data.id)
+    existing_movie = find_movie_by_id(data.id)
     if existing_movie is not None:
-        logging.warning("Movie: %s already exists!", existing_movie)
+        logging.warning("%s already exists", existing_movie)
         return existing_movie
 
     movie = Movie(
@@ -42,8 +81,8 @@ def create_movie(data: CreateMovieRequest):
         budget=data.budget,
         revenue=data.revenue,
     )
-    logging.info("Adding Movie: %s", movie)
     db.session.add(movie)
+    logging.info("Adding %s", movie)
 
     for genre in data.genres:
         genre_object = get_genre_by_id(genre.id)
@@ -51,19 +90,17 @@ def create_movie(data: CreateMovieRequest):
             genre_object = create_genre(genre.id, genre.name, delay_commit=True)
         movie.genres.append(genre_object)
     db.session.commit()
-
     return movie
 
 
-def get_movie_and_cast_details_by_movie_id(movie_id: int):
-    """Return specific movie with credits and cast member details."""
-    movie = get_movie_by_id(movie_id)
+def find_movie_and_details_by_id(movie_id: int):
+    """Find movie with details."""
+    movie = find_movie_by_id(movie_id)
     if movie is None:
+        logging.warning("Movie: %s not found", movie_id)
         return None
 
     cast_details = []
-    ethnicities = []
-    races = []
     credits = db.session.scalars(
         select(Credit)
         .join(CastMember, Credit.cast_member_id == CastMember.id)
@@ -75,33 +112,26 @@ def get_movie_and_cast_details_by_movie_id(movie_id: int):
     ).all()
     for credit in credits:
         cm = credit.cast_member
-        races = [race.name for race in cm.races]
-        for cast_ethnicity in cm.ethnicities:
-            ethnicities.append(
-                {
-                    "name": cast_ethnicity.ethnicity.name,
-                    "sources": [source.link for source in cast_ethnicity.sources],
-                }
-            )
-
-        new_cast = {
-            "id": cm.id,
-            "name": cm.name,
-            "birthday": cm.birthday,
-            "gender": cm.gender.name,
-            "ethnicity": ethnicities,
-            "race": races,
-            "country_of_birth": (
-                cm.country_of_birth.id if cm.country_of_birth else None
-            ),
-            "character": credit.character,
-            "order": credit.order,
-            "profile_path": cm.profile_path,
-        }
+        cast_ethnicities = [
+            CastEthnicityDto.from_model(cast_ethnicity)
+            for cast_ethnicity in cm.ethnicities
+        ]
+        cast_races = [race.name for race in cm.races]
+        new_cast = CastMemberCreditDto(
+            id=cm.id,
+            name=cm.name,
+            birthday=cm.birthday.isoformat() if cm.birthday else None,
+            gender=cm.gender.name,
+            ethnicity=cast_ethnicities,
+            race=cast_races,
+            country_of_birth=(cm.country_of_birth.id if cm.country_of_birth else None),
+            character=credit.character,
+            order=credit.order,
+            profile_path=cm.profile_path,
+        )
         cast_details.append(new_cast)
 
-    movie_dict = movie.to_dict()
-    movie_dict["genres"] = [genre.name for genre in movie.genres]
-    movie_dict["cast"] = cast_details
-
-    return movie_dict
+    movie_details = MovieDetailsDto.from_model(
+        movie, [genre.name for genre in movie.genres], cast_details
+    )
+    return movie_details

@@ -13,11 +13,11 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CastCard from "../../components/CastCard";
-import CastDataCard from "../../components/CastDataCard";
 import MovieDetails from "../../components/MovieDetails";
-import Footer from "../../components/layout/Footer";
+import Footer from "../../shared/layout/footer";
 import { Movie } from "../../shared/types/Movie";
 
+import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
 import { API_HOSTNAME } from "@/shared/utils/constants";
 import { backgroundGradient } from "@/shared/utils/theme";
 

@@ -1,18 +1,20 @@
+import logging
 import os
-from typing import TypedDict
 
 import requests
 
 from api.services.tmdb.tmdb_dto import (
     TmdbFindResponse,
     TmdbGenreList,
+    TmdbMovieCredits,
     TmdbMovieDetails,
+    TmdbPersonDetails,
     TmdbSearchResponse,
 )
 
+TMDB_HOSTNAME = os.environ["TMDB_HOSTNAME"]
 TMDB_API_KEY = os.environ["TMDB_API_KEY"]
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
-TMDB_HOSTNAME = "https://api.themoviedb.org"
 TMDB_HEADERS = {
     "accept": "application/json",
     "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
@@ -53,8 +55,23 @@ def search_tmdb_by_title(title: str, year: int, page: int = 1):
     return TmdbSearchResponse(response.json())
 
 
+def get_tmdb_credits_by_movie_id(movie_id: int):
+    """Get credits for a movie via TMDB /movie/{id}/credits endpoint."""
+    logging.info("Getting TMDB Credits for Movie: %s", movie_id)
+    url = f"{TMDB_HOSTNAME}/3/movie/{movie_id}/credits"
+    response = requests.get(url, headers=TMDB_HEADERS, params={"language": "en-US"})
+    return TmdbMovieCredits(response.json())
+
+
 def get_tmdb_genres():
     """Get genres via TMDB /genre/movie/list endpoint."""
     url = f"{TMDB_HOSTNAME}/3/genre/movie/list"
     response = requests.get(url, headers=TMDB_HEADERS, params={"language": "en-US"})
     return TmdbGenreList(response.json())
+
+
+def get_tmdb_person_by_id(person_id: int):
+    """Get person details by person_id via TMDB /person endpoint."""
+    url = f"{TMDB_HOSTNAME}/3/person/{person_id}"
+    response = requests.get(url, headers=TMDB_HEADERS, params={"language": "en-US"})
+    return TmdbPersonDetails(response.json())

@@ -9,13 +9,13 @@ import {
 import { memo } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
+import ChartLabel from "./chart-label";
+
 import {
 	CustomizedPieChartLabel,
 	CustomizedTooltip,
-} from "../../shared/types/Chart";
-import { ChartData } from "../../shared/types/ChartData";
-
-import ChartLabel from "./ChartLabel";
+} from "@/shared/types/Chart";
+import { ChartData } from "@/shared/types/ChartData";
 
 const GenderTooltip = ({ active, payload }: CustomizedTooltip) => {
 	if (active && payload && payload.length) {
@@ -96,7 +96,7 @@ CustomizedPieChartLabel) => {
 	);
 };
 
-const GenderChart = memo(({ data }: { data: ChartData[] }) => {
+const GenderChart = memo(({ data }: { data: ChartData[] | undefined }) => {
 	// const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
@@ -124,12 +124,12 @@ const GenderChart = memo(({ data }: { data: ChartData[] }) => {
 					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
-					width: (xs && "275px") || (sm && "350px") || "550px",
+					width: (xs && "275px") || (sm && "350px") || "515px",
 					height: "350px",
 					flex: "1 0 auto",
 				}}
 			>
-				{data.length > 0 ? (
+				{data && data.length > 0 ? (
 					<ResponsiveContainer
 						width={(xs && 275) || (sm && 350) || 550}
 						height={350}
@@ -164,6 +164,10 @@ const GenderChart = memo(({ data }: { data: ChartData[] }) => {
 							/>
 						</PieChart>
 					</ResponsiveContainer>
+				) : data && data.length === 0 ? (
+					<Typography variant="overline" color="textSecondary">
+						No data found
+					</Typography>
 				) : (
 					<CircularProgress size={100} thickness={10} />
 				)}

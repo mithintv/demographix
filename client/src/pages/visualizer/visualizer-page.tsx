@@ -19,13 +19,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { MovieCard } from "./movie-card";
 
-import CastDataCard from "@/components/CastDataCard";
-import Footer from "@/components/layout/Footer";
-import { CardList } from "@/shared/ui/card-list/card-list";
+import Footer from "@/shared/layout/footer";
 import { Cast } from "@/shared/types/Cast";
 import { Movie } from "@/shared/types/Movie";
-import { backgroundGradient } from "@/shared/utils/theme";
+import { CardList } from "@/shared/ui/card-list/card-list";
+import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
 import { API_HOSTNAME } from "@/shared/utils/constants";
+import { backgroundGradient } from "@/shared/utils/theme";
 
 const getSelectableYears = () => {
 	const currYear = new Date().getFullYear();
@@ -38,7 +38,7 @@ const getSelectableYears = () => {
 
 const compileCast = (movies: Movie[] | undefined) => {
 	if (!movies) {
-		return [];
+		return undefined;
 	}
 	const allMoviesCast: Cast[] = [];
 	movies.forEach((movie) => {
@@ -142,6 +142,7 @@ export const VisualizerPage = () => {
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "space-between",
+							px: 2,
 						}}
 					>
 						<Box

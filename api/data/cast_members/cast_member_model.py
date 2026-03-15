@@ -47,6 +47,28 @@ class CastMember(db.Model):
         "Race", secondary="cast_races", uselist=True, back_populates="cast"
     )
 
+    def __init__(
+        self,
+        id: int,
+        imdb_id: str,
+        name: str,
+        gender_id: int,
+        birthday: datetime | None,
+        deathday: datetime | None,
+        biography: str,
+        country_of_birth_id: str | None,
+        profile_path: str,
+    ):
+        self.id = id
+        self.imdb_id = imdb_id
+        self.name = name
+        self.gender_id = gender_id
+        self.birthday = birthday
+        self.deathday = deathday
+        self.biography = biography
+        self.country_of_birth_id = country_of_birth_id
+        self.profile_path = profile_path
+
     def __repr__(self):
         return f"<Cast id={self.id} name={self.name}>"
 
@@ -71,11 +93,19 @@ class CastEthnicity(db.Model):
     __tablename__ = "cast_ethnicities"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    ethnicity_id: Mapped[int | None] = mapped_column(Integer, db.ForeignKey("ethnicities.id"))
-    cast_member_id: Mapped[int | None] = mapped_column(Integer, db.ForeignKey("cast_members.id"))
+    ethnicity_id: Mapped[int | None] = mapped_column(
+        Integer, db.ForeignKey("ethnicities.id")
+    )
+    cast_member_id: Mapped[int | None] = mapped_column(
+        Integer, db.ForeignKey("cast_members.id")
+    )
 
-    cast_member: Mapped[CastMember] = relationship("CastMember", back_populates="ethnicities")
-    ethnicity: Mapped[Ethnicity] = relationship("Ethnicity", back_populates="cast_ethnicity")
+    cast_member: Mapped[CastMember] = relationship(
+        "CastMember", back_populates="ethnicities"
+    )
+    ethnicity: Mapped[Ethnicity] = relationship(
+        "Ethnicity", back_populates="cast_ethnicity"
+    )
     sources: Mapped[list[SourceLink]] = relationship(
         "SourceLink",
         secondary="cast_ethnicity_source_links",

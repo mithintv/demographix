@@ -68,7 +68,7 @@ def create_movie_nomination(movie: Movie, nomination: Nomination):
         .where(MovieNomination.nomination_id == nomination.id)
     ).one_or_none()
     if movie_nomination is not None:
-        logging.warning("Nomination: %s already exists", movie_nomination)
+        logging.warning("%s already exists", movie_nomination)
         return movie_nomination
 
     movie_nomination = MovieNomination(movie.id, nomination.id)

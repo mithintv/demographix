@@ -4,7 +4,11 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from api.data.model import db
+from api.data.cast_members.cast_member_repository import (
+    create_cast_member,
+    find_cast_member_by_id,
+)
+from api.data.credits.credit_repository import create_credits
 from api.data.movies.movie_dto import CreateMovieRequest
 from api.data.movies.movie_repository import create_movie
 from api.data.nominations.nomination_dto import ImdbCategory
@@ -14,7 +18,9 @@ from api.data.nominations.nomination_repository import (
 )
 from api.services.tmdb.tmdb_service import (
     find_tmdb_movie_by_imdb_id,
+    get_tmdb_credits_by_movie_id,
     get_tmdb_movie_by_id,
+    get_tmdb_person_by_id,
 )
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
@@ -94,6 +100,14 @@ def check_nominations(
             logging.warning("No TMDB result for IMDB ID %s", imdb_id)
             continue
 
-        tmdb_movie = get_tmdb_movie_by_id(movie_id=results["movie_results"][0]["id"])
+        tmdb_id = results["movie_results"][0]["id"]
+        tmdb_movie = get_tmdb_movie_by_id(movie_id=tmdb_id)
         movie = create_movie(CreateMovieRequest.from_tmdb(tmdb_movie))
+
+        tmdb_credits = get_tmdb_credits_by_movie_id(tmdb_id)
+        for credit in tmdb_credits["cast"]:
+            if find_cast_member_by_id(credit["id"]) is None:
+                tmdb_person = get_tmdb_person_by_id(credit["id"])
+                create_cast_member(tmdb_person)
+        create_credits(tmdb_credits)
         create_movie_nomination(movie, nomination)

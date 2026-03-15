@@ -19,7 +19,7 @@ import {
 	Tooltip,
 	Typography,
 } from "@mui/material";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
 import { AdminHeader } from "./admin-header";
@@ -27,24 +27,24 @@ import { castMemberDescription } from "./constants";
 
 import { API_HOSTNAME } from "@/shared/utils/constants";
 
+interface SourceLink {
+	id: number;
+	link: string;
+	source_id: number;
+}
+
 interface Ethnicity {
-	cast_ethnicity_id: number;
-	ethnicity_id: number;
-	ethnicity_name: string | null;
-	source_count: number;
+	name: string;
+	sources: SourceLink[];
 }
 
 interface CastMember {
 	id: number;
 	name: string;
 	gender: string | null;
-	gender_id: number;
 	country_of_birth: string | null;
-	country_of_birth_id: string | null;
 	ethnicities: Ethnicity[];
 	races: string[];
-	has_sources: boolean;
-	missing_data: boolean;
 }
 
 interface CastListResponse {
@@ -54,39 +54,22 @@ interface CastListResponse {
 	per_page: number;
 }
 
-function EthnicityChips({
-	ethnicities,
-	castId,
-	onDeleted,
-}: {
-	ethnicities: Ethnicity[];
-	castId: number;
-	onDeleted: () => void;
-}) {
-	const handleDelete = async (castEthnicityId: number) => {
-		await fetch(
-			`${API_HOSTNAME}/admin/cast/${castId}/ethnicities/${castEthnicityId}`,
-			{ method: "DELETE" },
-		);
-		onDeleted();
-	};
-
+function EthnicityChips({ ethnicities }: { ethnicities: Ethnicity[] }) {
 	return (
 		<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
 			{ethnicities.map((e) => (
 				<Tooltip
-					key={e.cast_ethnicity_id}
+					key={e.name}
 					title={
-						e.source_count === 0
+						e.sources.length === 0
 							? "No sources — may be inaccurate"
-							: `${e.source_count} source(s)`
+							: `${e.sources.length} source(s)`
 					}
 				>
 					<Chip
 						size="small"
-						label={e.ethnicity_name ?? "Unknown"}
-						color={e.source_count === 0 ? "warning" : "default"}
-						onDelete={() => handleDelete(e.cast_ethnicity_id)}
+						label={e.name}
+						color={e.sources.length === 0 ? "warning" : "default"}
 					/>
 				</Tooltip>
 			))}
@@ -100,7 +83,6 @@ export const AdminCastPage = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [flag, setFlag] = useState<string | null>(null);
 	const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const queryClient = useQueryClient();
 
 	const { data, isFetching } = useQuery<CastListResponse>({
 		queryKey: ["admin-cast", page, search, flag],
@@ -130,9 +112,6 @@ export const AdminCastPage = () => {
 			setPage(1);
 		}, 400);
 	};
-
-	const invalidateList = () =>
-		queryClient.invalidateQueries({ queryKey: ["admin-cast"] });
 
 	const totalPages = data ? Math.ceil(data.total / data.per_page) : 1;
 
@@ -226,64 +205,64 @@ export const AdminCastPage = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{data?.cast.map((cm) => (
-								<TableRow
-									key={cm.id}
-									sx={{
-										bgcolor: cm.missing_data
-											? "error.dark"
-											: !cm.has_sources
-												? "warning.dark"
-												: undefined,
-										opacity: cm.missing_data || !cm.has_sources ? 0.85 : 1,
-									}}
-								>
-									<TableCell>
-										<Typography variant="caption" color="text.secondary">
-											{cm.id}
-										</Typography>
-									</TableCell>
-									<TableCell>
-										<Typography variant="body2">{cm.name}</Typography>
-									</TableCell>
-									<TableCell>
-										<Typography variant="body2" color="text.secondary">
-											{cm.gender ?? "—"}
-										</Typography>
-									</TableCell>
-									<TableCell>
-										<Typography variant="body2" color="text.secondary">
-											{cm.country_of_birth ?? "—"}
-										</Typography>
-									</TableCell>
-									<TableCell>
-										{cm.ethnicities.length > 0 ? (
-											<EthnicityChips
-												ethnicities={cm.ethnicities}
-												castId={cm.id}
-												onDeleted={invalidateList}
-											/>
-										) : (
-											<Typography variant="caption" color="error">
-												None
+							{data?.cast.map((cm) => {
+								const missingData = cm.ethnicities.length === 0 && cm.races.length === 0;
+								const hasSources = cm.ethnicities.some((e) => e.sources.length > 0);
+								return (
+									<TableRow
+										key={cm.id}
+										sx={{
+											bgcolor: missingData
+												? "error.dark"
+												: cm.ethnicities.length > 0 && !hasSources
+													? "warning.dark"
+													: undefined,
+											opacity: missingData || (cm.ethnicities.length > 0 && !hasSources) ? 0.85 : 1,
+										}}
+									>
+										<TableCell>
+											<Typography variant="caption" color="text.secondary">
+												{cm.id}
 											</Typography>
-										)}
-									</TableCell>
-									<TableCell>
-										<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-											{cm.races.length > 0 ? (
-												cm.races.map((r) => (
-													<Chip key={r} size="small" label={r} />
-												))
+										</TableCell>
+										<TableCell>
+											<Typography variant="body2">{cm.name}</Typography>
+										</TableCell>
+										<TableCell>
+											<Typography variant="body2" color="text.secondary">
+												{cm.gender ?? "—"}
+											</Typography>
+										</TableCell>
+										<TableCell>
+											<Typography variant="body2" color="text.secondary">
+												{cm.country_of_birth ?? "—"}
+											</Typography>
+										</TableCell>
+										<TableCell>
+											{cm.ethnicities.length > 0 ? (
+												<EthnicityChips ethnicities={cm.ethnicities} />
 											) : (
-												<Typography variant="caption" color="text.secondary">
-													—
+												<Typography variant="caption" color="error">
+													None
 												</Typography>
 											)}
-										</Box>
-									</TableCell>
-								</TableRow>
-							))}
+										</TableCell>
+										<TableCell>
+											<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+												{cm.races.length > 0 ? (
+													cm.races.map((r) => (
+														<Chip key={r} size="small" label={r} />
+													))
+												) : (
+													<Typography variant="caption" color="text.secondary">
+														—
+													</Typography>
+												)}
+											</Box>
+										</TableCell>
+									</TableRow>
+								);
+							})}
 							{isFetching && !data && (
 								<TableRow>
 									<TableCell colSpan={6} align="center">

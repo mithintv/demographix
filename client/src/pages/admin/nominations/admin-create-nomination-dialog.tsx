@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { API_HOSTNAME } from "@/shared/utils/constants";
+import { API_HOSTNAME } from "@/shared/utils/endpoints";
 
 export const AdminCreateNominationDialog = ({
 	open,

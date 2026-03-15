@@ -24,7 +24,7 @@ import { Cast } from "@/shared/types/Cast";
 import { Movie } from "@/shared/types/Movie";
 import { CardList } from "@/shared/ui/card-list/card-list";
 import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
-import { getDemographicsEndpoint } from "@/shared/utils/constants";
+import { getDemographicsEndpoint } from "@/shared/utils/endpoints";
 import { backgroundGradient } from "@/shared/utils/theme";
 
 const getSelectableYears = () => {

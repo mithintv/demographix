@@ -5,8 +5,8 @@ import { Cast } from "../../types/Cast";
 import { ChartData } from "../../types/ChartData";
 
 import { AgeChart } from "./age-chart";
-import GenderChart from "./gender-chart";
-import RaceEthnicityChart from "./race-ethnicity-chart";
+import { GenderChart } from "./gender-chart";
+import { RaceEthnicityChart } from "./race-ethnicity-chart";
 
 import {
 	parseAges,

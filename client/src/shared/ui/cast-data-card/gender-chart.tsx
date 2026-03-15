@@ -11,6 +11,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import ChartLabel from "./chart-label";
 
+import { useChartWidth } from "@/shared/hooks/use-chart-width";
 import {
 	CustomizedPieChartLabel,
 	CustomizedTooltip,
@@ -96,84 +97,80 @@ CustomizedPieChartLabel) => {
 	);
 };
 
-const GenderChart = memo(({ data }: { data: ChartData[] | undefined }) => {
-	// const md = useMediaQuery("(max-width:960px)");
-	const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:425px)");
+export const GenderChart = memo(
+	({ data }: { data: ChartData[] | undefined }) => {
+		const sm = useMediaQuery("(max-width:600px)");
+		const chartWidth = useChartWidth();
 
-	const COLORS = ["#0088FE", "#B63E76", "#FFBB28", "#FF8042"];
+		const COLORS = ["#0088FE", "#B63E76", "#FFBB28", "#FF8042"];
 
-	return (
-		<Paper
-			elevation={2}
-			sx={{
-				p: 0,
-				m: 2,
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "space-between",
-				alignItems: "center",
-				backgroundColor: "background.default",
-				flex: "1 0 auto",
-			}}
-		>
-			<ChartLabel label={"Gender"} />
-			<Box
+		return (
+			<Paper
+				elevation={2}
 				sx={{
+					p: 0,
+					m: 2,
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "space-between",
 					alignItems: "center",
-					minHeight: "350px",
+					backgroundColor: "background.default",
 					flex: "1 0 auto",
-					width: (xs && "275px") || (sm && "350px") || "515px",
 				}}
 			>
-				{data && data.length > 0 ? (
-					<ResponsiveContainer
-						width={(xs && 275) || (sm && 350) || 550}
-						height={350}
-					>
-						<PieChart width={(xs && 275) || (sm && 350) || 550} height={350}>
-							<Pie
-								data={data}
-								cx="50%"
-								cy="50%"
-								width={(xs && 275) || (sm && 350) || 550}
-								height={350}
-								startAngle={90}
-								endAngle={-450}
-								innerRadius={sm ? 35 : 55}
-								outerRadius={sm ? 55 : 90}
-								stroke="none"
-								fill="#8884d8"
-								nameKey="name"
-								dataKey="amount"
-								label={CustomLabel}
-							>
-								{data.map((entry, index) => (
-									<Cell
-										key={`cell-${entry.name}-${index}`}
-										fill={COLORS[index % COLORS.length]}
-									/>
-								))}
-							</Pie>
-							<Tooltip
-								wrapperStyle={{ zIndex: 9999 }}
-								content={<GenderTooltip />}
-							/>
-						</PieChart>
-					</ResponsiveContainer>
-				) : data && data.length === 0 ? (
-					<Typography variant="overline" color="textSecondary">
-						No data found
-					</Typography>
-				) : (
-					<CircularProgress size={100} thickness={10} />
-				)}
-			</Box>
-		</Paper>
-	);
-});
-
-export default GenderChart;
+				<ChartLabel label={"Gender"} />
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "center",
+						alignItems: "center",
+						minHeight: "350px",
+						flex: "1 0 auto",
+						width: chartWidth,
+					}}
+				>
+					{data && data.length > 0 ? (
+						<ResponsiveContainer width={chartWidth} height={350}>
+							<PieChart width={chartWidth} height={350}>
+								<Pie
+									data={data}
+									cx="50%"
+									cy="50%"
+									width={chartWidth}
+									height={350}
+									startAngle={90}
+									endAngle={-450}
+									innerRadius={sm ? 35 : 55}
+									outerRadius={sm ? 55 : 90}
+									stroke="none"
+									fill="#8884d8"
+									nameKey="name"
+									dataKey="amount"
+									label={CustomLabel}
+								>
+									{data.map((entry, index) => (
+										<Cell
+											key={`cell-${entry.name}-${index}`}
+											fill={COLORS[index % COLORS.length]}
+										/>
+									))}
+								</Pie>
+								<Tooltip
+									wrapperStyle={{ zIndex: 9999 }}
+									content={<GenderTooltip />}
+								/>
+							</PieChart>
+						</ResponsiveContainer>
+					) : data && data.length === 0 ? (
+						<Typography variant="overline" color="textSecondary">
+							No data found
+						</Typography>
+					) : (
+						<CircularProgress size={100} thickness={10} />
+					)}
+				</Box>
+			</Paper>
+		);
+	},
+);

@@ -25,7 +25,7 @@ import { useRef, useState } from "react";
 import { AdminHeader } from "./admin-header";
 import { castMemberDescription } from "./constants";
 
-import { API_HOSTNAME } from "@/shared/utils/constants";
+import { API_HOSTNAME } from "@/shared/utils/endpoints";
 
 interface SourceLink {
 	id: number;
@@ -206,8 +206,11 @@ export const AdminCastPage = () => {
 						</TableHead>
 						<TableBody>
 							{data?.cast.map((cm) => {
-								const missingData = cm.ethnicities.length === 0 && cm.races.length === 0;
-								const hasSources = cm.ethnicities.some((e) => e.sources.length > 0);
+								const missingData =
+									cm.ethnicities.length === 0 && cm.races.length === 0;
+								const hasSources = cm.ethnicities.some(
+									(e) => e.sources.length > 0,
+								);
 								return (
 									<TableRow
 										key={cm.id}
@@ -217,7 +220,11 @@ export const AdminCastPage = () => {
 												: cm.ethnicities.length > 0 && !hasSources
 													? "warning.dark"
 													: undefined,
-											opacity: missingData || (cm.ethnicities.length > 0 && !hasSources) ? 0.85 : 1,
+											opacity:
+												missingData ||
+												(cm.ethnicities.length > 0 && !hasSources)
+													? 0.85
+													: 1,
 										}}
 									>
 										<TableCell>

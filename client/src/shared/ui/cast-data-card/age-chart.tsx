@@ -20,6 +20,7 @@ import {
 
 import ChartLabel from "./chart-label";
 
+import { useChartWidth } from "@/shared/hooks/use-chart-width";
 import { CastHistogramDto } from "@/shared/types/Cast";
 import { Payload } from "@/shared/types/Chart";
 import { ChartData } from "@/shared/types/ChartData";
@@ -109,10 +110,8 @@ export const CustomTooltip = ({
 };
 
 export const AgeChart = memo(({ data }: { data: ChartData[] | undefined }) => {
-	const lg = useMediaQuery("(max-width:1200px)");
-	const md = useMediaQuery("(max-width:960px)");
+	const chartWidth = useChartWidth();
 	const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:425px)");
 	const theme = useTheme();
 	const [histogram, setHistogram] = useState<HistogramData[]>();
 
@@ -160,21 +159,14 @@ export const AgeChart = memo(({ data }: { data: ChartData[] | undefined }) => {
 					alignItems: "center",
 					minHeight: "350px",
 					flex: "1 0 auto",
-					width: (xs && "275px") || (sm && "350px") || "515px",
+					width: chartWidth,
 				}}
 			>
 				{data && data.length > 0 ? (
-					<ResponsiveContainer
-						width={
-							(xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515
-						}
-						height={350}
-					>
+					<ResponsiveContainer width={chartWidth} height={350}>
 						<BarChart
 							style={{ zIndex: 2 }}
-							width={
-								(xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515
-							}
+							width={chartWidth}
 							height={300}
 							data={histogram}
 							margin={{

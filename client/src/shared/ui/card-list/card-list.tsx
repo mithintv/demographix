@@ -16,6 +16,16 @@ export const CardList = <T,>({
 	heading: string;
 	cardList: T[] | undefined;
 }) => {
+	const renderedList =
+		cardList && cardList.length > 0 ? (
+			<>{cardList}</>
+		) : (
+			<div className="flex flex-1 justify-center items-center h-[195.5px]">
+				<Typography variant="overline" color="textSecondary">
+					No data found
+				</Typography>
+			</div>
+		);
 	return (
 		<>
 			{accordion ? (
@@ -55,7 +65,7 @@ export const CardList = <T,>({
 					</AccordionSummary>
 					<div className="px-4 pb-1">
 						<div className="flex flex-row gap-4 py-2 mb-2 overflow-x-auto">
-							<>{cardList}</>
+							{renderedList}
 						</div>
 					</div>
 				</Accordion>
@@ -64,7 +74,7 @@ export const CardList = <T,>({
 					<CardListHeading heading={heading} />
 					<div className="px-3">
 						<div className="flex flex-row gap-4 pt-4 pb-2 mb-2 overflow-x-auto">
-							<>{cardList}</>
+							{renderedList}
 						</div>
 					</div>
 				</div>

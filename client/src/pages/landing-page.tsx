@@ -10,13 +10,14 @@ import {
 	useTheme,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Footer from "../shared/layout/footer";
 import { SearchModal } from "../shared/ui/search/search-modal";
 
 export const LandingPage = () => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 	// const md = useMediaQuery("(max-width:960px)");
 	const sm = useMediaQuery("(max-width:600px)");
 	// const xs = useMediaQuery("(max-width:425px)");
@@ -81,23 +82,18 @@ export const LandingPage = () => {
 							width: "75%",
 						}}
 					>
-						<Link
-							sx={{ textDecoration: "none" }}
-							to={`/visualizer`}
-							component={RouterLink}
+						<Button
+							className="w-[191.47px] h-[45px]"
+							onClick={() => navigate("/visualizer")}
+							sx={{ my: 1 }}
+							size={sm ? "medium" : "large"}
+							startIcon={
+								<span className="material-symbols-outlined">bar_chart</span>
+							}
+							variant="outlined"
 						>
-							<Button
-								sx={{ my: 1 }}
-								size={sm ? "medium" : "large"}
-								startIcon={
-									<span className="material-symbols-outlined">bar_chart</span>
-								}
-								variant="outlined"
-							>
-								Visualize Data
-							</Button>
-						</Link>
-
+							Visualize Data
+						</Button>
 						<SearchModal nav={false} />
 					</Grid>
 				</Container>

@@ -1,14 +1,11 @@
 import {
 	Box,
 	Card,
-	CardMedia,
 	Chip,
 	CircularProgress,
 	Container,
 	Fade,
-	Stack,
 	Typography,
-	useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -21,11 +18,6 @@ export const MovieDetails = ({
 	movie: Movie | undefined;
 	isLoading: boolean;
 }) => {
-	// const theme = useTheme();
-	// const lg = useMediaQuery("(max-width:1200px)");
-	// const md = useMediaQuery("(max-width:960px)");
-	// const sm = useMediaQuery("(max-width:600px)");
-	const xs = useMediaQuery("(max-width:426px)");
 	const [content, setContent] = useState<Movie | undefined>(movie);
 	const [show, setShow] = useState(false);
 
@@ -72,7 +64,7 @@ export const MovieDetails = ({
 							flexDirection: "column",
 						}}
 					>
-						<Box sx={{ display: "flex", flexDirection: xs ? "column" : "row" }}>
+						<div className="flex flex-col gap-4 xs:flex-row">
 							<Box
 								sx={{
 									display: "flex",
@@ -80,65 +72,30 @@ export const MovieDetails = ({
 									flex: "0 1 auto",
 								}}
 							>
-								<CardMedia
-									sx={{
-										width: xs ? "300px" : "200px",
-										px: xs ? 2 : 0,
-										mb: xs ? 2 : 0,
-									}}
-									component="img"
-									image={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${content.poster_path}`}
+								<img
+									className="min-h-[165px] min-w-[110px] xs:w-[200px]"
+									src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${content.poster_path}`}
 									alt={`Movie poster for ${content.title}`}
 								/>
 							</Box>
-							<Box
-								sx={{
-									display: "flex",
-									flexDirection: "column",
-									flex: "1 1 auto",
-								}}
-							>
-								<Typography
-									variant="h4"
-									sx={{
-										mx: 2,
-									}}
-								>
-									{content.title}
-								</Typography>
-								<Container
-									disableGutters
-									sx={{
-										px: 2,
-										marginLeft: 0,
-										marginRight: "auto",
-										display: "flex",
-										flexDirection: "row",
-									}}
-								>
-									<Typography sx={{ paddingRight: 1 }} variant="caption">
+							<div className="flex flex-col gap-2">
+								<Typography variant="h4">{content.title}</Typography>
+								<div className="flex flex-row gap-2">
+									<Typography variant="caption">
 										{new Date(content.release_date).getFullYear()}
 									</Typography>
 									<Typography variant="caption">
 										{compileRuntime(content.runtime)}
 									</Typography>
-								</Container>
-								<Stack
-									sx={{ mt: 1, ml: 2 }}
-									direction="row"
-									spacing={1}
-									useFlexGap
-									flexWrap="wrap"
-								>
+								</div>
+								<div className="flex flex-row gap-2 py-1">
 									{content.genres.map((genre, i) => {
 										return <Chip key={i} label={genre} />;
 									})}
-								</Stack>
-								<Typography variant="subtitle2" sx={{ mt: 1, mx: 2 }}>
-									{content.overview}
-								</Typography>
-							</Box>
-						</Box>
+								</div>
+								<Typography variant="subtitle2">{content.overview}</Typography>
+							</div>
+						</div>
 					</Container>
 				</Fade>
 			)}

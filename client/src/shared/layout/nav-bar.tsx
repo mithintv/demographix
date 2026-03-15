@@ -5,17 +5,18 @@ import {
 	Drawer,
 	IconButton,
 	Link,
-	Toolbar,
 	Typography,
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 
 import { SearchModal } from "../ui/search/search-modal";
 
 export const NavBar = () => {
+	const location = useLocation();
+	const navigate = useNavigate();
 	const md = useMediaQuery("(max-width:600px)");
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
@@ -42,55 +43,90 @@ export const NavBar = () => {
 
 	return (
 		<Box>
-			<AppBar
-				sx={{
-					backgroundColor: navTransparent
-						? "transparent"
-						: theme.palette.background.default,
-					boxShadow: navTransparent ? "none" : "2px",
-					backgroundImage: "none",
-					transition: "background-color 500ms",
-				}}
-				position="fixed"
-			>
-				<Toolbar
+			{location.pathname === "/" ? (
+				<></>
+			) : (
+				<AppBar
 					sx={{
-						display: "flex",
-						justifyContent: "space-between",
-						py: 2,
-						px: 3,
+						backgroundColor: navTransparent
+							? "transparent"
+							: theme.palette.background.default,
+						boxShadow: navTransparent ? "none" : "2px",
+						backgroundImage: "none",
+						transition: "background-color 500ms",
 					}}
+					position="fixed"
 				>
-					<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
-						<Typography
-							component="div"
-							variant="h6"
-							sx={{ pl: 0, flexGrow: 1 }}
-						>
-							Demographix
-						</Typography>
-					</Link>
-					{md ? (
-						<Box
-							sx={{
-								display: "flex",
-								flexDiection: "row",
-								alignItems: "center",
-								height: 58,
-							}}
-						>
-							<Drawer anchor={"top"} open={open} onClose={() => setOpen(false)}>
-								<Link
-									sx={{
-										textDecoration: "none",
-										mt: 2,
-										mx: 2,
-										textAlign: "center",
-									}}
-									component={RouterLink}
-									to={`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`}
+					<div className="flex flex-row justify-between items-center py-4 px-5">
+						<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
+							<Typography
+								component="div"
+								variant="h6"
+								sx={{ pl: 0.5, flexGrow: 1 }}
+							>
+								Demographix
+							</Typography>
+						</Link>
+						{md ? (
+							<Box
+								sx={{
+									display: "flex",
+									flexDiection: "row",
+									alignItems: "center",
+									height: 58,
+								}}
+							>
+								<Drawer
+									anchor={"top"}
+									open={open}
+									onClose={() => setOpen(false)}
 								>
+									{!location.pathname.startsWith("/visualizer") && (
+										<Button
+											sx={{ mt: 1 }}
+											size="large"
+											onClick={() =>
+												navigate(
+													`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`,
+												)
+											}
+											startIcon={
+												<span className="material-symbols-outlined">
+													bar_chart
+												</span>
+											}
+										>
+											Cumulative Data
+										</Button>
+									)}
+									<SearchModal nav={true} />
+								</Drawer>
+								<IconButton
+									onClick={handleDrawer}
+									size="large"
+									edge="end"
+									color="primary"
+									aria-label="open drawer"
+								>
+									<span className="material-symbols-outlined">menu</span>
+								</IconButton>
+							</Box>
+						) : (
+							<Box
+								sx={{
+									display: "flex",
+									flexDiection: "row",
+									alignItems: "center",
+									gap: 2,
+								}}
+							>
+								{!location.pathname.startsWith("/visualizer") && (
 									<Button
+										onClick={() =>
+											navigate(
+												`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`,
+											)
+										}
 										startIcon={
 											<span className="material-symbols-outlined">
 												bar_chart
@@ -99,45 +135,13 @@ export const NavBar = () => {
 									>
 										Cumulative Data
 									</Button>
-								</Link>
+								)}
 								<SearchModal nav={true} />
-							</Drawer>
-							<IconButton
-								onClick={handleDrawer}
-								size="large"
-								edge="end"
-								color="primary"
-								aria-label="open drawer"
-							>
-								<span className="material-symbols-outlined">menu</span>
-							</IconButton>
-						</Box>
-					) : (
-						<Box
-							sx={{
-								display: "flex",
-								flexDiection: "row",
-								alignItems: "center",
-							}}
-						>
-							<Link
-								sx={{ textDecoration: "none", mx: 2 }}
-								component={RouterLink}
-								to={`/visualizer?event=academy-awards&range=yearly&year=${new Date().getFullYear()}`}
-							>
-								<Button
-									startIcon={
-										<span className="material-symbols-outlined">bar_chart</span>
-									}
-								>
-									Cumulative Data
-								</Button>
-							</Link>
-							<SearchModal nav={true} />
-						</Box>
-					)}
-				</Toolbar>
-			</AppBar>
+							</Box>
+						)}
+					</div>
+				</AppBar>
+			)}
 		</Box>
 	);
 };

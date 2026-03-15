@@ -61,7 +61,6 @@ export const CastDataCard = memo(
 					flexDirection: "column",
 					mb: 2,
 					mx: 2,
-					// width: (sm && "425px") || (md && "600px") || (lg && "960px") || "960px",
 				}}
 			>
 				<Typography

@@ -38,25 +38,14 @@ export const SearchModal = ({ nav }: { nav: boolean }) => {
 	return (
 		<>
 			<Button
-				sx={{ my: 1, mr: -1 }}
-				size={sm ? "medium" : "large"}
+				sx={{ my: 1 }}
+				size={"large"}
 				startIcon={<span className="material-symbols-outlined">search</span>}
 				variant={nav ? "text" : "contained"}
 				onClick={handleOpen}
 			>
 				Search Movies
 			</Button>
-			{/* {nav && (
-        <IconButton
-          onClick={handleOpen}
-          sx={{ p: "10px" }}
-          aria-label="search"
-          color="primary"
-          variant="outlined"
-        >
-          <span className="material-symbols-outlined">search</span>
-        </IconButton>
-      )} */}
 			<Modal
 				sx={{
 					position: "fixed",

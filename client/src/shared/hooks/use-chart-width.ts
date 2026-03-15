@@ -6,5 +6,5 @@ export const useChartWidth = () => {
 	const sm = useMediaQuery("(max-width:600px)");
 	const xs = useMediaQuery("(max-width:425px)");
 
-	return (xs && 275) || (sm && 350) || (md && 515) || (lg && 875) || 515;
+	return (xs && 275) || (sm && 325) || (md && 500) || (lg && 875) || 515;
 };

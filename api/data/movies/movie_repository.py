@@ -8,7 +8,8 @@ from api.data.cast_members.cast_member_dto import CastEthnicityDto, CastMemberCr
 from api.data.cast_members.cast_member_model import CastMember
 from api.data.credits.credit_model import Credit
 from api.data.genres.genre_repository import create_genre, get_genre_by_id
-from api.data.model import Country, Gender
+from api.data.countries.country_model import Country
+from api.data.genders.gender_model import Gender
 from api.data.movies.movie_dto import CreateMovieRequest, MovieDetailsDto
 from api.data.movies.movie_model import Movie
 

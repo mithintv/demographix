@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from api.data.cast_members.cast_member_model import CastEthnicity
-from api.data.model import SourceLink
+from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
+from api.data.source_links.source_link_model import SourceLink
 
 if TYPE_CHECKING:
     from api.data.cast_members.cast_member_model import CastMember

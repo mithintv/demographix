@@ -2,7 +2,7 @@ import logging
 
 from sqlalchemy import func, select
 
-from api.data.model import db
+from api.data.base import db
 from api.data.movies.movie_model import Movie
 from api.data.nominations.nomination_model import MovieNomination, Nomination
 

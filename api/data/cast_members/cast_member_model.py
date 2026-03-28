@@ -3,14 +3,17 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
+from api.data.base import db
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.data.base import db
-
 if TYPE_CHECKING:
+    from api.data.cast_members.also_known_as_model import AlsoKnownAs
+    from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
+    from api.data.countries.country_model import Country
     from api.data.credits.credit_model import Credit
-    from api.data.model import AlsoKnownAs, Country, Ethnicity, Gender, Race, SourceLink
+    from api.data.genders.gender_model import Gender
+    from api.data.races.race_model import Race
 
 
 class CastMember(db.Model):
@@ -40,7 +43,7 @@ class CastMember(db.Model):
         "Country", back_populates="births"
     )
     credits: Mapped[list[Credit]] = relationship("Credit", back_populates="cast_member")
-    ethnicities: Mapped[list["CastEthnicity"]] = relationship(
+    ethnicities: Mapped[list[CastEthnicity]] = relationship(
         "CastEthnicity", uselist=True, back_populates="cast_member"
     )
     races: Mapped[list[Race]] = relationship(
@@ -85,36 +88,3 @@ class CastMember(db.Model):
             "country_of_birth_id": self.country_of_birth_id,
             "profile_path": self.profile_path,
         }
-
-
-class CastEthnicity(db.Model):
-    """An association table to link cast members and their ethnicities."""
-
-    __tablename__ = "cast_ethnicities"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    ethnicity_id: Mapped[int | None] = mapped_column(
-        Integer, db.ForeignKey("ethnicities.id")
-    )
-    cast_member_id: Mapped[int | None] = mapped_column(
-        Integer, db.ForeignKey("cast_members.id")
-    )
-
-    cast_member: Mapped[CastMember] = relationship(
-        "CastMember", back_populates="ethnicities"
-    )
-    ethnicity: Mapped[Ethnicity] = relationship(
-        "Ethnicity", back_populates="cast_ethnicity"
-    )
-    sources: Mapped[list[SourceLink]] = relationship(
-        "SourceLink",
-        secondary="cast_ethnicity_source_links",
-        back_populates="cast_ethnicities",
-    )
-
-    def __repr__(self):
-        return str.format(
-            "<CastEthnicity ethnicity_id={} cast_member_id={}>",
-            self.ethnicity_id,
-            self.cast_member_id,
-        )

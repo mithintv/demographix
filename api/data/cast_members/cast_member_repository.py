@@ -5,8 +5,9 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
 from api.data.base import db
-from api.data.cast_members.cast_member_model import CastEthnicity, CastMember
-from api.data.model import Country
+from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
+from api.data.cast_members.cast_member_model import CastMember
+from api.data.countries.country_model import Country
 from api.services.tmdb.tmdb_dto import TmdbPersonDetails
 
 

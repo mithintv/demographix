@@ -25,6 +25,10 @@ class AltEthnicity(db.Model):
         "Ethnicity", uselist=False, back_populates="alt_names"
     )
 
+    def __init__(self, ethnicity_id: int, alt_name: str):
+        self.ethnicity_id = ethnicity_id
+        self.alt_name = alt_name
+
     def __repr__(self):
         return (
             f"<AltEthnicity ethnicity_id={self.ethnicity_id} alt_name={self.alt_name}>"

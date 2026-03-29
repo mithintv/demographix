@@ -30,7 +30,7 @@ class CastMember(db.Model):
     birthday: Mapped[datetime | None] = mapped_column(DateTime)
     deathday: Mapped[datetime | None] = mapped_column(DateTime)
     biography: Mapped[str | None] = mapped_column(String())
-    country_of_birth_id: Mapped[str | None] = mapped_column(
+    country_of_birth_id: Mapped[int | None] = mapped_column(
         String(3), db.ForeignKey("countries.id")
     )
     profile_path: Mapped[str | None] = mapped_column(String(35))
@@ -59,7 +59,7 @@ class CastMember(db.Model):
         birthday: datetime | None,
         deathday: datetime | None,
         biography: str,
-        country_of_birth_id: str | None,
+        country_of_birth_id: int | None,
         profile_path: str,
     ):
         self.id = id

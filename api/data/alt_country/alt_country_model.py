@@ -16,12 +16,16 @@ class AltCountry(db.Model):
     __tablename__ = "alt_countries"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    country_id: Mapped[str] = mapped_column(String(3), ForeignKey("countries.id"))
+    country_id: Mapped[int] = mapped_column(Integer, ForeignKey("countries.id"))
     alt_name: Mapped[str] = mapped_column(String(75))
 
     country: Mapped[list[Country]] = relationship(
         "Country", uselist=False, back_populates="alt_names"
     )
+
+    def __init__(self, country_id: int, alt_name: str):
+        self.country_id = country_id
+        self.alt_name = alt_name
 
     def __repr__(self):
         return f"<AltCountry id={self.id} country_id={self.country_id}> alt_name={self.alt_name}"

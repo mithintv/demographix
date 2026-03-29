@@ -1,7 +1,5 @@
 """Admin routes for data validity checking."""
 
-import logging
-
 from flask import Blueprint, abort, jsonify, request
 from pydantic import ValidationError
 
@@ -16,7 +14,10 @@ from api.data.nominations.nomination_repository import (
     create_nomination,
     query_nominations,
 )
+from api.services.logging_service import get_logger
 from api.services.nomination_service import check_nominations
+
+logger = get_logger(__name__)
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -32,7 +33,9 @@ def get_cast():
 
     cast_members, total = query_cast_members(search, page, per_page)
     results = [CastMemberDto.from_model(cm) for cm in cast_members]
-    return jsonify({"cast": results, "total": total, "page": page, "per_page": per_page})
+    return jsonify(
+        {"cast": results, "total": total, "page": page, "per_page": per_page}
+    )
 
 
 @bp.route("/nominations")

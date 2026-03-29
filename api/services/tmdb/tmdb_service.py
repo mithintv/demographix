@@ -1,8 +1,7 @@
-import logging
 import os
 
 import requests
-
+from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_dto import (
     TmdbFindResponse,
     TmdbGenreList,
@@ -11,6 +10,8 @@ from api.services.tmdb.tmdb_dto import (
     TmdbPersonDetails,
     TmdbSearchResponse,
 )
+
+logger = get_logger(__name__)
 
 TMDB_HOSTNAME = os.environ["TMDB_HOSTNAME"]
 TMDB_API_KEY = os.environ["TMDB_API_KEY"]
@@ -57,7 +58,7 @@ def search_tmdb_by_title(title: str, year: int, page: int = 1):
 
 def get_tmdb_credits_by_movie_id(movie_id: int):
     """Get credits for a movie via TMDB /movie/{id}/credits endpoint."""
-    logging.info("Getting TMDB Credits for Movie: %s", movie_id)
+    logger.info("Getting TMDB Credits for Movie: %s", movie_id)
     url = f"{TMDB_HOSTNAME}/3/movie/{movie_id}/credits"
     response = requests.get(url, headers=TMDB_HEADERS, params={"language": "en-US"})
     return TmdbMovieCredits(response.json())

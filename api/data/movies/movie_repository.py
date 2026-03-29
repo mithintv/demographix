@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 
 from sqlalchemy import desc, func, select
@@ -6,12 +5,15 @@ from sqlalchemy import desc, func, select
 from api.data.base import db
 from api.data.cast_members.cast_member_dto import CastEthnicityDto, CastMemberCreditDto
 from api.data.cast_members.cast_member_model import CastMember
-from api.data.credits.credit_model import Credit
-from api.data.genres.genre_repository import create_genre, get_genre_by_id
 from api.data.countries.country_model import Country
+from api.data.credits.credit_model import Credit
 from api.data.genders.gender_model import Gender
+from api.data.genres.genre_repository import create_genre, get_genre_by_id
 from api.data.movies.movie_dto import CreateMovieRequest, MovieDetailsDto
 from api.data.movies.movie_model import Movie
+from api.services.logging_service import get_logger
+
+logger = get_logger(__name__)
 
 
 def query_movies(
@@ -48,7 +50,7 @@ def query_movies(
         Movie.revenue,
     )
 
-    logging.info("Query: %s found %s movies", query.count(), query)
+    logger.info("Query: %s found %s movies", query.count(), query)
     return query
 
 
@@ -56,7 +58,7 @@ def find_movie_by_id(id: int):
     """Find movie by id"""
     movie = db.session.scalars(select(Movie).where(Movie.id == id)).one_or_none()
     if movie is not None:
-        logging.info("%s found!", movie)
+        logger.info("%s found!", movie)
     return movie
 
 
@@ -64,7 +66,7 @@ def create_movie(data: CreateMovieRequest):
     """Create a new movie in the database."""
     existing_movie = find_movie_by_id(data.id)
     if existing_movie is not None:
-        logging.warning("%s already exists", existing_movie)
+        logger.warning("%s already exists", existing_movie)
         return existing_movie
 
     movie = Movie(
@@ -83,7 +85,7 @@ def create_movie(data: CreateMovieRequest):
         revenue=data.revenue,
     )
     db.session.add(movie)
-    logging.info("Adding %s", movie)
+    logger.info("Adding %s", movie)
 
     for genre in data.genres:
         genre_object = get_genre_by_id(genre.id)
@@ -98,7 +100,7 @@ def find_movie_and_details_by_id(movie_id: int):
     """Find movie with details."""
     movie = find_movie_by_id(movie_id)
     if movie is None:
-        logging.warning("Movie: %s not found", movie_id)
+        logger.warning("Movie: %s not found", movie_id)
         return None
 
     cast_details = []

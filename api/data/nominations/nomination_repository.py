@@ -1,10 +1,11 @@
-import logging
-
 from sqlalchemy import func, select
 
 from api.data.base import db
 from api.data.movies.movie_model import Movie
 from api.data.nominations.nomination_model import MovieNomination, Nomination
+from api.services.logging_service import get_logger
+
+logger = get_logger(__name__)
 
 
 def query_nominations(search: str | None):
@@ -50,11 +51,11 @@ def create_nomination(name: str, year: int):
         .where(Nomination.year == year)
     ).first()
     if existing_nom is not None:
-        logging.error("%s %s already exists", name, year)
+        logger.error("%s %s already exists", name, year)
         return existing_nom
 
     nomination = Nomination(name=name, year=int(year))
-    logging.info("Adding Nomination: %s", nomination)
+    logger.info("Adding Nomination: %s", nomination)
     db.session.add(nomination)
     db.session.commit()
 
@@ -68,11 +69,11 @@ def create_movie_nomination(movie: Movie, nomination: Nomination):
         .where(MovieNomination.nomination_id == nomination.id)
     ).one_or_none()
     if movie_nomination is not None:
-        logging.warning("%s already exists", movie_nomination)
+        logger.warning("%s already exists", movie_nomination)
         return movie_nomination
 
     movie_nomination = MovieNomination(movie.id, nomination.id)
-    logging.info("Adding MovieNomination: %s", movie_nomination)
+    logger.info("Adding MovieNomination: %s", movie_nomination)
     db.session.add(movie_nomination)
     db.session.commit()
 

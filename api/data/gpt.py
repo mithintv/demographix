@@ -1,5 +1,4 @@
 import json
-import logging
 import re
 
 # import openai
@@ -9,6 +8,9 @@ import re
 # )
 from g4f.client import Client
 
+from api.services.logging_service import get_logger
+
+logger = get_logger(__name__)
 client = Client()
 
 
@@ -31,7 +33,7 @@ def txtcomp(article, verify=True):
         for choice in response.choices:
             result += choice.message.content
 
-        logging.info(f"OpenAI Result: {result}")
+        logger.info(f"OpenAI Result: {result}")
 
         pattern = re.compile(r"{(.*?)}", re.DOTALL)
         match = pattern.search(result)
@@ -51,7 +53,7 @@ def txtcomp(article, verify=True):
         else:
             txtcomp(article, verify=False)
     except Exception as e:
-        logging.error(e)
+        logger.error(e)
 
 
 # if __name__ == '__main__':

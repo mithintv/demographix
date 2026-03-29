@@ -1,4 +1,3 @@
-import logging
 import os
 
 import requests
@@ -16,6 +15,7 @@ from api.data.nominations.nomination_repository import (
     create_movie_nomination,
     get_nomination_by_name_and_year,
 )
+from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_service import (
     find_tmdb_movie_by_imdb_id,
     get_tmdb_credits_by_movie_id,
@@ -24,6 +24,7 @@ from api.services.tmdb.tmdb_service import (
 )
 
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
+logger = get_logger(__name__)
 
 
 def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
@@ -84,7 +85,7 @@ def check_nominations(
 ) -> None:
     """Check if there are nominated movies to add by first scraping IMDB for a given event and year and then adding it to the database if it doesn't already exist."""
 
-    logging.info("Checking %s %s for movies", name, year)
+    logger.info("Checking %s %s for movies", name, year)
     nomination = get_nomination_by_name_and_year(name, year)
     if nomination is None:
         raise Exception("Nomination: %s %s doesn't exist!", nomination, year)
@@ -97,7 +98,7 @@ def check_nominations(
 
         results = find_tmdb_movie_by_imdb_id(imdb_id)
         if not results["movie_results"]:
-            logging.warning("No TMDB result for IMDB ID %s", imdb_id)
+            logger.warning("No TMDB result for IMDB ID %s", imdb_id)
             continue
 
         tmdb_id = results["movie_results"][0]["id"]

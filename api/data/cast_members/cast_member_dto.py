@@ -54,7 +54,9 @@ class CastMemberDto:
             name=cast_member.name,
             gender=cast_member.gender.name,
             country_of_birth=(
-                cast_member.country_of_birth.name if cast_member.country_of_birth else None
+                cast_member.country_of_birth.name
+                if cast_member.country_of_birth
+                else None
             ),
             ethnicities=[
                 CastEthnicityDto.from_model(e) for e in cast_member.ethnicities
@@ -71,7 +73,7 @@ class CastMemberCreditDto:
     gender: str
     ethnicity: list[CastEthnicityDto]
     race: list[str]
-    country_of_birth: str | None
+    country_of_birth: int | None
     character: str
     order: int
     profile_path: str | None

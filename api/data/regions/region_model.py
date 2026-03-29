@@ -28,5 +28,8 @@ class Region(db.Model):
         "Ethnicity", back_populates="region"
     )
 
+    def __init__(self, name: str):
+        self.name = name
+
     def __repr__(self):
         return f"<Region id={self.id} name={self.name}>"

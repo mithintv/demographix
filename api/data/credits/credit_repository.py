@@ -1,11 +1,12 @@
-import logging
-
 from sqlalchemy import select
 
 from api.data.base import db
 from api.data.cast_members.cast_member_model import CastMember
 from api.data.credits.credit_model import Credit
+from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_dto import TmdbMovieCredits
+
+logger = get_logger(__name__)
 
 
 def create_credits(tmdb_credits: TmdbMovieCredits):
@@ -15,14 +16,14 @@ def create_credits(tmdb_credits: TmdbMovieCredits):
             select(Credit).where(Credit.id == credit["credit_id"])
         ).one_or_none()
         if existing_credit is not None:
-            logging.warning("%s already exists", existing_credit)
+            logger.warning("%s already exists", existing_credit)
             continue
 
         cast_member = db.session.scalars(
             select(CastMember).where(CastMember.id == credit["id"])
         ).one_or_none
         if cast_member is None:
-            logging.error(
+            logger.error(
                 "CastMember: %s doesn't exist. Cannot add Credit: %s",
                 credit["id"],
                 credit["credit_id"],
@@ -37,5 +38,5 @@ def create_credits(tmdb_credits: TmdbMovieCredits):
             cast_member_id=credit["id"],
         )
         db.session.add(new_credit)
-        logging.info("Adding %s", new_credit)
+        logger.info("Adding %s", new_credit)
     db.session.commit()

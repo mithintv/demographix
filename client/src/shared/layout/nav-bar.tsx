@@ -57,7 +57,7 @@ export const NavBar = () => {
 					}}
 					position="fixed"
 				>
-					<div className="flex flex-row justify-between items-center py-4 px-5">
+					<div className="flex flex-row justify-between items-center py-2 px-5">
 						<Link sx={{ textDecoration: "none" }} component={RouterLink} to="/">
 							<Typography
 								component="div"

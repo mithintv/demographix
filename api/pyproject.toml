@@ -23,6 +23,7 @@ types-flask-migrate = "^4.1.0.20250112"
 types-flask-cors = "^5.0.0.20240902"
 mypy = "^1.15.0"
 pydantic = "^2.12.5"
+structlog = "^25.5.0"
 
 
 [tool.poetry.group.g4f.dependencies]
@@ -31,6 +32,17 @@ platformdirs = "^4.2.0"
 aiohttp-socks = "^0.8.4"
 browser-cookie3 = "^0.19.1"
 
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^8.0.1"
+ruff = "^0.15.7"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
 
 [build-system]
 requires = ["poetry-core"]

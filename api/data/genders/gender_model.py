@@ -17,11 +17,14 @@ class Gender(db.Model):
     __tablename__ = "genders"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str | None] = mapped_column(String(20))
+    name: Mapped[str] = mapped_column(String(20))
 
     cast_member: Mapped[list[CastMember]] = relationship(
         "CastMember", back_populates="gender"
     )
+
+    def __init__(self, name: str):
+        self.name = name
 
     def __repr__(self):
         return f"<Gender id={self.id} name={self.name}>"

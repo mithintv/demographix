@@ -20,8 +20,10 @@ class Ethnicity(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(75), nullable=False)
-    region_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("regions.id"))
-    subregion_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("subregions.id"))
+    region_id: Mapped[int | None] = mapped_column(Integer, db.ForeignKey("regions.id"))
+    subregion_id: Mapped[int | None] = mapped_column(
+        Integer, db.ForeignKey("subregions.id")
+    )
 
     alt_names: Mapped[list[AltEthnicity]] = relationship(
         "AltEthnicity", back_populates="ethnicity"
@@ -33,6 +35,13 @@ class Ethnicity(db.Model):
     cast_ethnicity: Mapped[list[CastEthnicity]] = relationship(
         "CastEthnicity", back_populates="ethnicity"
     )
+
+    def __init__(
+        self, name: str, region_id: int | None = None, subregion_id: int | None = None
+    ):
+        self.name = name
+        self.region_id = region_id
+        self.subregion_id = subregion_id
 
     def __repr__(self):
         return f"<Ethnicity id={self.id} name={self.name}>"

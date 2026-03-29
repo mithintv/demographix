@@ -1,17 +1,17 @@
 """Server for demographix app."""
 
-import logging
 import os
 
+import structlog
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
-from werkzeug.exceptions import HTTPException
 
 import api.data  # noqa: F401 - ensures all models are registered
+from api.data.base import db
 from api.data.gpt import txtcomp
-from api.data.model import db
 from api.routes import admin, demographics, index, movies
+from api.services.logging_service import get_logger
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -28,9 +28,7 @@ app.register_blueprint(demographics.bp)
 if os.environ.get("FLASK_ENV") != "production":
     app.register_blueprint(admin.bp)
 
-DB_URI = "postgresql:///demographix"
-if os.environ["FLASK_ENV"] == "production":
-    DB_URI = os.environ["DB_URI"]
+DB_URI = os.environ.get("DB_URI", "postgresql:///demographix")
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 app.config["SQLALCHEMY_RECORD_QUERIES"] = True
 app.config["SQLALCHEMY_ECHO"] = False
@@ -39,12 +37,15 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 Migrate(app, db)
 
-# Enable logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s.%(msecs)03d %(name)s:%(levelname)s] - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+
+@app.before_request
+def bind_request_context():
+    structlog.contextvars.clear_contextvars()
+    structlog.contextvars.bind_contextvars(
+        request_method=request.method,
+        request_path=request.path,
+        request_query_params=dict(request.args),
+    )
 
 
 @app.route("/test/openai", methods=["POST"])
@@ -56,11 +57,11 @@ def openai():
     return jsonify(result)
 
 
-@app.errorhandler(HTTPException)
-def handle_http_exception(e):
-    """Return JSON for all HTTP errors (e.g. 400, 404, 422)."""
-    logging.getLogger(__name__).error("%s %s: %s", e.code, e.name, e.description)
-    return jsonify({"error": e.name}), e.code
+@app.errorhandler(Exception)
+def handle_exception(e: Exception):
+    """Return JSON for all unhandled exceptions."""
+    get_logger().exception("unhandled_exception", exc_info=e)
+    return jsonify({"error": "Internal server error"}), 500
 
 
 if __name__ == "__main__":

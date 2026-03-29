@@ -18,8 +18,9 @@ class Country(db.Model):
 
     __tablename__ = "countries"
 
-    id: Mapped[str] = mapped_column(String(3), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(75), nullable=False)
+    cca3: Mapped[str] = mapped_column(String(3), nullable=False)
     demonym: Mapped[str] = mapped_column(String(75))
     region_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("regions.id"), nullable=False
@@ -38,6 +39,15 @@ class Country(db.Model):
     births: Mapped[list[CastMember]] = relationship(
         "CastMember", back_populates="country_of_birth"
     )
+
+    def __init__(
+        self, name: str, cca3: str, demonym: str, region_id: int, subregion_id: int
+    ):
+        self.name = name
+        self.cca3 = cca3
+        self.demonym = demonym
+        self.region_id = region_id
+        self.subregion_id = subregion_id
 
     def __repr__(self):
         return f"<Country id={self.id} name={self.name} demonym={self.demonym}>"

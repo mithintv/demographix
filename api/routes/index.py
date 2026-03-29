@@ -1,7 +1,10 @@
-import logging
 import os
 
 from flask import Blueprint, make_response, redirect
+
+from api.services.logging_service import get_logger
+
+logger = get_logger(__name__)
 
 bp: Blueprint = Blueprint("index", __name__, url_prefix="/")
 
@@ -18,5 +21,5 @@ def get_index():
 @bp.route("/<path:path>", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
 def catch_all(path):
     """Catch all route."""
-    logging.error(path)
+    logger.error(path)
     return make_response("", 404)

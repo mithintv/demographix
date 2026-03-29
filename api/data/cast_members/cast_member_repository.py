@@ -1,14 +1,15 @@
-import logging
 from datetime import datetime
-
-from sqlalchemy import func, select
-from sqlalchemy.orm import selectinload
 
 from api.data.base import db
 from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
 from api.data.cast_members.cast_member_model import CastMember
 from api.data.countries.country_model import Country
+from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_dto import TmdbPersonDetails
+from sqlalchemy import func, select
+from sqlalchemy.orm import selectinload
+
+logger = get_logger(__name__)
 
 
 def query_cast_members(
@@ -41,7 +42,7 @@ def query_cast_members(
         stmt.offset((page - 1) * per_page).limit(per_page)
     ).all()
 
-    logging.info("Admin cast query: %d results (page %d)", total, page)
+    logger.info("Admin cast query: %d results (page %d)", total, page)
     return list(results), total
 
 
@@ -49,10 +50,10 @@ def find_cast_member_by_id(id: int):
     """Find a cast member by id."""
     cast_member = db.session.get(CastMember, id)
     if cast_member is None:
-        logging.info("CastMember: %s not found", id)
+        logger.info("CastMember: %s not found", id)
         return None
 
-    logging.info("%s found", cast_member)
+    logger.info("%s found", cast_member)
     return cast_member
 
 
@@ -60,7 +61,7 @@ def create_cast_member(person_details: TmdbPersonDetails):
     """Create a cast member if one does not exist by TMDB person details."""
     cast_member = find_cast_member_by_id(person_details["id"])
     if cast_member is not None:
-        logging.warning("%s already exists", cast_member)
+        logger.warning("%s already exists", cast_member)
         return cast_member
 
     country_of_birth = None
@@ -85,5 +86,5 @@ def create_cast_member(person_details: TmdbPersonDetails):
     )
     db.session.add(new_cast_member)
     db.session.commit()
-    logging.info("Created CastMember: %s", new_cast_member)
+    logger.info("Created CastMember: %s", new_cast_member)
     return cast_member

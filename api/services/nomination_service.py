@@ -32,9 +32,23 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
 
     # Setup IMDB scraping
     events = {
-        "academy awards": "ev0000003",
-        "bafta": "ev0000123",
-        "golden globes": "ev0000292",
+        "academy awards": {
+            "awards": ["BestMotionPictureoftheYear"],
+            "event_id": "ev0000003",
+        },
+        "golden globes": {
+            "awards": [
+                "BestMotionPicture-Drama",
+                "BestMotionPicture-MusicalorComedy",
+                "BestMotionPicture-Animated",
+                "BestMotionPicture-Non-EnglishLanguage",
+            ],
+            "event_id": "ev0000292",
+        },
+        "bafta": {
+            "awards": ["BestFilm"],
+            "event_id": "ev0000123",
+        },
     }
     response = requests.get(
         f"https://www.imdb.com/event/{events[event]}/{year}/1/",
@@ -47,7 +61,7 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
     parent_sections = [
         tag
         for tag in soup.find_all("section")
-        if str(tag.get("data-testid", "")).startswith("Best")
+        if any(str(tag.get("data-testid", "")).startswith(a) for a in events[event]["awards"])
     ]
 
     if parent_sections is None:
@@ -57,8 +71,6 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
     # Fill nominee data
     nominees: list[ImdbCategory] = []
     for section in parent_sections:
-        if section.get("data-testid") != "BestMotionPictureoftheYear":
-            continue
         ul = section.find("ul")
         items = ul.find_all("li") if ul else []
         nominations = []

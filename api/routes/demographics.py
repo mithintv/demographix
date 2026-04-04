@@ -11,9 +11,13 @@ bp = Blueprint("demographics", __name__, url_prefix="/demographics")
 def get_demographics():
     """Return movie demographics for a given nomination year."""
 
-    eventQuery = request.args.get("event") or "academy awards"
-    rangeQuery = request.args.get("range") or "yearly"
-    yearQuery = request.args.get("year") or str(datetime.now().year)
+    eventQuery = request.args.get("event")
+    rangeQuery = request.args.get("range")
+    yearQuery = request.args.get("year")
+    if eventQuery is None or rangeQuery is None or yearQuery is None:
+        return jsonify(
+            {"error": "Missing required query params: event, range, year"}
+        ), 400
 
     movies_data = []
     if rangeQuery == "cumulative":

@@ -2,32 +2,38 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Integer, String, UniqueConstraint
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Integer, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.data.base import db
-from api.data.movies.movie_model import Movie
+
+if TYPE_CHECKING:
+    from api.data.awards.award_model import Award
+    from api.data.movies.movie_model import Movie
 
 
 class Nomination(db.Model):
-    """A nomination."""
+    """A nomination for a specific award in a given year."""
 
     __tablename__ = "nominations"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(25))
+    award_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("awards.id"))
     year: Mapped[int] = mapped_column(Integer)
 
+    award: Mapped[Award] = relationship("Award", back_populates="nominations")
     movies: Mapped[list[Movie]] = relationship(
         "Movie", secondary="movie_nominations", back_populates="nominations"
     )
 
-    def __init__(self, name: str, year: int):
-        self.name = name
+    def __init__(self, award_id: int, year: int):
+        self.award_id = award_id
         self.year = year
 
     def __repr__(self):
-        return f"<Nomination id={self.id} name={self.name} year={self.year}>"
+        return f"<Nomination id={self.id} award_id={self.award_id} year={self.year}>"
 
 
 class MovieNomination(db.Model):

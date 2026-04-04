@@ -37,6 +37,7 @@ browser-cookie3 = "^0.19.1"
 [tool.poetry.group.dev.dependencies]
 isort = "^8.0.1"
 ruff = "^0.15.7"
+honcho = "^2.0.0"
 
 [tool.ruff]
 line-length = 88

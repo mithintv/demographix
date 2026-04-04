@@ -95,10 +95,26 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
-        "nominations",
+        "events",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(length=25), nullable=False),
+        sa.Column("imdb_event_id", sa.String(length=10), nullable=False),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
+        "awards",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("event_id", sa.Integer(), nullable=False),
+        sa.Column("name", sa.String(length=50), nullable=False),
+        sa.ForeignKeyConstraint(["event_id"], ["events.id"]),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
+        "nominations",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("award_id", sa.Integer(), nullable=False),
         sa.Column("year", sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(["award_id"], ["awards.id"]),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -118,7 +134,7 @@ def upgrade():
         sa.Column("birthday", sa.DateTime(), nullable=True),
         sa.Column("deathday", sa.DateTime(), nullable=True),
         sa.Column("biography", sa.String(), nullable=True),
-        sa.Column("country_of_birth_id", sa.String(length=3), nullable=True),
+        sa.Column("country_of_birth_id", sa.Integer(), nullable=True),
         sa.Column("profile_path", sa.String(length=35), nullable=True),
         sa.ForeignKeyConstraint(["gender_id"], ["genders.id"]),
         sa.ForeignKeyConstraint(["country_of_birth_id"], ["countries.id"]),
@@ -222,6 +238,8 @@ def downgrade():
     op.drop_table("cast_members")
     op.drop_table("source_links")
     op.drop_table("nominations")
+    op.drop_table("awards")
+    op.drop_table("events")
     op.drop_table("genres")
     op.drop_table("movies")
     op.drop_table("ethnicities")

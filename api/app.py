@@ -11,7 +11,9 @@ import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
 from api.data.gpt import txtcomp
 from api.routes import admin, demographics, index, movies
-from api.services.logging_service import get_logger
+from api.services.logging_service import configure_logging, get_logger
+
+configure_logging()
 
 app = Flask(__name__, instance_relative_config=True)
 

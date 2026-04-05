@@ -1,7 +1,17 @@
+import { NominationProjectionEnum } from "./nomination-projection.enum";
+
 export const API_HOSTNAME = import.meta.env.PROD
 	? import.meta.env.VITE_API_HOSTNAME
 	: "/api";
-
+export const getNominationsEndpoint = (
+	projection?: NominationProjectionEnum,
+) => {
+	const url = new URL(`${API_HOSTNAME}/nominations`, window.location.origin);
+	if (projection) {
+		url.searchParams.set("projection", projection);
+	}
+	return url;
+};
 export const getDemographicsEndpoint = (
 	event: string | undefined,
 	range: string | undefined,

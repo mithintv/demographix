@@ -14,6 +14,8 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "import/no-unresolved": "error",
+    "import/named": "error",
     "import/order": ["error", {
       "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
       "newlines-between": "always",

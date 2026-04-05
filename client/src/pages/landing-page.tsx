@@ -84,7 +84,11 @@ export const LandingPage = () => {
 					>
 						<Button
 							className="w-[191.47px] h-[45px]"
-							onClick={() => navigate("/visualizer")}
+							onClick={() =>
+								navigate(
+									`/visualizer?event=1&range=yearly&year=${new Date().getFullYear().toString()}`,
+								)
+							}
 							sx={{ my: 1 }}
 							size={sm ? "medium" : "large"}
 							startIcon={

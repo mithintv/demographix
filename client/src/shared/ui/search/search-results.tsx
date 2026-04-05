@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 
 import { Movie } from "@/shared/types/Movie";
-import { API_HOSTNAME } from "@/shared/utils/endpoints";
+import { API_HOSTNAME } from "@/shared/api/endpoints";
 
 export const SearchResults = ({
 	setOpen,

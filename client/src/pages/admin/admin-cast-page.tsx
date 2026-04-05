@@ -25,7 +25,7 @@ import { useRef, useState } from "react";
 import { AdminHeader } from "./admin-header";
 import { castMemberDescription } from "./constants";
 
-import { API_HOSTNAME } from "@/shared/utils/endpoints";
+import { API_HOSTNAME } from "@/shared/api/endpoints";
 
 interface SourceLink {
 	id: number;

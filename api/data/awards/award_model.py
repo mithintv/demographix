@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.data.base import db
@@ -18,6 +18,7 @@ class Award(db.Model):
     """An award category within an event (e.g. Best Picture)."""
 
     __tablename__ = "awards"
+    __table_args__ = (UniqueConstraint("event_id", "name", name="unique_event_id_name"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     event_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("events.id"))

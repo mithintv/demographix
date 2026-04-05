@@ -20,7 +20,7 @@ import { nominationDescription } from "../constants";
 
 import { AdminCreateNominationDialog } from "./admin-create-nomination-dialog";
 
-import { API_HOSTNAME } from "@/shared/utils/endpoints";
+import { API_HOSTNAME } from "@/shared/api/endpoints";
 
 interface NominationMovie {
 	id: number;

@@ -18,6 +18,7 @@ class Nomination(db.Model):
     """A nomination for a specific award in a given year."""
 
     __tablename__ = "nominations"
+    __table_args__ = (UniqueConstraint("award_id", "year", name="unique_award_id_year"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     award_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("awards.id"))

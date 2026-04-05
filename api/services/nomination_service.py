@@ -13,7 +13,7 @@ from api.data.movies.movie_repository import create_movie
 from api.data.nominations.nomination_dto import ImdbCategory
 from api.data.nominations.nomination_repository import (
     create_movie_nomination,
-    get_nomination_by_name_and_year,
+    get_nomination_by_imdb_event_id_and_year,
 )
 from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_service import (
@@ -61,7 +61,10 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
     parent_sections = [
         tag
         for tag in soup.find_all("section")
-        if any(str(tag.get("data-testid", "")).startswith(a) for a in events[event]["awards"])
+        if any(
+            str(tag.get("data-testid", "")).startswith(a)
+            for a in events[event]["awards"]
+        )
     ]
 
     if parent_sections is None:
@@ -92,17 +95,17 @@ def scrape_imdb_event_nominations(event: str, year: int) -> list[ImdbCategory]:
 
 
 def check_nominations(
-    name: str,
+    imdb_event_id: str,
     year: int,
 ) -> None:
     """Check if there are nominated movies to add by first scraping IMDB for a given event and year and then adding it to the database if it doesn't already exist."""
 
-    logger.info("Checking %s %s for movies", name, year)
-    nomination = get_nomination_by_name_and_year(name, year)
+    logger.info("Checking %s %s for movies", imdb_event_id, year)
+    nomination = get_nomination_by_imdb_event_id_and_year(imdb_event_id, year)
     if nomination is None:
         raise Exception("Nomination: %s %s doesn't exist!", nomination, year)
 
-    nominees = scrape_imdb_event_nominations(name, year)
+    nominees = scrape_imdb_event_nominations(imdb_event_id, year)
     for nominee in nominees[0]["nominations"]:
         imdb_id = nominee["primary"]
         if imdb_id is None:

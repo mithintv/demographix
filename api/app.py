@@ -3,6 +3,7 @@
 import os
 
 import structlog
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -10,9 +11,10 @@ from flask_migrate import Migrate
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
 from api.data.gpt import txtcomp
-from api.routes import admin, demographics, index, movies
+from api.routes import admin, demographics, index, movies, nominations
 from api.services.logging_service import configure_logging, get_logger
 
+load_dotenv()
 configure_logging()
 
 app = Flask(__name__, instance_relative_config=True)
@@ -27,6 +29,7 @@ app.secret_key = os.environ["APP_SECRET_KEY"]
 app.register_blueprint(index.bp)
 app.register_blueprint(movies.bp)
 app.register_blueprint(demographics.bp)
+app.register_blueprint(nominations.bp)
 if os.environ.get("FLASK_ENV") != "production":
     app.register_blueprint(admin.bp)
 

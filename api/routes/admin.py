@@ -7,11 +7,9 @@ from api.data.cast_members.cast_member_dto import CastMemberDto
 from api.data.cast_members.cast_member_repository import query_cast_members
 from api.data.nominations.nomination_dto import (
     CheckNominationRequest,
-    CreateNominationRequest,
     NominationDto,
 )
 from api.data.nominations.nomination_repository import (
-    create_nomination,
     query_nominations,
 )
 from api.services.logging_service import get_logger
@@ -40,24 +38,13 @@ def get_cast():
 
 @bp.route("/nominations")
 def get_nominations():
-    """Return nominations grouped by award name, with their associated movies."""
-    search = request.args.get("search", None)
-    if search is not None:
-        search = search.strip()
-    nominations = query_nominations(search)
+    """Return nominations by imdb_event_id, with their associated movies."""
+    imdb_event_id = request.args.get("imdb_event_id", None)
+    if imdb_event_id is not None:
+        imdb_event_id = imdb_event_id.strip()
+    nominations = query_nominations(imdb_event_id)
     results = [NominationDto.from_model(nom) for nom in nominations]
     return jsonify({"nominations": results, "total": len(results)})
-
-
-@bp.route("/nominations", methods=["POST"])
-def post_nominations():
-    """Create a new nomination."""
-    try:
-        data = CreateNominationRequest.model_validate(request.get_json(silent=True))
-    except ValidationError as e:
-        abort(400, e.errors())
-    nom = create_nomination(data.name, data.year)
-    return jsonify(nom), 200
 
 
 @bp.route("/nominations/check", methods=["POST"])

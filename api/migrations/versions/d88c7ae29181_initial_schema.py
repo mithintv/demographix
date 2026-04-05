@@ -100,6 +100,8 @@ def upgrade():
         sa.Column("name", sa.String(length=25), nullable=False),
         sa.Column("imdb_event_id", sa.String(length=10), nullable=False),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("name"),
+        sa.UniqueConstraint("imdb_event_id"),
     )
     op.create_table(
         "awards",
@@ -108,6 +110,7 @@ def upgrade():
         sa.Column("name", sa.String(length=50), nullable=False),
         sa.ForeignKeyConstraint(["event_id"], ["events.id"]),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("event_id", "name", name="unique_event_id_name"),
     )
     op.create_table(
         "nominations",
@@ -116,6 +119,7 @@ def upgrade():
         sa.Column("year", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(["award_id"], ["awards.id"]),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("award_id", "year", name="unique_award_id_year"),
     )
     op.create_table(
         "source_links",

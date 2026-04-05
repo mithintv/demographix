@@ -10,7 +10,7 @@ import { CastCard } from "@/pages/movies/cast-card";
 import { MovieDetails } from "@/pages/movies/movie-details";
 import { CardList } from "@/shared/ui/card-list/card-list";
 import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
-import { API_HOSTNAME } from "@/shared/utils/endpoints";
+import { API_HOSTNAME } from "@/shared/api/endpoints";
 import { backgroundGradient } from "@/shared/utils/theme";
 
 export const MoviePage = () => {

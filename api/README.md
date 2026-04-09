@@ -9,21 +9,6 @@ Use either [honcho](https://honcho.readthedocs.io/) or [overmind](https://github
 poetry run honcho start
 ```
 
-**overmind** (Go-based, supports attaching to individual processes):
-```sh
-overmind start
-```
-
-To attach to a specific process (e.g. to see logs or send input):
-```sh
-overmind connect api
-overmind connect web
-```
-
-### Environment Variables
-
-Environment variables are loaded from `api/.env`. Both honcho and overmind automatically read this file when starting processes.
-
 ## Database
 
 ### Initialize/Reload DB

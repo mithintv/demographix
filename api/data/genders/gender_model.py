@@ -23,7 +23,8 @@ class Gender(db.Model):
         "CastMember", back_populates="gender"
     )
 
-    def __init__(self, name: str):
+    def __init__(self, id: int, name: str):
+        self.id = id
         self.name = name
 
     def __repr__(self):

@@ -17,6 +17,7 @@ from api.data.genres.genre_model import Genre
 from api.data.races.race_model import Race
 from api.data.regions.region_model import Region
 from api.data.subregions.subregion_model import SubRegion
+from api.data.types import Dto
 from api.scripts.seed.countries import countries
 from api.scripts.seed.ethnicities import ethnicities
 from api.scripts.seed.events import events
@@ -203,10 +204,15 @@ def seed_races():
 def seed_genders():
     """Seed genders table in database."""
 
-    gender_list = ["Unknown", "Female", "Male", "Non-Binary"]
+    gender_list: list[Dto] = [
+        {"id": 0, "name": "Unknown"},
+        {"id": 1, "name": "Female"},
+        {"id": 2, "name": "Male"},
+        {"id": 3, "name": "Non-Binary"},
+    ]
     genders = []
     for gender in gender_list:
-        new_gender = Gender(name=gender)
+        new_gender = Gender(id=gender["id"], name=gender["name"])
         genders.append(new_gender)
 
     db.session.add_all(genders)

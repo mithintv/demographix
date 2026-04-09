@@ -57,6 +57,7 @@ def configure_logging():
         )
     )
     root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
     root_logger.handlers.clear()
     root_logger.addHandler(handler)
 

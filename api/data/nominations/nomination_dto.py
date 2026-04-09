@@ -3,6 +3,7 @@ from typing import TypedDict
 
 from pydantic import BaseModel
 
+from api.data.awards.award_dto import AwardDto
 from api.data.movies.movie_dto import MovieDto
 from api.data.nominations.nomination_model import MovieNomination, Nomination
 
@@ -10,7 +11,7 @@ from api.data.nominations.nomination_model import MovieNomination, Nomination
 @dataclass
 class NominationDto:
     id: int
-    name: str
+    award: AwardDto
     year: int
     movies: list[MovieDto]
 
@@ -18,7 +19,7 @@ class NominationDto:
     def from_model(cls, nomination: Nomination):
         return cls(
             id=nomination.id,
-            name=nomination.name,
+            award=AwardDto.from_model(nomination.award),
             year=nomination.year,
             movies=[MovieDto.from_model(movie) for movie in nomination.movies],
         )
@@ -40,13 +41,14 @@ class MovieNominationDto:
 
 
 class CreateNominationRequest(BaseModel):
-    name: str
+    award_id: int
     year: int
 
 
 class CheckNominationRequest(BaseModel):
-    name: str
+    imdb_event_id: str
     year: int
+    award_id: int | None
 
 
 class ImdbNominee(TypedDict):

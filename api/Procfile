@@ -1,2 +1,0 @@
-api: poetry run gunicorn "api.app:app"
-web: cd ../client && pnpm run dev

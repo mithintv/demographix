@@ -25,6 +25,8 @@ mypy = "^1.15.0"
 pydantic = "^2.12.5"
 structlog = "^25.5.0"
 python-dotenv = "^1.2.2"
+playwright = "^1.58.0"
+playwright-stealth = "^2.0.3"
 
 
 [tool.poetry.group.g4f.dependencies]

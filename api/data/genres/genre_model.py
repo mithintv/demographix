@@ -17,7 +17,7 @@ class Genre(db.Model):
     __tablename__ = "genres"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(15))
+    name: Mapped[str] = mapped_column(String(15), unique=True)
 
     movies: Mapped[list[Movie]] = relationship(
         "Movie", secondary="media_genres", back_populates="genres"

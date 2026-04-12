@@ -8,8 +8,8 @@ from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
-    from api.data.cast_members.also_known_as_model import AlsoKnownAs
     from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
+    from api.data.cast_members.alt_cast_member_model import AltCastMember
     from api.data.countries.country_model import Country
     from api.data.credits.credit_model import Credit
     from api.data.genders.gender_model import Gender
@@ -31,12 +31,12 @@ class CastMember(db.Model):
     deathday: Mapped[datetime | None] = mapped_column(DateTime)
     biography: Mapped[str | None] = mapped_column(String())
     country_of_birth_id: Mapped[int | None] = mapped_column(
-        String(3), db.ForeignKey("countries.id")
+        Integer, db.ForeignKey("countries.id")
     )
     profile_path: Mapped[str | None] = mapped_column(String(35))
 
-    also_known_as: Mapped[list[AlsoKnownAs]] = relationship(
-        "AlsoKnownAs", uselist=True, back_populates="cast_member"
+    alt_names: Mapped[list[AltCastMember]] = relationship(
+        "AltCastMember", uselist=True, back_populates="cast_member"
     )
     gender: Mapped[Gender] = relationship("Gender", back_populates="cast_member")
     country_of_birth: Mapped[Country | None] = relationship(

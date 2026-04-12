@@ -1,19 +1,19 @@
 # Import all models here to ensure SQLAlchemy mapper configuration
 # resolves all relationships at startup.
-from api.data.alt_country.alt_country_model import AltCountry  # noqa: F401
 from api.data.awards.award_model import Award  # noqa: F401
-from api.data.events.event_model import Event  # noqa: F401
-from api.data.alt_ethnicities.alt_ethnicity_model import AltEthnicity  # noqa: F401
 from api.data.base import db  # noqa: F401
 from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity  # noqa: F401
 from api.data.cast_ethnicity_source_links.cast_ethnicity_source_link_model import (
     CastEthnicitySourceLink,  # noqa: F401
 )
-from api.data.cast_members.also_known_as_model import AlsoKnownAs  # noqa: F401
+from api.data.cast_members.alt_cast_member_model import AltCastMember  # noqa: F401
 from api.data.cast_members.cast_member_model import CastMember  # noqa: F401
+from api.data.countries.alt_country_model import AltCountry  # noqa: F401
 from api.data.countries.country_model import Country  # noqa: F401
 from api.data.credits.credit_model import Credit  # noqa: F401
+from api.data.ethnicities.alt_ethnicity_model import AltEthnicity  # noqa: F401
 from api.data.ethnicities.ethnicity_model import Ethnicity  # noqa: F401
+from api.data.events.event_model import Event  # noqa: F401
 from api.data.genders.gender_model import Gender  # noqa: F401
 from api.data.genres.genre_model import Genre  # noqa: F401
 from api.data.media_genres.media_genre_model import MediaGenre  # noqa: F401

@@ -5,8 +5,8 @@ from pathlib import Path
 from sqlalchemy import select
 
 from api.app import app
-from api.data.alt_country.alt_country_model import AltCountry
-from api.data.alt_ethnicities.alt_ethnicity_model import AltEthnicity
+from api.data.countries.alt_country_model import AltCountry
+from api.data.ethnicities.alt_ethnicity_model import AltEthnicity
 from api.data.awards.award_model import Award
 from api.data.base import db
 from api.data.countries.country_model import Country
@@ -164,7 +164,6 @@ def seed_ethnicities():
                 if subregion is not None:
                     new_ethnicity = Ethnicity(
                         name=ethnicity["name"],
-                        region_id=subregion.region.id,
                         subregion_id=subregion.id,
                     )
             else:

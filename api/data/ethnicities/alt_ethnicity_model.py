@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from api.data.base import db
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
@@ -14,6 +14,11 @@ class AltEthnicity(db.Model):
     """An alternate name for an ethnicity."""
 
     __tablename__ = "alt_ethnicities"
+    __table_args__ = (
+        UniqueConstraint(
+            "ethnicity_id", "alt_name", name="uq_alt_ethnicities_ethnicity_id_alt_name"
+        ),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     ethnicity_id: Mapped[int] = mapped_column(

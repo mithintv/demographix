@@ -7,10 +7,9 @@ from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
-    from api.data.alt_ethnicities.alt_ethnicity_model import AltEthnicity
+    from api.data.ethnicities.alt_ethnicity_model import AltEthnicity
     from api.data.cast_ethnicities.cast_ethnicity_model import CastEthnicity
-    from api.data.regions.region_model import Region
-    from api.data.sub_regions.sub_region_model import SubRegion
+    from api.data.subregions.subregion_model import SubRegion
 
 
 class Ethnicity(db.Model):
@@ -19,8 +18,7 @@ class Ethnicity(db.Model):
     __tablename__ = "ethnicities"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(75), nullable=False)
-    region_id: Mapped[int | None] = mapped_column(Integer, db.ForeignKey("regions.id"))
+    name: Mapped[str] = mapped_column(String(75), nullable=False, unique=True)
     subregion_id: Mapped[int | None] = mapped_column(
         Integer, db.ForeignKey("subregions.id")
     )
@@ -28,7 +26,6 @@ class Ethnicity(db.Model):
     alt_names: Mapped[list[AltEthnicity]] = relationship(
         "AltEthnicity", back_populates="ethnicity"
     )
-    region: Mapped[list[Region]] = relationship("Region", back_populates="ethnicities")
     subregion: Mapped[list[SubRegion]] = relationship(
         "SubRegion", back_populates="ethnicities"
     )
@@ -36,12 +33,9 @@ class Ethnicity(db.Model):
         "CastEthnicity", back_populates="ethnicity"
     )
 
-    def __init__(
-        self, name: str, region_id: int | None = None, subregion_id: int | None = None
-    ):
+    def __init__(self, name: str, subregion_id: int | None = None):
         self.name = name
-        self.region_id = region_id
         self.subregion_id = subregion_id
 
     def __repr__(self):
-        return f"<Ethnicity id={self.id} name={self.name}>"
+        return f"<Ethnicity id={self.id} name={self.name} subregion_id={self.subregion_id}>"

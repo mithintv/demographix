@@ -17,7 +17,7 @@ class Gender(db.Model):
     __tablename__ = "genders"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(20))
+    name: Mapped[str] = mapped_column(String(20), unique=True)
 
     cast_member: Mapped[list[CastMember]] = relationship(
         "CastMember", back_populates="gender"

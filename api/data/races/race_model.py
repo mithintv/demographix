@@ -17,7 +17,7 @@ class Race(db.Model):
     __tablename__ = "races"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(75))
+    name: Mapped[str] = mapped_column(String(75), unique=True)
     short: Mapped[str] = mapped_column(String(5), unique=True)
     description: Mapped[str] = mapped_column(String())
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from api.data.base import db
-from sqlalchemy import Integer, String, UniqueConstraint
+from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
@@ -16,14 +16,10 @@ class Event(db.Model):
     """An awards event (e.g. Academy Awards, Golden Globes)."""
 
     __tablename__ = "events"
-    __table_args__ = (
-        UniqueConstraint("name"),
-        UniqueConstraint("imdb_event_id"),
-    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(25))
-    imdb_event_id: Mapped[str] = mapped_column(String(10))
+    name: Mapped[str] = mapped_column(String(25), unique=True)
+    imdb_event_id: Mapped[str] = mapped_column(String(10), unique=True)
 
     awards: Mapped[list[Award]] = relationship("Award", back_populates="event")
 

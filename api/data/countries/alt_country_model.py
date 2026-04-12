@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from api.data.base import db
-from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
@@ -14,6 +14,11 @@ class AltCountry(db.Model):
     """An association table for alternate ways to denote a country."""
 
     __tablename__ = "alt_countries"
+    __table_args__ = (
+        UniqueConstraint(
+            "country_id", "alt_name", name="uq_alt_countries_country_id_alt_name"
+        ),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     country_id: Mapped[int] = mapped_column(Integer, ForeignKey("countries.id"))

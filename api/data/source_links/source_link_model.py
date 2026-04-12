@@ -18,7 +18,7 @@ class SourceLink(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     source_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("sources.id"))
-    link: Mapped[str] = mapped_column(String())
+    link: Mapped[str] = mapped_column(String(), unique=True)
 
     source: Mapped[list[Source]] = relationship("Source", back_populates="links")
     cast_ethnicities: Mapped[list[CastEthnicity]] = relationship(

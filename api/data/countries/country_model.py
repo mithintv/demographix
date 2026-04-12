@@ -7,10 +7,10 @@ from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
-    from api.data.alt_country.alt_country_model import AltCountry
+    from api.data.countries.alt_country_model import AltCountry
     from api.data.cast_members.cast_member_model import CastMember
     from api.data.regions.region_model import Region
-    from api.data.sub_regions.sub_region_model import SubRegion
+    from api.data.subregions.subregion_model import SubRegion
 
 
 class Country(db.Model):
@@ -19,8 +19,8 @@ class Country(db.Model):
     __tablename__ = "countries"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(75), nullable=False)
-    cca3: Mapped[str] = mapped_column(String(3), nullable=False)
+    name: Mapped[str] = mapped_column(String(75), nullable=False, unique=True)
+    cca3: Mapped[str] = mapped_column(String(3), nullable=False, unique=True)
     demonym: Mapped[str] = mapped_column(String(75))
     region_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("regions.id"), nullable=False

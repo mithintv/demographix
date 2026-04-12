@@ -1,12 +1,15 @@
 """Server for demographix app."""
 
+import logging
 import os
+import sys
 
 import structlog
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
+from sqlalchemy import text
 
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
@@ -41,6 +44,14 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 Migrate(app, db)
+
+with app.app_context():
+    try:
+        db.session.execute(text("SELECT 1"))
+    except Exception as e:
+        get_logger().critical("db_unreachable", error=str(e))
+        logging.getLogger(__name__).critical("db_unreachable: %s", e)
+        sys.exit(1)
 
 
 @app.before_request

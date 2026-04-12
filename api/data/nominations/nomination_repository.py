@@ -19,10 +19,22 @@ def query_nomination_years():
     return nomination_years
 
 
-def query_nominations(imdb_event_id: str | None):
-    stmt = select(Nomination)
+def query_nomination_awards(imdb_event_id: str | None = None):
+    stmt = select(Award).join(Event)
     if imdb_event_id:
-        stmt = stmt.join(Award).join(Event.imdb_event_id == imdb_event_id)
+        stmt = stmt.where(
+            func.lower(Event.imdb_event_id) == imdb_event_id.strip().lower()
+        )
+    nomination_awards = db.session.scalars(stmt.order_by(Award.id.asc())).all()
+    return nomination_awards
+
+
+def query_nomination_movies(imdb_event_id: str | None = None):
+    stmt = select(Nomination).join(Award).join(Event)
+    if imdb_event_id is not None:
+        stmt = stmt.where(
+            func.lower(Event.imdb_event_id) == imdb_event_id.strip().lower()
+        )
     nominations = db.session.scalars(
         stmt.outerjoin(MovieNomination, MovieNomination.nomination_id == Nomination.id)
         .outerjoin(Movie, Movie.id == MovieNomination.movie_id)
@@ -33,18 +45,29 @@ def query_nominations(imdb_event_id: str | None):
     return [nomination for nomination in nominations]
 
 
-def get_nomination_by_imdb_event_id_and_year(imdb_event_id: str, year: int):
-    nomination = db.session.scalars(
-        select(Nomination)
-        .join(Award)
-        .join(Event)
-        .where(func.lower(Event.imdb_event_id) == imdb_event_id.lower())
-        .where(Nomination.year == year)
-    ).one_or_none()
-    if nomination is None:
-        return None
+def get_nominations_by_imdb_event_id_and_award_year(
+    imdb_event_id: str,
+    year: int,
+    award_id: int | None = None,
+):
+    stmt = select(Nomination).join(Award).join(Event)
+    if award_id is not None:
+        stmt = stmt.where(Award.id == award_id)
+    nominations = db.session.scalars(
+        stmt.where(func.lower(Event.imdb_event_id) == imdb_event_id.lower()).where(
+            Nomination.year == year
+        )
+    ).all()
 
-    return nomination
+    if len(nominations) == 0:
+        logger.warn(
+            "No Nominations found for Event: %s Year: %s Award ID: %s",
+            imdb_event_id,
+            year,
+            award_id,
+        )
+
+    return nominations
 
 
 def get_movie_nominations_by_nomination_id(nomination_id: int):
@@ -64,7 +87,7 @@ def create_nomination(award_id: int, year: int):
         .where(Nomination.year == year)
     ).first()
     if existing_nom is not None:
-        logger.error("%s %s already exists", award_id, year)
+        logger.error("Award ID: %s Year: %s already exists", award_id, year)
         return existing_nom
 
     nomination = Nomination(award_id, year)

@@ -21,6 +21,8 @@ import { getNominationsEndpoint } from "@/shared/api/endpoints";
 import { QueryKeyEnum } from "@/shared/api/query-key.enum";
 import { YearSelector, YearSelectorTypeEnum } from "./year-selector";
 import { NominationProjectionEnum } from "@/shared/api/nomination-projection.enum";
+import { ResultsResponse } from "@/shared/types/results-response-t";
+import { EventDto } from "@/shared/types/event.dto";
 
 export const VisualizerHeader = () => {
 	const md = useMediaQuery("(max-width:960px)");
@@ -38,7 +40,7 @@ export const VisualizerHeader = () => {
 
 	const { data: events } = useQuery({
 		queryKey: [QueryKeyEnum.NominationEvents, event],
-		queryFn: async (): Promise<EventDto[]> => {
+		queryFn: async (): Promise<ResultsResponse<EventDto>> => {
 			const response = await fetch(
 				getNominationsEndpoint(NominationProjectionEnum.Events),
 			);
@@ -49,7 +51,7 @@ export const VisualizerHeader = () => {
 	});
 	const { data: years } = useQuery({
 		queryKey: [QueryKeyEnum.NominationYears],
-		queryFn: async (): Promise<YearDto[]> => {
+		queryFn: async (): Promise<ResultsResponse<YearDto>> => {
 			const response = await fetch(
 				getNominationsEndpoint(NominationProjectionEnum.Years),
 			);
@@ -72,7 +74,7 @@ export const VisualizerHeader = () => {
 	const handleEvent = (e: SelectChangeEvent) => {
 		const selectedEvent = e.target.value;
 		setEvent(selectedEvent);
-		setSearchParams({ event: selectedEvent });
+		setSearchParams({ event: selectedEvent, range, year });
 	};
 
 	const handleRange = (e: SelectChangeEvent) => {
@@ -85,15 +87,13 @@ export const VisualizerHeader = () => {
 			selectedYear = new Date().getFullYear().toString();
 			setYear(selectedYear);
 		}
-		setSearchParams({
-			range: selectedRange,
-		});
+		setSearchParams({ event, range: selectedRange, year });
 	};
 
 	const handleYear = (e: SelectChangeEvent) => {
 		const selectedYear = e.target.value;
 		setYear(selectedYear);
-		setSearchParams({ year: selectedYear });
+		setSearchParams({ event, range, year: selectedYear });
 	};
 
 	return (
@@ -161,7 +161,7 @@ export const VisualizerHeader = () => {
 									onChange={handleEvent}
 								>
 									{events &&
-										events.map((e) => {
+										events.results.map((e) => {
 											return (
 												<MenuItem key={e.id} value={e.id}>
 													{e.name}
@@ -190,7 +190,7 @@ export const VisualizerHeader = () => {
 							</FormControl>
 							<YearSelector
 								type={range}
-								data={years}
+								data={years?.results}
 								value={year}
 								onChange={handleYear}
 							/>
@@ -221,8 +221,12 @@ export const VisualizerHeader = () => {
 							onChange={handleEvent}
 						>
 							{events &&
-								events.map((e) => {
-									return <MenuItem value={e.id}>{e.name}</MenuItem>;
+								events.results.map((e) => {
+									return (
+										<MenuItem key={e.id} value={e.id}>
+											{e.name}
+										</MenuItem>
+									);
 								})}
 						</Select>
 					</FormControl>
@@ -254,7 +258,7 @@ export const VisualizerHeader = () => {
 					>
 						<YearSelector
 							type={range}
-							data={years}
+							data={years?.results}
 							value={year}
 							onChange={handleYear}
 						/>

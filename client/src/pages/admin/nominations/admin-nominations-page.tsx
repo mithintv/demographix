@@ -24,6 +24,7 @@ import { API_HOSTNAME, getNominationsEndpoint } from "@/shared/api/endpoints";
 import { NominationProjectionEnum } from "@/shared/api/nomination-projection.enum";
 import { AwardDto } from "./award.dto";
 import { QueryKeysEnum } from "@/shared/types/enums/query-key.enum";
+import { ResultsResponse } from "@/shared/types/results-response-t";
 
 interface NominationMovieDto {
 	id: number;
@@ -45,18 +46,13 @@ interface EventDto {
 	imdb_event_id: string;
 }
 
-interface Response<T> {
-	results: T[];
-	total: number;
-}
-
 export const AdminNominationsPage = () => {
 	const queryClient = useQueryClient();
 	const [selectedEvent, setSelectedEvent] = useState<EventDto | null>(null);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [checkingId, setCheckingId] = useState<number | null>(null);
 
-	const { data: awardData } = useQuery<Response<AwardDto>>({
+	const { data: awardData } = useQuery<ResultsResponse<AwardDto>>({
 		queryKey: [QueryKeysEnum.AdminAwards],
 		queryFn: async () => {
 			const res = await fetch(
@@ -85,7 +81,7 @@ export const AdminNominationsPage = () => {
 	];
 	const activeEvent = selectedEvent ?? eventData[0] ?? null;
 	const { data: nominationData, isFetching } = useQuery<
-		Response<NominationDto>
+		ResultsResponse<NominationDto>
 	>({
 		queryKey: [
 			QueryKeysEnum.AdminNominations,

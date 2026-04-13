@@ -9,7 +9,10 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_problem_details import ProblemDetails
+from pydantic import AnyUrl
 from sqlalchemy import text
+from werkzeug.exceptions import HTTPException
 
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
@@ -45,6 +48,22 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 Migrate(app, db)
 
+
+RFC9110_STATUS_URIS: dict[int, AnyUrl] = {
+    400: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.1"),
+    401: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.2"),
+    403: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.4"),
+    404: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.5"),
+    405: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.6"),
+    409: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.10"),
+    422: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.21"),
+    429: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.5.29"),
+    500: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.6.1"),
+    501: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.6.2"),
+    503: AnyUrl("https://tools.ietf.org/html/rfc9110#section-15.6.4"),
+}
+
+
 with app.app_context():
     try:
         db.session.execute(text("SELECT 1"))
@@ -73,11 +92,32 @@ def openai():
     return jsonify(result)
 
 
+@app.errorhandler(HTTPException)
+def handle_http_exception(e: HTTPException):
+    code = e.code or 500
+    pd = ProblemDetails(
+        type=RFC9110_STATUS_URIS.get(code),
+        title=e.name,
+        status=code,
+        detail=e.description,
+        instance=AnyUrl(request.url),
+        traceback=None,
+    )
+    return pd.to_http_response()
+
+
 @app.errorhandler(Exception)
 def handle_exception(e: Exception):
-    """Return JSON for all unhandled exceptions."""
     get_logger().exception("unhandled_exception", exc_info=e)
-    return jsonify({"error": "Internal server error"}), 500
+    pd = ProblemDetails(
+        type=RFC9110_STATUS_URIS[500],
+        title="Internal Server Error",
+        status=500,
+        detail="The server encountered an unexpected condition that prevented it from fulfilling the request.",
+        instance=AnyUrl(request.url),
+        traceback=None,
+    )
+    return pd.to_http_response()
 
 
 if __name__ == "__main__":

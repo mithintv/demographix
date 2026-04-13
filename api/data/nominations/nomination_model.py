@@ -41,10 +41,9 @@ class Nomination(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "award_id": self.award_id,
-            "award": self.award.name,
             "year": self.year,
-            "movies": self.movies,
+            "award": {"id": self.award_id, "name": self.award.name},
+            "movies": [m.to_dict() for m in self.movies],
         }
 
 

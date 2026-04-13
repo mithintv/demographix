@@ -10,40 +10,41 @@ import {
 import { useState } from "react";
 
 import { API_HOSTNAME } from "@/shared/api/endpoints";
+import { AwardDto } from "./award.dto";
 
 export const AdminCreateNominationDialog = ({
 	open,
 	onClose,
 	onCreated,
-	awardNames,
+	awards,
 }: {
 	open: boolean;
 	onClose: () => void;
 	onCreated: () => void;
-	awardNames: string[];
+	awards: AwardDto[];
 }) => {
-	const [newName, setNewName] = useState("");
+	const [selectedAward, setSelectedAward] = useState<AwardDto | null>(null);
 	const [newYear, setNewYear] = useState<number | "">(new Date().getFullYear());
 	const [creating, setCreating] = useState(false);
 
 	const handleCreate = async () => {
-		if (!newName.trim() || !newYear) return;
+		if (!selectedAward || !newYear) return;
 		setCreating(true);
 		const res = await fetch(`${API_HOSTNAME}/admin/nominations`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ name: newName.trim(), year: newYear }),
+			body: JSON.stringify({ award_id: selectedAward.id, year: newYear }),
 		});
 		await res.json();
 		setCreating(false);
-		setNewName("");
+		setSelectedAward(null);
 		setNewYear(new Date().getFullYear());
 		onClose();
 		onCreated();
 	};
 
 	const handleClose = () => {
-		setNewName("");
+		setSelectedAward(null);
 		setNewYear(new Date().getFullYear());
 		onClose();
 	};
@@ -60,12 +61,13 @@ export const AdminCreateNominationDialog = ({
 				}}
 			>
 				<Autocomplete
-					freeSolo
-					options={awardNames}
-					value={newName}
-					onInputChange={(_, val) => setNewName(val)}
+					options={awards}
+					value={selectedAward}
+					onChange={(_, val) => setSelectedAward(val)}
+					getOptionLabel={(o) => `${o.event.name} - ${o.name}`}
+					isOptionEqualToValue={(o, v) => o.id === v.id}
 					renderInput={(params) => (
-						<TextField {...params} label="Award Name" required />
+						<TextField {...params} label="Award" required />
 					)}
 				/>
 				<TextField
@@ -79,12 +81,12 @@ export const AdminCreateNominationDialog = ({
 					inputProps={{ min: 1900, max: 2100 }}
 				/>
 			</DialogContent>
-			<DialogActions>
+			<DialogActions sx={{ px: 3, pb: 2 }}>
 				<Button onClick={handleClose}>Cancel</Button>
 				<Button
 					variant="contained"
 					onClick={handleCreate}
-					disabled={!newName.trim() || !newYear || creating}
+					disabled={!selectedAward || !newYear || creating}
 				>
 					{creating ? "Creating..." : "Create"}
 				</Button>

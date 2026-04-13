@@ -831,6 +831,50 @@ dev = ["flake8", "pytest", "tox"]
 docs = ["sphinx"]
 
 [[package]]
+name = "flask-openapi3"
+version = "4.3.1"
+description = "Generate REST API and OpenAPI documentation for your Flask project."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "flask_openapi3-4.3.1-py3-none-any.whl", hash = "sha256:80c2c72415b8f18023f042fb21077ebeb54ee275508abc1ea951c76a71e5e66a"},
+    {file = "flask_openapi3-4.3.1.tar.gz", hash = "sha256:9a2d1173cfd7f7a3d60b091024f2c61d6bb85707791a249e80b628ab47530885"},
+]
+
+[package.dependencies]
+flask = ">=2.0"
+pydantic = ">=2.4"
+
+[package.extras]
+async = ["asgiref (>=3.2)"]
+dotenv = ["python-dotenv"]
+elements = ["flask-openapi3-elements"]
+email = ["email-validator"]
+rapidoc = ["flask-openapi3-rapidoc"]
+rapipdf = ["flask-openapi3-rapipdf"]
+redoc = ["flask-openapi3-redoc"]
+scalar = ["flask-openapi3-scalar"]
+swagger = ["flask-openapi3-swagger"]
+yaml = ["pyyaml"]
+
+[[package]]
+name = "flask-problem-details"
+version = "3.0.1"
+description = "A package that implements problem details errors in Flask App"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "flask_problem_details-3.0.1-py3-none-any.whl", hash = "sha256:c22c40493f151de3a037b014449bdbc9ae6acdbbad118b2c0ac2e5999d270168"},
+    {file = "flask_problem_details-3.0.1.tar.gz", hash = "sha256:0e3181420044aeafaa3b0b078bb46b89f4516014fad882bbb607b397d28c369a"},
+]
+
+[package.dependencies]
+flask-openapi3 = ">=4.0.0,<5.0.0"
+pydantic = ">=2.10.4,<3.0.0"
+
+[[package]]
 name = "flask-sqlalchemy"
 version = "3.1.1"
 description = "Add SQLAlchemy support to your Flask application."
@@ -3180,4 +3224,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "223231521ea276cc372cb5e617988c86e5902165a578fff807cb917deec80d18"
+content-hash = "9ab93cfaf2cab8f239cc7ee6da6c563685f4d0c697b556b9da26a5122a12d532"

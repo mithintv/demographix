@@ -16,6 +16,7 @@ bp = Blueprint("nominations", __name__, url_prefix="/nominations")
 def get_nominations():
     """Get nomination data."""
     projection = request.args.get("projection")
+    imdb_event_id = request.args.get("imdb_event_id")
 
     if projection == "events":
         events = query_events()
@@ -37,7 +38,7 @@ def get_nominations():
             }
         )
     elif projection == "movies":
-        nomination_movies = query_nomination_movies()
+        nomination_movies = query_nomination_movies(imdb_event_id)
         return jsonify(
             {
                 "results": [nm.to_dict() for nm in nomination_movies],

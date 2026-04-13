@@ -45,6 +45,11 @@ class CreateNominationRequest(BaseModel):
     year: int
 
 
+class DeleteMovieNominationRequest(BaseModel):
+    nomination_id: int
+    movie_id: int
+
+
 class CheckNominationRequest(BaseModel):
     imdb_event_id: str
     year: int

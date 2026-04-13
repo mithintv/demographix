@@ -19,14 +19,24 @@ def query_nomination_years():
     return nomination_years
 
 
-def query_nomination_awards(imdb_event_id: str | None = None):
+def query_nomination_awards(
+    imdb_event_id: str | None = None,
+    award_id: int | None = None,
+    query: str | None = None,
+    limit: int | None = None,
+):
     stmt = select(Award).join(Event)
+    if award_id:
+        stmt = stmt.where(Award.id == award_id)
     if imdb_event_id:
         stmt = stmt.where(
             func.lower(Event.imdb_event_id) == imdb_event_id.strip().lower()
         )
-    nomination_awards = db.session.scalars(stmt.order_by(Award.id.asc())).all()
-    return nomination_awards
+    if query:
+        stmt = stmt.where(func.lower(Award.name) == query.strip().lower())
+    if limit:
+        stmt = stmt.limit(limit)
+    return db.session.scalars(stmt.order_by(Award.id.asc())).all()
 
 
 def query_nomination_movies(imdb_event_id: str | None = None):
@@ -114,3 +124,20 @@ def create_movie_nomination(movie: Movie, nomination: Nomination):
     db.session.commit()
 
     return movie_nomination
+
+
+def delete_movie_nomination(nomination_id: int, movie_id: int):
+    movie_nomination = db.session.scalars(
+        select(MovieNomination)
+        .where(MovieNomination.nomination_id == nomination_id)
+        .where(MovieNomination.movie_id == movie_id)
+    ).one_or_none()
+    if movie_nomination is None:
+        logger.warning(
+            "MovieNomination: %s doesn't exist. Cannot delete!", movie_nomination
+        )
+        return False
+
+    db.session.delete(movie_nomination)
+    db.session.commit()
+    return True

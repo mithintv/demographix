@@ -77,7 +77,7 @@ def create_cast_member(person_details: TmdbPersonDetails):
         id=person_details["id"],
         imdb_id=person_details["imdb_id"],
         name=person_details["name"],
-        gender_id=1 if person_details["gender"] == 0 else person_details["gender"],
+        gender_id=person_details["gender"],
         birthday=datetime.strptime(birthday_str, "%Y-%m-%d") if birthday_str else None,
         deathday=datetime.strptime(deathday_str, "%Y-%m-%d") if deathday_str else None,
         biography=person_details.get("biography"),

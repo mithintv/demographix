@@ -5,10 +5,14 @@ export const API_HOSTNAME = import.meta.env.PROD
 	: "/api";
 export const getNominationsEndpoint = (
 	projection?: NominationProjectionEnum,
+	imdb_event_id?: string,
 ) => {
 	const url = new URL(`${API_HOSTNAME}/nominations`, window.location.origin);
 	if (projection) {
 		url.searchParams.set("projection", projection);
+	}
+	if (imdb_event_id) {
+		url.searchParams.set("imdb_event_id", imdb_event_id);
 	}
 	return url;
 };

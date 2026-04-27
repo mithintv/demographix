@@ -55,6 +55,29 @@ def query_nomination_movies(imdb_event_id: str | None = None):
     return [nomination for nomination in nominations]
 
 
+def get_nominations_by_event_id_and_award_year(
+    event_id: int,
+    year: int,
+    award_id: int | None = None,
+):
+    stmt = select(Nomination).join(Award).join(Event)
+    if award_id is not None:
+        stmt = stmt.where(Award.id == award_id)
+    nominations = db.session.scalars(
+        stmt.where(Event.id == event_id).where(Nomination.year == year)
+    ).all()
+
+    if len(nominations) == 0:
+        logger.warn(
+            "No Nominations found for Event: %s Year: %s Award ID: %s",
+            event_id,
+            year,
+            award_id,
+        )
+
+    return nominations
+
+
 def get_nominations_by_imdb_event_id_and_award_year(
     imdb_event_id: str,
     year: int,
@@ -71,7 +94,7 @@ def get_nominations_by_imdb_event_id_and_award_year(
 
     if len(nominations) == 0:
         logger.warn(
-            "No Nominations found for Event: %s Year: %s Award ID: %s",
+            "No Nominations found for IMDB Event: %s Year: %s Award ID: %s",
             imdb_event_id,
             year,
             award_id,

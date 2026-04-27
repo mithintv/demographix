@@ -31,4 +31,4 @@ class Event(db.Model):
         return f"<Event id={self.id} name={self.name}>"
 
     def to_dict(self):
-        return {"id": self.id, "name": self.name}
+        return {"id": self.id, "name": self.name, "imdb_event_id": self.imdb_event_id}

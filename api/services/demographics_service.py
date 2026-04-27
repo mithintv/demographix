@@ -1,14 +1,14 @@
 from api.data.movies.movie_repository import find_movie_and_details_by_id
 from api.data.nominations.nomination_repository import (
     get_movie_nominations_by_nomination_id,
-    get_nominations_by_imdb_event_id_and_award_year,
+    get_nominations_by_event_id_and_award_year,
 )
 
 
-def get_movie_cast_demographics_by_nomination(event: str, year: int):
+def get_movie_cast_demographics_by_nomination(event_id: int, year: int):
     """Return cast demographics for all movies in a given nomination year. Returns an empty list if nomination event and year combination does not exist."""
 
-    nominations = get_nominations_by_imdb_event_id_and_award_year(event.lower(), year)
+    nominations = get_nominations_by_event_id_and_award_year(event_id, year)
 
     seen_movie_ids = set()
     movie_cast_demographics = []

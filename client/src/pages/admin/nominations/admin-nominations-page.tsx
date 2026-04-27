@@ -23,8 +23,8 @@ import { AdminCreateNominationDialog } from "./admin-create-nomination-dialog";
 import { API_HOSTNAME, getNominationsEndpoint } from "@/shared/api/endpoints";
 import { NominationProjectionEnum } from "@/shared/api/nomination-projection.enum";
 import { AwardDto } from "./award.dto";
-import { QueryKeysEnum } from "@/shared/types/enums/query-key.enum";
 import { ResultsResponse } from "@/shared/types/results-response-t";
+import { QueryKeyEnum } from "@/shared/api/query-key.enum";
 
 interface NominationMovieDto {
 	id: number;
@@ -53,7 +53,7 @@ export const AdminNominationsPage = () => {
 	const [checkingId, setCheckingId] = useState<number | null>(null);
 
 	const { data: awardData } = useQuery<ResultsResponse<AwardDto>>({
-		queryKey: [QueryKeysEnum.AdminAwards],
+		queryKey: [QueryKeyEnum.AdminAwards],
 		queryFn: async () => {
 			const res = await fetch(
 				getNominationsEndpoint(NominationProjectionEnum.Awards),
@@ -84,7 +84,7 @@ export const AdminNominationsPage = () => {
 		ResultsResponse<NominationDto>
 	>({
 		queryKey: [
-			QueryKeysEnum.AdminNominations,
+			QueryKeyEnum.AdminNominations,
 			activeEvent?.imdb_event_id ?? null,
 		],
 		queryFn: async () => {

@@ -25,11 +25,11 @@ def get_demographics():
         current_year = datetime.now().year
         for i in range(int(years)):
             movie_data = get_movie_cast_demographics_by_nomination(
-                eventQuery, int(current_year) - i
+                int(eventQuery), int(current_year) - i
             )
             movies_data.extend(movie_data)
     else:
         movies_data = get_movie_cast_demographics_by_nomination(
-            eventQuery, int(yearQuery)
+            int(eventQuery), int(yearQuery)
         )
     return jsonify(movies_data)

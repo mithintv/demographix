@@ -13,6 +13,7 @@ import { getDemographicsEndpoint } from "@/shared/api/endpoints";
 import { backgroundGradient } from "@/shared/utils/theme";
 import { VisualizerHeader } from "./visualizer-header";
 import { YearSelectorTypeEnum } from "./year-selector";
+import { QueryKeyEnum } from "@/shared/api/query-key.enum";
 
 const compileCast = (movies: Movie[] | undefined) => {
 	if (!movies) {
@@ -33,7 +34,7 @@ export const VisualizerPage = () => {
 
 	// fetch call for data retrieval
 	const { data: movies, error } = useQuery({
-		queryKey: ["visualizer", event, range, year],
+		queryKey: [QueryKeyEnum.NominationDemographics, event, range, year],
 		queryFn: async (): Promise<Movie[]> => {
 			const url = getDemographicsEndpoint(event, range, year);
 			const response = await fetch(url);

@@ -5,7 +5,7 @@ import { Movie } from "@/shared/types/Movie";
 
 export const MovieCard = ({ movie }: { movie: Movie }) => {
 	return (
-		<div className="grow">
+		<div>
 			<Link to={`/movies/${movie.id}`}>
 				<img
 					width={125}

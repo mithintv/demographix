@@ -10,13 +10,13 @@ def get_movie_cast_demographics_by_nomination(event: str, year: int):
 
     nominations = get_nominations_by_imdb_event_id_and_award_year(event.lower(), year)
 
-    movie_nominations = set()
-    for nomination in nominations:
-        award_nomination = get_movie_nominations_by_nomination_id(nomination.id)
-        movie_nominations.add(award_nomination)
+    seen_movie_ids = set()
     movie_cast_demographics = []
-    for movie_nomination in movie_nominations:
-        movie_data = find_movie_and_details_by_id(movie_nomination.movie_id)
-        movie_cast_demographics.append(movie_data)
+    for nomination in nominations:
+        for movie_nomination in get_movie_nominations_by_nomination_id(nomination.id):
+            if movie_nomination.movie_id not in seen_movie_ids:
+                seen_movie_ids.add(movie_nomination.movie_id)
+                movie_data = find_movie_and_details_by_id(movie_nomination.movie_id)
+                movie_cast_demographics.append(movie_data)
 
     return movie_cast_demographics

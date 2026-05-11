@@ -16,12 +16,16 @@ class Source(db.Model):
     __tablename__ = "sources"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[int] = mapped_column(String(25), unique=True)
-    domain: Mapped[int] = mapped_column(String(), unique=True)
+    name: Mapped[str] = mapped_column(String(25), unique=True)
+    domain: Mapped[str] = mapped_column(String(), unique=True)
 
     links: Mapped[list[SourceLink]] = relationship(
         "SourceLink", uselist=True, back_populates="source"
     )
+
+    def __init__(self, name: str, domain: str):
+        self.name = name
+        self.domain = domain
 
     def __repr__(self):
         return f"<Source id={self.id} name={self.name} domain={self.domain}>"

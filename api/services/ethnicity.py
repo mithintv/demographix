@@ -2,12 +2,12 @@ import logging
 import os
 import re
 import unicodedata
-from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
+
+from api.data.cast_members.cast_member_model import CastMember
 from api.data.gpt import txtcomp
-from api.data.model import AlsoKnownAs
 
 
 def strip_accents(text):
@@ -72,7 +72,7 @@ def ethnicelebs(given_name):
     soup = BeautifulSoup(response.text, features="html.parser")
 
     if response.status_code == 200 and len(response.url) == len(url):
-        if soup.strong != None:
+        if soup.strong is not None:
             ethnicity_description = soup.strong.get_text()
             print(f"Raw text from ethnicelebs:\n{ethnicity_description}")
 
@@ -155,14 +155,14 @@ def wikipedia(person_name, person_bday) -> dict:
         return {}
 
 
-def get_ethnicity(person_obj):
+def get_ethnicity(person_obj: CastMember):
     """Return list of ethnicities for a given person via ethnicelebs.com and wikipedia."""
 
     date_format = "%Y-%m-%d"
     birthday = ""
 
     person_name = person_obj.name
-    alt_names = person_obj.also_known_as
+    alt_names = person_obj.alt_names
     if person_obj.birthday is not None:
         birthday = person_obj.birthday.strftime(date_format)
 
@@ -170,10 +170,7 @@ def get_ethnicity(person_obj):
     results = ethnicelebs(person_name)
     if results.get("list", None) is None:
         for alt_name in alt_names:
-            if type(alt_name) == AlsoKnownAs:
-                results = ethnicelebs(alt_name.name)
-            else:
-                results = ethnicelebs(alt_name)
+            results = ethnicelebs(alt_name)
             if results.get("list", None) is not None:
                 return results
 

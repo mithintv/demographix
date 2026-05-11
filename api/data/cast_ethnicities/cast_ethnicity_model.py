@@ -37,6 +37,10 @@ class CastEthnicity(db.Model):
         back_populates="cast_ethnicities",
     )
 
+    def __init__(self, ethnicity_id: int, cast_member_id: int):
+        self.ethnicity_id = ethnicity_id
+        self.cast_member_id = cast_member_id
+
     def __repr__(self):
         return str.format(
             "<CastEthnicity ethnicity_id={} cast_member_id={}>",

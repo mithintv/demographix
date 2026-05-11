@@ -21,6 +21,10 @@ class CastEthnicitySourceLink(db.Model):
         Integer, ForeignKey("cast_ethnicities.id")
     )
 
+    def __init__(self, source_link_id, cast_ethnicity_id):
+        self.source_link_id = source_link_id
+        self.cast_ethnicity_id = cast_ethnicity_id
+
     def __repr__(self):
         return str.format(
             "<CastEthnicitySourceLink id={} source_link_id={} cast_ethnicity_id={}>",

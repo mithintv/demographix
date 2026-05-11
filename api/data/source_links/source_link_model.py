@@ -27,5 +27,9 @@ class SourceLink(db.Model):
         back_populates="sources",
     )
 
+    def __init__(self, source_id: int, link: str):
+        self.source_id = source_id
+        self.link = link
+
     def __repr__(self):
         return f"<SourceLink id={self.id} source_id={self.source_id} link={self.link}>"

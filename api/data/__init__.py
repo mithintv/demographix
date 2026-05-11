@@ -8,6 +8,7 @@ from api.data.cast_ethnicity_source_links.cast_ethnicity_source_link_model impor
 )
 from api.data.cast_members.alt_cast_member_model import AltCastMember  # noqa: F401
 from api.data.cast_members.cast_member_model import CastMember  # noqa: F401
+from api.data.cast_races.cast_race_model import CastRace  # noqa: F401
 from api.data.countries.alt_country_model import AltCountry  # noqa: F401
 from api.data.countries.country_model import Country  # noqa: F401
 from api.data.credits.credit_model import Credit  # noqa: F401
@@ -22,7 +23,7 @@ from api.data.nominations.nomination_model import (  # noqa: F401
     MovieNomination,
     Nomination,
 )
-from api.data.races.race_model import CastRace, Race  # noqa: F401
+from api.data.races.race_model import Race  # noqa: F401
 from api.data.regions.region_model import Region  # noqa: F401
 from api.data.source_links.source_link_model import SourceLink  # noqa: F401
 from api.data.sources.source_model import Source  # noqa: F401

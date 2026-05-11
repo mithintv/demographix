@@ -15,6 +15,7 @@ from api.data.nominations.nomination_repository import (
     create_nomination,
     delete_movie_nomination,
 )
+from api.services.cast_member_service import check_cast_member
 from api.services.logging_service import get_logger
 from api.services.nomination_service import check_nominations
 
@@ -37,6 +38,18 @@ def get_cast():
     return jsonify(
         {"cast": results, "total": total, "page": page, "per_page": per_page}
     )
+
+
+@bp.route("/cast/<int:cast_member_id>/check", methods=["POST"])
+def post_cast_check(cast_member_id: int):
+    """Check a cast members' demographic data."""
+
+    success = check_cast_member(cast_member_id)
+    if success is False:
+        raise BadRequest(
+            f"No data found for CastMember: {cast_member_id}",
+        )
+    return ("", 200)
 
 
 @bp.route("/nominations", methods=["POST"])

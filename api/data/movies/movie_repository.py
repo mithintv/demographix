@@ -110,7 +110,7 @@ def find_movie_and_details_by_id(movie_id: int):
         .join(Gender, Gender.id == CastMember.gender_id, isouter=True)
         .join(Country, Country.id == CastMember.country_of_birth_id, isouter=True)
         .filter(Credit.movie_id == movie_id)
-        .filter(Credit.order < 15)
+        .filter(Credit.order < 20)
         .order_by(Credit.order)
     ).all()
     for credit in credits:

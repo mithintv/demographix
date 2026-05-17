@@ -29,8 +29,10 @@ class CastEthnicityList(TypedDict):
 
 
 def query_cast_members(
-    search: str | None = None, page: int = 1, per_page: int = 50
-) -> tuple[list[CastMember], int]:
+    search: str | None = None,
+    page: int = 1,
+    per_page: int = 50,
+) -> tuple[list[CastMember], int, int]:
     """Query cast members with their demographic data for the admin page."""
     stmt = (
         select(CastMember)
@@ -44,11 +46,9 @@ def query_cast_members(
         .order_by(CastMember.name)
     )
 
-    if search:
-        stmt = stmt.where(func.lower(CastMember.name).like(f"%{search.lower()}%"))
-
     count_stmt = select(func.count(CastMember.id))
     if search:
+        stmt = stmt.where(func.lower(CastMember.name).like(f"%{search.lower()}%"))
         count_stmt = count_stmt.where(
             func.lower(CastMember.name).like(f"%{search.lower()}%")
         )
@@ -59,7 +59,7 @@ def query_cast_members(
     ).all()
 
     logger.info("Admin cast query: %d results (page %d)", total, page)
-    return list(results), total
+    return list(results), total, per_page
 
 
 def find_cast_member_by_id(id: int):
@@ -89,7 +89,7 @@ def create_cast_member(person_details: TmdbPersonDetails):
         ).one_or_none()
     birthday_str = person_details.get("birthday")
     deathday_str = person_details.get("deathday")
-    new_cast_member = CastMember(
+    cast_member = CastMember(
         id=person_details["id"],
         imdb_id=person_details["imdb_id"],
         name=person_details["name"],
@@ -100,9 +100,9 @@ def create_cast_member(person_details: TmdbPersonDetails):
         country_of_birth_id=country_of_birth.id if country_of_birth else None,
         profile_path=person_details.get("profile_path"),
     )
-    db.session.add(new_cast_member)
+    db.session.add(cast_member)
     db.session.commit()
-    logger.info("Created CastMember: %s", new_cast_member)
+    logger.info("Created CastMember: %s", cast_member)
     return cast_member
 
 
@@ -119,14 +119,16 @@ def add_ethnicity_data(cast_member: CastMember, ethnicity_results: CastEthnicity
     for ethnicity_name in ethnicity_list:
         ethnicity = db.session.scalars(
             select(Ethnicity)
-            .outerjoin(AltEthnicity)
             .where(
                 or_(
                     Ethnicity.name == ethnicity_name,
-                    AltEthnicity.alt_name == ethnicity_name,
+                    Ethnicity.id.in_(
+                        select(AltEthnicity.ethnicity_id).where(
+                            AltEthnicity.alt_name == ethnicity_name
+                        )
+                    ),
                 )
             )
-            .distinct()
         ).one_or_none()
 
         if ethnicity is None:
@@ -149,7 +151,7 @@ def add_race_data(cast_member: CastMember):
 
     cast_race_ids: set[int] = set()
     for cast_ethnicity in cast_member.ethnicities:
-        logger.info("checking %s", cast_ethnicity.ethnicity.name)
+        logger.info("Checking %s", cast_ethnicity.ethnicity.name)
         approx_countries = db.session.scalars(
             select(Country).where(Country.demonym == cast_ethnicity.ethnicity.name)
         ).all()

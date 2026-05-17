@@ -31,12 +31,19 @@ def get_cast():
     if search is not None:
         search = search.strip() or None
     page = request.args.get("page", 1, type=int)
-    per_page = request.args.get("per_page", 50, type=int)
 
-    cast_members, total = query_cast_members(search, page, per_page)
+    cast_members, total, per_page = query_cast_members(search, page)
     results = [CastMemberDto.from_model(cm) for cm in cast_members]
     return jsonify(
-        {"cast": results, "total": total, "page": page, "per_page": per_page}
+        {
+            "results": results,
+            "meta": {
+                "page": page,
+                "per_page": len(cast_members),
+                "total_items": total,
+                "total_pages": round(total / per_page),
+            },
+        }
     )
 
 

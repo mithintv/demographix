@@ -17,6 +17,7 @@ from api.data.nominations.nomination_repository import (
     get_nominations_by_imdb_event_id_and_award_year,
     query_nomination_awards,
 )
+from api.services.cast_member_service import check_cast_member
 from api.services.logging_service import get_logger
 from api.services.tmdb.tmdb_service import (
     find_tmdb_movie_by_imdb_id,
@@ -138,7 +139,8 @@ def check_nominations(
             for credit in tmdb_credits["cast"]:
                 if find_cast_member_by_id(credit["id"]) is None:
                     tmdb_person = get_tmdb_person_by_id(credit["id"])
-                    create_cast_member(tmdb_person)
+                    cast_member = create_cast_member(tmdb_person)
+                    check_cast_member(cast_member.id)
             create_credits(tmdb_credits)
             create_movie_nomination(movie, nomination)
     return True

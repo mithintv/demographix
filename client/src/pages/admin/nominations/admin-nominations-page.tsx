@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Chip,
+  Collapse,
   Container,
   IconButton,
   Tab,
@@ -14,11 +15,28 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import {
+  AlertTriangle,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  Loader,
+  Plus,
+  SearchCheck,
+  Trash2,
+  UserSearch,
+} from "lucide-react";
 
-import { API_HOSTNAME, getNominationEndpoint } from "@/shared/api/endpoints";
+import {
+  API_HOSTNAME,
+  getMovieCheckEndpoint,
+  getNominationEndpoint,
+} from "@/shared/api/endpoints";
 import { NominationProjectionEnum } from "@/shared/api/nomination-projection.enum";
 import { QueryKeyEnum } from "@/shared/api/query-key.enum";
+import { ICreditDto } from "@/shared/types/i-credit.dto";
 import { IResultsResponse } from "@/shared/types/i-results-response-t";
 
 import { AdminHeader } from "../admin-header";
@@ -30,7 +48,7 @@ interface NominationMovieDto {
   id: number;
   title: string;
   release_date: string | null;
-  has_cast: boolean;
+  credits: ICreditDto[];
 }
 
 interface NominationDto {
@@ -46,11 +64,82 @@ interface EventDto {
   imdb_event_id: string;
 }
 
+const MovieRow = ({
+  movie,
+  nominationId,
+  onRemove,
+  onCheck,
+  isChecking,
+}: {
+  movie: NominationMovieDto;
+  nominationId: number;
+  onRemove: (nominationId: number, movieId: number) => void;
+  onCheck: (movieId: number) => void;
+  isChecking: boolean;
+}) => {
+  const movieLabel = movie.release_date
+    ? `${movie.title} (${new Date(movie.release_date).getFullYear()})`
+    : movie.title;
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0.5,
+        px: 2,
+        py: 0.75,
+        "&:hover": { bgcolor: "action.hover" },
+      }}
+    >
+      <Tooltip
+        title={movie.credits.length > 0 ? "Cast data found" : "No cast data"}
+      >
+        {movie.credits.length > 0 ? (
+          <CheckCircle size={18} color="#4caf50" />
+        ) : (
+          <AlertTriangle size={18} color="#ff9800" />
+        )}
+      </Tooltip>
+      <Typography variant="body2" sx={{ flex: 1 }}>
+        {movieLabel}
+      </Typography>
+      <IconButton
+        size="small"
+        color="primary"
+        disabled={isChecking}
+        onClick={() => onCheck(movie.id)}
+      >
+        {isChecking ? <Loader size={20} /> : <UserSearch size={20} />}
+      </IconButton>
+      <Tooltip title="Remove movie from nomination">
+        <IconButton
+          size="small"
+          color="error"
+          onClick={() => onRemove(nominationId, movie.id)}
+        >
+          <Trash2 size={20} />
+        </IconButton>
+      </Tooltip>
+    </Box>
+  );
+};
+
 export const AdminNominationsPage = () => {
   const queryClient = useQueryClient();
   const [selectedEvent, setSelectedEvent] = useState<EventDto | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [checkingId, setCheckingId] = useState<number | null>(null);
+  const [expandedNoms, setExpandedNoms] = useState<Set<number>>(new Set());
+
+  const toggleNomExpanded = (nomId: number) => {
+    setExpandedNoms((prev) => {
+      const next = new Set(prev);
+      if (next.has(nomId)) next.delete(nomId);
+      else next.add(nomId);
+      return next;
+    });
+  };
 
   const { data: awardData } = useQuery<IResultsResponse<AwardDto>>({
     queryKey: [QueryKeyEnum.AdminAwards],
@@ -108,6 +197,13 @@ export const AdminNominationsPage = () => {
     queryClient.invalidateQueries({
       queryKey: ["admin-nominations", activeEvent?.imdb_event_id ?? null],
     });
+
+  const checkMovieMutation = useMutation({
+    mutationFn: async (movieId: number) => {
+      await axios.post(getMovieCheckEndpoint(movieId));
+    },
+    onSuccess: () => invalidate(),
+  });
 
   const handleDeleteNomination = async (nominationId: number) => {
     await fetch(`${API_HOSTNAME}/admin/nominations/${nominationId}`, {
@@ -194,12 +290,10 @@ export const AdminNominationsPage = () => {
               <Button
                 sx={{ height: "2.5rem", display: "flex", alignSelf: "center" }}
                 variant="contained"
-                startIcon={
-                  <span className="material-symbols-outlined">add</span>
-                }
+                startIcon={<Plus size={20} />}
                 onClick={() => setDialogOpen(true)}
               >
-                New Nomination
+                Create Nomination
               </Button>
             }
           />
@@ -237,13 +331,7 @@ export const AdminNominationsPage = () => {
 
             {awardGroups.map(({ award, nominations }) => (
               <Accordion key={award.id} disableGutters>
-                <AccordionSummary
-                  expandIcon={
-                    <span className="material-symbols-outlined">
-                      expand_more
-                    </span>
-                  }
-                >
+                <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                   <Box
                     sx={{
                       display: "flex",
@@ -264,99 +352,151 @@ export const AdminNominationsPage = () => {
                   {nominations
                     .slice()
                     .sort((a, b) => b.year - a.year)
-                    .map((nom) => (
-                      <Box
-                        key={nom.id}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1.5,
-                          px: 2,
-                          py: 1,
-                          borderTop: 1,
-                          borderColor: "divider",
-                          "&:hover": { bgcolor: "action.hover" },
-                        }}
-                      >
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            minWidth: 40,
-                            fontVariantNumeric: "tabular-nums",
-                          }}
-                        >
-                          {nom.year}
-                        </Typography>
+                    .map((nom) => {
+                      const isExpanded = expandedNoms.has(nom.id);
+                      const uncheckedCount = nom.movies.filter(
+                        (m) => !m.credits,
+                      ).length;
+
+                      return (
                         <Box
+                          key={nom.id}
                           sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: 0.5,
-                            flex: 1,
-                            minHeight: 52,
-                            alignContent: "center",
+                            borderTop: 1,
+                            borderColor: "divider",
                           }}
                         >
-                          {nom.movies.length === 0 ? (
-                            <Typography variant="body2" color="text.disabled">
-                              No movies linked
+                          {/* Nomination year header row */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.5,
+                              px: 2,
+                              py: 1,
+                              cursor: "pointer",
+                              "&:hover": { bgcolor: "action.hover" },
+                            }}
+                            onClick={() => toggleNomExpanded(nom.id)}
+                          >
+                            <ChevronRight
+                              size={18}
+                              style={{
+                                transition: "transform 0.2s",
+                                transform: isExpanded
+                                  ? "rotate(90deg)"
+                                  : "rotate(0deg)",
+                              }}
+                            />
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{
+                                minWidth: 40,
+                                fontVariantNumeric: "tabular-nums",
+                              }}
+                            >
+                              {nom.year}
                             </Typography>
-                          ) : (
-                            nom.movies.map((movie) => (
+                            <Box
+                              sx={{
+                                flex: 1,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                              }}
+                            >
                               <Chip
-                                key={movie.id}
                                 size="small"
-                                label={
-                                  movie.release_date
-                                    ? `${movie.title} (${new Date(movie.release_date).getFullYear()})`
-                                    : movie.title
-                                }
-                                onDelete={() =>
-                                  handleRemoveMovie(nom.id, movie.id)
-                                }
-                                deleteIcon={
-                                  <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 14 }}
-                                  >
-                                    close
-                                  </span>
-                                }
-                                variant={movie.has_cast ? "filled" : "outlined"}
+                                label={`${nom.movies.length} movie${nom.movies.length !== 1 ? "s" : ""}`}
+                                variant="outlined"
                               />
-                            ))
-                          )}
-                        </Box>
-                        <Box sx={{ display: "flex", gap: 0.5, flexShrink: 0 }}>
-                          <Tooltip title="Run nomination check">
-                            <IconButton
-                              size="small"
-                              color="primary"
-                              disabled={checkingId === nom.id}
-                              onClick={() => handleCheckNomination(nom)}
+                              {uncheckedCount > 0 && (
+                                <Chip
+                                  size="small"
+                                  label={`${uncheckedCount} unchecked`}
+                                  color="warning"
+                                  variant="outlined"
+                                />
+                              )}
+                              {uncheckedCount === 0 &&
+                                nom.movies.length > 0 && (
+                                  <CheckCircle size={16} color="#4caf50" />
+                                )}
+                            </Box>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                gap: 0.5,
+                                flexShrink: 0,
+                              }}
+                              onClick={(e) => e.stopPropagation()}
                             >
-                              <span className="material-symbols-outlined">
-                                {checkingId === nom.id
-                                  ? "hourglass_empty"
-                                  : "search_check"}
-                              </span>
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Delete nomination and all its movie links">
-                            <IconButton
-                              size="small"
-                              color="error"
-                              onClick={() => handleDeleteNomination(nom.id)}
+                              <Tooltip title="Fetch nominated movies from IMDB">
+                                <IconButton
+                                  size="small"
+                                  color="primary"
+                                  disabled={checkingId === nom.id}
+                                  onClick={() => handleCheckNomination(nom)}
+                                >
+                                  {checkingId === nom.id ? (
+                                    <Loader size={20} />
+                                  ) : (
+                                    <SearchCheck size={20} />
+                                  )}
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Delete nomination and all its movie links">
+                                <IconButton
+                                  size="small"
+                                  color="error"
+                                  onClick={() => handleDeleteNomination(nom.id)}
+                                >
+                                  <Trash2 size={20} />
+                                </IconButton>
+                              </Tooltip>
+                            </Box>
+                          </Box>
+
+                          {/* Expandable movie list */}
+                          <Collapse in={isExpanded}>
+                            <Box
+                              sx={{
+                                bgcolor: "action.hover",
+                                borderTop: 1,
+                                borderColor: "divider",
+                              }}
                             >
-                              <span className="material-symbols-outlined">
-                                delete
-                              </span>
-                            </IconButton>
-                          </Tooltip>
+                              {nom.movies.length === 0 ? (
+                                <Typography
+                                  variant="body2"
+                                  color="text.disabled"
+                                  sx={{ px: 2, py: 1.5 }}
+                                >
+                                  No movies linked
+                                </Typography>
+                              ) : (
+                                nom.movies.map((movie) => (
+                                  <MovieRow
+                                    key={movie.id}
+                                    movie={movie}
+                                    nominationId={nom.id}
+                                    onRemove={handleRemoveMovie}
+                                    onCheck={(movieId) =>
+                                      checkMovieMutation.mutate(movieId)
+                                    }
+                                    isChecking={
+                                      checkMovieMutation.isPending &&
+                                      checkMovieMutation.variables === movie.id
+                                    }
+                                  />
+                                ))
+                              )}
+                            </Box>
+                          </Collapse>
                         </Box>
-                      </Box>
-                    ))}
+                      );
+                    })}
                 </AccordionDetails>
               </Accordion>
             ))}

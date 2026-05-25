@@ -25,6 +25,8 @@ export const getCastMemberEndpoint = (page: number, search: string) => {
 };
 export const getCastMemberCheckEndpoint = (castMemberId: number) =>
   `${API_HOSTNAME}/admin/cast/${castMemberId}/check`;
+export const getMovieCheckEndpoint = (movieId: number) =>
+  `${API_HOSTNAME}/admin/movies/${movieId}/check`;
 export const getDemographicEndpoint = (
   event: string | undefined,
   range: string | undefined,

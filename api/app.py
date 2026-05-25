@@ -6,7 +6,7 @@ import sys
 
 import structlog
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_problem_details import ProblemDetails
@@ -16,7 +16,6 @@ from werkzeug.exceptions import HTTPException
 
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
-from api.data.gpt import txtcomp
 from api.routes import admin, demographics, index, movies, nominations
 from api.services.logging_service import configure_logging, get_logger
 
@@ -81,15 +80,6 @@ def bind_request_context():
         request_path=request.path,
         request_query_params=dict(request.args),
     )
-
-
-@app.route("/test/openai", methods=["POST"])
-def openai():
-    """Retreive Open AI API result with given passage as json body."""
-    data = request.get_json()
-    article = data["article"]
-    result = txtcomp(article, verify=False)
-    return jsonify(result)
 
 
 @app.errorhandler(HTTPException)

@@ -15,7 +15,7 @@ from api.data.nominations.nomination_repository import (
     create_nomination,
     delete_movie_nomination,
 )
-from api.services.cast_member_service import check_cast_member
+from api.services.cast_member_service import check_cast_member, check_movie_cast
 from api.services.logging_service import get_logger
 from api.services.nomination_service import check_nominations
 
@@ -55,6 +55,17 @@ def post_cast_check(cast_member_id: int):
     if success is False:
         raise BadRequest(
             f"No data found for CastMember: {cast_member_id}",
+        )
+    return ("", 200)
+
+
+@bp.route("/movies/<int:movie_id>/check", methods=["POST"])
+def post_movie_check(movie_id: int):
+    """Check demographics for all cast members of a movie."""
+    success = check_movie_cast(movie_id)
+    if success is False:
+        raise BadRequest(
+            f"No credits found for Movie: {movie_id}",
         )
     return ("", 200)
 

@@ -118,8 +118,7 @@ def add_ethnicity_data(cast_member: CastMember, ethnicity_results: CastEthnicity
     link = ethnicity_results["source"]
     for ethnicity_name in ethnicity_list:
         ethnicity = db.session.scalars(
-            select(Ethnicity)
-            .where(
+            select(Ethnicity).where(
                 or_(
                     Ethnicity.name == ethnicity_name,
                     Ethnicity.id.in_(
@@ -152,6 +151,14 @@ def add_race_data(cast_member: CastMember):
     cast_race_ids: set[int] = set()
     for cast_ethnicity in cast_member.ethnicities:
         logger.info("Checking %s", cast_ethnicity.ethnicity.name)
+
+        # Direct race
+        if cast_ethnicity.ethnicity.name == "African American":
+            black = get_race_by_short_name("BLK")
+            if black is not None:
+                cast_race_ids.add(black.id)
+
+        # Approximate race by demonym
         approx_countries = db.session.scalars(
             select(Country).where(Country.demonym == cast_ethnicity.ethnicity.name)
         ).all()

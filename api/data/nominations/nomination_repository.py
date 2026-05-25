@@ -2,6 +2,8 @@ from sqlalchemy import func, select
 
 from api.data.awards.award_model import Award
 from api.data.base import db
+from api.data.cast_members.cast_member_model import CastMember
+from api.data.credits.credit_model import Credit
 from api.data.events.event_model import Event
 from api.data.movies.movie_model import Movie
 from api.data.nominations.nomination_model import MovieNomination, Nomination
@@ -45,14 +47,14 @@ def query_nomination_movies(imdb_event_id: str | None = None):
         stmt = stmt.where(
             func.lower(Event.imdb_event_id) == imdb_event_id.strip().lower()
         )
-    nominations = db.session.scalars(
+    return db.session.scalars(
         stmt.outerjoin(MovieNomination, MovieNomination.nomination_id == Nomination.id)
         .outerjoin(Movie, Movie.id == MovieNomination.movie_id)
+        .outerjoin(Credit, Credit.movie_id == Movie.id)
+        .outerjoin(CastMember, CastMember.id == Credit.cast_member_id)
         .distinct()
         .order_by(Nomination.year.desc())
     ).all()
-
-    return [nomination for nomination in nominations]
 
 
 def get_nominations_by_event_id_and_award_year(

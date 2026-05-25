@@ -50,3 +50,12 @@ class Credit(db.Model):
 
     def __repr__(self):
         return f"<Credit id={self.id} character={self.character}>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "movie_id": self.movie_id,
+            "character": self.character,
+            "order": self.order,
+            "cast_member_id": self.cast_member_id,
+        }

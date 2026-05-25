@@ -75,6 +75,6 @@ class Movie(db.Model):
             ),
             "budget": self.budget,
             "revenue": self.revenue,
-            "genres": [],
-            "cast": [],
+            "genres": [genre.to_dict() for genre in self.genres],
+            "credits": [credit.to_dict() for credit in self.credits],
         }

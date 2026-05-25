@@ -140,7 +140,8 @@ def check_nominations(
                 if find_cast_member_by_id(credit["id"]) is None:
                     tmdb_person = get_tmdb_person_by_id(credit["id"])
                     cast_member = create_cast_member(tmdb_person)
-                    check_cast_member(cast_member.id)
+                    if credit["order"] <= 10:
+                        check_cast_member(cast_member.id)
             create_credits(tmdb_credits)
             create_movie_nomination(movie, nomination)
     return True

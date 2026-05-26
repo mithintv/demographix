@@ -17,6 +17,7 @@ class MovieDto:
     id: int
     title: str
     release_date: datetime | None
+    poster_path: str | None
 
     def __repr__(self):
         return (
@@ -25,7 +26,12 @@ class MovieDto:
 
     @classmethod
     def from_model(cls, movie: Movie) -> MovieDto:
-        return cls(id=movie.id, title=movie.title, release_date=movie.release_date)
+        return cls(
+            id=movie.id,
+            title=movie.title,
+            release_date=movie.release_date,
+            poster_path=movie.poster_path,
+        )
 
 
 @dataclass

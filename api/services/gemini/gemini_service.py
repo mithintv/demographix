@@ -3,6 +3,7 @@ import os
 
 from api.services.logging_service import get_logger
 from google import genai
+from google.genai.errors import ClientError
 
 logger = get_logger(__name__)
 
@@ -22,10 +23,21 @@ def get_json_ethnitiy_list(article: str):
     """
     client = genai.Client(api_key=GEMINI_API_KEY)
     prompt = f"""For the article provided below, return a JSON object with a list under a key called "ethnicities" that lists all of the ethnicities of the person. If no ethnicities are mentioned, return null. Article starts now... {article}."""
-    response = client.models.generate_content(model="gemini-3.5-flash", contents=prompt)
+
+    models = ["gemini-3.5-flash", "gemini-2.5-flash"]
+    response = None
+    for model in models:
+        try:
+            response = client.models.generate_content(model=model, contents=prompt)
+            break
+        except ClientError as e:
+            logger.warning("Gemini API error on %s: %s", model, e)
+    if response is None:
+        return None
     logger.info("Raw response:\n%s\n", response.text)
     if response.text is None:
         return None
+
     text = response.text.strip()
     if text.startswith("```"):
         text = text.split("\n", 1)[1]  # remove opening ```json line

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import desc, func, select
+from sqlalchemy import desc, func, or_, select
 
 from api.data.base import db
 from api.data.cast_members.cast_member_dto import CastEthnicityDto, CastMemberCreditDto
@@ -18,6 +18,8 @@ logger = get_logger(__name__)
 
 def query_movies(
     query_text: str | None,
+    page: int | None = 1,
+    per_page: int = 50,
     options={"include_wo_poster": False, "include_ends_with": False},
 ):
     """Return search query results."""
@@ -25,15 +27,19 @@ def query_movies(
     query = Movie.query.join(Movie.credits, isouter=True)
 
     if options.get("include_wo_poster") is False:
-        query = query.filter(Movie.poster_path != None)
+        query = query.filter(Movie.poster_path.isnot(None))
 
     if query_text and len(query_text) > 0:
+        lower_text = query_text.lower()
         if options.get("include_ends_with") is True:
-            query = query.filter(
-                func.lower(Movie.title).like(f"%{query_text.lower()}%")
-            )
+            query = query.filter(func.lower(Movie.title).like(f"%{lower_text}%"))
         else:
-            query = query.filter(func.lower(Movie.title).like(f"{query_text.lower()}%"))
+            query = query.filter(
+                or_(
+                    func.lower(Movie.title).like(f"{lower_text}%"),
+                    func.lower(Movie.title).like(f"the {lower_text}%"),
+                )
+            )
         query = query.order_by(desc(Movie.release_date))
     else:
         query = query.order_by(func.random())
@@ -50,8 +56,14 @@ def query_movies(
         Movie.revenue,
     )
 
-    logger.info("Query: %s found %s movies", query.count(), query)
-    return query
+    total = query.count()
+    if page is not None:
+        query = query.offset((page - 1) * per_page).limit(per_page)
+        logger.info("query_movies: %s (page %d, total %d)", query_text, page, total)
+        return query, total, per_page
+
+    logger.info("query_movies: %s", query_text)
+    return query, total, per_page
 
 
 def find_movie_by_id(id: int):

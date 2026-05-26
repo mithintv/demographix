@@ -3,6 +3,7 @@ import { NominationProjectionEnum } from "./nomination-projection.enum";
 export const API_HOSTNAME = import.meta.env.PROD
   ? import.meta.env.VITE_API_HOSTNAME
   : "/api";
+
 export const getNominationEndpoint = (
   projection?: NominationProjectionEnum,
   imdb_event_id?: string,
@@ -16,6 +17,15 @@ export const getNominationEndpoint = (
   }
   return url;
 };
+
+export const getMoviesEndpoint = (query: string, page?: number) => {
+  const params = new URLSearchParams({
+    query,
+    ...(page ? { page: String(page) } : {}),
+  });
+  return `${API_HOSTNAME}/movies?${params}`;
+};
+
 export const getCastMemberEndpoint = (page: number, search: string) => {
   const params = new URLSearchParams({
     page: String(page),
@@ -23,10 +33,13 @@ export const getCastMemberEndpoint = (page: number, search: string) => {
   });
   return `${API_HOSTNAME}/admin/cast?${params}`;
 };
+
 export const getCastMemberCheckEndpoint = (castMemberId: number) =>
   `${API_HOSTNAME}/admin/cast/${castMemberId}/check`;
+
 export const getMovieCheckEndpoint = (movieId: number) =>
   `${API_HOSTNAME}/admin/movies/${movieId}/check`;
+
 export const getDemographicEndpoint = (
   event: string | undefined,
   range: string | undefined,

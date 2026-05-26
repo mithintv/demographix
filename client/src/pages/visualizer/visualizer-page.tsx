@@ -7,7 +7,7 @@ import { getDemographicEndpoint } from "@/shared/api/endpoints";
 import { QueryKeyEnum } from "@/shared/api/query-key.enum";
 import Footer from "@/shared/layout/footer";
 import { Cast } from "@/shared/types/Cast";
-import { Movie } from "@/shared/types/Movie";
+import { IMovieDto } from "@/shared/types/i-movie.dto";
 import { CardList } from "@/shared/ui/card-list/card-list";
 import { CastDataCard } from "@/shared/ui/cast-data-card/cast-data-card";
 import { backgroundGradient } from "@/shared/utils/theme";
@@ -16,7 +16,7 @@ import { MovieCard } from "./movie-card";
 import { VisualizerHeader } from "./visualizer-header";
 import { YearSelectorTypeEnum } from "./year-selector";
 
-const compileCast = (movies: Movie[] | undefined) => {
+const compileCast = (movies: IMovieDto[] | undefined) => {
   if (!movies) {
     return undefined;
   }
@@ -36,7 +36,7 @@ export const VisualizerPage = () => {
   // fetch call for data retrieval
   const { data: movies, error } = useQuery({
     queryKey: [QueryKeyEnum.NominationDemographics, event, range, year],
-    queryFn: async (): Promise<Movie[]> => {
+    queryFn: async (): Promise<IMovieDto[]> => {
       const url = getDemographicEndpoint(event, range, year);
       const response = await fetch(url);
       return await response.json();

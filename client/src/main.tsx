@@ -11,6 +11,7 @@ import { darkTheme } from "@/shared/utils/theme.tsx";
 
 import { AdminPage } from "./pages/admin/admin-page.tsx";
 import { AdminCastPage } from "./pages/admin/cast-members/admin-cast-page.tsx";
+import { AdminMoviesPage } from "./pages/admin/movies/admin-movies-page.tsx";
 import { AdminNominationsPage } from "./pages/admin/nominations/admin-nominations-page.tsx";
 import { ErrorPage } from "./pages/error-page.tsx";
 import { LandingPage } from "./pages/landing-page.tsx";
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
           element: <Outlet />,
           children: [
             { index: true, element: <AdminPage /> },
+            { path: "movies", element: <AdminMoviesPage /> },
             { path: "cast", element: <AdminCastPage /> },
             { path: "nominations", element: <AdminNominationsPage /> },
           ],

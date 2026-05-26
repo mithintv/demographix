@@ -1,6 +1,6 @@
 import { Cast } from "./Cast";
 
-export type Movie = {
+export interface IMovieDto {
   id: string | null;
   title: string | null;
   genres: string[];
@@ -10,5 +10,5 @@ export type Movie = {
   release_date: string | Date;
   budget: string;
   revenue: string | null;
-  cast: Cast[]
-};
+  cast: Cast[];
+}

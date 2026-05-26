@@ -14,15 +14,21 @@ Flask-Migrate = "^4.0.7"
 SQLAlchemy = "^2.0.28"
 g4f = { extras = ["openai"], version = "^0.2.6.2" }
 google-generativeai = "^0.4.1"
-psycopg2 = "^2.9.9"
+psycopg2-binary = "^2.9.9"
 beautifulsoup4 = "^4.12.3"
 gunicorn = "^23.0.0"
 flask-cors = "^5.0.1"
 types-requests = "^2.32.0.20250306"
 types-flask-migrate = "^4.1.0.20250112"
 types-flask-cors = "^5.0.0.20240902"
-sqlalchemy-stubs = "^0.4"
 mypy = "^1.15.0"
+pydantic = "^2.12.5"
+structlog = "^25.5.0"
+python-dotenv = "^1.2.2"
+playwright = "^1.58.0"
+playwright-stealth = "^2.0.3"
+flask-problem-details = "^3.0.1"
+google-genai = "^2.6.0"
 
 
 [tool.poetry.group.g4f.dependencies]
@@ -31,6 +37,18 @@ platformdirs = "^4.2.0"
 aiohttp-socks = "^0.8.4"
 browser-cookie3 = "^0.19.1"
 
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^8.0.1"
+ruff = "^0.15.7"
+honcho = "^2.0.0"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
 
 [build-system]
 requires = ["poetry-core"]

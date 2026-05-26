@@ -1,0 +1,23 @@
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "^react",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@shared/(.*)$",
+    "",
+    "^@/(.*)$",
+    "",
+    "^[.]",
+    "",
+    "^/"
+  ],
+  "importOrderCaseSensitive": true
+}

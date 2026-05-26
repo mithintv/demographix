@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --breakpoint-xs: 425px;
+
   --color-gold-500: #fdbd25;
   --color-purple-100: #66689f;
   --color-purple-200: #5b5c8d;
@@ -26,6 +28,7 @@
 html {
   /* background: radial-gradient(ellipse at center, #151036 50%, #100b2a 100%); */
   background: #100b2a;
+  overflow-y: scroll;
 }
 
 body {

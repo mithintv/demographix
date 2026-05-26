@@ -1,0 +1,51 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from api.data.base import db
+from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from api.data.cast_members.cast_member_model import CastMember
+    from api.data.countries.alt_country_model import AltCountry
+    from api.data.regions.region_model import Region
+    from api.data.subregions.subregion_model import SubRegion
+
+
+class Country(db.Model):
+    """A country."""
+
+    __tablename__ = "countries"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(75), nullable=False, unique=True)
+    cca3: Mapped[str] = mapped_column(String(3), nullable=False, unique=True)
+    demonym: Mapped[str] = mapped_column(String(75))
+    region_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("regions.id"), nullable=False
+    )
+    subregion_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("subregions.id"), nullable=False
+    )
+
+    alt_names: Mapped[list[AltCountry]] = relationship(
+        "AltCountry", back_populates="country"
+    )
+    region: Mapped[Region] = relationship("Region", back_populates="countries")
+    subregion: Mapped[SubRegion] = relationship("SubRegion", back_populates="countries")
+    births: Mapped[list[CastMember]] = relationship(
+        "CastMember", back_populates="country_of_birth"
+    )
+
+    def __init__(
+        self, name: str, cca3: str, demonym: str, region_id: int, subregion_id: int
+    ):
+        self.name = name
+        self.cca3 = cca3
+        self.demonym = demonym
+        self.region_id = region_id
+        self.subregion_id = subregion_id
+
+    def __repr__(self):
+        return f"<Country id={self.id} name={self.name} demonym={self.demonym}>"

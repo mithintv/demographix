@@ -1,9 +1,10 @@
-import logging
 import os
 
-from flask import Blueprint, jsonify, make_response, redirect, request
+from flask import Blueprint, make_response, redirect
 
-from api.services.movie_service import movie_service
+from api.services.logging_service import get_logger
+
+logger = get_logger(__name__)
 
 bp: Blueprint = Blueprint("index", __name__, url_prefix="/")
 
@@ -16,31 +17,9 @@ def get_index():
     return redirect(client_hostname)
 
 
-@bp.route("/", methods=["POST"])
-def post_index():
-    """Return search results from database in json."""
-
-    data = request.get_json()
-
-    search_text = data["search"]
-    movies = movie_service.search_movie(search_text)
-
-    search_results = []
-    for movie in movies:
-        movie_dict = {
-            "id": movie.id,
-            "title": movie.title,
-            "release_date": movie.release_date,
-            "poster_path": movie.poster_path,
-        }
-        search_results.append(movie_dict)
-
-    return jsonify(search_results)
-
-
 @bp.route("", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
 @bp.route("/<path:path>", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
 def catch_all(path):
     """Catch all route."""
-    logging.error(path)
+    logger.error(path)
     return make_response("", 404)

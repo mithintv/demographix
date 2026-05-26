@@ -2,20 +2,29 @@
 
 ### Run
 
+Use either [honcho](https://honcho.readthedocs.io/) or [overmind](https://github.com/DarthSim/overmind) to start all processes defined in `Procfile` (API + Vite frontend):
+
+**honcho** (Python, installed via poetry):
 ```sh
-flask run
+poetry run honcho start
 ```
-
-### Environment Variables
-
-Enviornment variables should be supplied via a `secrets.sh` in `api` directory. `.envrc` uses `direnv` to load these variables upon entering the directory in a terminal.
 
 ## Database
 
-### Seeding
+### Initialize/Reload DB
 
-Seeding can be done from the root directory `/demographix` with the following command. Note that the command requires arguments to be passed in but the calling it without any will show the help menu with the available arguments.
+`scripts/reload_db.sh` drops and recreates the database via Docker, then applies all migrations:
 
 ```sh
-python -m api.scripts.seed
+./scripts/reload_db.sh
+```
+
+This drops the `demographix` database in the `postgres` Docker container, recreates it, and runs `flask db upgrade`.
+
+### Seeding
+
+Run from the repo root (`/demographix`). Seeds all reference tables (regions, countries, ethnicities, races, genders, genres, events/awards):
+
+```sh
+python -m api.scripts.seed.seed
 ```

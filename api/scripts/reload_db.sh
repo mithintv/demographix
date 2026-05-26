@@ -1,6 +1,4 @@
-#!/bin/sh
-
-dropdb -f demographix
-createdb demographix
-psql -d demographix -f demographix.sql
+#!/bin/bash
+docker exec -u postgres postgres dropdb -f demographix
+docker exec -u postgres postgres createdb demographix
 flask db upgrade

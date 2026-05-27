@@ -17,6 +17,7 @@ from werkzeug.exceptions import HTTPException
 import api.data  # noqa: F401 - ensures all models are registered
 from api.data.base import db
 from api.routes import admin, demographics, index, movies, nominations
+from api.services.cors_service import get_cors_origins
 from api.services.logging_service import configure_logging, get_logger
 
 load_dotenv()
@@ -24,10 +25,7 @@ configure_logging()
 
 app = Flask(__name__, instance_relative_config=True)
 
-origins = ["http://localhost:5173", "http://localhost:4173"]
-if os.environ["FLASK_ENV"] == "production":
-    origins = [os.environ["CLIENT_HOSTNAME"]]
-CORS(app, origins=origins)
+CORS(app, origins=get_cors_origins())
 app.secret_key = os.environ["APP_SECRET_KEY"]
 
 # Register prefixed route handlers

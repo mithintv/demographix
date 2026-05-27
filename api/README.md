@@ -26,5 +26,5 @@ This drops the `demographix` database in the `postgres` Docker container, recrea
 Run from the repo root (`/demographix`). Seeds all reference tables (regions, countries, ethnicities, races, genders, genres, events/awards):
 
 ```sh
-python -m api.scripts.seed.seed
+./scripts/seed_db.sh
 ```

@@ -29,6 +29,7 @@ playwright = "^1.58.0"
 playwright-stealth = "^2.0.3"
 flask-problem-details = "^3.0.1"
 google-genai = "^2.6.0"
+redis = "^7.4.0"
 
 
 [tool.poetry.group.g4f.dependencies]

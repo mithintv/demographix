@@ -25,7 +25,6 @@ class TestCorsService(unittest.TestCase):
                 {
                     "CORS_ORIGINS": "https://app.example.com,https://preview.example.com",
                     "FLASK_ENV": "production",
-                    "CLIENT_HOSTNAME": "https://fallback.example.com",
                 }
             ),
             ["https://app.example.com", "https://preview.example.com"],
@@ -36,9 +35,14 @@ class TestCorsService(unittest.TestCase):
             get_cors_origins(
                 {
                     "FLASK_ENV": "production",
-                    "CLIENT_HOSTNAME": "https://app.example.com",
                 }
             ),
+            DEFAULT_DEV_ORIGINS,
+        )
+
+    def test_get_cors_origins_uses_local_defaults_with_empty_config(self):
+        self.assertEqual(
+            get_cors_origins({"CORS_ORIGINS": " , ", "FLASK_ENV": "production"}),
             DEFAULT_DEV_ORIGINS,
         )
 

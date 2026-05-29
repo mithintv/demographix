@@ -14,17 +14,20 @@ Please take a moment to review this document in order to make the contribution p
 
 Frontend
 
-- [React](https://react.dev/) v16
-- [React Router](https://reactrouter.com/en/main) v5.3.4
-- [Recharts](https://recharts.org/en-US/)
-- [Material UI](https://mui.com/)
+- [React](https://react.dev/) v18.2
+- [React Router](https://reactrouter.com/en/main) v6.23
+- [Vite](https://vite.dev/) v6.2
+- [TypeScript](https://www.typescriptlang.org/) v5.2
+- [Recharts](https://recharts.org/en-US/) v2.12
+- [Material UI](https://mui.com/) v5.15
 
 Backend
 
-- [Python](https://docs.python.org/3/) v3.10
-- [Flask](https://flask.palletsprojects.com/en/2.3.x/) v3.0.2
+- [Python](https://docs.python.org/3/) v3.13
+- [Flask](https://flask.palletsprojects.com/) v3.0
 - [PostgreSQL](https://www.postgresql.org/docs/) v14.11
-- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/)  v2.0.28
+- [SQLAlchemy](https://docs.sqlalchemy.org/en/20/) v2.0
+- [Flask-Migrate](https://flask-migrate.readthedocs.io/) v4.0
 
 <a id="dev-env"></a>
 
@@ -44,23 +47,23 @@ git clone https://github.com/mithintv/demographix
 cd demographix
 ```
 
-2. Create sh files for environment variables namely api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
+2. Create `.env` files for environment variables namely api keys and access tokens. [The Movie Database API](https://developer.themoviedb.org/docs) provides api keys and access tokens for free.
 
 ```bash
-cat <<EOF > api/secrets.sh
+cat <<EOF > api/.env
 export FLASK_ENV=development
 export FLASK_DEBUG=1
 
 export TMDB_ACCESS_TOKEN=<your-TMDB-access-token>
-export TMDB_API_KEY=<your-TMDB-api-key>
 EOF
 ```
 
 3. Create local database and seed it with sample data
 
 ```bash
-createdb demographix
-psql -d demographix -f api/demographix.sql
+cd api
+./scripts/reload_db.sh
+./scripts/seed_db.sh
 ```
 
 4. Setup and activate virtual environment. `poetry shell` will create a new virtualenv and activate it.
@@ -70,10 +73,10 @@ cd api/
 poetry shell
 ```
 
-5. Install dependencies, and configure secrets/environment variables. Navigate out of `/api` and back in to source environment variables.
+5. Install dependencies, and configure secrets/environment variables.
 ```bash
+cd api/
 poetry install
-cd ../ && cd api
 ```
 
 6. Run server

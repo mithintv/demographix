@@ -1,106 +1,106 @@
-import {
-	Box,
-	Button,
-	InputAdornment,
-	Modal,
-	Paper,
-	TextField,
-	useMediaQuery,
-} from "@mui/material";
 import { useRef, useState } from "react";
 
-import { SearchResults } from "./search-results";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  Modal,
+  Paper,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 
 import { useDebounce } from "@/shared/hooks/useDebounce";
 
+import { SearchResults } from "./search-results";
+
 export const SearchModal = ({ nav }: { nav: boolean }) => {
-	const md = useMediaQuery("(max-width:960px)");
-	const sm = useMediaQuery("(max-width:600px)");
-	// const xs = useMediaQuery("(max-width:425px)");
+  const md = useMediaQuery("(max-width:960px)");
+  const sm = useMediaQuery("(max-width:600px)");
+  // const xs = useMediaQuery("(max-width:425px)");
 
-	const [open, setOpen] = useState(false);
-	const searchRef = useRef<HTMLInputElement>(null);
-	const [searchInput, setSearchInput] = useState<string>("");
-	const { debouncedValue: debouncedSearch } = useDebounce(searchInput, 300);
+  const [open, setOpen] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const { debouncedValue: debouncedSearch } = useDebounce(searchInput, 300);
 
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => {
-		setSearchInput("");
-		setOpen(false);
-	};
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setSearchInput("");
+    setOpen(false);
+  };
 
-	const searchInputHandler = async () => {
-		if (searchRef.current) {
-			setSearchInput(searchRef.current.value);
-		}
-	};
+  const searchInputHandler = async () => {
+    if (searchRef.current) {
+      setSearchInput(searchRef.current.value);
+    }
+  };
 
-	return (
-		<>
-			<Button
-				sx={{ my: 1 }}
-				size={"large"}
-				startIcon={<span className="material-symbols-outlined">search</span>}
-				variant={nav ? "text" : "contained"}
-				onClick={handleOpen}
-			>
-				Search Movies
-			</Button>
-			<Modal
-				sx={{
-					position: "fixed",
-				}}
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="search-modal"
-				aria-describedby="search modal for movies and other productions"
-				slotProps={{
-					backdrop: {
-						timeout: 500,
-					},
-				}}
-			>
-				<Paper
-					sx={{
-						my: 5,
-						mx: "auto",
-						width: (sm && "270px") || (md && "460px") || "708px",
-						bgcolor: "background.default",
-						border: "2px solid #000",
-						boxShadow: 24,
-						pt: 4,
-					}}
-				>
-					<Box
-						component="form"
-						sx={{
-							pt: "0.25rem",
-							display: "flex",
-							flexDirection: "column",
-							justifyContent: "space-between",
-							mx: 4,
-						}}
-					>
-						<TextField
-							sx={{ width: "100%", mb: 2 }}
-							inputRef={searchRef}
-							value={searchInput}
-							name="search"
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<span className="material-symbols-outlined">search</span>
-									</InputAdornment>
-								),
-							}}
-							placeholder="Search Movies"
-							onChange={searchInputHandler}
-							variant="standard"
-						/>
-					</Box>
-					<SearchResults setOpen={setOpen} searchText={debouncedSearch} />
-				</Paper>
-			</Modal>
-		</>
-	);
+  return (
+    <>
+      <Button
+        sx={{ my: 1 }}
+        size={"large"}
+        startIcon={<span className="material-symbols-outlined">search</span>}
+        variant={nav ? "text" : "contained"}
+        onClick={handleOpen}
+      >
+        Search Movies
+      </Button>
+      <Modal
+        sx={{
+          position: "fixed",
+        }}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="search-modal"
+        aria-describedby="search modal for movies and other productions"
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Paper
+          sx={{
+            my: 5,
+            mx: "auto",
+            width: (sm && "270px") || (md && "460px") || "708px",
+            bgcolor: "background.default",
+            pt: 4,
+            pb: 2,
+          }}
+        >
+          <Box
+            component="form"
+            sx={{
+              pt: "0.25rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              mx: 4,
+            }}
+          >
+            <TextField
+              sx={{ width: "100%", mb: 2 }}
+              inputRef={searchRef}
+              value={searchInput}
+              name="search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <span className="material-symbols-outlined">search</span>
+                  </InputAdornment>
+                ),
+              }}
+              placeholder="Search Movies"
+              onChange={searchInputHandler}
+              variant="standard"
+            />
+          </Box>
+          <SearchResults setOpen={setOpen} searchText={debouncedSearch} />
+        </Paper>
+      </Modal>
+    </>
+  );
 };

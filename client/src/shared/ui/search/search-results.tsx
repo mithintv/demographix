@@ -33,6 +33,7 @@ export const SearchResults = ({
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
+        gap: 1.5,
         justifyContent: "center",
         alignContent:
           results && results.length > 0 ? "space-between" : "center",
@@ -46,8 +47,8 @@ export const SearchResults = ({
       ) : (
         results?.map((movie, index) => (
           <Fade key={index} in timeout={index * 50}>
-            <div className="mx-1 mb-2" onClick={() => setOpen(false)}>
-              <MovieCard movie={movie} width={119} />
+            <div onClick={() => setOpen(false)}>
+              <MovieCard movie={movie} width={114} />
             </div>
           </Fade>
         ))

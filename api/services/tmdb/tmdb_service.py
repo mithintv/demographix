@@ -13,8 +13,7 @@ from api.services.tmdb.tmdb_dto import (
 
 logger = get_logger(__name__)
 
-TMDB_HOSTNAME = os.environ["TMDB_HOSTNAME"]
-TMDB_API_KEY = os.environ["TMDB_API_KEY"]
+TMDB_HOSTNAME = os.environ.get("TMDB_HOSTNAME", "https://api.themoviedb.org")
 TMDB_ACCESS_TOKEN = os.environ["TMDB_ACCESS_TOKEN"]
 TMDB_HEADERS = {
     "accept": "application/json",

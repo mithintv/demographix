@@ -40,7 +40,8 @@ export const MovieCard = ({
             variant="caption"
             className="opacity-0 group-hover:opacity-100 transition-opacity p-2 text-white!"
           >
-            {movie.title}{year}
+            {movie.title}
+            {year}
           </Typography>
         </div>
       </Link>
